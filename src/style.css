@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  body {
+    @apply text-black bg-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-bold;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl mb-6;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl mb-4;
+  }
+
+  h3 {
+    @apply text-xl mb-3;
+  }
+
+  h4 {
+    @apply text-lg mb-2;
+  }
+}
+
+@layer components {
+  .title-underline {
+    @apply border-b-2 border-democratic-red pb-2 inline-block;
+  }
+
+  .btn-primary {
+    @apply bg-democratic-red text-white px-4 py-2 hover:bg-democratic-red/90 transition;
+  }
+
+  .btn-secondary {
+    @apply bg-jade-green text-white px-4 py-2 hover:bg-jade-green/90 transition;
+  }
+
+  .btn-tertiary {
+    @apply bg-wheat-yellow text-white px-4 py-2 hover:bg-wheat-yellow/90 transition;
+  }
+
+  .btn-outline {
+    @apply border border-black text-black px-4 py-2 hover:bg-gray-100 transition;
+  }
+
+  .tag-red {
+    @apply bg-democratic-red text-white text-xs px-2 py-1 inline-block;
+  }
+
+  .tag-green {
+    @apply bg-jade-green text-white text-xs px-2 py-1 inline-block;
+  }
+
+  .tag-yellow {
+    @apply bg-wheat-yellow text-white text-xs px-2 py-1 inline-block;
+  }
+
+  .card {
+    @apply border border-gray-200 bg-white hover:shadow-md transition;
+  }
+
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose a {
+    @apply text-democratic-red hover:text-democratic-red/80 transition;
+  }
+
+  .prose img {
+    @apply rounded-lg;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .thin-only {
+    display: none !important;
+  }
+}
