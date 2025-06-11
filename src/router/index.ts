@@ -8,6 +8,7 @@ import PostBlogView from '../views/PostBlogView.vue'
 import FAQView from '../views/FAQView.vue'
 import AboutView from '../views/AboutView.vue'
 import ContributorsView from '../views/ContributorsView.vue'
+import ContactView from '../views/ContactView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -57,6 +58,11 @@ const router = createRouter({
       path: '/contributors',
       name: 'contributors',
       component: ContributorsView
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: ContactView
     }
   ]
 })

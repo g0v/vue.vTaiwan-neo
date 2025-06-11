@@ -39,6 +39,7 @@
         <h2 class="text-2xl font-bold mb-4">聯絡我們</h2>
         <p class="mb-4">
           如果您有任何問題或建議，歡迎與我們聯繫：
+          <router-link to="/contact" class="text-democratic-red hover:underline">聯絡我們</router-link>
         </p>
         <ul class="space-y-2">
           <li class="flex items-center gap-2">
