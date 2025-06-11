@@ -41,7 +41,7 @@
           </button>
 
           <button @click="toggleMobileMenu" class="md:hidden text-white">
-            <IconWrapper name="menu" :size="24" />
+            <IconWrapper name="menu" :size="24" color="white" />
           </button>
         </div>
       </div>
