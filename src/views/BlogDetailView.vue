@@ -37,21 +37,28 @@
 
       <div class="prose prose-lg max-w-none">
         <p class="text-xl text-gray-700 mb-8">{{ blog.summary }}</p>
-        <div class="whitespace-pre-line">{{ blog.content }}</div>
+        <div v-html="renderedContent" class="markdown-content"></div>
       </div>
     </article>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { database, blogsRef } from '../lib/firebase'
 import { onValue } from 'firebase/database'
+import { marked } from 'marked'
 
 const route = useRoute()
 const blog = ref(null)
 const loading = ref(true)
+
+// 配置 marked 選項
+marked.setOptions({
+  breaks: true, // 支援換行
+  gfm: true, // GitHub Flavored Markdown
+})
 
 // 根據標題找到對應的文章
 const findBlogByTitle = (blogs, title) => {
@@ -60,6 +67,12 @@ const findBlogByTitle = (blogs, title) => {
     return blog.title === decodedTitle
   })
 }
+
+// 渲染 Markdown 內容
+const renderedContent = computed(() => {
+  if (!blog.value || !blog.value.content) return ''
+  return marked(blog.value.content)
+})
 
 const loadBlog = () => {
   loading.value = true
@@ -94,3 +107,82 @@ watch(() => route.params.title, () => {
   loadBlog()
 })
 </script>
+
+<style scoped>
+.markdown-content {
+  line-height: 1.6;
+}
+
+.markdown-content :deep(h1) {
+  @apply text-3xl font-bold mb-4 mt-6;
+}
+
+.markdown-content :deep(h2) {
+  @apply text-2xl font-bold mb-3 mt-5;
+}
+
+.markdown-content :deep(h3) {
+  @apply text-xl font-bold mb-2 mt-4;
+}
+
+.markdown-content :deep(h4) {
+  @apply text-lg font-bold mb-2 mt-3;
+}
+
+.markdown-content :deep(p) {
+  @apply mb-4;
+}
+
+.markdown-content :deep(ul) {
+  @apply list-disc list-inside mb-4;
+}
+
+.markdown-content :deep(ol) {
+  @apply list-decimal list-inside mb-4;
+}
+
+.markdown-content :deep(li) {
+  @apply mb-1;
+}
+
+.markdown-content :deep(blockquote) {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4;
+}
+
+.markdown-content :deep(code) {
+  @apply bg-gray-100 px-1 py-0.5 rounded text-sm font-mono;
+}
+
+.markdown-content :deep(pre) {
+  @apply bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4;
+}
+
+.markdown-content :deep(pre code) {
+  @apply bg-transparent p-0;
+}
+
+.markdown-content :deep(a) {
+  @apply text-blue-600 hover:underline;
+}
+
+.markdown-content :deep(strong) {
+  @apply font-bold;
+}
+
+.markdown-content :deep(em) {
+  @apply italic;
+}
+
+.markdown-content :deep(table) {
+  @apply w-full border-collapse border border-gray-300 mb-4;
+}
+
+.markdown-content :deep(th),
+.markdown-content :deep(td) {
+  @apply border border-gray-300 px-3 py-2 text-left;
+}
+
+.markdown-content :deep(th) {
+  @apply bg-gray-100 font-bold;
+}
+</style>

@@ -1,8 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ProjectsView from '../views/ProjectsView.vue'
+import MeetupsView from '../views/MeetupsView.vue'
 import BlogsView from '../views/BlogsView.vue'
 import BlogDetailView from '../views/BlogDetailView.vue'
 import PostBlogView from '../views/PostBlogView.vue'
+import FAQView from '../views/FAQView.vue'
+import AboutView from '../views/AboutView.vue'
+import ContributorsView from '../views/ContributorsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -11,6 +16,16 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/projects',
+      name: 'projects',
+      component: ProjectsView
+    },
+    {
+      path: '/meetups',
+      name: 'meetups',
+      component: MeetupsView
     },
     {
       path: '/blogs',
@@ -27,6 +42,21 @@ const router = createRouter({
       path: '/blogs/post_blog',
       name: 'post-blog',
       component: PostBlogView
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: FAQView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: AboutView
+    },
+    {
+      path: '/contributors',
+      name: 'contributors',
+      component: ContributorsView
     }
   ]
 })

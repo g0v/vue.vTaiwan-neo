@@ -14,7 +14,7 @@ import IconWrapper from '../components/IconWrapper.vue'
           </h1>
           <p class="text-xl mb-8">vTaiwan 是一個促進政府與公民對話的開放協作平台，讓每個人都能參與公共政策的形成過程。</p>
           <div class="flex flex-wrap justify-center gap-4">
-            <router-link to="/blogs" class="btn-primary rounded-md">
+            <router-link to="/projects" class="btn-primary rounded-md">
               瀏覽專案
             </router-link>
             <router-link to="/about" class="btn-outline bg-transparent text-white border-white rounded-md">
@@ -66,7 +66,7 @@ import IconWrapper from '../components/IconWrapper.vue'
         <h2 class="text-3xl font-bold mb-6">加入我們，共同參與台灣的未來</h2>
         <p class="text-xl mb-8 max-w-2xl mx-auto">無論您是公民、專家、政府人員或是關心公共事務的任何人，都歡迎加入 vTaiwan 平台，貢獻您的想法。</p>
         <div class="flex flex-wrap justify-center gap-4">
-          <router-link to="/blogs" class="btn-primary rounded-md">
+          <router-link to="/projects" class="btn-primary rounded-md">
             瀏覽專案
           </router-link>
           <router-link to="/about" class="btn-outline bg-transparent text-white border-white rounded-md">

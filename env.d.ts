@@ -8,3 +8,10 @@ declare module '*.vue' {
 
 declare module 'vue3-carousel'
 declare module 'lucide-vue-next'
+
+// 解決 Vue 內部類型衝突
+declare global {
+  interface Window {
+    __VUE_DEVTOOLS_GLOBAL_HOOK__: any
+  }
+}

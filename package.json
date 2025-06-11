@@ -13,6 +13,7 @@
     "axios": "^1.9.0",
     "firebase": "^11.9.0",
     "lucide-vue-next": "^0.514.0",
+    "marked": "^15.0.12",
     "vue": "^3.4.0",
     "vue-router": "^4.2.5",
     "vue3-carousel": "^0.16.0"

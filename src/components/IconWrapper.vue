@@ -7,22 +7,16 @@
   />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
 import * as LucideIcons from 'lucide-vue-next'
 
-interface Props {
-  name: string
-  size?: number
-  color?: string
-  type?: 'default' | 'primary' | 'teal' | 'amber'
-  class?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  size: 24,
-  type: 'default',
-  class: ''
+const props = defineProps({
+  name: { type: String, required: true },
+  size: { type: Number, default: 24 },
+  color: { type: String, default: '' },
+  type: { type: String, default: 'default' },
+  class: { type: String, default: '' }
 })
 
 const colorMap = {
@@ -36,6 +30,6 @@ const iconColor = computed(() => props.color || colorMap[props.type])
 
 const iconComponent = computed(() => {
   const iconName = props.name.charAt(0).toUpperCase() + props.name.slice(1).replace(/-([a-z])/g, (g) => g[1].toUpperCase())
-  return LucideIcons[iconName as keyof typeof LucideIcons] || null
+  return LucideIcons[iconName] || null
 })
 </script>

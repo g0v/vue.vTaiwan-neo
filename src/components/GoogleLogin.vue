@@ -1,86 +1,49 @@
 <template>
-  <div>
+  <div class="text-center">
     <button
-      v-if="!user"
       @click="handleGoogleLogin"
-      class="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
-      :disabled="isLoading"
+      :disabled="loading"
+      class="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-democratic-red disabled:opacity-50"
     >
-      <span class="mr-2">🔑</span>
-      {{ isLoading ? '登入中...' : '使用 Google 登入' }}
+      <img
+        v-if="!loading"
+        src="https://developers.google.com/identity/images/g-logo.png"
+        alt="Google"
+        class="w-5 h-5 mr-2"
+      />
+      <span v-if="loading" class="animate-spin mr-2">⏳</span>
+      {{ loading ? '登入中...' : '使用 Google 登入' }}
     </button>
-    <div v-else class="flex items-center space-x-4">
-      <span class="text-gray-700">歡迎，{{ user.displayName }}</span>
-      <button
-        @click="handleLogout"
-        class="px-3 py-1 text-sm text-gray-600 hover:text-gray-800"
-      >
-        登出
-      </button>
-    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { auth, database, usersRef } from '../lib/firebase'
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-  onAuthStateChanged
-} from 'firebase/auth'
-import { set, ref as dbRef } from 'firebase/database'
+import { ref } from 'vue'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 
-const user = ref(null)
-const isLoading = ref(false)
+const loading = ref(false)
 
-// 監聽登入狀態
-onMounted(() => {
-  console.log('Setting up auth state listener')
-  onAuthStateChanged(auth, async (currentUser) => {
-    console.log('Auth state changed:', currentUser)
-    user.value = currentUser
-  })
-})
+// 發送登入成功事件
+const emit = defineEmits(['login-success'])
 
-// Google 登入
 const handleGoogleLogin = async () => {
   try {
-    console.log('Starting Google login...')
-    isLoading.value = true
+    loading.value = true
+    const auth = getAuth()
     const provider = new GoogleAuthProvider()
+
     const result = await signInWithPopup(auth, provider)
-    console.log('Google login successful:', result.user)
+    const user = result.user
 
-    // 將用戶資料寫入 usersRef
-    const userData = {
-      name: result.user.displayName,
-      email: result.user.email,
-      photoURL: result.user.photoURL,
-      lastLogin: new Date().toISOString()
-    }
+    // 發送登入成功事件給父組件
+    emit('login-success', user)
 
-    console.log('Saving user data:', userData)
-    await set(dbRef(database, `users/${result.user.uid}`), userData)
-    console.log('User data saved successfully')
+    console.log('Google login successful:', user)
   } catch (error) {
     console.error('Google login error:', error)
-    alert('登入時發生錯誤，請稍後再試')
+    alert('登入失敗，請重試')
   } finally {
-    isLoading.value = false
-  }
-}
-
-// 登出
-const handleLogout = async () => {
-  try {
-    console.log('Logging out...')
-    await signOut(auth)
-    console.log('Logout successful')
-  } catch (error) {
-    console.error('Logout error:', error)
-    alert('登出時發生錯誤，請稍後再試')
+    loading.value = false
   }
 }
 </script>
