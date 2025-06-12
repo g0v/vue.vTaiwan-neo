@@ -2,29 +2,23 @@
   <div class="container mx-auto px-4 py-8 max-w-4xl">
     <div v-if="!user" class="text-center py-8">
       <p class="text-gray-600 mb-4">請先登入才能發布文章</p>
-      <GoogleLogin />
+      <GoogleLogin @login-success="handleLoginSuccess" />
     </div>
 
     <div v-else>
       <div class="flex justify-between items-center mb-6 bg-white rounded-lg shadow-md p-4">
         <div class="flex items-center space-x-4">
           <img
-            v-if="user.photoURL"
-            :src="user.photoURL"
-            :alt="user.displayName"
+            v-if="props.user.photoURL"
+            :src="props.user.photoURL"
+            :alt="props.user.displayName"
             class="w-10 h-10 rounded-full"
           />
           <div>
-            <p class="font-medium text-gray-900">{{ user.displayName }}</p>
-            <p class="text-sm text-gray-500">{{ user.email }}</p>
+            <p class="font-medium text-gray-900">{{ props.user.displayName }}</p>
+            <p class="text-sm text-gray-500">{{ props.user.email }}</p>
           </div>
         </div>
-        <button
-          @click="handleLogout"
-          class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-        >
-          登出
-        </button>
       </div>
 
       <form @submit.prevent="handleSubmit" class="space-y-6 bg-white rounded-lg shadow-md p-6">
@@ -87,7 +81,7 @@
 
         <div class="flex justify-between items-center">
           <div class="text-sm text-gray-600">
-            發布者：{{ user.displayName }}
+            發布者：{{ props.user.displayName }}
           </div>
           <div class="flex space-x-4">
             <button
@@ -112,15 +106,25 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { auth, database, blogsRef } from '../lib/firebase'
+import { database, blogsRef } from '../lib/firebase'
 import { get, set, ref as dbRef } from 'firebase/database'
-import { onAuthStateChanged, signOut } from 'firebase/auth'
 import GoogleLogin from '../components/GoogleLogin.vue'
 
+// 定義 props
+const props = defineProps({
+  user: {
+    type: Object,
+    default: null
+  },
+  userData: {
+    type: Object,
+    default: null
+  }
+})
+
 const router = useRouter()
-const user = ref(null)
 const isSubmitting = ref(false)
 
 const formData = reactive({
@@ -131,13 +135,6 @@ const formData = reactive({
   tagsInput: ''
 })
 
-// 監聽登入狀態
-onMounted(() => {
-  onAuthStateChanged(auth, (currentUser) => {
-    user.value = currentUser
-  })
-})
-
 // 獲取當前最大的 index
 const getNextIndex = async () => {
   const snapshot = await get(blogsRef)
@@ -146,19 +143,12 @@ const getNextIndex = async () => {
   return indexes.length > 0 ? Math.max(...indexes) + 1 : 0
 }
 
-// 登出功能
-const handleLogout = async () => {
-  try {
-    await signOut(auth)
-    router.push('/blogs')
-  } catch (error) {
-    console.error('Logout error:', error)
-    alert('登出時發生錯誤，請稍後再試')
-  }
+const handleLoginSuccess = (userData) => {
+  emit('login-success', userData)
 }
 
 const handleSubmit = async () => {
-  if (!user.value) {
+  if (!props.user) {
     alert('請先登入才能發布文章')
     return
   }
@@ -169,9 +159,9 @@ const handleSubmit = async () => {
 
     const newBlog = {
       title: formData.title,
-      author: user.value.displayName,
-      authorId: user.value.uid,
-      authorPhotoURL: user.value.photoURL,
+      author: props.user.displayName,
+      authorId: props.user.uid,
+      authorPhotoURL: props.user.photoURL,
       date: formData.date,
       summary: formData.summary,
       content: formData.content,

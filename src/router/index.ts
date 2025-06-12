@@ -36,8 +36,7 @@ const router = createRouter({
     {
       path: '/blogs/:title',
       name: 'blog-detail',
-      component: BlogDetailView,
-      props: true
+      component: BlogDetailView
     },
     {
       path: '/blogs/post_blog',
