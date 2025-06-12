@@ -56,7 +56,7 @@ interface Contributor {
 const coreTeam = ref<Contributor[]>([
   {
     id: '1',
-    name: 'Tofus Wang',
+    name: 'Peter Cui',
     role: '專案負責人',
     description: '負責整體專案規劃與協調'
   },
@@ -68,20 +68,20 @@ const coreTeam = ref<Contributor[]>([
   },
   {
     id: '3',
-    name: 'Peter Tsuei',
-    role: '社群經理',
-    description: '負責社群經營與活動策劃'
+    name: 'Tofus Wang',
+    role: '設計師',
+    description: '負責 vTaiwan 網站設計與體驗策展'
   }
 ])
 
 const communityContributors = ref<Contributor[]>([
   { id: '1', name: 'Bestian Tang', contribution: '政策研究' },
   { id: '2', name: 'Tofus Wang', contribution: 'UI/UX 設計' },
-  { id: '3', name: 'Peter Tsuei', contribution: '前端開發' },
-  { id: '4', name: 'Tofus Wang', contribution: '內容編輯' },
-  { id: '5', name: 'Tofus Wang', contribution: '資料分析' },
-  { id: '6', name: 'Tofus Wang', contribution: '翻譯支援' },
+  { id: '3', name: 'Joey Yu', contribution: '前端開發' },
+  { id: '4', name: 'Nobody', contribution: '內容編輯' },
+  { id: '5', name: 'Nobody', contribution: '資料分析' },
+  { id: '6', name: 'Nobody', contribution: '翻譯支援' },
   { id: '7', name: 'Bestian Tang', contribution: '後端開發' },
-  { id: '8', name: 'Peter Tsuei', contribution: '活動策劃' }
+  { id: '8', name: 'Peter Cui', contribution: '活動策劃' }
 ])
 </script>
