@@ -1,12 +1,12 @@
 <template>
   <header class="bg-black text-white sticky top-0 z-10">
-    <div class="w-full px-4 md:container md:mx-auto">
+    <div class="w-full px-4 md:mx-auto">
       <div class="flex justify-between items-center h-16">
         <router-link to="/" class="flex items-center">
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
-        <div class="hidden md:flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-2">
           <router-link
             v-for="item in navItems"
             :key="item.href"
@@ -29,7 +29,7 @@
               :alt="user.displayName"
               class="w-8 h-8 rounded-full"
             />
-            <span class="text-sm">{{ user.displayName }}</span>
+            <span class="text-sm md:hidden lg:block">{{ user.displayName }}</span>
             <button @click="handleLogout" class="text-sm hover:text-democratic-red transition">
               登出
             </button>
