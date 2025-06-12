@@ -6,7 +6,7 @@
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
-        <div class="hidden md:flex items-center space-x-2">
+        <div class="hidden md:flex items-center space-x-2 lg:space-x-6 xl:space-x-10">
           <router-link
             v-for="item in navItems"
             :key="item.href"
