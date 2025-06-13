@@ -154,5 +154,29 @@
     "languageZhTW": "正體中文",
     "languageEn": "英文",
     "languageSelect": "選擇顯示語言"
+  },
+  "projects": {
+    "title": "專案列表",
+    "description": "vTaiwan 平台上的所有公共政策協作專案。每個專案都經過提案、討論、形成共識與政策建議的過程。",
+    "filters": {
+      "status": "狀態",
+      "category": "分類",
+      "search": "搜尋",
+      "searchPlaceholder": "搜尋專案..."
+    },
+    "status": {
+      "all": "全部",
+      "active": "進行中",
+      "completed": "已完成"
+    },
+    "categories": {
+      "all": "全部分類"
+    },
+    "participants": "人參與",
+    "cta": {
+      "title": "想要提出新的專案？",
+      "description": "如果您有值得討論的公共政策議題，歡迎提出專案建議。",
+      "button": "提出專案"
+    }
   }
 } 

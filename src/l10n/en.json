@@ -154,5 +154,29 @@
     "languageZhTW": "Traditional Chinese",
     "languageEn": "English",
     "languageSelect": "Select display language"
+  },
+  "projects": {
+    "title": "Project List",
+    "description": "All public policy collaboration projects on the vTaiwan platform. Each project goes through the process of proposal, discussion, consensus building, and policy recommendations.",
+    "filters": {
+      "status": "Status",
+      "category": "Category",
+      "search": "Search",
+      "searchPlaceholder": "Search projects..."
+    },
+    "status": {
+      "all": "All",
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "categories": {
+      "all": "All Categories"
+    },
+    "participants": "participants",
+    "cta": {
+      "title": "Want to propose a new project?",
+      "description": "If you have public policy issues worth discussing, you are welcome to propose project suggestions.",
+      "button": "Propose Project"
+    }
   }
 } 

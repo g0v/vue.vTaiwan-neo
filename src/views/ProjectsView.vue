@@ -2,9 +2,9 @@
   <!-- Hero Section -->
   <section class="bg-black text-white py-12">
     <div class="container mx-auto px-4">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">專案列表</h1>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ $t('projects.title') }}</h1>
       <p class="text-xl max-w-3xl">
-        vTaiwan 平台上的所有公共政策協作專案。每個專案都經過提案、討論、形成共識與政策建議的過程。
+        {{ $t('projects.description') }}
       </p>
     </div>
   </section>
@@ -14,26 +14,26 @@
     <div class="container mx-auto px-4">
       <div class="flex flex-wrap gap-4 items-center">
         <div>
-          <label for="status-filter" class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
+          <label for="status-filter" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('projects.filters.status') }}</label>
           <select
             id="status-filter"
             v-model="statusFilter"
             class="border-gray-300 rounded-md shadow-sm focus:border-democratic-red focus:ring focus:ring-democratic-red/20"
           >
             <option v-for="status in statuses" :key="status.value" :value="status.value">
-              {{ status.label }}
+              {{ currentLanguage === 'zh-TW' ? status.label : status.labelEn }}
             </option>
           </select>
         </div>
 
         <div>
-          <label for="category-filter" class="block text-sm font-medium text-gray-700 mb-1">分類</label>
+          <label for="category-filter" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('projects.filters.category') }}</label>
           <select
             id="category-filter"
             v-model="categoryFilter"
             class="border-gray-300 rounded-md shadow-sm focus:border-democratic-red focus:ring focus:ring-democratic-red/20"
           >
-            <option value="all">全部分類</option>
+            <option value="all">{{ $t('projects.categories.all') }}</option>
             <option v-for="category in categories" :key="category" :value="category">
               {{ category }}
             </option>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="ml-auto">
-          <label for="search" class="block text-sm font-medium text-gray-700 mb-1">搜尋</label>
+          <label for="search" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('projects.filters.search') }}</label>
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <IconWrapper name="search" :size="18" />
@@ -50,7 +50,7 @@
               type="text"
               id="search"
               v-model="searchQuery"
-              placeholder="搜尋專案..."
+              :placeholder="$t('projects.filters.searchPlaceholder')"
               class="pl-10 border-gray-300 rounded-md shadow-sm focus:border-democratic-red focus:ring focus:ring-democratic-red/20 w-full"
             />
           </div>
@@ -77,26 +77,26 @@
                 <IconWrapper :name="project.icon" :type="project.color" :size="24" />
               </div>
               <div>
-                <h3 class="font-bold text-lg">{{ project.title }}</h3>
+                <h3 class="font-bold text-lg">{{ getProjectTitle(project) }}</h3>
                 <div class="flex items-center mt-1">
                   <span
                     :class="`inline-block w-2 h-2 rounded-full ${project.status === 'active' ? 'bg-jade-green' : 'bg-gray-400'} mr-2`"
                   ></span>
-                  <span class="text-sm text-gray-600">{{ project.status === 'active' ? '進行中' : '已完成' }}</span>
+                  <span class="text-sm text-gray-600">{{ getStatusText(project.status) }}</span>
                 </div>
               </div>
             </div>
 
-            <p class="text-gray-700 mb-4">{{ project.description }}</p>
+            <p class="text-gray-700 mb-4">{{ getProjectDescription(project) }}</p>
 
             <div class="flex justify-between text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
               <span class="flex items-center gap-1">
                 <IconWrapper name="tags" :size="14" />
-                {{ project.category }}
+                {{ getProjectCategory(project) }}
               </span>
               <span class="flex items-center gap-1">
                 <IconWrapper name="users" :size="14" />
-                {{ project.participantsCount }} 人參與
+                {{ project.participantsCount }} {{ $t('projects.participants') }}
               </span>
             </div>
           </div>
@@ -108,12 +108,12 @@
   <!-- CTA Section -->
   <section class="py-12 bg-gray-100">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-4">想要提出新的專案？</h2>
+      <h2 class="text-2xl font-bold mb-4">{{ $t('projects.cta.title') }}</h2>
       <p class="text-lg mb-6 max-w-2xl mx-auto">
-        如果您有值得討論的公共政策議題，歡迎提出專案建議。
+        {{ $t('projects.cta.description') }}
       </p>
       <a href="/propose" class="btn-primary rounded-md inline-block">
-        提出專案
+        {{ $t('projects.cta.button') }}
       </a>
     </div>
   </section>
@@ -121,24 +121,67 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
 import { projects, statuses, getColorClass } from '../data/projects'
+
+const { locale } = useI18n()
 
 // 篩選狀態
 const statusFilter = ref('all')
 const categoryFilter = ref('all')
 const searchQuery = ref('')
 
-// 分類列表
-const categories = computed(() => [...new Set(projects.map(project => project.category))])
+// 當前語言
+const currentLanguage = computed(() => locale.value)
+
+// 分類列表 - 根據語言顯示對應的分類
+const categories = computed(() => {
+  const uniqueCategories = [...new Set(projects.map(project =>
+    currentLanguage.value === 'zh-TW' ? project.category : (project.categoryEn || project.category)
+  ))]
+  return uniqueCategories
+})
+
+// 取得專案標題
+const getProjectTitle = (project) => {
+  return currentLanguage.value === 'zh-TW' ? project.title : (project.titleEn || project.title)
+}
+
+// 取得專案描述
+const getProjectDescription = (project) => {
+  return currentLanguage.value === 'zh-TW' ? project.description : (project.descriptionEn || project.description)
+}
+
+// 取得專案分類
+const getProjectCategory = (project) => {
+  return currentLanguage.value === 'zh-TW' ? project.category : (project.categoryEn || project.category)
+}
+
+// 取得狀態文字
+const getStatusText = (status) => {
+  if (status === 'active') {
+    return currentLanguage.value === 'zh-TW' ? '進行中' : 'Active'
+  } else {
+    return currentLanguage.value === 'zh-TW' ? '已完成' : 'Completed'
+  }
+}
 
 // 篩選專案
 const filteredProjects = computed(() => {
   return projects.filter(project => {
     const statusMatch = statusFilter.value === 'all' || project.status === statusFilter.value
-    const categoryMatch = categoryFilter.value === 'all' || project.category === categoryFilter.value
-    const searchMatch = project.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                       project.description.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    // 根據語言篩選分類
+    const projectCategory = currentLanguage.value === 'zh-TW' ? project.category : (project.categoryEn || project.category)
+    const categoryMatch = categoryFilter.value === 'all' || projectCategory === categoryFilter.value
+
+    // 搜尋功能 - 同時搜尋中文和英文內容
+    const searchMatch =
+      project.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      (project.titleEn && project.titleEn.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+      project.description.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      (project.descriptionEn && project.descriptionEn.toLowerCase().includes(searchQuery.value.toLowerCase()))
 
     return statusMatch && categoryMatch && searchMatch
   })
