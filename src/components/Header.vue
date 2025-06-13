@@ -12,6 +12,7 @@
             :key="item.href"
             :to="item.href"
             class="hover:text-democratic-red transition flex items-center gap-1"
+            :class="{ 'text-democratic-red': $route.path === item.href }"
           >
             <IconWrapper :name="item.icon" :size="16" />
             <span>{{ $t(item.label) }}</span>
@@ -54,6 +55,7 @@
           :key="item.href"
           :to="item.href"
           class="flex items-center gap-2 py-2 hover:text-democratic-red transition"
+          :class="{ 'text-democratic-red': $route.path === item.href }"
           @click="mobileMenuOpen = false"
         >
           <IconWrapper :name="item.icon" :size="16" />
@@ -67,10 +69,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import IconWrapper from './IconWrapper.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 
 const { t } = useI18n()
+const route = useRoute()
 const mobileMenuOpen = ref(false)
 
 const navItems = [
@@ -105,3 +109,15 @@ const handleShowLogin = () => {
   emit('show-login')
 }
 </script>
+
+<style scoped>
+/* 使用 router-link-exact-active class 來標示當前路由 */
+.router-link-exact-active {
+  color: #D80000 !important; /* democratic-red 顏色 */
+}
+
+/* 確保圖示也會變色 */
+.router-link-exact-active .icon-wrapper {
+  color: #D80000 !important;
+}
+</style>
