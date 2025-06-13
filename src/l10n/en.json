@@ -110,6 +110,11 @@
     "publisher": "Publisher",
     "posting": "Posting...",
     "postArticle": "Post Article",
-    "postError": "An error occurred while posting the article, please try again later"
+    "postError": "An error occurred while posting the article, please try again later",
+    "language": "Language",
+    "languageAll": "All Languages",
+    "languageZhTW": "Traditional Chinese",
+    "languageEn": "English",
+    "languageSelect": "Select display language"
   }
 } 

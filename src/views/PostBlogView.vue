@@ -79,6 +79,21 @@
           />
         </div>
 
+        <div>
+          <label for="language" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.language') }}</label>
+          <select
+            id="language"
+            v-model="formData.language"
+            required
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">{{ $t('blog.languageSelect') }}</option>
+            <option value="zh-TW">{{ $t('blog.languageZhTW') }}</option>
+            <option value="en">{{ $t('blog.languageEn') }}</option>
+            <option value="all">{{ $t('blog.languageAll') }}</option>
+          </select>
+        </div>
+
         <div class="flex justify-between items-center">
           <div class="text-sm text-gray-600">
             {{ $t('blog.publisher') }}：{{ props.user.displayName }}
@@ -135,7 +150,8 @@ const formData = reactive({
   date: new Date().toISOString().split('T')[0],
   summary: '',
   content: '',
-  tagsInput: ''
+  tagsInput: '',
+  language: 'zh-TW'
 })
 
 // 生成唯一的 key：date + title
@@ -180,7 +196,8 @@ const handleSubmit = async () => {
       date: formData.date,
       summary: formData.summary,
       content: formData.content,
-      tags: formData.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag)
+      tags: formData.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag),
+      language: formData.language
     }
 
     await set(dbRef(database, `blogs/${blogKey}`), newBlog)

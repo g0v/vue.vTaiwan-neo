@@ -102,6 +102,31 @@
             {{ tag }}
           </span>
         </div>
+
+        <!-- 編輯模式：語言選擇 -->
+        <div v-if="isEditing" class="mb-6">
+          <label for="edit-language" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.language') }}</label>
+          <select
+            id="edit-language"
+            v-model="editForm.language"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">{{ $t('blog.languageSelect') }}</option>
+            <option value="zh-TW">{{ $t('blog.languageZhTW') }}</option>
+            <option value="en">{{ $t('blog.languageEn') }}</option>
+            <option value="all">{{ $t('blog.languageAll') }}</option>
+          </select>
+        </div>
+        <!-- 顯示模式：語言 -->
+        <div v-else class="mb-6">
+          <span class="text-sm text-gray-600">
+            {{ $t('blog.language') }}：
+            <span v-if="blog.language === 'zh-TW'" class="font-medium">{{ $t('blog.languageZhTW') }}</span>
+            <span v-else-if="blog.language === 'en'" class="font-medium">{{ $t('blog.languageEn') }}</span>
+            <span v-else-if="blog.language === 'all'" class="font-medium">{{ $t('blog.languageAll') }}</span>
+            <span v-else class="text-gray-400">{{ $t('blog.languageSelect') }}</span>
+          </span>
+        </div>
       </header>
 
       <div class="prose prose-lg max-w-none">
@@ -172,7 +197,7 @@ import { database, blogsRef } from '../lib/firebase'
 import { onValue, set, remove, get, ref as dbRef } from 'firebase/database'
 import { marked } from 'marked'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 // 定義 props
 const props = defineProps({
@@ -204,7 +229,8 @@ const editForm = ref({
   summary: '',
   content: '',
   tagsInput: '',
-  date: ''
+  date: '',
+  language: ''
 })
 
 // 配置 marked 選項
@@ -270,7 +296,8 @@ const startEdit = () => {
     summary: blog.value.summary,
     content: blog.value.content,
     tagsInput: (blog.value.tags || []).join(', '),
-    date: blog.value.date
+    date: blog.value.date,
+    language: blog.value.language
   }
   isEditing.value = true
 }
@@ -283,7 +310,8 @@ const cancelEdit = () => {
     summary: '',
     content: '',
     tagsInput: '',
-    date: ''
+    date: '',
+    language: ''
   }
 }
 
@@ -306,7 +334,8 @@ const saveEdit = async () => {
       summary: editForm.value.summary,
       content: editForm.value.content,
       tags: editForm.value.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag),
-      date: editForm.value.date
+      date: editForm.value.date,
+      language: editForm.value.language
     }
 
 
@@ -368,6 +397,7 @@ const loadBlog = () => {
 
   loading.value = true
   const title = route.params.title
+  const currentLang = locale.value
 
   unsubscribe = onValue(blogsRef, (snapshot) => {
     const blogs = snapshot.val()
@@ -375,8 +405,35 @@ const loadBlog = () => {
       const found = findBlogByTitle(blogs, title)
       if (found) {
         const [id, blogData] = found
-        blog.value = { id, ...blogData }
-        console.log('Found blog:', blog.value)
+
+        // 檢查語言權限
+        if (!blogData.language) {
+          console.log('Blog has no language setting, not accessible')
+          blog.value = null
+          loading.value = false
+          return
+        }
+
+        // 如果lang是all，在所有語言顯示
+        if (blogData.language === 'all') {
+          blog.value = { id, ...blogData }
+          console.log('Found blog (all languages):', blog.value)
+        }
+        // 如果lang是zh-TW，只在中文時顯示
+        else if (blogData.language === 'zh-TW' && currentLang === 'zh-TW') {
+          blog.value = { id, ...blogData }
+          console.log('Found blog (zh-TW):', blog.value)
+        }
+        // 如果lang是en，只在英文時顯示
+        else if (blogData.language === 'en' && currentLang === 'en') {
+          blog.value = { id, ...blogData }
+          console.log('Found blog (en):', blog.value)
+        }
+        // 其他情況不顯示
+        else {
+          console.log('Blog not accessible in current language:', currentLang, 'blog language:', blogData.language)
+          blog.value = null
+        }
       } else {
         console.log('Blog not found for title:', title)
         blog.value = null
@@ -395,6 +452,11 @@ onMounted(() => {
 
 // 監聽路由變化
 watch(() => route.params.title, () => {
+  loadBlog()
+})
+
+// 監聽語言變化
+watch(() => locale.value, () => {
   loadBlog()
 })
 

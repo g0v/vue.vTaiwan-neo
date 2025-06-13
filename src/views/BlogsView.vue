@@ -1,24 +1,24 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold">vTaiwan 部落格</h1>
+      <h1 class="text-3xl font-bold">{{ $t('header.blogs') }}</h1>
       <div class="flex items-center space-x-4">
         <router-link
           to="/blogs/post_blog"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
-          發布新文章
+          {{ $t('blog.postNewArticle') }}
         </router-link>
       </div>
     </div>
 
     <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-600">載入中...</p>
+      <p class="text-gray-600">{{ $t('blog.loading') }}</p>
     </div>
 
     <div v-else class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       <article
-        v-for="blog in blogs"
+        v-for="blog in filteredBlogs"
         :key="blog.id"
         class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
       >
@@ -36,8 +36,8 @@
               class="w-8 h-8 rounded-full"
             />
             <div class="text-sm text-gray-600">
-              <div>作者：{{ blog.author }}</div>
-              <div>發布日期：{{ blog.date }}</div>
+              <div>{{ $t('blog.author') }}：{{ blog.author }}</div>
+              <div>{{ $t('blog.publishDate') }}：{{ blog.date }}</div>
             </div>
           </div>
           <p class="text-gray-700 mb-4">{{ blog.summary }}</p>
@@ -57,12 +57,44 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { database, blogsRef } from '../lib/firebase'
 import { onValue } from 'firebase/database'
 
+const { locale } = useI18n()
+
 const blogs = ref([])
 const loading = ref(true)
+
+// 根據語言過濾文章
+const filteredBlogs = computed(() => {
+  const currentLang = locale.value
+
+  return blogs.value.filter(blog => {
+    // 如果文章沒有lang欄位，不顯示
+    if (!blog.language) {
+      return false
+    }
+
+    // 如果lang是all，在所有語言顯示
+    if (blog.language === 'all') {
+      return true
+    }
+
+    // 如果lang是zh-TW，只在中文時顯示
+    if (blog.language === 'zh-TW' && currentLang === 'zh-TW') {
+      return true
+    }
+
+    // 如果lang是en，只在英文時顯示
+    if (blog.language === 'en' && currentLang === 'en') {
+      return true
+    }
+
+    return false
+  })
+})
 
 onMounted(() => {
   console.log('Setting up blogs listener')
@@ -79,6 +111,8 @@ onMounted(() => {
     }
     loading.value = false
     console.log('Blogs updated:', blogs.value)
+    console.log('Current locale:', locale.value)
+    console.log('Filtered blogs:', filteredBlogs.value)
   })
 })
 </script>

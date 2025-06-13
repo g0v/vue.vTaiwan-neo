@@ -110,6 +110,11 @@
     "publisher": "發布者",
     "posting": "發布中...",
     "postArticle": "發布文章",
-    "postError": "發布文章時發生錯誤，請稍後再試"
+    "postError": "發布文章時發生錯誤，請稍後再試",
+    "language": "語言",
+    "languageAll": "所有語言",
+    "languageZhTW": "正體中文",
+    "languageEn": "英文",
+    "languageSelect": "選擇顯示語言"
   }
 } 
