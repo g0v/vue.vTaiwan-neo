@@ -5,12 +5,12 @@
         <div>
           <h3 class="text-xl font-bold mb-4 border-b border-democratic-red pb-2 inline-block">vTaiwan</h3>
           <p class="text-gray-300">
-            公共政策的開放協作平台
+            {{ $t('footer.description') }}
           </p>
         </div>
 
         <div>
-          <h4 class="font-bold mb-4">社群</h4>
+          <h4 class="font-bold mb-4">{{ $t('footer.community') }}</h4>
           <ul class="space-y-2">
             <li>
               <a href="https://www.facebook.com/vtaiwan.tw/" class="text-gray-300 hover:text-white transition flex items-center gap-1">
@@ -34,7 +34,7 @@
         </div>
 
         <div>
-          <h4 class="font-bold mb-4">聯絡我們</h4>
+          <h4 class="font-bold mb-4">{{ $t('footer.contact') }}</h4>
           <p class="text-gray-300 flex items-center gap-2 mb-2">
             <IconWrapper name="mail" :size="16" />
             <a href="mailto:contact@vtaiwan.org" class="hover:text-democratic-red transition">contact@vtaiwan.org</a>
@@ -43,11 +43,11 @@
       </div>
 
       <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-        <p>© {{ currentYear }} vTaiwan. All rights reserved.</p>
+        <p>{{ $t('footer.copyright', { year: currentYear }) }}</p>
         <p class="mt-2">
-          <a href="https://github.com/Tofuswang/vtaiwan-neo" class="hover:text-white transition">原始碼</a> |
-          <a href="/privacy" class="hover:text-white transition">隱私政策</a> |
-          <a href="/terms" class="hover:text-white transition">使用條款</a>
+          <a href="https://github.com/Tofuswang/vtaiwan-neo" class="hover:text-white transition">{{ $t('footer.sourceCode') }}</a> |
+          <a href="/privacy" class="hover:text-white transition">{{ $t('footer.privacyPolicy') }}</a> |
+          <a href="/terms" class="hover:text-white transition">{{ $t('footer.termsOfService') }}</a>
         </p>
       </div>
     </div>
@@ -56,7 +56,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 
+const { t } = useI18n()
 const currentYear = computed(() => new Date().getFullYear())
 </script>

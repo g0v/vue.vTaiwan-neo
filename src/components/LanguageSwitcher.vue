@@ -1,59 +1,72 @@
 <template>
-  <div class="relative inline-block text-left">
-    <button @click="toggleDropdown" class="flex items-center space-x-1 text-white hover:text-democratic-red transition">
-      <span>{{ currentLang === 'zh' ? '中文' : 'English' }}</span>
-      <IconWrapper name="chevron-down" :size="16" />
+  <div class="relative">
+    <button
+      @click="isOpen = !isOpen"
+      class="flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+    >
+      <span class="text-lg">{{ currentLocaleFlag }}</span>
+      <span class="text-sm font-medium">{{ currentLocaleName }}</span>
+      <svg
+        class="w-4 h-4 transition-transform"
+        :class="{ 'rotate-180': isOpen }"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
     </button>
 
-    <div v-show="dropdownOpen" class="absolute right-0 mt-2 w-24 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
-      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="language-menu-button">
+    <div
+      v-if="isOpen"
+      class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+    >
+      <div class="py-1">
         <button
-          @click="selectLanguage('en')"
-          :class="`block w-full text-left px-4 py-2 text-sm ${currentLang === 'en' ? 'bg-gray-100 text-democratic-red' : 'text-black hover:bg-gray-100'}`"
-          role="menuitem"
+          v-for="locale in supportedLocales"
+          :key="locale.code"
+          @click="switchLocale(locale.code)"
+          class="w-full flex items-center space-x-3 px-4 py-2 text-left hover:bg-gray-100 transition-colors"
+          :class="{ 'bg-blue-50 text-blue-600': currentLocale === locale.code, 'text-democratic-red': currentLocale !== locale.code }"
         >
-          English
-        </button>
-        <button
-          @click="selectLanguage('zh')"
-          :class="`block w-full text-left px-4 py-2 text-sm ${currentLang === 'zh' ? 'bg-gray-100 text-democratic-red' : 'text-black hover:bg-gray-100'}`"
-          role="menuitem"
-        >
-          中文
+          <span class="text-lg">{{ locale.flag }}</span>
+          <span class="text-sm">{{ locale.name }}</span>
         </button>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import IconWrapper from './IconWrapper.vue'
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { supportedLocales, setLocale, getCurrentLocale, type SupportedLocale } from '../i18n'
 
-const route = useRouter()
-const currentRoute = useRoute()
-const dropdownOpen = ref(false)
-const currentLang = ref('zh')
+const { locale } = useI18n()
+const isOpen = ref(false)
 
-const toggleDropdown = () => {
-  dropdownOpen.value = !dropdownOpen.value
+const currentLocale = computed(() => getCurrentLocale())
+
+const currentLocaleFlag = computed(() => {
+  const found = supportedLocales.find(l => l.code === currentLocale.value)
+  return found ? found.flag : '🌐'
+})
+
+const currentLocaleName = computed(() => {
+  const found = supportedLocales.find(l => l.code === currentLocale.value)
+  return found ? found.name : 'Unknown'
+})
+
+const switchLocale = (newLocale: SupportedLocale) => {
+  setLocale(newLocale)
+  isOpen.value = false
 }
 
-const selectLanguage = (lang) => {
-  currentLang.value = lang
-  dropdownOpen.value = false
-
-  // 這裡可以加入語言切換邏輯
-  // 例如：更新路由、儲存語言偏好等
-  console.log('Language changed to:', lang)
-}
-
-// 點擊外部關閉選單
-const handleClickOutside = (event) => {
-  const target = event.target
+// 點擊外部關閉下拉選單
+const handleClickOutside = (event: Event) => {
+  const target = event.target as HTMLElement
   if (!target.closest('.relative')) {
-    dropdownOpen.value = false
+    isOpen.value = false
   }
 }
 

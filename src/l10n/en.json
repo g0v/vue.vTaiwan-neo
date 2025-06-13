@@ -1,0 +1,84 @@
+{
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Info"
+  },
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "profile": "Profile",
+    "projects": "Projects",
+    "meetups": "Meetups",
+    "blogs": "Blogs",
+    "faq": "FAQ",
+    "contributors": "Contributors"
+  },
+  "auth": {
+    "loginTitle": "Login",
+    "loginWithGoogle": "Login with Google",
+    "logoutConfirm": "Are you sure you want to logout?",
+    "loginError": "An error occurred during login, please try again later",
+    "logoutError": "An error occurred during logout, please try again later"
+  },
+  "footer": {
+    "description": "Open collaboration platform for public policy",
+    "community": "Community",
+    "contact": "Contact Us",
+    "copyright": "© {year} vTaiwan. All rights reserved.",
+    "sourceCode": "Source Code",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  },
+  "home": {
+    "welcome": "Welcome to vTaiwan",
+    "description": "Innovative platform for Taiwan's digital governance"
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "createdAt": "Created At",
+    "lastLogin": "Last Login"
+  },
+  "contributors": {
+    "title": "Contributors",
+    "coreTeam": "Core Team",
+    "communityContributors": "Community Contributors",
+    "joinUs": "Join Us",
+    "joinUsDescription": "Whether you are a citizen, expert, government official, or anyone concerned about public affairs, you are welcome to join the vTaiwan platform.",
+    "learnMore": "Learn More",
+    "roles": {
+      "projectManager": "Project Manager",
+      "techDirector": "Technical Director",
+      "designer": "Designer"
+    },
+    "descriptions": {
+      "projectManager": "Responsible for overall project planning and coordination",
+      "techDirector": "Responsible for technical architecture and platform development",
+      "designer": "Responsible for vTaiwan website design and experience curation"
+    },
+    "contributions": {
+      "policyResearch": "Policy Research",
+      "uiuxDesign": "UI/UX Design",
+      "frontendDev": "Frontend Development",
+      "contentEditor": "Content Editing",
+      "dataAnalysis": "Data Analysis",
+      "translationSupport": "Translation Support",
+      "backendDev": "Backend Development",
+      "eventPlanning": "Event Planning"
+    }
+  }
+} 

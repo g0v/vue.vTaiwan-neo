@@ -14,7 +14,7 @@
     <div v-if="showLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
         <div class="flex justify-between items-center mb-6">
-          <h2 class="text-2xl font-bold">登入</h2>
+          <h2 class="text-2xl font-bold">{{ $t('auth.loginTitle') }}</h2>
           <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">
             ×
           </button>
@@ -24,7 +24,7 @@
 
         <div class="mt-4 text-center">
           <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700">
-            取消
+            {{ $t('common.cancel') }}
           </button>
         </div>
       </div>
@@ -35,6 +35,7 @@
 <script setup>
 import { ref, onMounted, nextTick } from 'vue'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+import { useI18n } from 'vue-i18n'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import GoogleLogin from './components/GoogleLogin.vue'
@@ -42,6 +43,8 @@ import IconWrapper from './components/IconWrapper.vue'
 
 import { database, usersRef } from './lib/firebase'
 import { ref as dbRef, get, set, update } from 'firebase/database'
+
+const { t } = useI18n()
 
 const user = ref(null)
 const userData = ref(null)
@@ -122,7 +125,7 @@ const handleLogout = async () => {
     userData.value = null
   } catch (error) {
     console.error('Logout error:', error)
-    alert('登出時發生錯誤，請稍後再試')
+    alert(t('auth.logoutError'))
   }
 }
 </script>

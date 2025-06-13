@@ -1,0 +1,84 @@
+{
+  "common": {
+    "login": "登入",
+    "logout": "登出",
+    "cancel": "取消",
+    "confirm": "確認",
+    "save": "儲存",
+    "edit": "編輯",
+    "delete": "刪除",
+    "search": "搜尋",
+    "loading": "載入中...",
+    "error": "錯誤",
+    "success": "成功",
+    "warning": "警告",
+    "info": "資訊"
+  },
+  "header": {
+    "home": "首頁",
+    "about": "關於",
+    "contact": "聯絡我們",
+    "profile": "個人資料",
+    "projects": "專案",
+    "meetups": "會議",
+    "blogs": "部落格",
+    "faq": "常見問題",
+    "contributors": "貢獻者"
+  },
+  "auth": {
+    "loginTitle": "登入",
+    "loginWithGoogle": "使用 Google 登入",
+    "logoutConfirm": "確定要登出嗎？",
+    "loginError": "登入時發生錯誤，請稍後再試",
+    "logoutError": "登出時發生錯誤，請稍後再試"
+  },
+  "footer": {
+    "description": "公共政策的開放協作平台",
+    "community": "社群",
+    "contact": "聯絡我們",
+    "copyright": "© {year} vTaiwan. 版權所有。",
+    "sourceCode": "原始碼",
+    "privacyPolicy": "隱私政策",
+    "termsOfService": "使用條款"
+  },
+  "home": {
+    "welcome": "歡迎來到 vTaiwan",
+    "description": "台灣數位治理的創新平台"
+  },
+  "profile": {
+    "title": "個人資料",
+    "name": "姓名",
+    "email": "電子郵件",
+    "role": "角色",
+    "createdAt": "建立時間",
+    "lastLogin": "最後登入"
+  },
+  "contributors": {
+    "title": "貢獻者",
+    "coreTeam": "核心團隊",
+    "communityContributors": "社群貢獻者",
+    "joinUs": "加入我們",
+    "joinUsDescription": "無論您是公民、專家、政府人員或是關心公共事務的任何人，都歡迎加入 vTaiwan 平台。",
+    "learnMore": "了解更多",
+    "roles": {
+      "projectManager": "專案負責人",
+      "techDirector": "技術總監",
+      "designer": "設計師"
+    },
+    "descriptions": {
+      "projectManager": "負責整體專案規劃與協調",
+      "techDirector": "負責技術架構與平台開發",
+      "designer": "負責 vTaiwan 網站設計與體驗策展"
+    },
+    "contributions": {
+      "policyResearch": "政策研究",
+      "uiuxDesign": "UI/UX 設計",
+      "frontendDev": "前端開發",
+      "contentEditor": "內容編輯",
+      "dataAnalysis": "資料分析",
+      "translationSupport": "翻譯支援",
+      "backendDev": "後端開發",
+      "eventPlanning": "活動策劃"
+    }
+  }
+} 

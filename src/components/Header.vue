@@ -6,7 +6,7 @@
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
-        <div class="hidden md:flex items-center space-x-2 lg:space-x-6 xl:space-x-10">
+        <div class="hidden md:flex items-center space-x-1 md:space-x-2 lg:space-x-6 xl:space-x-10">
           <router-link
             v-for="item in navItems"
             :key="item.href"
@@ -14,11 +14,11 @@
             class="hover:text-democratic-red transition flex items-center gap-1"
           >
             <IconWrapper :name="item.icon" :size="16" />
-            <span>{{ item.label }}</span>
+            <span>{{ $t(item.label) }}</span>
           </router-link>
         </div>
 
-        <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-2">
           <LanguageSwitcher />
 
           <!-- 登入狀態顯示 -->
@@ -31,13 +31,13 @@
             />
             <span class="text-sm md:hidden lg:block">{{ user.displayName }}</span>
             <button @click="handleLogout" class="text-sm hover:text-democratic-red transition">
-              登出
+              {{ $t('common.logout') }}
             </button>
           </div>
 
           <!-- 未登入顯示登入按鈕 -->
           <button v-else @click="handleShowLogin" class="text-sm hover:text-democratic-red transition">
-            註冊/登入
+            {{ $t('common.login') }}
           </button>
 
           <button @click="toggleMobileMenu" class="md:hidden text-white">
@@ -57,7 +57,7 @@
           @click="mobileMenuOpen = false"
         >
           <IconWrapper :name="item.icon" :size="16" />
-          <span>{{ item.label }}</span>
+          <span>{{ $t(item.label) }}</span>
         </router-link>
       </div>
     </div>
@@ -66,18 +66,20 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 
+const { t } = useI18n()
 const mobileMenuOpen = ref(false)
 
 const navItems = [
-  { href: '/projects', label: '專案', icon: 'folder' },
-  { href: '/meetups', label: '會議', icon: 'calendar' },
-  { href: '/blogs', label: '部落格', icon: 'file-text' },
-  { href: '/faq', label: '常見問題', icon: 'help-circle' },
-  { href: '/about', label: '關於我們', icon: 'info' },
-  { href: '/contributors', label: '貢獻者', icon: 'users' },
+  { href: '/projects', label: 'header.projects', icon: 'folder' },
+  { href: '/meetups', label: 'header.meetups', icon: 'calendar' },
+  { href: '/blogs', label: 'header.blogs', icon: 'file-text' },
+  { href: '/faq', label: 'header.faq', icon: 'help-circle' },
+  { href: '/about', label: 'header.about', icon: 'info' },
+  { href: '/contributors', label: 'header.contributors', icon: 'users' },
 ]
 
 const toggleMobileMenu = () => {
