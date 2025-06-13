@@ -80,5 +80,36 @@
       "backendDev": "後端開發",
       "eventPlanning": "活動策劃"
     }
+  },
+  "blog": {
+    "loading": "載入中...",
+    "notFound": "找不到這篇文章",
+    "backToList": "返回部落格列表",
+    "editArticle": "編輯文章",
+    "deleteArticle": "刪除文章",
+    "saving": "儲存中...",
+    "save": "儲存",
+    "cancel": "取消",
+    "title": "標題",
+    "author": "作者",
+    "publishDate": "發布日期",
+    "tags": "標籤（用逗號分隔）",
+    "tagsPlaceholder": "例如：vTaiwan, 數位民主, 開放政府",
+    "summary": "大綱",
+    "content": "內容 (Markdown)",
+    "contentPlaceholder": "在此輸入 Markdown 格式的內容...",
+    "preview": "預覽",
+    "deleteConfirmTitle": "確認刪除",
+    "deleteConfirmMessage": "您確定要刪除這篇文章嗎？此操作無法復原。",
+    "deleting": "刪除中...",
+    "confirmDelete": "確認刪除",
+    "saveError": "儲存時發生錯誤，請稍後再試",
+    "deleteError": "刪除時發生錯誤，請稍後再試",
+    "loginRequired": "請先登入才能發布文章",
+    "postNewArticle": "發布新文章",
+    "publisher": "發布者",
+    "posting": "發布中...",
+    "postArticle": "發布文章",
+    "postError": "發布文章時發生錯誤，請稍後再試"
   }
 } 

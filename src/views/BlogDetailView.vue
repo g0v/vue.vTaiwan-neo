@@ -1,12 +1,12 @@
 <template>
   <div class="container mx-auto px-4 py-8 max-w-4xl">
     <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-600">載入中...</p>
+      <p class="text-gray-600">{{ $t('blog.loading') }}</p>
     </div>
 
     <div v-else-if="!blog" class="text-center py-8">
-      <p class="text-gray-600">找不到這篇文章</p>
-      <router-link to="/blogs" class="text-blue-600 hover:underline">返回部落格列表</router-link>
+      <p class="text-gray-600">{{ $t('blog.notFound') }}</p>
+      <router-link to="/blogs" class="text-blue-600 hover:underline">{{ $t('blog.backToList') }}</router-link>
     </div>
 
     <article v-else class="bg-white rounded-lg shadow-md p-8">
@@ -17,14 +17,14 @@
           @click="startEdit"
           class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
-          編輯文章
+          {{ $t('blog.editArticle') }}
         </button>
         <button
           v-if="!isEditing"
           @click="showDeleteConfirm = true"
           class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
         >
-          刪除文章
+          {{ $t('blog.deleteArticle') }}
         </button>
         <div v-if="isEditing" class="flex space-x-3">
           <button
@@ -32,13 +32,13 @@
             :disabled="isSaving"
             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:opacity-50"
           >
-            {{ isSaving ? '儲存中...' : '儲存' }}
+            {{ isSaving ? $t('blog.saving') : $t('blog.save') }}
           </button>
           <button
             @click="cancelEdit"
             class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors"
           >
-            取消
+            {{ $t('blog.cancel') }}
           </button>
         </div>
       </div>
@@ -46,7 +46,7 @@
       <header class="mb-8">
         <!-- 編輯模式：標題輸入 -->
         <div v-if="isEditing" class="mb-4">
-          <label for="edit-title" class="block text-sm font-medium text-gray-700 mb-1">標題</label>
+          <label for="edit-title" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.title') }}</label>
           <input
             id="edit-title"
             v-model="editForm.title"
@@ -65,14 +65,14 @@
             class="w-10 h-10 rounded-full"
           />
           <div class="text-gray-600">
-            <span class="mr-4">作者：{{ blog.author }}</span>
-            <span>發布日期：{{ blog.date }}</span>
+            <span class="mr-4">{{ $t('blog.author') }}：{{ blog.author }}</span>
+            <span>{{ $t('blog.publishDate') }}：{{ blog.date }}</span>
           </div>
         </div>
 
         <!-- 編輯模式：發佈日期輸入 -->
         <div v-if="isEditing" class="mb-4">
-          <label for="edit-date" class="block text-sm font-medium text-gray-700 mb-1">發布日期</label>
+          <label for="edit-date" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.publishDate') }}</label>
           <input
             id="edit-date"
             v-model="editForm.date"
@@ -83,12 +83,12 @@
 
         <!-- 編輯模式：標籤輸入 -->
         <div v-if="isEditing" class="mb-6">
-          <label for="edit-tags" class="block text-sm font-medium text-gray-700 mb-1">標籤（用逗號分隔）</label>
+          <label for="edit-tags" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.tags') }}</label>
           <input
             id="edit-tags"
             v-model="editForm.tagsInput"
             type="text"
-            placeholder="例如：vTaiwan, 數位民主, 開放政府"
+            :placeholder="$t('blog.tagsPlaceholder')"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -107,7 +107,7 @@
       <div class="prose prose-lg max-w-none">
         <!-- 編輯模式：大綱輸入 -->
         <div v-if="isEditing" class="mb-8">
-          <label for="edit-summary" class="block text-sm font-medium text-gray-700 mb-1">大綱</label>
+          <label for="edit-summary" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.summary') }}</label>
           <textarea
             id="edit-summary"
             v-model="editForm.summary"
@@ -120,17 +120,17 @@
 
         <!-- 編輯模式：內容輸入 -->
         <div v-if="isEditing" class="mb-8">
-          <label for="edit-content" class="block text-sm font-medium text-gray-700 mb-1">內容 (Markdown)</label>
+          <label for="edit-content" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.content') }}</label>
           <textarea
             id="edit-content"
             v-model="editForm.content"
             rows="20"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-            placeholder="在此輸入 Markdown 格式的內容..."
+            :placeholder="$t('blog.contentPlaceholder')"
           ></textarea>
           <!-- 預覽區域 -->
           <div class="mt-4">
-            <h3 class="text-lg font-semibold mb-2">預覽</h3>
+            <h3 class="text-lg font-semibold mb-2">{{ $t('blog.preview') }}</h3>
             <div v-html="previewContent" class="markdown-content border border-gray-200 rounded-md p-4 bg-gray-50"></div>
           </div>
         </div>
@@ -142,21 +142,21 @@
     <!-- 刪除確認對話框 -->
     <div v-if="showDeleteConfirm" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <h3 class="text-xl font-bold mb-4">確認刪除</h3>
-        <p class="text-gray-600 mb-6">您確定要刪除這篇文章嗎？此操作無法復原。</p>
+        <h3 class="text-xl font-bold mb-4">{{ $t('blog.deleteConfirmTitle') }}</h3>
+        <p class="text-gray-600 mb-6">{{ $t('blog.deleteConfirmMessage') }}</p>
         <div class="flex justify-end space-x-3">
           <button
             @click="showDeleteConfirm = false"
             class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            取消
+            {{ $t('blog.cancel') }}
           </button>
           <button
             @click="deleteBlog"
             :disabled="isDeleting"
             class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors disabled:opacity-50"
           >
-            {{ isDeleting ? '刪除中...' : '確認刪除' }}
+            {{ isDeleting ? $t('blog.deleting') : $t('blog.confirmDelete') }}
           </button>
         </div>
       </div>
@@ -167,9 +167,12 @@
 <script setup>
 import { ref, onMounted, watch, computed, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { database, blogsRef } from '../lib/firebase'
-import { onValue, set, remove, ref as dbRef } from 'firebase/database'
+import { onValue, set, remove, get, ref as dbRef } from 'firebase/database'
 import { marked } from 'marked'
+
+const { t } = useI18n()
 
 // 定義 props
 const props = defineProps({
@@ -209,6 +212,13 @@ marked.setOptions({
   breaks: true, // 支援換行
   gfm: true, // GitHub Flavored Markdown
 })
+
+// 生成唯一的 key：date + title
+const generateBlogKey = (date, title) => {
+  // 移除標題中的特殊字符，只保留字母、數字、空格和連字符
+  const cleanTitle = encodeURIComponent(title).replace(/[^a-zA-Z0-9\s-]/g, '').replace(/\s+/g, '-').toLowerCase()
+  return `${date}_${cleanTitle}`
+}
 
 // 根據標題找到對應的文章
 const findBlogByTitle = (blogs, title) => {
@@ -284,8 +294,14 @@ const saveEdit = async () => {
   try {
     isSaving.value = true
 
+
+    // 生成新的 key
+    const newBlogKey = generateBlogKey(editForm.value.date, editForm.value.title)
+    const oldBlogKey = blog.value.id
+
     const updatedBlog = {
       ...blog.value,
+      id: newBlogKey,
       title: editForm.value.title,
       summary: editForm.value.summary,
       content: editForm.value.content,
@@ -293,28 +309,35 @@ const saveEdit = async () => {
       date: editForm.value.date
     }
 
-    set(dbRef(database, `blogs/${blog.value.id}`), updatedBlog).then(() => {
-      console.log('Blog updated successfully')
 
-      isEditing.value = false
-
-      console.log('editForm.value.title', editForm.value.title)
-      console.log('blog.value.title', blog.value ? blog.value.title : 'null')
-      // 如果標題有變更，更新路由
-      if (!blog.value || blog.value.title !== editForm.value.title) {
-        console.log('blog.value.title !== editForm.value.title')
-        const newTitle = encodeURIComponent(editForm.value.title)
-        const newPath = `/blogs/${newTitle}`
-
-        // 更新路由，這會自動觸發路由監聽器重新載入資料
-        router.replace(newPath)
+    // 如果 key 有變更，需要刪除舊的並建立新的
+    if (newBlogKey !== oldBlogKey) {
+      // 檢查新 key 是否已存在
+      const snapshot = await get(dbRef(database, `blogs/${newBlogKey}`))
+      if (snapshot.exists()) {
+        alert('已存在相同標題和日期的文章，請修改標題或日期')
+        return
       }
-    }).catch((error) => {
-      console.error('Error updating blog:', error)
-    })
+
+      // 刪除舊的，建立新的
+      await remove(dbRef(database, `blogs/${oldBlogKey}`))
+      await set(dbRef(database, `blogs/${newBlogKey}`), updatedBlog)
+
+      // 更新路由
+      const newTitle = encodeURIComponent(editForm.value.title)
+      const newPath = `/blogs/${newTitle}`
+      router.replace(newPath)
+    } else {
+      // 直接更新
+      await set(dbRef(database, `blogs/${oldBlogKey}`), updatedBlog)
+    }
+
+    console.log('Blog updated successfully')
+    isEditing.value = false
+
   } catch (error) {
-    console.error('Error saving blog:', error)
-    alert('儲存時發生錯誤，請稍後再試')
+    console.error('Error updating blog:', error)
+    alert(t('blog.saveError'))
   } finally {
     isSaving.value = false
   }
@@ -331,7 +354,7 @@ const deleteBlog = async () => {
     router.push('/blogs')
   } catch (error) {
     console.error('Error deleting blog:', error)
-    alert('刪除時發生錯誤，請稍後再試')
+    alert(t('blog.deleteError'))
   } finally {
     isDeleting.value = false
   }
