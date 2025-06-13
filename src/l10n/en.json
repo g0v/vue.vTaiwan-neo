@@ -43,7 +43,45 @@
   },
   "home": {
     "welcome": "Welcome to vTaiwan",
-    "description": "Innovative platform for Taiwan's digital governance"
+    "description": "Innovative platform for Taiwan's digital governance",
+    "hero": {
+      "title": {
+        "open": "Open",
+        "collaborate": "Collaborate",
+        "coCreate": "Co-create",
+        "taiwanFuture": "Taiwan's Future"
+      },
+      "subtitle": "vTaiwan is an open collaboration platform that promotes dialogue between government and citizens, enabling everyone to participate in the public policy formation process.",
+      "buttons": {
+        "browseProjects": "Browse Projects",
+        "learnMore": "Learn More"
+      }
+    },
+    "features": {
+      "title": "How It Works",
+      "items": {
+        "propose": {
+          "title": "Propose Issues",
+          "description": "Anyone can propose public policy issues worth discussing, which enter the discussion phase after initial review."
+        },
+        "discuss": {
+          "title": "Open Discussion",
+          "description": "Through online discussions and physical meetings, collect opinions from all parties to form concrete policy recommendations."
+        },
+        "policy": {
+          "title": "Policy Formation",
+          "description": "Transform citizen consensus into concrete policy recommendations and submit them to relevant government departments for reference and implementation."
+        }
+      }
+    },
+    "cta": {
+      "title": "Join us in shaping Taiwan's future together",
+      "description": "Whether you are a citizen, expert, government official, or anyone concerned about public affairs, you are welcome to join the vTaiwan platform and contribute your ideas.",
+      "buttons": {
+        "browseProjects": "Browse Projects",
+        "learnMore": "Learn More"
+      }
+    }
   },
   "profile": {
     "title": "Profile",
