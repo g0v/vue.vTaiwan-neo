@@ -98,12 +98,18 @@
 
             <div class="flex justify-between text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
               <span class="flex items-center gap-1">
-                <IconWrapper name="tags" :size="14" />
+                <IconWrapper name="folder" :size="14" />
                 {{ getProjectCategory(project) }}
               </span>
               <span class="flex items-center gap-1">
                 <IconWrapper name="users" :size="14" />
                 {{ project.participantsCount }} {{ $t('projects.participants') }}
+              </span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-500 mt-4 pt-4 border-t border-gray-100">
+              <span class="flex items-center gap-1">
+                <IconWrapper name="tag" :size="14" />
+                {{ project.tags.join(', ') }}
               </span>
             </div>
           </div>
@@ -183,12 +189,13 @@ const filteredProjects = computed(() => {
     const projectCategory = currentLanguage.value === 'zh-TW' ? project.category : (project.categoryEn || project.category)
     const categoryMatch = categoryFilter.value === 'all' || projectCategory === categoryFilter.value
 
-    // 搜尋功能 - 同時搜尋中文和英文內容
+    // 搜尋功能 - 同時搜尋中文和英文內容以及標籤
     const searchMatch =
       project.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       (project.titleEn && project.titleEn.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
       project.description.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      (project.descriptionEn && project.descriptionEn.toLowerCase().includes(searchQuery.value.toLowerCase()))
+      (project.descriptionEn && project.descriptionEn.toLowerCase().includes(searchQuery.value.toLowerCase())) ||
+      (project.tags && project.tags.some(tag => tag.toLowerCase().includes(searchQuery.value.toLowerCase())))
 
     return statusMatch && categoryMatch && searchMatch
   })

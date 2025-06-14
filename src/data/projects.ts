@@ -15,6 +15,7 @@ export interface Project {
   githubRepo?: string // github repo
   documentation?: string // 文件連結
   discussion?: string // 討論區連結
+  tags?: string[] // 標籤
 }
 
 export const projects: Project[] = [
@@ -31,7 +32,8 @@ export const projects: Project[] = [
     category: '數位政策',
     categoryEn: 'Digital Policy',
     participantsCount: 256,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['數位身分證', '隱私', '安全']
   },
   {
     id: '2',
@@ -46,7 +48,8 @@ export const projects: Project[] = [
     category: '開放政府',
     categoryEn: 'Open Government',
     participantsCount: 189,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['開放政府', '資料開放', '資料標準']
   },
   {
     id: '3',
@@ -61,7 +64,8 @@ export const projects: Project[] = [
     category: '健康醫療',
     categoryEn: 'Healthcare',
     participantsCount: 142,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['遠距醫療', '法規', '實施']
   },
   {
     id: '4',
@@ -76,7 +80,8 @@ export const projects: Project[] = [
     category: '數位民主',
     categoryEn: 'Digital Democracy',
     participantsCount: 213,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['線上投票', '安全', '效率']
   },
   {
     id: '5',
@@ -91,7 +96,8 @@ export const projects: Project[] = [
     category: '經濟政策',
     categoryEn: 'Economic Policy',
     participantsCount: 178,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['共享經濟', '監管', '稅務']
   },
   {
     id: '6',
@@ -106,7 +112,8 @@ export const projects: Project[] = [
     category: '教育政策',
     categoryEn: 'Education Policy',
     participantsCount: 165,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['數位學習', '開放教育', '教育資源']
   },
   {
     id: '7',
@@ -121,7 +128,8 @@ export const projects: Project[] = [
     category: '環境政策',
     categoryEn: 'Environmental Policy',
     participantsCount: 132,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['環境政策', '資訊公開', '環境監測']
   },
   {
     id: '8',
@@ -136,7 +144,8 @@ export const projects: Project[] = [
     category: '數位權利',
     categoryEn: 'Digital Rights',
     participantsCount: 201,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['網路隱私', '個人資料', '保護']
   },
   {
     id: '9',
@@ -151,7 +160,8 @@ export const projects: Project[] = [
     category: '勞動政策',
     categoryEn: 'Labor Policy',
     participantsCount: 187,
-    isPrototype: true
+    isPrototype: true,
+    tags: ['青年就業', '就業困境', '政策解方']
   }
 ]
 
