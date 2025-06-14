@@ -36,6 +36,17 @@
         </div>
 
         <div>
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              v-model="formData.isPrototype"
+              class="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <span class="text-sm font-medium text-gray-700">{{ $t('blog.isPrototype') }}</span>
+          </label>
+        </div>
+
+        <div>
           <label for="date" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.publishDate') }}</label>
           <input
             type="date"
@@ -151,7 +162,8 @@ const formData = reactive({
   summary: '',
   content: '',
   tagsInput: '',
-  language: 'zh-TW'
+  language: 'zh-TW',
+  isPrototype: true
 })
 
 // 生成唯一的 key：date + title
@@ -197,7 +209,8 @@ const handleSubmit = async () => {
       summary: formData.summary,
       content: formData.content,
       tags: formData.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag),
-      language: formData.language
+      language: formData.language,
+      isPrototype: formData.isPrototype
     }
 
     await set(dbRef(database, `blogs/${blogKey}`), newBlog)

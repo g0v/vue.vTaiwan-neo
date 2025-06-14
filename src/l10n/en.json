@@ -153,7 +153,9 @@
     "languageAll": "All Languages",
     "languageZhTW": "Traditional Chinese",
     "languageEn": "English",
-    "languageSelect": "Select display language"
+    "languageSelect": "Select display language",
+    "isPrototype": "This is a prototype",
+    "prototype": "Prototype"
   },
   "projects": {
     "title": "Project List",

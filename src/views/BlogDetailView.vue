@@ -9,7 +9,14 @@
       <router-link to="/blogs" class="text-blue-600 hover:underline">{{ $t('blog.backToList') }}</router-link>
     </div>
 
-    <article v-else class="bg-white rounded-lg shadow-md p-8">
+    <article v-else class="bg-white rounded-lg shadow-md p-8 relative">
+      <!-- 樣稿標籤 -->
+      <div v-if="blog.isPrototype" class="absolute -top-4 -right-4 z-10">
+        <div class="bg-yellow-400 text-black text-sm font-bold px-4 py-2 transform rotate-12 shadow-lg">
+          {{ $t('blog.prototype') }}
+        </div>
+      </div>
+
       <!-- 編輯按鈕區域 -->
       <div v-if="canEdit" class="flex justify-end mb-6 space-x-3">
         <button
@@ -70,6 +77,18 @@
           </div>
         </div>
 
+        <!-- 編輯模式：樣稿核取方塊 -->
+        <div v-if="isEditing" class="mb-6">
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              v-model="editForm.isPrototype"
+              class="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <span class="text-sm font-medium text-gray-700">{{ $t('blog.isPrototype') }}</span>
+          </label>
+        </div>
+
         <!-- 編輯模式：發佈日期輸入 -->
         <div v-if="isEditing" class="mb-4">
           <label for="edit-date" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('blog.publishDate') }}</label>
@@ -127,6 +146,7 @@
             <span v-else class="text-gray-400">{{ $t('blog.languageSelect') }}</span>
           </span>
         </div>
+
       </header>
 
       <div class="prose prose-lg max-w-none">
@@ -230,7 +250,8 @@ const editForm = ref({
   content: '',
   tagsInput: '',
   date: '',
-  language: ''
+  language: '',
+  isPrototype: false
 })
 
 // 配置 marked 選項
@@ -297,7 +318,8 @@ const startEdit = () => {
     content: blog.value.content,
     tagsInput: (blog.value.tags || []).join(', '),
     date: blog.value.date,
-    language: blog.value.language
+    language: blog.value.language,
+    isPrototype: blog.value.isPrototype || false
   }
   isEditing.value = true
 }
@@ -311,7 +333,8 @@ const cancelEdit = () => {
     content: '',
     tagsInput: '',
     date: '',
-    language: ''
+    language: '',
+    isPrototype: false
   }
 }
 
@@ -335,7 +358,8 @@ const saveEdit = async () => {
       content: editForm.value.content,
       tags: editForm.value.tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag),
       date: editForm.value.date,
-      language: editForm.value.language
+      language: editForm.value.language,
+      isPrototype: editForm.value.isPrototype
     }
 
 

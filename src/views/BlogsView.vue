@@ -20,8 +20,15 @@
       <article
         v-for="blog in filteredBlogs"
         :key="blog.id"
-        class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow relative"
       >
+        <!-- 樣稿標籤 -->
+        <div v-if="blog.isPrototype" class="absolute -top-2 -right-2 z-10">
+          <div class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 transform rotate-12 shadow-md">
+            {{ $t('blog.prototype') }}
+          </div>
+        </div>
+
         <div class="p-6">
           <h2 class="text-xl font-semibold mb-2">
             <router-link :to="`/blogs/${encodeURIComponent(blog.title)}`" class="hover:text-blue-600">
