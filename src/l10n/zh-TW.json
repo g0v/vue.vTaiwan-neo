@@ -199,5 +199,55 @@
     "joinProject": "加入專案",
     "notFound": "找不到專案",
     "notFoundDesc": "您要查看的專案不存在或已被移除。"
+  },
+  "meetups": {
+    "title": "會議",
+    "description": "vTaiwan 定期舉辦線上與實體會議，討論各專案的進展與公共政策議題。歡迎所有人參與！",
+    "upcoming": {
+      "title": "即將舉行的會議",
+      "empty": "目前沒有即將舉行的會議"
+    },
+    "past": {
+      "title": "過去的會議",
+      "empty": "目前沒有過去的會議記錄"
+    },
+    "calendar": {
+      "title": "會議行事曆",
+      "description": "訂閱我們的會議行事曆，不錯過任何重要會議。",
+      "googleCalendar": "Google Calendar",
+      "icalFile": "iCal 檔案"
+    },
+    "relatedProject": "相關專案",
+    "register": "立即報名",
+    "details": "詳細資訊",
+    "watchRecording": "觀看錄影",
+    "meetingRecord": "會議紀錄",
+    "viewMorePast": "查看更多過去的會議",
+    "host": {
+      "title": "想要舉辦會議？",
+      "description": "如果您想針對某個專案或公共政策議題舉辦討論會，歡迎與我們聯繫。",
+      "contactUs": "聯絡我們"
+    }
+  },
+  "meetupDetail": {
+    "upcoming": "即將舉行",
+    "past": "已結束",
+    "details": "會議詳情",
+    "date": "日期",
+    "time": "時間",
+    "location": "地點",
+    "relatedProject": "相關專案",
+    "tags": "標籤",
+    "relatedLinks": "相關連結",
+    "registration": "報名連結",
+    "recording": "錄影連結",
+    "summary": "會議紀錄",
+    "hackmd": "HackMD 共筆",
+    "kktix": "KKTIX 報名",
+    "googleForm": "Google 表單",
+    "backToMeetups": "返回會議列表",
+    "register": "立即報名",
+    "notFound": "找不到會議",
+    "notFoundDesc": "您要查看的會議不存在或已被移除。"
   }
 } 

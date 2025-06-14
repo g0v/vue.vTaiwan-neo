@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
 import ProjectDetailView from '../views/ProjectDetailView.vue'
 import MeetupsView from '../views/MeetupsView.vue'
+import MeetupDetailView from '../views/MeetupDetailView.vue'
 import BlogsView from '../views/BlogsView.vue'
 import BlogDetailView from '../views/BlogDetailView.vue'
 import PostBlogView from '../views/PostBlogView.vue'
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/meetups',
       name: 'meetups',
       component: MeetupsView
+    },
+    {
+      path: '/meetups/:slug',
+      name: 'meetup-detail',
+      component: MeetupDetailView
     },
     {
       path: '/blogs',

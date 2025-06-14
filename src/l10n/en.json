@@ -199,5 +199,55 @@
     "joinProject": "Join Project",
     "notFound": "Project Not Found",
     "notFoundDesc": "The project you are looking for does not exist or has been removed."
+  },
+  "meetups": {
+    "title": "Meetups",
+    "description": "vTaiwan regularly hosts online and physical meetings to discuss project progress and public policy issues. Everyone is welcome to participate!",
+    "upcoming": {
+      "title": "Upcoming Meetups",
+      "empty": "No upcoming meetups at the moment"
+    },
+    "past": {
+      "title": "Past Meetups",
+      "empty": "No past meetup records at the moment"
+    },
+    "calendar": {
+      "title": "Meetup Calendar",
+      "description": "Subscribe to our meetup calendar to never miss any important meetings.",
+      "googleCalendar": "Google Calendar",
+      "icalFile": "iCal File"
+    },
+    "relatedProject": "Related Project",
+    "register": "Register Now",
+    "details": "Details",
+    "watchRecording": "Watch Recording",
+    "meetingRecord": "Meeting Record",
+    "viewMorePast": "View More Past Meetups",
+    "host": {
+      "title": "Want to host a meetup?",
+      "description": "If you want to host a discussion on a specific project or public policy issue, please contact us.",
+      "contactUs": "Contact Us"
+    }
+  },
+  "meetupDetail": {
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "details": "Meetup Details",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location",
+    "relatedProject": "Related Project",
+    "tags": "Tags",
+    "relatedLinks": "Related Links",
+    "registration": "Registration Link",
+    "recording": "Recording Link",
+    "summary": "Meeting Summary",
+    "hackmd": "HackMD Notes",
+    "kktix": "KKTIX Registration",
+    "googleForm": "Google Form",
+    "backToMeetups": "Back to Meetups",
+    "register": "Register Now",
+    "notFound": "Meetup Not Found",
+    "notFoundDesc": "The meetup you are looking for does not exist or has been removed."
   }
 } 

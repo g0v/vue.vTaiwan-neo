@@ -2,9 +2,9 @@
   <!-- Hero Section -->
   <section class="bg-black text-white py-12">
     <div class="container mx-auto px-4">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">會議</h1>
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ $t('meetups.title') }}</h1>
       <p class="text-xl max-w-3xl">
-        vTaiwan 定期舉辦線上與實體會議，討論各專案的進展與公共政策議題。歡迎所有人參與！
+        {{ $t('meetups.description') }}
       </p>
     </div>
   </section>
@@ -13,19 +13,26 @@
   <section class="py-12">
     <div class="container mx-auto px-4">
       <h2 class="text-2xl font-bold mb-8">
-        <span class="title-underline">即將舉行的會議</span>
+        <span class="title-underline">{{ $t('meetups.upcoming.title') }}</span>
       </h2>
 
       <div class="space-y-6">
         <div v-if="upcomingMeetups.length === 0" class="text-center py-12">
-          <p class="text-gray-500 text-lg">目前沒有即將舉行的會議</p>
+          <p class="text-gray-500 text-lg">{{ $t('meetups.upcoming.empty') }}</p>
         </div>
 
         <div
           v-for="meetup in upcomingMeetups"
           :key="meetup.id"
-          class="card p-6 border-l-4 border-l-jade-green"
+          class="card p-6 border-l-4 border-l-jade-green relative"
         >
+          <!-- 樣稿標籤 -->
+          <div v-if="meetup.isPrototype" class="absolute -top-2 -right-2 z-10">
+            <div class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 transform rotate-12 shadow-md">
+              {{ currentLanguage === 'zh-TW' ? '樣稿' : 'Prototype' }}
+            </div>
+          </div>
+
           <div class="md:flex justify-between">
             <div class="md:w-2/3">
               <h3 class="text-xl font-bold mb-2">
@@ -52,7 +59,7 @@
               <p class="text-gray-700 mb-4">{{ meetup.description }}</p>
 
               <div class="flex items-center gap-1 text-sm">
-                <span>相關專案：</span>
+                <span>{{ $t('meetups.relatedProject') }}：</span>
                 <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
                   {{ meetup.project }}
                 </a>
@@ -67,10 +74,10 @@
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                立即報名
+                {{ $t('meetups.register') }}
               </a>
               <a :href="`/meetups/${meetup.slug}`" class="btn-outline rounded-md inline-block ml-2">
-                詳細資訊
+                {{ $t('meetups.details') }}
               </a>
             </div>
           </div>
@@ -82,18 +89,18 @@
   <!-- Calendar View -->
   <section class="py-12 bg-gray-100">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-6">會議行事曆</h2>
+      <h2 class="text-2xl font-bold mb-6">{{ $t('meetups.calendar.title') }}</h2>
       <p class="mb-8">
-        訂閱我們的會議行事曆，不錯過任何重要會議。
+        {{ $t('meetups.calendar.description') }}
       </p>
       <div class="flex justify-center gap-4">
         <a href="#" class="btn-primary rounded-md flex items-center gap-2">
           <IconWrapper name="calendar" :size="18" color="#FFFFFF" />
-          <span>Google Calendar</span>
+          <span>{{ $t('meetups.calendar.googleCalendar') }}</span>
         </a>
         <a href="#" class="btn-outline rounded-md flex items-center gap-2">
           <IconWrapper name="download" :size="18" />
-          <span>iCal 檔案</span>
+          <span>{{ $t('meetups.calendar.icalFile') }}</span>
         </a>
       </div>
     </div>
@@ -103,19 +110,26 @@
   <section class="py-12">
     <div class="container mx-auto px-4">
       <h2 class="text-2xl font-bold mb-8">
-        <span class="title-underline">過去的會議</span>
+        <span class="title-underline">{{ $t('meetups.past.title') }}</span>
       </h2>
 
       <div class="space-y-6">
         <div v-if="pastMeetups.length === 0" class="text-center py-12">
-          <p class="text-gray-500 text-lg">目前沒有過去的會議記錄</p>
+          <p class="text-gray-500 text-lg">{{ $t('meetups.past.empty') }}</p>
         </div>
 
         <div
           v-for="meetup in pastMeetups"
           :key="meetup.id"
-          class="card p-6 border-l-4 border-l-gray-300"
+          class="card p-6 border-l-4 border-l-gray-300 relative"
         >
+          <!-- 樣稿標籤 -->
+          <div v-if="meetup.isPrototype" class="absolute -top-2 -right-2 z-10">
+            <div class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 transform rotate-12 shadow-md">
+              {{ currentLanguage === 'zh-TW' ? '樣稿' : 'Prototype' }}
+            </div>
+          </div>
+
           <div class="md:flex justify-between">
             <div class="md:w-2/3">
               <h3 class="text-xl font-bold mb-2">
@@ -142,7 +156,7 @@
               <p class="text-gray-700 mb-4">{{ meetup.description }}</p>
 
               <div class="flex items-center gap-1 text-sm">
-                <span>相關專案：</span>
+                <span>{{ $t('meetups.relatedProject') }}：</span>
                 <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
                   {{ meetup.project }}
                 </a>
@@ -159,7 +173,7 @@
               >
                 <span class="flex items-center gap-1">
                   <IconWrapper name="video" :size="16" />
-                  <span>觀看錄影</span>
+                  <span>{{ $t('meetups.watchRecording') }}</span>
                 </span>
               </a>
 
@@ -170,7 +184,7 @@
               >
                 <span class="flex items-center gap-1">
                   <IconWrapper name="file-text" :size="16" />
-                  <span>會議紀錄</span>
+                  <span>{{ $t('meetups.meetingRecord') }}</span>
                 </span>
               </a>
             </div>
@@ -180,7 +194,7 @@
 
       <div class="mt-8 text-center">
         <a href="/meetups/archive" class="btn-outline rounded-md inline-block">
-          查看更多過去的會議
+          {{ $t('meetups.viewMorePast') }}
         </a>
       </div>
     </div>
@@ -189,12 +203,12 @@
   <!-- Host a Meetup -->
   <section class="py-12 bg-gray-100">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-4">想要舉辦會議？</h2>
+      <h2 class="text-2xl font-bold mb-4">{{ $t('meetups.host.title') }}</h2>
       <p class="text-lg mb-6 max-w-2xl mx-auto">
-        如果您想針對某個專案或公共政策議題舉辦討論會，歡迎與我們聯繫。
+        {{ $t('meetups.host.description') }}
       </p>
       <a href="/contact" class="btn-primary rounded-md inline-block">
-        聯絡我們
+        {{ $t('meetups.host.contactUs') }}
       </a>
     </div>
   </section>
@@ -202,8 +216,14 @@
 
 <script setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
 import { getUpcomingMeetups, getPastMeetups } from '../data/meetups'
+
+const { locale } = useI18n()
+
+// 當前語言
+const currentLanguage = computed(() => locale.value)
 
 // 取得會議資料
 const upcomingMeetups = computed(() => getUpcomingMeetups())
