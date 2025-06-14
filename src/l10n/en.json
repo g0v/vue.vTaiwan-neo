@@ -173,10 +173,31 @@
       "all": "All Categories"
     },
     "participants": "participants",
+    "created": "Created in",
     "cta": {
       "title": "Want to propose a new project?",
       "description": "If you have public policy issues worth discussing, you are welcome to propose project suggestions.",
       "button": "Propose Project"
     }
+  },
+  "projectDetail": {
+    "objectives": "Project Objectives",
+    "howToParticipate": "How to Participate",
+    "discuss": "Join Discussion",
+    "discussDesc": "Share your ideas and suggestions in the project discussion area and exchange opinions with other participants.",
+    "contribute": "Contribute Content",
+    "contributeDesc": "Provide professional knowledge, research data, or implementation experience to help project development.",
+    "share": "Share Information",
+    "shareDesc": "Share project information with more friends who care about this issue to expand influence.",
+    "join": "Join Team",
+    "joinDesc": "Become a core team member of the project and participate in decision-making and execution work.",
+    "relatedLinks": "Related Links",
+    "githubRepo": "GitHub Repository",
+    "documentation": "Project Documentation",
+    "discussion": "Discussion Forum",
+    "backToProjects": "Back to Project List",
+    "joinProject": "Join Project",
+    "notFound": "Project Not Found",
+    "notFoundDesc": "The project you are looking for does not exist or has been removed."
   }
 } 

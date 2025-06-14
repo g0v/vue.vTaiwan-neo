@@ -173,10 +173,31 @@
       "all": "全部分類"
     },
     "participants": "人參與",
+    "created": "建立於",
     "cta": {
       "title": "想要提出新的專案？",
       "description": "如果您有值得討論的公共政策議題，歡迎提出專案建議。",
       "button": "提出專案"
     }
+  },
+  "projectDetail": {
+    "objectives": "專案目標",
+    "howToParticipate": "參與方式",
+    "discuss": "參與討論",
+    "discussDesc": "在專案討論區分享您的想法和建議，與其他參與者交流意見。",
+    "contribute": "貢獻內容",
+    "contributeDesc": "提供專業知識、研究資料或實作經驗，協助專案發展。",
+    "share": "分享資訊",
+    "shareDesc": "將專案資訊分享給更多關心此議題的朋友，擴大影響力。",
+    "join": "加入團隊",
+    "joinDesc": "成為專案核心團隊成員，參與決策和執行工作。",
+    "relatedLinks": "相關連結",
+    "githubRepo": "GitHub 儲存庫",
+    "documentation": "專案文件",
+    "discussion": "討論區",
+    "backToProjects": "返回專案列表",
+    "joinProject": "加入專案",
+    "notFound": "找不到專案",
+    "notFoundDesc": "您要查看的專案不存在或已被移除。"
   }
 } 

@@ -67,8 +67,15 @@
           v-for="project in filteredProjects"
           :key="project.id"
           :href="project.url"
-          class="card hover:border-democratic-red transition"
+          class="card hover:border-democratic-red transition relative"
         >
+          <!-- 樣稿標籤 -->
+          <div v-if="project.isPrototype" class="absolute -top-2 -right-2 z-10">
+            <div class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 transform rotate-12 shadow-md">
+              {{ currentLanguage === 'zh-TW' ? '樣稿' : 'Prototype' }}
+            </div>
+          </div>
+
           <div class="p-6">
             <div class="flex items-start mb-4">
               <div

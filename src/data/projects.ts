@@ -11,6 +11,10 @@ export interface Project {
   category: string
   categoryEn?: string
   participantsCount: number
+  isPrototype?: boolean // 是否為樣稿
+  githubRepo?: string // github repo
+  documentation?: string // 文件連結
+  discussion?: string // 討論區連結
 }
 
 export const projects: Project[] = [
@@ -26,7 +30,8 @@ export const projects: Project[] = [
     url: '/projects/digital-id',
     category: '數位政策',
     categoryEn: 'Digital Policy',
-    participantsCount: 256
+    participantsCount: 256,
+    isPrototype: true
   },
   {
     id: '2',
@@ -40,7 +45,8 @@ export const projects: Project[] = [
     url: '/projects/open-data',
     category: '開放政府',
     categoryEn: 'Open Government',
-    participantsCount: 189
+    participantsCount: 189,
+    isPrototype: true
   },
   {
     id: '3',
@@ -54,7 +60,8 @@ export const projects: Project[] = [
     url: '/projects/telemedicine',
     category: '健康醫療',
     categoryEn: 'Healthcare',
-    participantsCount: 142
+    participantsCount: 142,
+    isPrototype: true
   },
   {
     id: '4',
@@ -68,7 +75,8 @@ export const projects: Project[] = [
     url: '/projects/online-voting',
     category: '數位民主',
     categoryEn: 'Digital Democracy',
-    participantsCount: 213
+    participantsCount: 213,
+    isPrototype: true
   },
   {
     id: '5',
@@ -82,7 +90,8 @@ export const projects: Project[] = [
     url: '/projects/sharing-economy',
     category: '經濟政策',
     categoryEn: 'Economic Policy',
-    participantsCount: 178
+    participantsCount: 178,
+    isPrototype: true
   },
   {
     id: '6',
@@ -96,7 +105,8 @@ export const projects: Project[] = [
     url: '/projects/digital-learning',
     category: '教育政策',
     categoryEn: 'Education Policy',
-    participantsCount: 165
+    participantsCount: 165,
+    isPrototype: true
   },
   {
     id: '7',
@@ -110,7 +120,8 @@ export const projects: Project[] = [
     url: '/projects/environmental-info',
     category: '環境政策',
     categoryEn: 'Environmental Policy',
-    participantsCount: 132
+    participantsCount: 132,
+    isPrototype: true
   },
   {
     id: '8',
@@ -124,7 +135,8 @@ export const projects: Project[] = [
     url: '/projects/privacy-protection',
     category: '數位權利',
     categoryEn: 'Digital Rights',
-    participantsCount: 201
+    participantsCount: 201,
+    isPrototype: true
   },
   {
     id: '9',
@@ -138,7 +150,8 @@ export const projects: Project[] = [
     url: '/projects/youth-employment',
     category: '勞動政策',
     categoryEn: 'Labor Policy',
-    participantsCount: 187
+    participantsCount: 187,
+    isPrototype: true
   }
 ]
 
