@@ -12,6 +12,7 @@ export interface Meetup {
   recordingUrl?: string
   summaryUrl?: string
   tags: string[]
+  isPrototype?: boolean
 }
 
 export const meetups: Meetup[] = [
@@ -26,7 +27,8 @@ export const meetups: Meetup[] = [
     project: '數位身分證',
     projectUrl: '/projects/digital-id',
     registrationUrl: 'https://forms.gle/example1',
-    tags: ['政策討論', '數位政府']
+    tags: ['政策討論', '數位政府'],
+    isPrototype: true
   },
   {
     id: '2',
@@ -39,7 +41,8 @@ export const meetups: Meetup[] = [
     project: '開放政府資料',
     projectUrl: '/projects/open-data',
     registrationUrl: 'https://forms.gle/example2',
-    tags: ['工作坊', '開放資料']
+    tags: ['工作坊', '開放資料'],
+    isPrototype: true
   },
   {
     id: '3',
@@ -52,7 +55,8 @@ export const meetups: Meetup[] = [
     project: '遠距醫療法規',
     projectUrl: '/projects/telemedicine',
     registrationUrl: 'https://forms.gle/example3',
-    tags: ['法規討論', '醫療政策']
+    tags: ['法規討論', '醫療政策'],
+    isPrototype: true
   },
   {
     id: '4',
@@ -65,7 +69,8 @@ export const meetups: Meetup[] = [
     project: '線上投票系統',
     projectUrl: '/projects/online-voting',
     registrationUrl: 'https://forms.gle/example4',
-    tags: ['資安討論', '數位民主']
+    tags: ['資安討論', '數位民主'],
+    isPrototype: true
   },
   {
     id: '5',
@@ -79,7 +84,8 @@ export const meetups: Meetup[] = [
     projectUrl: '/projects/sharing-economy',
     recordingUrl: 'https://youtube.com/watch?v=example5',
     summaryUrl: '/meetups/summary/sharing-economy-policy',
-    tags: ['政策討論', '經濟政策']
+    tags: ['政策討論', '經濟政策'],
+    isPrototype: true
   },
   {
     id: '6',
@@ -93,7 +99,8 @@ export const meetups: Meetup[] = [
     projectUrl: '/projects/digital-learning',
     recordingUrl: 'https://youtube.com/watch?v=example6',
     summaryUrl: '/meetups/summary/digital-learning-resources',
-    tags: ['經驗分享', '教育政策']
+    tags: ['經驗分享', '教育政策'],
+    isPrototype: true
   },
   {
     id: '7',
@@ -107,7 +114,8 @@ export const meetups: Meetup[] = [
     projectUrl: '/projects/environmental-info',
     recordingUrl: 'https://youtube.com/watch?v=example7',
     summaryUrl: '/meetups/summary/environmental-info-transparency',
-    tags: ['環境政策', '資訊公開']
+    tags: ['環境政策', '資訊公開'],
+    isPrototype: true
   }
 ]
 
