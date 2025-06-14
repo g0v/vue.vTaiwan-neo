@@ -11,6 +11,9 @@ export interface Meetup {
   registrationUrl?: string
   recordingUrl?: string
   summaryUrl?: string
+  hackmdUrl?: string // hackMD 的 url
+  kktixUrl?: string // kktix 的 url
+  googleFormUrl?: string // google form 的 url
   tags: string[]
   isPrototype?: boolean
 }
