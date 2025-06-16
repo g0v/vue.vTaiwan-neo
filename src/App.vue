@@ -59,63 +59,73 @@ const loadUserData = async (uid) => {
     console.log('User data from Firebase:', data)
 
     // 確保響應式更新
-    userData.value = data
-
-    if (!userData.value.uid) {
-      userData.value.uid = uid
+    if (data) {
+      userData.value = data
+      if (!userData.value.uid) {
+        userData.value.uid = uid
+      }
+    } else {
+      console.warn('No user data found in database for uid:', uid)
+      userData.value = { uid }
     }
+
     // 強制觸發響應式更新
     await nextTick()
     console.log('userData.value after nextTick:', userData.value)
   } catch (error) {
     console.error('Error loading user data:', error)
+    userData.value = { uid }
   }
 }
 
 // 監聽登入狀態
 onMounted(() => {
   const auth = getAuth()
-  onAuthStateChanged(auth, (currentUser) => {
+  onAuthStateChanged(auth, async (currentUser) => {
+    console.log('Auth state changed:', currentUser)
     user.value = currentUser
     if (currentUser) {
       showLoginModal.value = false // 登入成功後關閉模態框
-      loadUserData(currentUser.uid)
+
+      // 檢查並創建用戶資料
+      try {
+        const userRef = dbRef(database, `users/${currentUser.uid}`)
+        const userSnapshot = await get(userRef)
+
+        if (!userSnapshot.exists()) {
+          console.log('User does not exist in database, creating new user...')
+          await set(userRef, {
+            name: currentUser.displayName,
+            email: currentUser.email,
+            role: 'user',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            photoURL: currentUser.photoURL,
+            uid: currentUser.uid,
+            isAdmin: false,
+            isSuperAdmin: false,
+            isActive: true,
+            isDeleted: false,
+          })
+          console.log('New user created successfully')
+        }
+
+        // 載入用戶資料
+        await loadUserData(currentUser.uid)
+      } catch (error) {
+        console.error('Error handling user authentication:', error)
+      }
     } else {
       userData.value = {}
     }
   })
 })
 
-// 處理登入成功
-const handleLoginSuccess = async (userData) => {
-  user.value = userData
+// 處理登入成功（這個函數主要用於關閉模態框）
+const handleLoginSuccess = async (firebaseUser) => {
+  console.log('handleLoginSuccess called with:', firebaseUser)
+  // onAuthStateChanged 會自動處理用戶創建，這裡只需要關閉模態框
   showLoginModal.value = false
-
-  // 如果Firebase Realtime Database中沒有這個使用者，則新增使用者
-  const userRef = dbRef(usersRef, userData.uid)
-  const userDoc = await get(userRef)
-  if (!userDoc.exists()) {
-    set(userRef, {
-      name: userData.displayName,
-      email: userData.email,
-      role: 'user',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      photoURL: userData.photoURL,
-      uid: userData.uid,
-      isAdmin: false,
-      isSuperAdmin: false,
-      isActive: true,
-      isDeleted: false,
-    }).then(() => {
-      console.log('User added to database')
-      loadUserData(userData.uid)
-    }).catch((error) => {
-      console.error('Error adding user to database:', error)
-    })
-  } else {
-    loadUserData(userData.uid)
-  }
 }
 
 // 處理登出
