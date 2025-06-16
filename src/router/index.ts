@@ -11,6 +11,7 @@ import FAQView from '../views/FAQView.vue'
 import AboutView from '../views/AboutView.vue'
 import ContributorsView from '../views/ContributorsView.vue'
 import ContactView from '../views/ContactView.vue'
+import JitsiView from '../views/JitsiView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/jitsi',
+      name: 'jitsi',
+      component: JitsiView
     },
     {
       path: '/projects',

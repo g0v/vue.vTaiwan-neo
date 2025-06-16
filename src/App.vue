@@ -47,7 +47,7 @@ import { ref as dbRef, get, set, update } from 'firebase/database'
 const { t } = useI18n()
 
 const user = ref(null)
-const userData = ref(null)
+const userData = ref({})
 const showLoginModal = ref(false)
 
 // 獲取用戶詳細資訊
@@ -60,8 +60,10 @@ const loadUserData = async (uid) => {
 
     // 確保響應式更新
     userData.value = data
-    console.log('userData.value after setting:', userData.value)
 
+    if (!userData.value.uid) {
+      userData.value.uid = uid
+    }
     // 強制觸發響應式更新
     await nextTick()
     console.log('userData.value after nextTick:', userData.value)
@@ -79,7 +81,7 @@ onMounted(() => {
       showLoginModal.value = false // 登入成功後關閉模態框
       loadUserData(currentUser.uid)
     } else {
-      userData.value = null
+      userData.value = {}
     }
   })
 })
