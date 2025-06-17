@@ -23,7 +23,14 @@
       v-if="showTranscript && !isMobile"
       class="w-[38%] h-full"
     >
-      <TranscriptPanel @close="hideTranscript" />
+      <TranscriptPanel
+          @close="hideTranscript"
+          :user-data="userData" :transcript-data="transcriptData"
+          :is-recorder="isRecorder"
+          @add-data="addTranscriptData"
+          @update-data="updateTranscriptData"
+          @delete-data="deleteTranscriptData"
+          @i-am-recorder="toggleRecorder" />
     </div>
 
     <!-- 窄螢幕抽屜式逐字稿面板 -->
@@ -45,7 +52,14 @@
           <div class="w-1 h-8 bg-gray-500 rounded"></div>
         </div>
 
-        <TranscriptPanel @close="hideTranscript" />
+        <TranscriptPanel
+          @close="hideTranscript"
+          :user-data="userData" :transcript-data="transcriptData"
+          :is-recorder="isRecorder"
+          @add-data="addTranscriptData"
+          @update-data="updateTranscriptData"
+          @delete-data="deleteTranscriptData"
+          @i-am-recorder="toggleRecorder" />
       </div>
     </div>
 
@@ -80,6 +94,8 @@ import { JaaSMeeting } from '@jitsi/vue-sdk';
 import TranscriptPanel from '../components/TranscriptPanel.vue';
 import IconWrapper from '../components/IconWrapper.vue';
 import { useI18n } from 'vue-i18n';
+import { get, onValue, ref as dbRef, set } from 'firebase/database';
+import { database } from '../lib/firebase';
 
 export default {
   name: 'JitsiView',
@@ -88,13 +104,18 @@ export default {
     TranscriptPanel,
     IconWrapper
   },
-  props: { userData: { type: Object, required: false, default: () => ({}) } },
+  props: {
+    userData: { type: Object, required: false, default: () => ({}) }
+  },
   setup() {
     const { t } = useI18n();
     return { t };
   },
   data() {
     return {
+      today: '',
+      meetingData: {},
+      transcriptData: {},
       appId: 'vpaas-magic-cookie-7c142b7a730e4478878703f86c03d5a1', // 替換自己的 App ID
       room: 'vtaiwan',
       jwt: '',
@@ -125,6 +146,38 @@ export default {
   },
   async created() {
     console.log('JitsiView created');
+    // 使用本地時間產生 yyyymmdd 格式
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    this.today = `${year}${month}${day}`;
+
+    console.log('today', this.today);
+
+    // 測試能否取得 meetingData
+    get(dbRef(database, `/meetings/${this.today}`)).then((snapshot) => {
+      console.log('meeting exists', snapshot.exists());
+      if (snapshot.exists()) {
+        console.log('meetingData', snapshot.val());
+      } else {
+        console.log('meeting does not exist');
+        // 如果 meeting 不存在，則建立一個新的 meeting
+        set(dbRef(database, `/meetings/${this.today}`), {
+          recorder: '',
+          transcripts: {}
+        });
+      }
+    });
+
+    onValue(dbRef(database, `/meetings/${this.today}`), (snapshot) => {
+      this.meetingData = snapshot.val();
+      console.log('meetingData', this.meetingData);
+      this.transcriptData = this.meetingData.transcripts || {};
+      this.isRecorder = this.meetingData.recorder == this.userData.uid;
+      console.log('transcriptData', this.transcriptData);
+    });
+
     this.getJwt();
   },
   beforeUnmount() {
@@ -146,6 +199,7 @@ export default {
     userData: {
       handler(newVal) {
         console.log('userData', newVal);
+        this.isRecorder = this.meetingData.recorder == this.userData.uid;
         this.getJwt();
       },
     },
@@ -231,6 +285,20 @@ export default {
     },
 
     // 逐字稿相關方法
+    toggleRecorder() {
+      this.isRecorder = !this.isRecorder;
+      console.log('toggleRecorder', this.isRecorder);
+      if (this.isRecorder) {
+        console.log('設定記錄者', this.userData.uid);
+        this.meetingData.recorder = this.userData.uid;
+        this.updateMeetingData();
+      } else {
+        console.log('解除記錄者');
+        this.meetingData.recorder = '';
+        this.updateMeetingData();
+      }
+    },
+
     toggleTranscript() {
       console.log('toggleTranscript', this.showTranscript);
       this.showTranscript = !this.showTranscript;
@@ -238,6 +306,39 @@ export default {
 
     hideTranscript() {
       this.showTranscript = false;
+    },
+
+    addTranscriptData(newEntry) {
+      console.log('addTranscriptData', newEntry);
+      this.transcriptData[newEntry.timestamp] = newEntry;
+      this.updateMeetingData();
+    },
+
+    updateTranscriptData(updatedData) {
+      console.log('updateTranscriptData', updatedData);
+      this.transcriptData[updatedData.timestamp] = updatedData;
+      this.updateMeetingData();
+    },
+
+    deleteTranscriptData(timestamp) {
+      console.log('deleteTranscriptData', timestamp);
+      delete this.transcriptData[timestamp];
+      this.updateMeetingData();
+    },
+
+    updateMeetingData() {
+      console.log('updateMeetingData', this.transcriptData);
+      this.meetingData.transcripts = this.transcriptData;
+
+      // 更新記錄者
+      set(dbRef(database, `/meetings/${this.today}/recorder`), this.meetingData.recorder).then(() => {
+        console.log('Meeting data updated');
+      });
+
+      // 更新逐字稿
+      set(dbRef(database, `/meetings/${this.today}/transcripts`), this.transcriptData).then(() => {
+        console.log('Meeting data updated');
+      });
     },
 
     handleResize() {

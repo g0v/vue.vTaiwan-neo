@@ -177,12 +177,15 @@
     "deleteEntry": "刪除條目",
     "exportTranscript": "匯出逐字稿",
     "clearAll": "清除全部",
-    "confirmClear": "確定要清除所有逐字稿內容嗎？",
+    "confirmClear": "確定要清除該筆逐字稿嗎？",
     "autoScroll": "自動捲動",
     "fontSize": "字體大小",
     "fontSizeSmall": "小",
     "fontSizeMedium": "中",
-    "fontSizeLarge": "大"
+    "fontSizeLarge": "大",
+    "iAmRecorder": "我是記錄者",
+    "manualTranscript": "手動逐字稿",
+    "addManualTranscript": "新增手動逐字稿"
   },
   "projects": {
     "title": "專案列表",

@@ -177,12 +177,15 @@
     "deleteEntry": "Delete Entry",
     "exportTranscript": "Export Transcript",
     "clearAll": "Clear All",
-    "confirmClear": "Are you sure you want to clear all transcript content?",
+    "confirmClear": "Are you sure you want to clear this transcript?",
     "autoScroll": "Auto Scroll",
     "fontSize": "Font Size",
     "fontSizeSmall": "Small",
     "fontSizeMedium": "Medium",
-    "fontSizeLarge": "Large"
+    "fontSizeLarge": "Large",
+    "iAmRecorder": "I am Recorder",
+    "manualTranscript": "Manual Transcript",
+    "addManualTranscript": "Add Manual Transcript"
   },
   "projects": {
     "title": "Project List",
