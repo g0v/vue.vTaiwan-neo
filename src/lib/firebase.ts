@@ -26,5 +26,6 @@ export const storage = getStorage(app);
 
 export const blogsRef = ref(database, "blogs");
 export const usersRef = ref(database, "users");
+export const meetingsRef = ref(database, "meetings");
 
 export default app;
