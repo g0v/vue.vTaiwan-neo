@@ -8,10 +8,36 @@
         showTranscript && !isMobile ? 'w-[62%]' : 'w-full'
       ]"
     >
+      <!-- 加入會議按鈕 -->
+      <div
+        v-if="!hasJoined && jwt"
+        class="flex items-center justify-center h-full bg-gray-100"
+      >
+        <div class="text-center">
+          <h2 class="text-2xl font-bold mb-4 text-gray-800">vTaiwan 視訊會議</h2>
+          <p class="text-gray-600 mb-6">準備加入會議室：{{ room }}</p>
+
+          <!-- 可以自訂加入會議的名字，預設為 userData.name -->
+          <input
+            v-model="joinMeetingName"
+            class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-jade-green"
+            placeholder="請輸入您的名字"
+          />
+          <button
+            @click="joinMeeting"
+            class="px-6 py-3 bg-jade-green text-white rounded-lg hover:bg-jade-green/90 transition-colors"
+          >
+            加入會議
+          </button>
+        </div>
+      </div>
+
       <!-- Jitsi Meet 容器 -->
       <div
+        v-show="hasJoined"
         ref="jitsiContainer"
-        class="w-full h-full"
+        class="w-full"
+        style="height: calc(100% - 50px);"
         :key="jitsiKey"
       ></div>
     </div>
@@ -109,6 +135,7 @@ export default {
   },
   data() {
     return {
+      joinMeetingName: '',
       today: '',
       meetingData: {},
       transcriptData: {},
@@ -117,6 +144,8 @@ export default {
       jwt: '',
       jitsiKey: 0, // 用於強制重新渲染組件
       jitsiApi: null, // 儲存 Jitsi API 實例
+      hasJoined: false, // 是否已加入會議
+      jitsiDomain: '8x8.vc', // JaaS domain
 
       // 逐字稿相關
       showTranscript: false,
@@ -169,6 +198,11 @@ export default {
     this.getJwt();
   },
   beforeUnmount() {
+    // 清理 Jitsi API
+    if (this.jitsiApi) {
+      this.jitsiApi.dispose();
+      this.jitsiApi = null;
+    }
     // 清理拖拽事件監聽器
     document.removeEventListener('mousemove', this.onDrag);
     document.removeEventListener('mouseup', this.stopDragging);
@@ -179,37 +213,171 @@ export default {
   },
   mounted() {
     // 監聽視窗大小變化
+    this.joinMeetingName = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
+
     window.addEventListener('resize', this.handleResize);
   },
   watch: {
     userData: {
-      handler(newVal) {
+      handler(newVal, oldVal) {
         console.log('userData', newVal);
         this.isRecorder = this.meetingData.recorder == this.userData.uid;
+        this.joinMeetingName = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
         this.getJwt();
       },
     },
     jwt(newJwt, oldJwt) {
-      // 當 JWT 更新時，增加 key 值來強制重新渲染組件
-      if (newJwt && newJwt !== oldJwt) {
-        console.log('JWT updated, reloading Jitsi container');
-        this.jitsiKey += 1;
+      // 當 JWT 更新時，如果已經加入會議則重新初始化
+      if (newJwt && newJwt !== oldJwt && this.hasJoined) {
+        console.log('JWT updated, reinitializing Jitsi Meet');
+        this.initializeJitsiMeet();
       }
     }
   },
   methods: {
     async getJwt() {
       const user_id = this.userData.uid || 'guest' + Math.floor(Math.random() * 1000000);
-      const user_name = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
+      const user_name = this.joinMeetingName;
       const user_email = this.userData.email || 'guest@vtaiwan.tw';
       const isAdmin = this.userData.isAdmin || false;
-      console.log('user_id', user_id);
-      console.log('user_name', user_name);
-      console.log('user_email', user_email);
-      console.log('isAdmin', isAdmin);
+      // console.log('user_id', user_id);
+      // console.log('user_name', user_name);
+      // console.log('user_email', user_email);
+      // console.log('isAdmin', isAdmin);
       const res = await fetch(`https://vtaiwan-jaas-jwt-worker.bestian123.workers.dev/api/jitsi-token?room=vtaiwan&user_id=${user_id}&user_name=${user_name}&user_email=${user_email}&user_moderator=${isAdmin}`);
       const json = await res.json();
       this.jwt = json.token;
+    },
+
+    loadJitsiExternalAPI() {
+      // 載入 Jitsi External API script
+      if (window.JitsiMeetExternalAPI) {
+        console.log('Jitsi External API already loaded');
+        return Promise.resolve();
+      }
+
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = `https://${this.jitsiDomain}/${this.appId}/external_api.js`;
+        script.async = true;
+        script.onload = () => {
+          console.log('Jitsi External API loaded');
+          resolve();
+        };
+        script.onerror = (error) => {
+          console.error('Failed to load Jitsi External API:', error);
+          reject(error);
+        };
+        document.head.appendChild(script);
+      });
+    },
+
+    async joinMeeting() {
+      if (!this.jwt) {
+        console.error('No JWT available');
+        return;
+      }
+
+      try {
+        // 載入 Jitsi External API
+        await this.loadJitsiExternalAPI();
+
+        // 設定已加入狀態
+        this.hasJoined = true;
+
+        // 等待 DOM 更新後初始化 Jitsi Meet
+        this.$nextTick(() => {
+          this.initializeJitsiMeet();
+        });
+      } catch (error) {
+        console.error('Failed to join meeting:', error);
+        this.hasJoined = false;
+      }
+    },
+
+    initializeJitsiMeet() {
+      if (!window.JitsiMeetExternalAPI || !this.jwt || !this.$refs.jitsiContainer) {
+        console.log('Jitsi API not ready or missing requirements');
+        return;
+      }
+
+      // 清理現有的 API 實例
+      if (this.jitsiApi) {
+        this.jitsiApi.dispose();
+        this.jitsiApi = null;
+      }
+
+      const options = {
+        roomName: this.fullRoomName,
+        parentNode: this.$refs.jitsiContainer,
+        jwt: this.jwt,
+        lang: 'zh-TW', // 設定語言為繁體中文
+        width: '100%',
+        height: '100%',
+        configOverwrite: {
+          disableDeepLinking: true,
+          startWithAudioMuted: false,
+          startWithVideoMuted: false,
+          prejoinPageEnabled: false,
+          transcription: {
+            enabled: true,
+            useAppLanguage: true,
+            preferredLanguage: 'zh-TW'
+          }
+        },
+        interfaceConfigOverwrite: {
+          TOOLBAR_BUTTONS: [
+            'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
+            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+            'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+            'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+            'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
+            'security', 'transcription'
+          ],
+          SHOW_JITSI_WATERMARK: false,
+          SHOW_WATERMARK_FOR_GUESTS: false,
+          DEFAULT_BACKGROUND: '#474747',
+          MOBILE_APP_PROMO: false,
+          LANG_DETECTION: false, // 禁用自動語言檢測
+          DEFAULT_LANGUAGE: 'zh-TW' // 設定預設語言
+        }
+      };
+
+      console.log('Initializing Jitsi Meet with options:', options);
+
+      try {
+        this.jitsiApi = new window.JitsiMeetExternalAPI(this.jitsiDomain, options);
+
+        // 監聽會議離開事件
+        this.jitsiApi.addEventListener('videoConferenceLeft', this.handleMeetingLeft);
+        this.jitsiApi.addEventListener('readyToClose', this.handleMeetingLeft);
+
+        console.log('Jitsi Meet initialized successfully');
+      } catch (error) {
+        console.error('Failed to initialize Jitsi Meet:', error);
+        this.hasJoined = false;
+      }
+    },
+
+    handleMeetingLeft() {
+      console.log('Meeting left, cleaning up...');
+
+      if (this.jitsiApi) {
+        this.jitsiApi.removeEventListener('videoConferenceLeft', this.handleMeetingLeft);
+        this.jitsiApi.removeEventListener('readyToClose', this.handleMeetingLeft);
+        this.jitsiApi.dispose();
+        this.jitsiApi = null;
+      }
+
+      // 清空容器
+      if (this.$refs.jitsiContainer) {
+        this.$refs.jitsiContainer.innerHTML = '';
+      }
+
+      // 重設狀態
+      this.hasJoined = false;
+
+      console.log('Meeting cleanup completed');
     },
 
     // 逐字稿相關方法
@@ -322,10 +490,10 @@ export default {
 </script>
 
 <style scoped>
-/* 確保 Jitsi 容器填滿父容器 */
+/* 確保 Jitsi 容器填滿父容器（減去 50px） */
 .jitsi-container {
   width: 100% !important;
-  height: 100vh !important;
+  height: calc(100vh - 50px) !important;
 }
 
 /* Jitsi iframe 樣式 */
