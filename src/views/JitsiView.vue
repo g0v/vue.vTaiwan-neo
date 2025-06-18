@@ -11,7 +11,7 @@
       <JaaSMeeting
         :key="jitsiKey"
         v-bind="jitsiProps"
-        lang="zh-TW"
+        :lang="'zh-TW'"
         @get-iframe-ref-on-api-ready="onIframeReady"
         @on-api-ready="onApiReady"
         @on-ready-to-close="onReadyToClose"
