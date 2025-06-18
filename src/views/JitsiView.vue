@@ -15,6 +15,9 @@
         @get-iframe-ref-on-api-ready="onIframeReady"
         @on-api-ready="onApiReady"
         @on-ready-to-close="onReadyToClose"
+        :interfaceConfigOverwrite="{
+          transcription: { enabled: true },
+        }"
       />
     </div>
 
