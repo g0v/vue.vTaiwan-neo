@@ -8,17 +8,12 @@
         showTranscript && !isMobile ? 'w-[62%]' : 'w-full'
       ]"
     >
-      <JaaSMeeting
+      <!-- Jitsi Meet 容器 -->
+      <div
+        ref="jitsiContainer"
+        class="w-full h-full"
         :key="jitsiKey"
-        v-bind="jitsiProps"
-        :lang="'zh-TW'"
-        @get-iframe-ref-on-api-ready="onIframeReady"
-        @on-api-ready="onApiReady"
-        @on-ready-to-close="onReadyToClose"
-        :interfaceConfigOverwrite="{
-          transcription: { enabled: true },
-        }"
-      />
+      ></div>
     </div>
 
     <!-- 寬螢幕逐字稿面板 -->
@@ -93,7 +88,6 @@
 </template>
 
 <script>
-import { JaaSMeeting } from '@jitsi/vue-sdk';
 import TranscriptPanel from '../components/TranscriptPanel.vue';
 import IconWrapper from '../components/IconWrapper.vue';
 import { useI18n } from 'vue-i18n';
@@ -103,7 +97,6 @@ import { database } from '../lib/firebase';
 export default {
   name: 'JitsiView',
   components: {
-    JaaSMeeting,
     TranscriptPanel,
     IconWrapper
   },
@@ -135,14 +128,6 @@ export default {
   },
   computed: {
     fullRoomName() { return `${this.appId}/${this.room}`; },
-    jitsiProps() {
-      return {
-        'app-id': this.appId,
-        'room-name': this.fullRoomName,
-        'jwt': this.jwt,
-        'use-staging': false
-      };
-    },
     isMobile() {
       return window.innerWidth < 768; // md breakpoint
     }
@@ -184,8 +169,6 @@ export default {
     this.getJwt();
   },
   beforeUnmount() {
-    // 清理事件監聽器
-    this.removeJitsiEventListeners();
     // 清理拖拽事件監聽器
     document.removeEventListener('mousemove', this.onDrag);
     document.removeEventListener('mouseup', this.stopDragging);
@@ -209,7 +192,7 @@ export default {
     jwt(newJwt, oldJwt) {
       // 當 JWT 更新時，增加 key 值來強制重新渲染組件
       if (newJwt && newJwt !== oldJwt) {
-        console.log('JWT updated, reloading JaaSMeeting component');
+        console.log('JWT updated, reloading Jitsi container');
         this.jitsiKey += 1;
       }
     }
@@ -227,64 +210,6 @@ export default {
       const res = await fetch(`https://vtaiwan-jaas-jwt-worker.bestian123.workers.dev/api/jitsi-token?room=vtaiwan&user_id=${user_id}&user_name=${user_name}&user_email=${user_email}&user_moderator=${isAdmin}`);
       const json = await res.json();
       this.jwt = json.token;
-    },
-    onIframeReady(parentNode) {
-      console.log('Iframe Ready', parentNode);
-      parentNode.style.height = '100vh';
-      parentNode.style.width = '100%';
-      // 設定 iframe 的 width 和 height
-      parentNode.querySelector('iframe').style.width = '100%';
-      parentNode.querySelector('iframe').style.height = '100%';
-
-      // 當逐字稿面板顯示/隱藏時，確保 iframe 正確調整大小
-      this.$watch('showTranscript', () => {
-        setTimeout(() => {
-          if (parentNode.querySelector('iframe')) {
-            parentNode.querySelector('iframe').style.width = '100%';
-            parentNode.querySelector('iframe').style.height = '100%';
-          }
-        }, 300); // 等待 CSS 轉場完成
-      });
-    },
-    onApiReady(api) {
-      console.log('Jitsi API Ready', api);
-      this.jitsiApi = api;
-      this.setupJitsiEventListeners();
-    },
-    onReadyToClose() {
-      console.log('Jitsi ready to close');
-      this.handleJitsiHangup();
-    },
-    setupJitsiEventListeners() {
-      if (!this.jitsiApi) return;
-
-      // 監聽會議結束事件
-      this.jitsiApi.addEventListener('videoConferenceLeft', this.handleJitsiHangup);
-      this.jitsiApi.addEventListener('readyToClose', this.handleJitsiHangup);
-
-      console.log('Jitsi event listeners setup');
-    },
-    removeJitsiEventListeners() {
-      if (!this.jitsiApi) return;
-
-      // 移除事件監聽器
-      this.jitsiApi.removeEventListener('videoConferenceLeft', this.handleJitsiHangup);
-      this.jitsiApi.removeEventListener('readyToClose', this.handleJitsiHangup);
-
-      console.log('Jitsi event listeners removed');
-    },
-    handleJitsiHangup() {
-      console.log('Jitsi hangup detected, reloading component...');
-
-      // 清理當前的事件監聽器
-      this.removeJitsiEventListeners();
-      this.jitsiApi = null;
-
-      // 延遲一點時間再重新載入，確保清理完成
-      setTimeout(() => {
-        this.jitsiKey += 1;
-        console.log('JaaSMeeting component reloaded');
-      }, 500);
     },
 
     // 逐字稿相關方法
@@ -397,15 +322,17 @@ export default {
 </script>
 
 <style scoped>
-/* 確保 JaaSMeeting 組件填滿父容器 */
-:deep(.jaas-meeting) {
+/* 確保 Jitsi 容器填滿父容器 */
+.jitsi-container {
   width: 100% !important;
   height: 100vh !important;
 }
 
-:deep(.jaas-meeting iframe) {
+/* Jitsi iframe 樣式 */
+:deep(iframe) {
   width: 100% !important;
   height: 100% !important;
+  border: none;
 }
 
 /* 拖拽時的樣式 */
