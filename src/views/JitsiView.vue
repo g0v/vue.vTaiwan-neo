@@ -153,6 +153,17 @@ export default {
       isDragging: false,
       dragStartX: 0,
       dragStartWidth: 0,
+
+      // 新增：轉錄緩存邏輯
+      transcriptCache: {
+        currentSpeaker: null,        // 當前說話者
+        currentSpeakerId: null,      // 當前說話者ID
+        currentText: '',             // 當前暫存的文字內容
+        lastMessageId: null,         // 最後一個訊息ID
+        debounceTimer: null,         // 防抖計時器
+        maxWaitTime: 3000,           // 最長等待時間（毫秒）
+        debounceDelay: 1500          // 防抖延遲時間（毫秒）
+      }
     };
   },
   computed: {
@@ -161,7 +172,7 @@ export default {
       return window.innerWidth < 768; // md breakpoint
     }
   },
-  async created() {
+  created() {
     console.log('JitsiView created');
     // 使用本地時間產生 yyyymmdd 格式
     const now = new Date();
@@ -195,6 +206,9 @@ export default {
       console.log('transcriptData', this.transcriptData);
     });
 
+    // this.getJwt();
+  },
+  async mounted() {
     this.getJwt();
   },
   beforeUnmount() {
@@ -203,11 +217,16 @@ export default {
       this.jitsiApi.dispose();
       this.jitsiApi = null;
     }
+
+    // 清理轉錄緩存計時器
+    this.clearTranscriptCache();
+
     // 清理拖拽事件監聽器
     document.removeEventListener('mousemove', this.onDrag);
     document.removeEventListener('mouseup', this.stopDragging);
     document.removeEventListener('touchmove', this.onDrag);
     document.removeEventListener('touchend', this.stopDragging);
+
     // 清理視窗大小變化監聽器
     window.removeEventListener('resize', this.handleResize);
   },
@@ -238,6 +257,9 @@ export default {
     async getJwt() {
       const user_id = this.userData.uid || 'guest' + Math.floor(Math.random() * 1000000);
       const user_name = this.joinMeetingName;
+
+      console.log('user_name', user_name);
+      console.log('user_id', user_id);
       const user_email = this.userData.email || 'guest@vtaiwan.tw';
       const isAdmin = this.userData.isAdmin || false;
       // console.log('user_id', user_id);
@@ -311,7 +333,7 @@ export default {
         roomName: this.fullRoomName,
         parentNode: this.$refs.jitsiContainer,
         jwt: this.jwt,
-        lang: 'zh-TW', // 設定語言為繁體中文
+        lang: 'en', // 改為英文測試
         width: '100%',
         height: '100%',
         configOverwrite: {
@@ -321,8 +343,8 @@ export default {
           prejoinPageEnabled: false,
           transcription: {
             enabled: true,
-            useAppLanguage: true,
-            preferredLanguage: 'zh-TW'
+            useAppLanguage: false, // 改為 false，不使用應用程式語言
+            preferredLanguage: 'en-US' // 設定為英文
           }
         },
         interfaceConfigOverwrite: {
@@ -338,8 +360,8 @@ export default {
           SHOW_WATERMARK_FOR_GUESTS: false,
           DEFAULT_BACKGROUND: '#474747',
           MOBILE_APP_PROMO: false,
-          LANG_DETECTION: false, // 禁用自動語言檢測
-          DEFAULT_LANGUAGE: 'zh-TW' // 設定預設語言
+          LANG_DETECTION: false,
+          DEFAULT_LANGUAGE: 'en-US' // 以英文測試
         }
       };
 
@@ -347,6 +369,46 @@ export default {
 
       try {
         this.jitsiApi = new window.JitsiMeetExternalAPI(this.jitsiDomain, options);
+
+        // 新增：監聽轉錄事件以便除錯
+        this.jitsiApi.addEventListener('transcriptionChunkReceived', (event) => {
+          console.log('🎯 轉錄內容接收:', event);
+
+          // 解析 event.data
+          if (event.data) {
+            const data = event.data;
+            const language = data.language;
+            const participant = data.participant;
+            const stable = data.stable;
+            const messageId = data.messageID;
+
+            console.log('language', language);
+            console.log('participant', participant);
+            console.log('stable', stable);
+            console.log('messageId', messageId);
+
+            if (stable && this.isRecorder) {
+              // 使用新的緩存邏輯處理轉錄內容
+              this.handleTranscriptChunk({
+                messageId: messageId,
+                speakerId: participant.id,
+                speakerName: participant.name,
+                text: stable,
+                language: language
+              });
+            }
+          }
+        });
+
+        // 新增：監聽會議準備完成事件
+        this.jitsiApi.addEventListener('videoConferenceJoined', () => {
+          console.log('✅ 已加入會議，轉錄功能應該可用');
+          // 自動啟用字幕（2秒後）
+          setTimeout(() => {
+            console.log('🔄 自動啟用字幕...');
+            this.jitsiApi.executeCommand('toggleSubtitles');
+          }, 2000);
+        });
 
         // 監聽會議離開事件
         this.jitsiApi.addEventListener('videoConferenceLeft', this.handleMeetingLeft);
@@ -484,7 +546,121 @@ export default {
       document.removeEventListener('mouseup', this.stopDragging);
       document.removeEventListener('touchmove', this.onDrag);
       document.removeEventListener('touchend', this.stopDragging);
-    }
+    },
+
+    // 新增：處理轉錄片段的緩存邏輯
+    handleTranscriptChunk(chunk) {
+      const { messageId, speakerId, speakerName, text, language } = chunk;
+
+      console.log('📝 處理轉錄片段:', { speakerId, speakerName, text });
+
+      // 檢查是否為同一說話者
+      const isSameSpeaker = this.transcriptCache.currentSpeakerId === speakerId;
+
+      if (isSameSpeaker) {
+        // 同一說話者：檢查內容是否有重複或延伸
+        const isTextExtension = this.isTextExtension(this.transcriptCache.currentText, text);
+
+        if (isTextExtension) {
+          // 內容是延伸，更新緩存
+          console.log('🔄 內容延伸，更新緩存:', text);
+          this.transcriptCache.currentText = text;
+          this.transcriptCache.lastMessageId = messageId;
+
+          // 重新設定防抖計時器
+          this.resetTranscriptTimer();
+        } else {
+          // 內容不是延伸，可能是新的句子，先提交舊的再開始新的
+          console.log('📤 內容不延伸，提交舊內容並開始新內容');
+          this.commitTranscriptCache();
+          this.startNewTranscriptCache(speakerId, speakerName, text, messageId);
+        }
+      } else {
+        // 不同說話者：先提交舊的緩存，再開始新的
+        console.log('👤 說話者更換，提交舊內容並開始新內容');
+        this.commitTranscriptCache();
+        this.startNewTranscriptCache(speakerId, speakerName, text, messageId);
+      }
+    },
+
+    // 檢查文字是否為延伸（新文字包含舊文字且更長）
+    isTextExtension(oldText, newText) {
+      if (!oldText) return true;
+      if (newText.length <= oldText.length) return false;
+
+      // 檢查新文字是否以舊文字開頭（忽略大小寫和前後空白）
+      const oldTextTrimmed = oldText.trim().toLowerCase();
+      const newTextTrimmed = newText.trim().toLowerCase();
+
+      return newTextTrimmed.startsWith(oldTextTrimmed);
+    },
+
+    // 開始新的轉錄緩存
+    startNewTranscriptCache(speakerId, speakerName, text, messageId) {
+      console.log('🆕 開始新轉錄緩存:', { speakerId, speakerName, text });
+
+      this.transcriptCache.currentSpeaker = speakerName;
+      this.transcriptCache.currentSpeakerId = speakerId;
+      this.transcriptCache.currentText = text;
+      this.transcriptCache.lastMessageId = messageId;
+
+      // 設定防抖計時器
+      this.resetTranscriptTimer();
+    },
+
+    // 重設轉錄計時器
+    resetTranscriptTimer() {
+      // 清除現有計時器
+      if (this.transcriptCache.debounceTimer) {
+        clearTimeout(this.transcriptCache.debounceTimer);
+      }
+
+      // 設定新的計時器
+      this.transcriptCache.debounceTimer = setTimeout(() => {
+        console.log('⏰ 計時器觸發，提交轉錄內容');
+        this.commitTranscriptCache();
+      }, this.transcriptCache.debounceDelay);
+    },
+
+    // 提交轉錄緩存到 Firebase
+    commitTranscriptCache() {
+      if (!this.transcriptCache.currentText || !this.transcriptCache.currentSpeaker) {
+        console.log('❌ 沒有內容可提交');
+        return;
+      }
+
+      console.log('✅ 提交轉錄內容:', {
+        speaker: this.transcriptCache.currentSpeaker,
+        text: this.transcriptCache.currentText
+      });
+
+      // 使用現有的 addTranscriptData 函式
+      this.addTranscriptData({
+        id: this.transcriptCache.lastMessageId,
+        timestamp: new Date().getTime(),
+        speaker: this.transcriptCache.currentSpeaker,
+        text: this.transcriptCache.currentText.trim()
+      });
+
+      // 清空緩存
+      this.clearTranscriptCache();
+    },
+
+    // 清空轉錄緩存
+    clearTranscriptCache() {
+      if (this.transcriptCache.debounceTimer) {
+        clearTimeout(this.transcriptCache.debounceTimer);
+      }
+
+      this.transcriptCache = {
+        ...this.transcriptCache,
+        currentSpeaker: null,
+        currentSpeakerId: null,
+        currentText: '',
+        lastMessageId: null,
+        debounceTimer: null
+      };
+    },
   }
 };
 </script>
