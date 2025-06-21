@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-screen flex" v-if="jwt">
+  <div class="w-full h-screen flex">
     <!-- 視訊會議區域 -->
     <div
       :class="[
@@ -10,7 +10,7 @@
     >
       <!-- 加入會議按鈕 -->
       <div
-        v-if="!hasJoined && jwt"
+        v-if="!hasJoined"
         class="flex items-center justify-center h-full bg-gray-100"
       >
         <div class="text-center">
@@ -209,7 +209,8 @@ export default {
     // this.getJwt();
   },
   async mounted() {
-    this.getJwt();
+    console.log('mounted');
+    // this.getJwt();
   },
   beforeUnmount() {
     // 清理 Jitsi API
@@ -242,7 +243,7 @@ export default {
         console.log('userData', newVal);
         this.isRecorder = this.meetingData.recorder == this.userData.uid;
         this.joinMeetingName = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
-        this.getJwt();
+        // this.getJwt();
       },
     },
     jwt(newJwt, oldJwt) {
@@ -297,7 +298,7 @@ export default {
     async joinMeeting() {
       if (!this.jwt) {
         console.error('No JWT available');
-        return;
+        await this.getJwt();
       }
 
       try {
