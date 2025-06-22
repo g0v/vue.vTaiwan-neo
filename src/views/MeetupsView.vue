@@ -9,12 +9,12 @@
       <br/>
       <div class="flex justify-center gap-4" v-if="userData && userData.uid">
         <RouterLink to="/jitsi" class="btn-primary rounded-md inline-block">
-          {{ $t('meetups.jitsi') }}
+          {{ $t('meetups.jitsi') }}(Beta)
           <br/>
           <span class="text-sm text-black">(Wednesdays 19:00)</span>
         </RouterLink>
         <RouterLink to="/transcriptions" class="btn-primary rounded-md inline-block">
-          {{ $t('meetups.transcriptions') }}
+          {{ $t('meetups.transcriptions') }}(Beta)
         </RouterLink>
       </div>
     </div>
