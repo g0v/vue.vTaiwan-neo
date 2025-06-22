@@ -310,5 +310,45 @@
     "register": "立即報名",
     "notFound": "找不到會議",
     "notFoundDesc": "您要查看的會議不存在或已被移除。"
+  },
+  "contact": {
+    "title": "聯絡我們",
+    "subtitle": "加入 vTaiwan 社群，與我們一起推動數位民主",
+    "workingGroup": {
+      "title": "vTaiwan 工作組",
+      "description": "vTaiwan 工作組是推動數位民主的重要平台，我們在這裡討論政策、分享想法，並協作各種專案。",
+      "button": "查看工作組 Book"
+    },
+    "slack": {
+      "title": "g0v Slack 頻道",
+      "description": "加入 g0v 的 Slack 工作空間，在 #vtaiwan 頻道與社群成員即時交流，參與討論和協作。",
+      "channel": "#vtaiwan",
+      "channelDesc": "主要討論頻道，用於政策討論、專案協作和社群交流",
+      "button": "加入 g0v Slack"
+    },
+    "otherMethods": {
+      "title": "其他聯絡方式",
+      "github": {
+        "title": "GitHub",
+        "description": "查看我們的開源專案",
+        "link": "前往 GitHub →"
+      },
+      "email": {
+        "title": "電子郵件",
+        "description": "透過郵件與我們聯繫",
+        "link": "發送郵件 →"
+      },
+      "meetups": {
+        "title": "實體聚會",
+        "description": "參加我們的定期聚會",
+        "link": "查看聚會 →"
+      }
+    },
+    "cta": {
+      "title": "準備好加入我們了嗎？",
+      "description": "無論你是開發者、設計師、政策專家，還是對數位民主有興趣的朋友，都歡迎加入 vTaiwan 社群！",
+      "workingGroup": "查看工作組",
+      "slack": "加入 Slack"
+    }
   }
 } 
