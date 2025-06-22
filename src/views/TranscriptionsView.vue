@@ -61,8 +61,15 @@
           <div
             v-for="transcription in transcriptions"
             :key="transcription.meeting_id"
-            class="bg-white rounded-lg shadow-md p-6 border border-gray-200"
+            class="bg-white rounded-lg shadow-md p-6 border border-gray-200 relative"
           >
+            <!-- 樣稿標籤 -->
+            <div v-if="transcription.meeting_id === '20250621'" class="absolute -top-2 -right-2 z-10">
+              <div class="bg-yellow-400 text-black text-xs font-bold px-3 py-1 transform rotate-12 shadow-md">
+                {{ currentLanguage === 'zh-TW' ? '樣稿' : 'Prototype' }}
+              </div>
+            </div>
+
             <div class="flex justify-between items-start">
               <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">
@@ -145,12 +152,18 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 interface Transcription {
   meeting_id: string
   transcription: string
   outline: string
 }
+
+const { locale } = useI18n()
+
+// 當前語言
+const currentLanguage = computed(() => locale.value)
 
 // 定義 props
 const props = defineProps({
