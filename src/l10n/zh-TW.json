@@ -22,6 +22,7 @@
     "projects": "專案",
     "meetups": "會議",
     "blogs": "部落格",
+    "transcriptions": "逐字稿管理",
     "faq": "常見問題",
     "contributors": "貢獻者"
   },
@@ -287,7 +288,9 @@
       "title": "想要舉辦會議？",
       "description": "如果您想針對某個專案或公共政策議題舉辦討論會，歡迎與我們聯繫。",
       "contactUs": "聯絡我們"
-    }
+    },
+    "jitsi": "即時會議",
+    "transcriptions": "逐字稿管理"
   },
   "meetupDetail": {
     "upcoming": "即將舉行",

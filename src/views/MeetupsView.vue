@@ -6,6 +6,17 @@
       <p class="text-xl max-w-3xl">
         {{ $t('meetups.description') }}
       </p>
+      <br/>
+      <div class="flex justify-center gap-4" v-if="userData && userData.uid">
+        <RouterLink to="/jitsi" class="btn-primary rounded-md inline-block">
+          {{ $t('meetups.jitsi') }}
+          <br/>
+          <span class="text-sm text-black">(Wednesdays 19:00)</span>
+        </RouterLink>
+        <RouterLink to="/transcriptions" class="btn-primary rounded-md inline-block">
+          {{ $t('meetups.transcriptions') }}
+        </RouterLink>
+      </div>
     </div>
   </section>
 
@@ -221,6 +232,21 @@ import IconWrapper from '../components/IconWrapper.vue'
 import { getUpcomingMeetups, getPastMeetups } from '../data/meetups'
 
 const { locale } = useI18n()
+
+// 定義 props
+const props = defineProps({
+  user: {
+    type: Object,
+    default: null
+  },
+  userData: {
+    type: Object,
+    default: null
+  }
+})
+
+// 為了兼容性，創建 usrData 別名
+const usrData = computed(() => props.userData)
 
 // 當前語言
 const currentLanguage = computed(() => locale.value)

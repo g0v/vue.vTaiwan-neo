@@ -12,6 +12,7 @@ import AboutView from '../views/AboutView.vue'
 import ContributorsView from '../views/ContributorsView.vue'
 import ContactView from '../views/ContactView.vue'
 import JitsiView from '../views/JitsiView.vue'
+import TranscriptionsView from '../views/TranscriptionsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -80,6 +81,11 @@ const router = createRouter({
       path: '/contact',
       name: 'contact',
       component: ContactView
+    },
+    {
+      path: '/transcriptions',
+      name: 'transcriptions',
+      component: TranscriptionsView
     }
   ]
 })
