@@ -3,17 +3,17 @@
     <div class="max-w-6xl mx-auto">
       <!-- 頁面標題 -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-4">逐字稿管理</h1>
-        <p class="text-gray-600">管理會議逐字稿，包含查詢、下載和上傳功能</p>
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $t('transcriptions.title') }}</h1>
+        <p class="text-gray-600">{{ $t('transcriptions.description') }}</p>
       </div>
 
       <!-- 上傳區域 -->
       <div v-if="props.user" class="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 class="text-xl font-semibold mb-4">上傳逐字稿</h2>
+        <h2 class="text-xl font-semibold mb-4">{{ $t('transcriptions.upload.title') }}</h2>
         <div class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
-              選擇檔案 (.txt)
+              {{ $t('transcriptions.upload.selectFile') }}
             </label>
             <input
               type="file"
@@ -28,7 +28,7 @@
             :disabled="!selectedFile || uploading"
             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
-            {{ uploading ? '上傳中...' : '上傳逐字稿' }}
+            {{ uploading ? $t('transcriptions.upload.uploading') : $t('transcriptions.upload.uploadButton') }}
           </button>
         </div>
       </div>
@@ -39,7 +39,7 @@
           <svg class="w-5 h-5 text-yellow-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
           </svg>
-          <p class="text-yellow-700">請先登入才能上傳逐字稿檔案</p>
+          <p class="text-yellow-700">{{ $t('transcriptions.upload.loginRequired') }}</p>
         </div>
       </div>
 
@@ -55,7 +55,7 @@
 
       <!-- 逐字稿列表 -->
       <div v-if="!loading && transcriptions.length > 0" class="space-y-4">
-        <h2 class="text-xl font-semibold mb-4">逐字稿列表</h2>
+        <h2 class="text-xl font-semibold mb-4">{{ $t('transcriptions.list.title') }}</h2>
 
         <div class="grid gap-4">
           <div
@@ -70,10 +70,10 @@
               </div>
             </div>
 
-            <div class="flex justify-between items-start">
+                        <div class="flex justify-between items-start">
               <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">
-                  會議 ID: {{ transcription.meeting_id }}
+                  {{ $t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}
                 </h3>
                 <p class="text-gray-600 text-sm mb-4">
                   {{ truncateText(transcription.outline, 100) }}
@@ -85,19 +85,19 @@
                   @click="showOutline(transcription.outline, transcription.meeting_id)"
                   class="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700"
                 >
-                  查看大綱
+                  {{ $t('transcriptions.list.viewOutline') }}
                 </button>
                 <button
                   @click="downloadTranscription(transcription.meeting_id)"
                   class="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                 >
-                  下載全文
+                  {{ $t('transcriptions.list.download') }}
                 </button>
               </div>
             </div>
 
             <div class="text-xs text-gray-500 mt-2">
-              檔案名稱: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt
+              {{ $t('transcriptions.list.fileName') }}: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@
 
       <!-- 空狀態 -->
       <div v-if="!loading && transcriptions.length === 0" class="text-center py-12">
-        <p class="text-gray-500">目前沒有逐字稿資料</p>
+        <p class="text-gray-500">{{ $t('transcriptions.list.empty') }}</p>
       </div>
     </div>
 
@@ -119,9 +119,9 @@
         class="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden"
         @click.stop
       >
-        <div class="p-6 border-b border-gray-200">
+                <div class="p-6 border-b border-gray-200">
           <div class="flex justify-between items-center">
-            <h3 class="text-xl font-semibold">會議大綱 - {{ currentOutlineMeetingId }}</h3>
+            <h3 class="text-xl font-semibold">{{ $t('transcriptions.outline.title') }} - {{ currentOutlineMeetingId }}</h3>
             <button
               @click="closeOutlineModal"
               class="text-gray-400 hover:text-gray-600"
@@ -142,7 +142,7 @@
             @click="closeOutlineModal"
             class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
           >
-            關閉
+            {{ $t('transcriptions.outline.close') }}
           </button>
         </div>
       </div>
@@ -160,7 +160,7 @@ interface Transcription {
   outline: string
 }
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 // 當前語言
 const currentLanguage = computed(() => locale.value)
@@ -211,7 +211,7 @@ const loadTranscriptions = async () => {
     transcriptions.value = data
   } catch (err) {
     console.error('載入逐字稿失敗:', err)
-    error.value = '載入逐字稿列表失敗，請稍後再試'
+    error.value = t('transcriptions.messages.loadError')
   } finally {
     loading.value = false
   }
@@ -243,24 +243,24 @@ const checkMeetingExists = (meetingId: string): boolean => {
 // 上傳逐字稿
 const uploadTranscription = async () => {
   if (!selectedFile.value) {
-    alert('請選擇檔案')
+    alert(t('transcriptions.messages.selectFileFirst'))
     return
   }
 
   const meetingId = extractMeetingIdFromFilename(selectedFile.value.name)
   if (!meetingId) {
-    alert('檔案名稱格式不正確，請使用 transcript-YYYY-MM-DD.txt 格式')
+    alert(t('transcriptions.messages.invalidFileName'))
     return
   }
 
     // 檢查是否已存在
   if (checkMeetingExists(meetingId)) {
     if (!isAdmin.value) {
-      alert('此會議逐字稿已存在，需要管理員權限才能更新')
+      alert(t('transcriptions.messages.existsRequireAdmin'))
       return
     }
 
-    if (!window.confirm(`會議 ${meetingId} 的逐字稿已存在，確定要更新嗎？`)) {
+    if (!window.confirm(t('transcriptions.messages.confirmUpdate', { meetingId }))) {
       return
     }
   }
@@ -280,7 +280,7 @@ const uploadTranscription = async () => {
       throw new Error(`上傳失敗: ${response.status}`)
     }
 
-    alert('逐字稿上傳成功！')
+    alert(t('transcriptions.messages.uploadSuccess'))
 
     // 重新載入列表
     await loadTranscriptions()
@@ -293,7 +293,7 @@ const uploadTranscription = async () => {
 
   } catch (err) {
     console.error('上傳失敗:', err)
-    alert('上傳失敗，請稍後再試')
+    alert(t('transcriptions.messages.uploadError'))
   } finally {
     uploading.value = false
   }

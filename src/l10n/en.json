@@ -353,6 +353,38 @@
       "slack": "Join Slack"
     }
   },
+  "transcriptions": {
+    "title": "Transcription Management",
+    "description": "Manage meeting transcriptions, including query, download, and upload functions",
+    "upload": {
+      "title": "Upload Transcription",
+      "selectFile": "Select File (.txt)",
+      "uploading": "Uploading...",
+      "uploadButton": "Upload Transcription",
+      "loginRequired": "Please login first to upload transcription files"
+    },
+    "list": {
+      "title": "Transcription List",
+      "meetingId": "Meeting ID",
+      "fileName": "File Name",
+      "viewOutline": "View Outline",
+      "download": "Download Full Text",
+      "empty": "No transcription data available"
+    },
+    "outline": {
+      "title": "Meeting Outline",
+      "close": "Close"
+    },
+    "messages": {
+      "selectFileFirst": "Please select a file",
+      "invalidFileName": "Invalid file name format, please use transcript-YYYY-MM-DD.txt format",
+      "existsRequireAdmin": "This meeting transcription already exists, admin permission required to update",
+      "confirmUpdate": "Transcription for meeting {meetingId} already exists, are you sure you want to update?",
+      "uploadSuccess": "Transcription uploaded successfully!",
+      "uploadError": "Upload failed, please try again later",
+      "loadError": "Failed to load transcription list, please try again later"
+    }
+  },
   "faq": {
     "title": "Frequently Asked Questions (FAQ)",
     "description": "Below are common questions and answers about the vTaiwan platform. If you have other questions, please feel free to contact us.",

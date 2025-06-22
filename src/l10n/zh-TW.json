@@ -353,6 +353,38 @@
       "slack": "加入 Slack"
     }
   },
+  "transcriptions": {
+    "title": "逐字稿管理",
+    "description": "管理會議逐字稿，包含查詢、下載和上傳功能",
+    "upload": {
+      "title": "上傳逐字稿",
+      "selectFile": "選擇檔案 (.txt)",
+      "uploading": "上傳中...",
+      "uploadButton": "上傳逐字稿",
+      "loginRequired": "請先登入才能上傳逐字稿檔案"
+    },
+    "list": {
+      "title": "逐字稿列表",
+      "meetingId": "會議 ID",
+      "fileName": "檔案名稱",
+      "viewOutline": "查看大綱",
+      "download": "下載全文",
+      "empty": "目前沒有逐字稿資料"
+    },
+    "outline": {
+      "title": "會議大綱",
+      "close": "關閉"
+    },
+    "messages": {
+      "selectFileFirst": "請選擇檔案",
+      "invalidFileName": "檔案名稱格式不正確，請使用 transcript-YYYY-MM-DD.txt 格式",
+      "existsRequireAdmin": "此會議逐字稿已存在，需要管理員權限才能更新",
+      "confirmUpdate": "會議 {meetingId} 的逐字稿已存在，確定要更新嗎？",
+      "uploadSuccess": "逐字稿上傳成功！",
+      "uploadError": "上傳失敗，請稍後再試",
+      "loadError": "載入逐字稿列表失敗，請稍後再試"
+    }
+  },
   "faq": {
     "title": "常見問答 (FAQ)",
     "description": "以下是關於 vTaiwan 平台的常見問題與解答。如果您有其他問題，歡迎聯繫我們。",
