@@ -25,6 +25,35 @@
     "faq": "常見問題",
     "contributors": "貢獻者"
   },
+  "about": {
+    "title": "關於我們",
+    "mission": {
+      "title": "vTaiwan 的使命",
+      "description": "vTaiwan 是台灣的公共政策開放協作平台，致力於促進政府與公民之間的對話，讓每個人都能參與公共政策的形成過程。我們相信，透過開放、協作、共創的方式，可以為台灣的未來找到更好的解決方案。"
+    },
+    "values": {
+      "title": "我們的價值",
+      "open": {
+        "title": "開放",
+        "description": "資訊透明，過程公開"
+      },
+      "collaborate": {
+        "title": "協作",
+        "description": "多方參與，共同討論"
+      },
+      "coCreate": {
+        "title": "共創",
+        "description": "創新思維，解決問題"
+      }
+    },
+    "contact": {
+      "title": "聯絡我們",
+      "description": "如果您有任何問題或建議，歡迎與我們聯繫：",
+      "contactUs": "聯絡我們",
+      "email": "contact@vtaiwan.org",
+      "facebook": "Facebook"
+    }
+  },
   "auth": {
     "loginTitle": "登入",
     "loginWithGoogle": "使用 Google 登入",

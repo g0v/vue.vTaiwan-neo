@@ -25,6 +25,35 @@
     "faq": "FAQ",
     "contributors": "Contributors"
   },
+  "about": {
+    "title": "About Us",
+    "mission": {
+      "title": "vTaiwan's Mission",
+      "description": "vTaiwan is Taiwan's open collaboration platform for public policy, dedicated to promoting dialogue between government and citizens, enabling everyone to participate in the public policy formation process. We believe that through open, collaborative, and co-creative approaches, we can find better solutions for Taiwan's future."
+    },
+    "values": {
+      "title": "Our Values",
+      "open": {
+        "title": "Open",
+        "description": "Transparent information, open process"
+      },
+      "collaborate": {
+        "title": "Collaborate",
+        "description": "Multi-party participation, collective discussion"
+      },
+      "coCreate": {
+        "title": "Co-create",
+        "description": "Innovative thinking, problem solving"
+      }
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "If you have any questions or suggestions, please feel free to contact us:",
+      "contactUs": "Contact Us",
+      "email": "contact@vtaiwan.org",
+      "facebook": "Facebook"
+    }
+  },
   "auth": {
     "loginTitle": "Login",
     "loginWithGoogle": "Login with Google",
