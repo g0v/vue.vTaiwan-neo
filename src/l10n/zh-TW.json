@@ -350,5 +350,19 @@
       "workingGroup": "查看工作組",
       "slack": "加入 Slack"
     }
+  },
+  "faq": {
+    "title": "常見問答 (FAQ)",
+    "description": "以下是關於 vTaiwan 平台的常見問題與解答。如果您有其他問題，歡迎聯繫我們。",
+    "contact": {
+      "title": "還有其他問題？",
+      "description": "如果您有其他問題或需要協助，歡迎透過以下方式聯繫我們：",
+      "email": {
+        "title": "電子郵件"
+      },
+      "social": {
+        "title": "社群媒體"
+      }
+    }
   }
 } 

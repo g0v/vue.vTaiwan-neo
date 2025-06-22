@@ -350,5 +350,19 @@
       "workingGroup": "View Working Group",
       "slack": "Join Slack"
     }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions (FAQ)",
+    "description": "Below are common questions and answers about the vTaiwan platform. If you have other questions, please feel free to contact us.",
+    "contact": {
+      "title": "Have other questions?",
+      "description": "If you have other questions or need assistance, please feel free to contact us through the following methods:",
+      "email": {
+        "title": "Email"
+      },
+      "social": {
+        "title": "Social Media"
+      }
+    }
   }
 } 

@@ -1,11 +1,11 @@
 <template>
   <main class="container mx-auto px-4 py-12">
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-4xl font-bold mb-8">常見問答 (FAQ)</h1>
+      <h1 class="text-4xl font-bold mb-8">{{ $t('faq.title') }}</h1>
 
       <section class="prose-lg mb-12">
         <p class="mb-6">
-          以下是關於 vTaiwan 平台的常見問題與解答。如果您有其他問題，歡迎聯繫我們。
+          {{ $t('faq.description') }}
         </p>
 
         <div class="space-y-6">
@@ -15,12 +15,14 @@
             :key="faq.id"
             class="bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition p-6"
           >
-            <h3 class="text-xl font-bold mb-2 text-democratic-red">{{ faq.question }}</h3>
+            <h3 class="text-xl font-bold mb-2 text-democratic-red">
+              {{ getLocalizedQuestion(faq) }}
+            </h3>
             <p class="text-gray-700">
-              {{ faq.answer }}
+              {{ getLocalizedAnswer(faq) }}
             </p>
-            <ol v-if="faq.details" class="list-decimal pl-6 mt-2 space-y-1">
-              <li v-for="detail in faq.details" :key="detail" class="text-gray-700">
+            <ol v-if="getLocalizedDetails(faq)" class="list-decimal pl-6 mt-2 space-y-1">
+              <li v-for="detail in getLocalizedDetails(faq)" :key="detail" class="text-gray-700">
                 {{ detail }}
               </li>
             </ol>
@@ -30,12 +32,12 @@
 
       <!-- 聯絡我們區塊 -->
       <section class="border-t pt-12 mt-12">
-        <h2 class="text-3xl font-bold mb-6">還有其他問題？</h2>
-        <p class="mb-8">如果您有其他問題或需要協助，歡迎透過以下方式聯繫我們：</p>
+        <h2 class="text-3xl font-bold mb-6">{{ $t('faq.contact.title') }}</h2>
+        <p class="mb-8">{{ $t('faq.contact.description') }}</p>
 
         <div class="grid md:grid-cols-2 gap-6">
           <div class="bg-gray-100 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">電子郵件</h3>
+            <h3 class="text-xl font-semibold mb-4">{{ $t('faq.contact.email.title') }}</h3>
             <p class="flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-democratic-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -45,7 +47,7 @@
           </div>
 
           <div class="bg-gray-100 p-6 rounded-lg">
-            <h3 class="text-xl font-semibold mb-4">社群媒體</h3>
+            <h3 class="text-xl font-semibold mb-4">{{ $t('faq.contact.social.title') }}</h3>
             <div class="space-y-2">
               <p class="flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-democratic-red" fill="currentColor" viewBox="0 0 24 24">
@@ -69,6 +71,33 @@
 
 <script setup>
 import { faqs } from '../data/faqs'
+import { useI18n } from 'vue-i18n'
+
+const { locale } = useI18n()
+
+// 根據當前語言取得問題文字
+const getLocalizedQuestion = (faq) => {
+  if (locale.value === 'en' && faq.question_en) {
+    return faq.question_en
+  }
+  return faq.question
+}
+
+// 根據當前語言取得答案文字
+const getLocalizedAnswer = (faq) => {
+  if (locale.value === 'en' && faq.answer_en) {
+    return faq.answer_en
+  }
+  return faq.answer
+}
+
+// 根據當前語言取得詳細內容
+const getLocalizedDetails = (faq) => {
+  if (locale.value === 'en' && faq.details_en) {
+    return faq.details_en
+  }
+  return faq.details
+}
 </script>
 
 <style scoped>
