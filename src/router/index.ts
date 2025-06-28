@@ -13,6 +13,7 @@ import ContributorsView from '../views/ContributorsView.vue'
 import ContactView from '../views/ContactView.vue'
 import JitsiView from '../views/JitsiView.vue'
 import TranscriptionsView from '../views/TranscriptionsView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -86,6 +87,11 @@ const router = createRouter({
       path: '/transcriptions',
       name: 'transcriptions',
       component: TranscriptionsView
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView
     }
   ]
 })

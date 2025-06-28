@@ -12,7 +12,8 @@
     "error": "Error",
     "success": "Success",
     "warning": "Warning",
-    "info": "Info"
+    "info": "Info",
+    "profile": "Profile"
   },
   "header": {
     "home": "Home",
@@ -57,6 +58,8 @@
   "auth": {
     "loginTitle": "Login",
     "loginWithGoogle": "Login with Google",
+    "loggingIn": "Logging in...",
+    "loginFailed": "Login failed, please try again",
     "logoutConfirm": "Are you sure you want to logout?",
     "loginError": "An error occurred during login, please try again later",
     "logoutError": "An error occurred during logout, please try again later"
@@ -118,7 +121,8 @@
     "email": "Email",
     "role": "Role",
     "createdAt": "Created At",
-    "lastLogin": "Last Login"
+    "lastLogin": "Last Login",
+    "loginRequired": "Please login to view and edit your profile"
   },
   "contributors": {
     "title": "Contributors",

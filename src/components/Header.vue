@@ -24,13 +24,22 @@
 
           <!-- 登入狀態顯示 -->
           <div v-if="user" class="flex items-center space-x-2">
-            <img
-              v-if="user.photoURL"
-              :src="user.photoURL"
-              :alt="user.displayName"
-              class="w-8 h-8 rounded-full"
-            />
-            <span class="text-sm md:hidden lg:block">{{ user.displayName }}</span>
+            <router-link
+              to="/profile"
+              class="flex items-center space-x-2 hover:text-democratic-red transition"
+              :title="$t('common.profile')"
+            >
+              <img
+                v-if="user.photoURL"
+                :src="user.photoURL"
+                :alt="user.displayName"
+                class="w-8 h-8 rounded-full hover:ring-2 hover:ring-democratic-red transition"
+              />
+              <div v-else class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center hover:bg-democratic-red transition">
+                <span class="text-white text-xs">👤</span>
+              </div>
+              <span class="text-sm md:hidden lg:block">{{ user.displayName }}</span>
+            </router-link>
             <button @click="handleLogout" class="text-sm hover:text-democratic-red transition">
               {{ $t('common.logout') }}
             </button>

@@ -12,7 +12,7 @@
         class="w-5 h-5 mr-2"
       />
       <span v-if="loading" class="animate-spin mr-2">⏳</span>
-      {{ loading ? '登入中...' : '使用 Google 登入' }}
+      {{ loading ? $t('auth.loggingIn') : $t('auth.loginWithGoogle') }}
     </button>
   </div>
 </template>
@@ -20,7 +20,9 @@
 <script setup>
 import { ref } from 'vue'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const loading = ref(false)
 
 // 發送登入成功事件
@@ -41,7 +43,7 @@ const handleGoogleLogin = async () => {
     console.log('Google login successful:', user)
   } catch (error) {
     console.error('Google login error:', error)
-    alert('登入失敗，請重試')
+    alert(t('auth.loginFailed'))
   } finally {
     loading.value = false
   }

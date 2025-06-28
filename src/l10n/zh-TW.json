@@ -12,7 +12,8 @@
     "error": "錯誤",
     "success": "成功",
     "warning": "警告",
-    "info": "資訊"
+    "info": "資訊",
+    "profile": "個人資料"
   },
   "header": {
     "home": "首頁",
@@ -57,6 +58,8 @@
   "auth": {
     "loginTitle": "登入",
     "loginWithGoogle": "使用 Google 登入",
+    "loggingIn": "登入中...",
+    "loginFailed": "登入失敗，請重試",
     "logoutConfirm": "確定要登出嗎？",
     "loginError": "登入時發生錯誤，請稍後再試",
     "logoutError": "登出時發生錯誤，請稍後再試"
@@ -118,7 +121,8 @@
     "email": "電子郵件",
     "role": "角色",
     "createdAt": "建立時間",
-    "lastLogin": "最後登入"
+    "lastLogin": "最後登入",
+    "loginRequired": "請先登入以查看和編輯個人資料"
   },
   "contributors": {
     "title": "貢獻者",

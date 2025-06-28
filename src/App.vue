@@ -6,7 +6,13 @@
       <div v-if="false" class="text-xs text-gray-500 p-2">
         Debug: user={{ user }}, userData={{ userData }}
       </div>
-      <router-view :user="user" :userData="userData" />
+      <router-view
+        :user="user"
+        :userData="userData"
+        @login-success="handleLoginSuccess"
+        @logout="handleLogout"
+        @profile-updated="handleProfileUpdated"
+      />
     </main>
     <Footer />
 
@@ -138,6 +144,34 @@ const handleLogout = async () => {
   } catch (error) {
     console.error('Logout error:', error)
     alert(t('auth.logoutError'))
+  }
+}
+
+// 處理個人資料更新
+const handleProfileUpdated = async (updatedData) => {
+  if (user.value) {
+    // 更新 Firebase User 對象的本地副本
+    user.value = {
+      ...user.value,
+      ...updatedData
+    }
+
+    // 如果需要，也可以更新 userData
+    userData.value = {
+      ...userData.value,
+      name: updatedData.displayName
+    }
+
+    // 更新 Firebase 的 userData
+    const userRef = dbRef(database, `users/${user.value.uid}`)
+
+    update(userRef, {
+      name: updatedData.displayName
+    }).then(() => {
+      console.log('Profile updated successfully')
+    }).catch((error) => {
+      console.error('Error updating profile:', error)
+    })
   }
 }
 </script>
