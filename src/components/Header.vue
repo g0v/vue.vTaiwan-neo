@@ -6,7 +6,7 @@
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
-        <div class="hidden md:flex items-center space-x-1 md:space-x-2 lg:space-x-6 xl:space-x-10">
+        <div class="hidden lg:flex items-center space-x-1 md:space-x-2 lg:space-x-6 xl:space-x-10">
           <router-link
             v-for="item in navItems"
             :key="item.href"
@@ -14,7 +14,7 @@
             class="hover:text-democratic-red transition flex items-center gap-1"
             :class="{ 'text-democratic-red': $route.path === item.href }"
           >
-            <IconWrapper :name="item.icon" :size="16" />
+            <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
             <span>{{ $t(item.label) }}</span>
           </router-link>
         </div>
@@ -38,19 +38,19 @@
               <div v-else class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center hover:bg-democratic-red transition">
                 <span class="text-white text-xs">👤</span>
               </div>
-              <span class="text-sm md:hidden lg:block">{{ user.displayName }}</span>
+              <span class="text-sm hidden lg:block">{{ user.displayName }}</span>
             </router-link>
-            <button @click="handleLogout" class="text-sm hover:text-democratic-red transition">
-              {{ $t('common.logout') }}
-            </button>
           </div>
 
           <!-- 未登入顯示登入按鈕 -->
-          <button v-else @click="handleShowLogin" class="text-sm hover:text-democratic-red transition">
-            {{ $t('common.login') }}
-          </button>
 
-          <button @click="toggleMobileMenu" class="md:hidden text-white">
+          <div v-else>
+            <button @click="handleShowLogin" class="text-sm hover:text-democratic-red transition">
+              {{ $t('common.login') }}
+            </button>
+          </div>
+
+          <button @click="toggleMobileMenu" class="lg:hidden text-white">
             <IconWrapper name="menu" :size="24" color="white" />
           </button>
         </div>
@@ -67,9 +67,14 @@
           :class="{ 'text-democratic-red': $route.path === item.href }"
           @click="mobileMenuOpen = false"
         >
-          <IconWrapper :name="item.icon" :size="16" />
+          <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
           <span>{{ $t(item.label) }}</span>
         </router-link>
+
+        <button v-if="user" @click="handleLogout" class="flex items-center gap-2 py-2 hover:text-democratic-red transition">
+          <IconWrapper name="log-out" :size="16" :stroke="'#ffffff'" />
+          {{ $t('common.logout') }}
+        </button>
       </div>
     </div>
   </header>
