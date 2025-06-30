@@ -383,6 +383,12 @@ export default {
           startWithAudioMuted: false,
           startWithVideoMuted: false,
           prejoinPageEnabled: false,
+          // 禁用analytics以避免screen sharing時的錯誤
+          analytics: {
+            disabled: true
+          },
+          // 禁用第三方請求
+          disableThirdPartyRequests: true,
           transcription: {
             enabled: false,
             useAppLanguage: false, // 改為 false，不使用應用程式語言
@@ -444,12 +450,12 @@ export default {
 
         // 新增：監聽會議準備完成事件
         this.jitsiApi.addEventListener('videoConferenceJoined', () => {
-          console.log('✅ 已加入會議，轉錄功能應該可用');
+          console.log('✅ 已加入會議'); // ，轉錄功能應該可用
           // 自動啟用字幕（2秒後）
-          setTimeout(() => {
+          /* setTimeout(() => {
             console.log('🔄 自動啟用字幕...');
             this.jitsiApi.executeCommand('toggleSubtitles');
-          }, 2000);
+          }, 2000); */
         });
 
         // 監聽會議離開事件
