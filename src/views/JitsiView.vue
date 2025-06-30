@@ -198,7 +198,7 @@ export default {
       audioStream: null,             // 音訊流
       audioChunks: [],               // 錄音片段
       audioRecordingTimer: null,     // 錄音計時器
-      maxRecordingTime: 10000,       // 最大錄音時間（毫秒）- 10秒
+      maxRecordingTime: 30000,       // 最大錄音時間（毫秒）- 30秒
       recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
       countdownInterval: null,       // 倒計時間隔
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/'
