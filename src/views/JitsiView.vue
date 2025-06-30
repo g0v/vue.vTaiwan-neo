@@ -237,11 +237,13 @@ export default {
     });
 
     onValue(dbRef(database, `/meetings/${this.today}`), (snapshot) => {
-      this.meetingData = snapshot.val();
-      console.log('meetingData', this.meetingData);
-      this.transcriptData = (this.meetingData || {}).transcripts || {};
-      this.isRecorder = this.meetingData.recorder == this.userData.uid;
-      console.log('transcriptData', this.transcriptData);
+      if (snapshot.exists()) {
+        this.meetingData = snapshot.val();
+        console.log('meetingData', this.meetingData);
+        this.transcriptData = (this.meetingData || {}).transcripts || {};
+        this.isRecorder = this.meetingData.recorder == this.userData.uid;
+        console.log('transcriptData', this.transcriptData);
+      }
     });
 
     // this.getJwt();
