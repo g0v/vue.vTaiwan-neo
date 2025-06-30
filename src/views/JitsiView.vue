@@ -94,22 +94,49 @@
       @click="hideTranscript"
     ></div>
 
-    <!-- 浮動切換按鈕 -->
-    <button
-      @click="toggleTranscript"
-      :class="[
-        'fixed bottom-6 right-6 z-30 p-4 rounded-full shadow-lg transition-all duration-300',
-        showTranscript
-          ? 'bg-democratic-red text-white hover:bg-democratic-red/90'
-          : 'bg-jade-green text-white hover:bg-jade-green/90'
-      ]"
-      :title="showTranscript ? $t('transcript.hideTranscript') : $t('transcript.showTranscript')"
-    >
-      <IconWrapper
-        :name="showTranscript ? 'x' : 'file-text'"
-        :size="24"
-      />
-    </button>
+    <!-- 浮動按鈕組 -->
+    <div class="fixed bottom-6 right-6 z-30 flex flex-col space-y-3">
+      <!-- 音訊轉錄按鈕 -->
+      <button
+        @click="toggleAudioRecording"
+        :class="[
+          'p-4 rounded-full shadow-lg transition-all duration-300 relative',
+          isRecordingAudio
+            ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse'
+            : 'bg-purple-500 text-white hover:bg-purple-600'
+        ]"
+        :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多10秒)'"
+      >
+        <IconWrapper
+          :name="isRecordingAudio ? 'square' : 'mic'"
+          :size="24"
+        />
+        <!-- 倒計時顯示 -->
+        <div
+          v-if="isRecordingAudio"
+          class="absolute -top-2 -right-2 bg-white text-red-500 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-red-500"
+        >
+          {{ recordingTimeLeft }}
+        </div>
+      </button>
+
+      <!-- 逐字稿切換按鈕 -->
+      <button
+        @click="toggleTranscript"
+        :class="[
+          'p-4 rounded-full shadow-lg transition-all duration-300',
+          showTranscript
+            ? 'bg-democratic-red text-white hover:bg-democratic-red/90'
+            : 'bg-jade-green text-white hover:bg-jade-green/90'
+        ]"
+        :title="showTranscript ? $t('transcript.hideTranscript') : $t('transcript.showTranscript')"
+      >
+        <IconWrapper
+          :name="showTranscript ? 'x' : 'file-text'"
+          :size="24"
+        />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -149,7 +176,7 @@ export default {
 
       // 逐字稿相關
       showTranscript: false,
-      drawerWidth: 400, // 抽屜寬度
+      drawerWidth: Math.min(window.innerWidth * 0.8, 400), // 抽屜寬度
       isDragging: false,
       dragStartX: 0,
       dragStartWidth: 0,
@@ -163,7 +190,18 @@ export default {
         debounceTimer: null,         // 防抖計時器
         maxWaitTime: 3000,           // 最長等待時間（毫秒）
         debounceDelay: 1500          // 防抖延遲時間（毫秒）
-      }
+      },
+
+      // 音訊轉錄功能
+      isRecordingAudio: false,       // 是否正在錄音
+      audioMediaRecorder: null,      // MediaRecorder 實例
+      audioStream: null,             // 音訊流
+      audioChunks: [],               // 錄音片段
+      audioRecordingTimer: null,     // 錄音計時器
+      maxRecordingTime: 10000,       // 最大錄音時間（毫秒）- 10秒
+      recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
+      countdownInterval: null,       // 倒計時間隔
+      transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/'
     };
   },
   computed: {
@@ -201,7 +239,7 @@ export default {
     onValue(dbRef(database, `/meetings/${this.today}`), (snapshot) => {
       this.meetingData = snapshot.val();
       console.log('meetingData', this.meetingData);
-      this.transcriptData = this.meetingData.transcripts || {};
+      this.transcriptData = (this.meetingData || {}).transcripts || {};
       this.isRecorder = this.meetingData.recorder == this.userData.uid;
       console.log('transcriptData', this.transcriptData);
     });
@@ -221,6 +259,9 @@ export default {
 
     // 清理轉錄緩存計時器
     this.clearTranscriptCache();
+
+    // 清理音訊錄製資源
+    this.cleanupAudioRecording();
 
     // 清理拖拽事件監聽器
     document.removeEventListener('mousemove', this.onDrag);
@@ -343,7 +384,7 @@ export default {
           startWithVideoMuted: false,
           prejoinPageEnabled: false,
           transcription: {
-            enabled: true,
+            enabled: false,
             useAppLanguage: false, // 改為 false，不使用應用程式語言
             preferredLanguage: 'en-US' // 設定為英文
           }
@@ -351,11 +392,11 @@ export default {
         interfaceConfigOverwrite: {
           TOOLBAR_BUTTONS: [
             'microphone', 'camera', 'closedcaptions', 'desktop', 'embedmeeting', 'fullscreen',
-            'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+            'fodeviceselection', 'hangup', 'profile', 'chat',
             'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
             'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
             'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
-            'security', 'transcription'
+            'security'
           ],
           SHOW_JITSI_WATERMARK: false,
           SHOW_WATERMARK_FOR_GUESTS: false,
@@ -661,6 +702,202 @@ export default {
         lastMessageId: null,
         debounceTimer: null
       };
+    },
+
+    // 音訊轉錄相關方法
+    async toggleAudioRecording() {
+      if (this.isRecordingAudio) {
+        await this.stopAudioRecording();
+      } else {
+        await this.startAudioRecording();
+      }
+    },
+
+        async startAudioRecording() {
+      try {
+        console.log('🎤 開始音訊錄製...');
+
+        // 請求音訊權限（獨立的音訊流，不影響 Jitsi Meet）
+        this.audioStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            sampleRate: 44100
+          },
+          video: false
+        });
+
+        // 清空之前的錄音片段
+        this.audioChunks = [];
+
+        // 創建 MediaRecorder
+        this.audioMediaRecorder = new MediaRecorder(this.audioStream, {
+          mimeType: 'audio/webm;codecs=opus'
+        });
+
+        // 監聽錄音數據
+        this.audioMediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            this.audioChunks.push(event.data);
+          }
+        };
+
+        // 監聽錄音停止
+        this.audioMediaRecorder.onstop = () => {
+          console.log('🎤 錄音停止，開始處理音訊...');
+          this.processRecordedAudio();
+        };
+
+        // 開始錄音
+        this.audioMediaRecorder.start();
+        this.isRecordingAudio = true;
+
+        // 設置倒計時
+        this.recordingTimeLeft = Math.ceil(this.maxRecordingTime / 1000); // 轉換為秒
+
+        // 開始倒計時顯示
+        this.countdownInterval = setInterval(() => {
+          this.recordingTimeLeft--;
+          if (this.recordingTimeLeft <= 0) {
+            this.recordingTimeLeft = 0;
+          }
+        }, 1000);
+
+        // 設置自動停止計時器
+        this.audioRecordingTimer = setTimeout(() => {
+          console.log('⏰ 錄音時間到達上限，自動停止...');
+          this.stopAudioRecording();
+        }, this.maxRecordingTime);
+
+        console.log(`✅ 音訊錄製已開始（最多 ${this.maxRecordingTime / 1000} 秒）`);
+      } catch (error) {
+        console.error('❌ 無法開始音訊錄製:', error);
+        alert('無法開始錄音，請檢查麥克風權限');
+      }
+    },
+
+        async stopAudioRecording() {
+      try {
+        console.log('⏹️ 停止音訊錄製...');
+
+        // 清除計時器
+        if (this.audioRecordingTimer) {
+          clearTimeout(this.audioRecordingTimer);
+          this.audioRecordingTimer = null;
+        }
+
+        // 清除倒計時間隔
+        if (this.countdownInterval) {
+          clearInterval(this.countdownInterval);
+          this.countdownInterval = null;
+        }
+
+        // 停止錄音
+        if (this.audioMediaRecorder && this.audioMediaRecorder.state !== 'inactive') {
+          this.audioMediaRecorder.stop();
+        }
+
+        this.isRecordingAudio = false;
+        this.recordingTimeLeft = 0;
+
+        console.log('✅ 音訊錄製已停止');
+      } catch (error) {
+        console.error('❌ 停止錄音時發生錯誤:', error);
+      }
+    },
+
+    async processRecordedAudio() {
+      try {
+        if (this.audioChunks.length === 0) {
+          console.log('❌ 沒有錄音數據');
+          return;
+        }
+
+        // 創建音訊 Blob
+        const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
+        console.log('📁 音訊文件大小:', (audioBlob.size / 1024).toFixed(2), 'KB');
+
+        // 發送到轉錄服務
+        await this.sendAudioToTranscription(audioBlob);
+
+        // 清理資源
+        this.cleanupAudioRecording();
+      } catch (error) {
+        console.error('❌ 處理錄音時發生錯誤:', error);
+      }
+    },
+
+    async sendAudioToTranscription(audioBlob) {
+      try {
+        console.log('📤 發送音訊到轉錄服務...');
+
+        // 創建 FormData
+        const formData = new FormData();
+        formData.append('file', audioBlob, 'recording.webm');
+
+        // 發送到後端
+        const response = await fetch(this.transcriptionApiUrl, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.text();
+        console.log('✅ 轉錄結果:', result);
+
+        // 如果有轉錄文字，也可以加入到逐字稿中
+        if (result) {
+          const speakerName = this.userData.name || '未知說話者';
+          this.addTranscriptData({
+            id: 'audio_' + Date.now(),
+            timestamp: Date.now(),
+            speaker: speakerName,
+            text: result
+          });
+        }
+
+      } catch (error) {
+        console.error('❌ 轉錄請求失敗:', error);
+        alert('轉錄服務暫時無法使用，請稍後再試');
+      }
+    },
+
+        cleanupAudioRecording() {
+      // 清除所有計時器
+      if (this.audioRecordingTimer) {
+        clearTimeout(this.audioRecordingTimer);
+        this.audioRecordingTimer = null;
+      }
+
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+        this.countdownInterval = null;
+      }
+
+      // 停止音訊流
+      if (this.audioStream) {
+        this.audioStream.getTracks().forEach(track => {
+          track.stop();
+        });
+        this.audioStream = null;
+      }
+
+      // 清理 MediaRecorder
+      if (this.audioMediaRecorder) {
+        this.audioMediaRecorder = null;
+      }
+
+      // 清空錄音片段
+      this.audioChunks = [];
+
+      // 重設狀態
+      this.isRecordingAudio = false;
+      this.recordingTimeLeft = 0;
+
+      console.log('🧹 音訊錄製資源已清理');
     },
   }
 };

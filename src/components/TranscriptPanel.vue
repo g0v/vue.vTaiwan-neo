@@ -21,7 +21,7 @@
       <!-- 控制按鈕 -->
       <div class="flex items-center gap-2 flex-wrap">
 
-        <button
+        <!-- <button
           @click="iAmRecorder"
           :class="[
             'px-3 py-1 text-xs rounded-full transition',
@@ -31,7 +31,7 @@
           ]"
         >
           {{ $t('transcript.iAmRecorder') }}
-        </button>
+        </button> -->
 
         <button
           @click="toggleAutoScroll"
