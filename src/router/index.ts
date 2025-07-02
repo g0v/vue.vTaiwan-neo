@@ -102,4 +102,19 @@ const router = createRouter({
   ]
 })
 
+// 全域導航守衛：路由轉換時自動捲到頂端
+router.beforeEach((to, from, next) => {
+  // 確保在 DOM 更新後捲到頂端
+  next()
+})
+
+router.afterEach(() => {
+  // 在路由轉換完成後捲到頁面頂端
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: 'smooth' // 使用平滑捲動效果
+  })
+})
+
 export default router
