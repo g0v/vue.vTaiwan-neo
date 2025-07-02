@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div v-show="mobileMenuOpen" class="md:hidden bg-black border-t border-gray-700">
+    <div v-show="mobileMenuOpen" class="lg:hidden bg-black border-t border-gray-700">
       <div class="w-full px-4 md:container md:mx-auto py-3">
         <router-link
           v-for="item in navItems"
