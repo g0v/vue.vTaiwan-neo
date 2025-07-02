@@ -54,7 +54,7 @@
               rel="noopener noreferrer"
               class="inline-flex items-center px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-700 transition duration-200 mt-4"
             >
-              <IconWrapper name="slack" :size="20" class="mr-2" />
+              <IconWrapper name="slack" :size="20" class="mr-2" color="#FFFFFF" />
               {{ $t('contact.slack.button') }}
             </a>
           </div>
