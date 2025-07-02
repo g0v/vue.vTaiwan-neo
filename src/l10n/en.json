@@ -218,7 +218,16 @@
     "fontSizeLarge": "Large",
     "iAmRecorder": "I am Recorder",
     "manualTranscript": "Manual Transcript",
-    "addManualTranscript": "Add Manual Transcript"
+    "addManualTranscript": "Add Manual Transcript",
+    "audioSettings": "Audio Settings",
+    "selectAudioSource": "Select Audio Source",
+    "loadingAudioDevices": "Loading audio devices...",
+    "unknownDevice": "Unknown Device",
+    "testAudioDevice": "Test Audio Device",
+    "testingAudio": "Testing...",
+    "audioLevel": "Audio Level",
+    "speakToTest": "Please speak into the microphone to test volume",
+    "stopTest": "Stop Test"
   },
   "projects": {
     "title": "Project List",

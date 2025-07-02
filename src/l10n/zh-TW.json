@@ -218,7 +218,16 @@
     "fontSizeLarge": "大",
     "iAmRecorder": "我是記錄者",
     "manualTranscript": "手動逐字稿",
-    "addManualTranscript": "新增手動逐字稿"
+    "addManualTranscript": "新增手動逐字稿",
+    "audioSettings": "音訊設定",
+    "selectAudioSource": "選擇音訊來源",
+    "loadingAudioDevices": "載入音訊設備中...",
+    "unknownDevice": "未知設備",
+    "testAudioDevice": "測試音訊設備",
+    "testingAudio": "測試中...",
+    "audioLevel": "音訊音量",
+    "speakToTest": "請對著麥克風說話來測試音量",
+    "stopTest": "停止測試"
   },
   "projects": {
     "title": "專案列表",
