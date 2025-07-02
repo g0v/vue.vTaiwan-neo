@@ -97,21 +97,21 @@
     <!-- 音訊設定模態框 -->
     <div
       v-if="showAudioSettings"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 audio-settings-modal"
       @click="hideAudioSettings"
     >
       <div
-        class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto"
+        class="bg-white rounded-lg shadow-xl w-[95vw] max-w-md max-h-[90vh] overflow-y-auto mx-2"
         @click.stop
       >
-        <div class="p-3">
-          <div class="flex items-center justify-between mb-1">
-            <h3 class="text-xl font-bold text-gray-800">{{ $t('transcript.audioSettings') }}</h3>
+        <div class="p-4 sm:p-3">
+          <div class="flex items-center justify-between mb-4 sm:mb-1">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{ $t('transcript.audioSettings') }}</h3>
             <button
               @click="hideAudioSettings"
-              class="text-gray-400 hover:text-gray-600 transition-colors"
+              class="text-gray-400 hover:text-gray-600 transition-colors p-1"
             >
-              <IconWrapper name="x" :size="24" />
+              <IconWrapper name="x" :size="20" class="sm:w-6 sm:h-6" />
             </button>
           </div>
 
@@ -125,7 +125,7 @@
               {{ $t('transcript.loadingAudioDevices') }}
             </div>
 
-            <div v-else class="space-y-0">
+            <div v-else class="space-y-2 sm:space-y-0">
               <div
                 v-for="device in audioDevices"
                 :key="device.deviceId"
@@ -134,7 +134,7 @@
               >
                 <!-- 設備選擇區域 -->
                 <div
-                  class="flex items-center p-3 cursor-pointer"
+                  class="flex items-center p-4 sm:p-3 cursor-pointer"
                   @click="selectAudioDevice(device.deviceId)"
                 >
                   <div class="flex-shrink-0 mr-3">
@@ -157,7 +157,7 @@
                 <!-- 音量直條（僅在測試該設備時顯示） -->
                 <div
                   v-if="isTestingAudio && selectedAudioDeviceId == device.deviceId"
-                  class="px-3 pb-3"
+                  class="px-4 sm:px-3 pb-4 sm:pb-3"
                 >
                   <div class="text-xs text-gray-600 mb-2">{{ $t('transcript.audioLevel') }}</div>
                   <div class="flex items-end space-x-1 h-12">
@@ -182,11 +182,11 @@
           </div>
 
           <!-- 測試按鈕 -->
-          <div class="mb-6">
+          <div class="mb-6 sm:mb-4">
             <button
               @click="isTestingAudio ? stopAudioTest() : testAudioDevice()"
               :disabled="!selectedAudioDeviceId"
-              class="w-full px-4 py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              class="w-full px-4 py-3 sm:py-2 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               :class="isTestingAudio ? 'bg-red-500 hover:bg-red-600' : 'bg-jade-green hover:bg-jade-green/90'"
             >
               <span v-if="isTestingAudio">{{ $t('transcript.stopTest') }}</span>
@@ -198,13 +198,13 @@
           <div class="flex space-x-3">
             <button
               @click="saveAudioSettings"
-              class="flex-1 px-4 py-2 bg-democratic-red text-white rounded-lg hover:bg-democratic-red/90 transition-colors"
+              class="flex-1 px-4 py-3 sm:py-2 bg-democratic-red text-white rounded-lg hover:bg-democratic-red/90 transition-colors"
             >
               {{ $t('common.save') }}
             </button>
             <button
               @click="hideAudioSettings"
-              class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
+              class="flex-1 px-4 py-3 sm:py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-colors"
             >
               {{ $t('common.cancel') }}
             </button>
@@ -214,7 +214,17 @@
     </div>
 
     <!-- 浮動按鈕組 -->
-    <div class="fixed bottom-6 right-6 z-30 flex flex-col space-y-3">
+    <div class="fixed bottom-16 right-6 z-50 flex flex-col space-y-3">
+      <!-- 手機版音訊設定按鈕（獨立按鈕） -->
+      <button
+        v-if="isMobile"
+        @click="toggleAudioSettings"
+        class="p-4 rounded-full shadow-lg transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 border border-gray-300 flex items-center justify-center hover:scale-105"
+        :title="$t('transcript.audioSettings')"
+      >
+        <IconWrapper name="settings" :size="24" />
+      </button>
+
       <!-- 音訊轉錄按鈕 -->
       <div class="relative">
         <button
@@ -240,10 +250,11 @@
           </div>
         </button>
 
-        <!-- 音訊設定小按鈕 -->
+        <!-- 桌面版音訊設定小按鈕（僅在非手機時顯示） -->
         <button
+          v-if="!isMobile"
           @click="toggleAudioSettings"
-          class="absolute -top-1 -right-1 w-7 h-7 rounded-full shadow-lg transition-all duration-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 border border-gray-300 flex items-center justify-center hover:scale-110 audio-settings-button"
+          class="absolute -top-1 -right-1 w-7 h-7 rounded-full shadow-lg transition-all duration-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 border border-gray-300 flex items-center justify-center hover:scale-110 audio-settings-button z-10"
           :title="$t('transcript.audioSettings')"
         >
           <IconWrapper name="chevron-up" :size="14" />
@@ -1308,7 +1319,18 @@ export default {
 
 /* 音訊設定小按鈕樣式 */
 .audio-settings-button {
-  z-index: 31;
+  z-index: 60;
+}
+
+/* 手機上的音訊設定模態框優化 */
+@media (max-width: 640px) {
+  .audio-settings-modal {
+    padding: 0.5rem;
+  }
+
+  .audio-settings-modal .bg-white {
+    border-radius: 0.75rem;
+  }
 }
 
 /* 抽屜陰影 */
