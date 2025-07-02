@@ -130,7 +130,7 @@
           </div>
         </div>
 
-        <div v-else class="text-gray-900 whitespace-pre-wrap">{{ entry.text }}</div>
+        <div v-else class="text-gray-900 whitespace-pre-wrap" style="word-break: break-all;">{{ entry.text }}</div>
       </div>
     </div>
 
