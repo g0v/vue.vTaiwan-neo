@@ -14,6 +14,7 @@ import ContactView from '../views/ContactView.vue'
 import JitsiView from '../views/JitsiView.vue'
 import TranscriptionsView from '../views/TranscriptionsView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import ProposeView from '../views/ProposeView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -92,6 +93,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfileView
+    },
+    {
+      path: '/propose',
+      name: 'propose',
+      component: ProposeView
     }
   ]
 })

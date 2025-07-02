@@ -402,5 +402,55 @@
         "title": "社群媒體"
       }
     }
+  },
+  "propose": {
+    "title": "提出專案提案",
+    "description": "如果您有值得討論的公共政策議題，歡迎提出專案建議。在提出提案前，請先了解參與要求。",
+    "requirements": {
+      "title": "參與要求",
+      "meeting": {
+        "title": "參與 vTaiwan 線上會議",
+        "description": "在提出提案前，您需要先參與 vTaiwan 的線上會議，了解社群的運作方式和討論氛圍。",
+        "bullet1": "參與至少一次 vTaiwan 線上會議",
+        "bullet2": "了解會議討論的議題和流程",
+        "bullet3": "與社群成員建立聯繫"
+      },
+      "admin": {
+        "title": "認領內容管理員",
+        "description": "提案需要有人負責管理和推動，您需要認領成為該提案的內容管理員。",
+        "bullet1": "負責提案的內容管理和更新",
+        "bullet2": "協調討論和收集意見",
+        "bullet3": "推動提案的進展和執行"
+      }
+    },
+    "process": {
+      "title": "提案流程",
+      "step1": {
+        "title": "參與會議",
+        "description": "參與 vTaiwan 線上會議，了解社群運作方式"
+      },
+      "step2": {
+        "title": "提出提案",
+        "description": "在會議中提出您的提案想法，獲得社群支持"
+      },
+      "step3": {
+        "title": "認領管理",
+        "description": "認領成為內容管理員，負責提案的推動"
+      }
+    },
+    "contact": {
+      "title": "開始參與",
+      "description": "準備好提出您的提案了嗎？請先參與我們的會議或聯繫社群。",
+      "meeting": {
+        "title": "參與線上會議",
+        "description": "加入我們的線上會議，了解 vTaiwan 的運作方式，並與社群成員交流。",
+        "button": "加入會議"
+      },
+      "community": {
+        "title": "聯繫社群",
+        "description": "如果您有任何問題或需要協助，歡迎透過各種管道聯繫 vTaiwan 社群。",
+        "button": "聯絡我們"
+      }
+    }
   }
 } 

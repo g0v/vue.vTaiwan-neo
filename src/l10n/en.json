@@ -402,5 +402,55 @@
         "title": "Social Media"
       }
     }
+  },
+  "propose": {
+    "title": "Propose a Project",
+    "description": "If you have public policy issues worth discussing, you are welcome to propose project suggestions. Before proposing, please understand the participation requirements.",
+    "requirements": {
+      "title": "Participation Requirements",
+      "meeting": {
+        "title": "Participate in vTaiwan Online Meetings",
+        "description": "Before proposing, you need to participate in vTaiwan's online meetings to understand the community's operation methods and discussion atmosphere.",
+        "bullet1": "Participate in at least one vTaiwan online meeting",
+        "bullet2": "Understand the issues and processes discussed in meetings",
+        "bullet3": "Build connections with community members"
+      },
+      "admin": {
+        "title": "Claim Content Administrator Role",
+        "description": "Proposals need someone to manage and promote them. You need to claim the role of content administrator for the proposal.",
+        "bullet1": "Responsible for content management and updates of the proposal",
+        "bullet2": "Coordinate discussions and collect opinions",
+        "bullet3": "Promote the progress and execution of the proposal"
+      }
+    },
+    "process": {
+      "title": "Proposal Process",
+      "step1": {
+        "title": "Participate in Meetings",
+        "description": "Participate in vTaiwan online meetings to understand community operations"
+      },
+      "step2": {
+        "title": "Propose Ideas",
+        "description": "Present your proposal ideas in meetings to gain community support"
+      },
+      "step3": {
+        "title": "Claim Management",
+        "description": "Claim the role of content administrator to be responsible for proposal promotion"
+      }
+    },
+    "contact": {
+      "title": "Start Participating",
+      "description": "Ready to propose your project? Please first participate in our meetings or contact the community.",
+      "meeting": {
+        "title": "Join Online Meetings",
+        "description": "Join our online meetings to understand how vTaiwan operates and interact with community members.",
+        "button": "Join Meeting"
+      },
+      "community": {
+        "title": "Contact Community",
+        "description": "If you have any questions or need assistance, please feel free to contact the vTaiwan community through various channels.",
+        "button": "Contact Us"
+      }
+    }
   }
 } 
