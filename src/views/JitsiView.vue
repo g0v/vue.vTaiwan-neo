@@ -23,12 +23,21 @@
             class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-jade-green"
             placeholder="請輸入您的名字"
           />
+
+          <!-- 加入會議按鈕 -->
           <button
             @click="joinMeeting"
             class="px-6 py-3 bg-jade-green text-white rounded-lg hover:bg-jade-green/90 transition-colors"
           >
             加入會議
           </button>
+
+          <br/>
+          <!-- Google 登入 -->
+          <p v-if="!userData || !userData.uid" class="text-gray-600 text-sm">
+            如欲啟用完整逐字稿功能，請先登入
+          </p>
+
         </div>
       </div>
 
@@ -45,7 +54,7 @@
     <!-- 寬螢幕逐字稿面板 -->
     <div
       v-if="showTranscript && !isMobile"
-      class="w-[38%] h-full"
+      class="w-[62%] md:w-[38%] h-full"
     >
       <TranscriptPanel
           @close="hideTranscript"
@@ -217,7 +226,7 @@
     <div class="fixed bottom-16 right-6 z-50 flex flex-col space-y-3">
       <!-- 手機版音訊設定按鈕（獨立按鈕） -->
       <button
-        v-if="isMobile"
+        v-if="isMobile && userData && userData.uid"
         @click="toggleAudioSettings"
         class="p-4 rounded-full shadow-lg transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 border border-gray-300 flex items-center justify-center hover:scale-105"
         :title="$t('transcript.audioSettings')"
@@ -228,6 +237,7 @@
       <!-- 音訊轉錄按鈕 -->
       <div class="relative">
         <button
+          v-if="userData && userData.uid"
           @click="toggleAudioRecording"
           :class="[
             'p-4 rounded-full shadow-lg transition-all duration-300 relative',
@@ -252,7 +262,7 @@
 
         <!-- 桌面版音訊設定小按鈕（僅在非手機時顯示） -->
         <button
-          v-if="!isMobile"
+          v-if="!isMobile && userData && userData.uid"
           @click="toggleAudioSettings"
           class="absolute -top-1 -right-1 w-7 h-7 rounded-full shadow-lg transition-all duration-200 bg-white text-gray-500 hover:bg-gray-50 hover:text-gray-700 border border-gray-300 flex items-center justify-center hover:scale-110 audio-settings-button z-10"
           :title="$t('transcript.audioSettings')"
@@ -263,6 +273,7 @@
 
       <!-- 逐字稿切換按鈕 -->
       <button
+        v-if="userData && userData.uid"
         @click="toggleTranscript"
         :class="[
           'p-4 rounded-full shadow-lg transition-all duration-300',
@@ -394,7 +405,7 @@ export default {
         this.meetingData = snapshot.val();
         console.log('meetingData', this.meetingData);
         this.transcriptData = (this.meetingData || {}).transcripts || {};
-        this.isRecorder = this.meetingData.recorder == this.userData.uid;
+        this.isRecorder = this.meetingData.recorder == (this.userData || {}).uid;
         console.log('transcriptData', this.transcriptData);
       }
     });
@@ -435,7 +446,7 @@ export default {
   },
   mounted() {
     // 監聽視窗大小變化
-    this.joinMeetingName = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
+    this.joinMeetingName = (this.userData || {}).name || 'Guest' + Math.floor(Math.random() * 1000000);
 
     window.addEventListener('resize', this.handleResize);
 
@@ -450,8 +461,8 @@ export default {
     userData: {
       handler(newVal, oldVal) {
         console.log('userData', newVal);
-        this.isRecorder = this.meetingData.recorder == this.userData.uid;
-        this.joinMeetingName = this.userData.name || 'Guest' + Math.floor(Math.random() * 1000000);
+        this.isRecorder = this.meetingData.recorder == (this.userData || {}).uid;
+        this.joinMeetingName = (this.userData || {}).name || 'Guest' + Math.floor(Math.random() * 1000000);
         // this.getJwt();
       },
     },
@@ -464,8 +475,9 @@ export default {
     }
   },
   methods: {
+
     async getJwt() {
-      const user_id = this.userData.uid || 'guest' + Math.floor(Math.random() * 1000000);
+      const user_id = (this.userData || {}).uid || 'guest' + Math.floor(Math.random() * 1000000);
       const user_name = this.joinMeetingName;
 
       console.log('user_name', user_name);
@@ -663,8 +675,8 @@ export default {
       this.isRecorder = !this.isRecorder;
       console.log('toggleRecorder', this.isRecorder);
       if (this.isRecorder) {
-        console.log('設定記錄者', this.userData.uid);
-        this.meetingData.recorder = this.userData.uid;
+        console.log('設定記錄者', (this.userData || {}).uid);
+        this.meetingData.recorder = (this.userData || {}).uid;
         this.updateMeetingData();
       } else {
         console.log('解除記錄者');
@@ -1031,7 +1043,7 @@ export default {
 
         // 如果有轉錄文字，也可以加入到逐字稿中
         if (result) {
-          const speakerName = this.userData.name || '未知說話者';
+          const speakerName = (this.userData || {}).name || '未知說話者';
           this.addTranscriptData({
             id: 'audio_' + Date.now(),
             timestamp: Date.now(),
