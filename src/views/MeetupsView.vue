@@ -23,11 +23,11 @@
         </RouterLink>
       </div>
       <div class="flex justify-center gap-4" v-else>
-        <a href="https://meet.jit.si/vtaiwan" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md inline-block">
-          {{ $t('meetups.jitsi') }}
+        <RouterLink to="/jitsi" class="btn-primary rounded-md inline-block">
+          {{ $t('meetups.jitsi') }}(Beta)
           <br/>
           <span class="text-sm text-black">(Wednesdays 19:00)</span>
-        </a>
+        </RouterLink>
       </div>
     </div>
   </section>

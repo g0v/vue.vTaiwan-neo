@@ -79,7 +79,7 @@
         :key="entry.timestamp"
         class="transcript-entry border border-gray-200 rounded-lg p-3 hover:border-gray-300 transition"
       >
-        <div class="flex items-start justify-between mb-2">
+        <div class="flex items-start justify-start md:justify-between mb-2">
           <div class="flex items-center gap-2 text-xs text-gray-500">
             <span>{{ formatTimestamp(entry.timestamp) }}</span>
             <span v-if="entry.speaker" class="font-medium">{{ entry.speaker }}</span>

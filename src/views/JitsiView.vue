@@ -317,7 +317,7 @@ export default {
 
       // 逐字稿相關
       showTranscript: false,
-      drawerWidth: Math.min(window.innerWidth * 0.8, 400), // 抽屜寬度
+      drawerWidth: Math.min(window.innerWidth * 0.9, 400), // 抽屜寬度
       isDragging: false,
       dragStartX: 0,
       dragStartWidth: 0,
