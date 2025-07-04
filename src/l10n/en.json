@@ -386,7 +386,10 @@
     },
     "outline": {
       "title": "Meeting Outline",
-      "close": "Close"
+      "close": "Close",
+      "copy": "Copy Outline",
+      "copySuccess": "Outline copied to clipboard",
+      "copyError": "Copy failed, please try again later"
     },
     "messages": {
       "selectFileFirst": "Please select a file",

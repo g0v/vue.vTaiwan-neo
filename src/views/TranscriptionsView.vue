@@ -137,7 +137,16 @@
           <pre class="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed">{{ currentOutline }}</pre>
         </div>
 
-        <div class="p-6 border-t border-gray-200">
+        <div class="p-6 border-t border-gray-200 flex justify-between items-center">
+          <button
+            @click="copyOutline"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center space-x-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <span>{{ $t('transcriptions.outline.copy') }}</span>
+          </button>
           <button
             @click="closeOutlineModal"
             class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
@@ -311,6 +320,29 @@ const closeOutlineModal = () => {
   showOutlineModal.value = false
   currentOutline.value = ''
   currentOutlineMeetingId.value = ''
+}
+
+// 複製大綱到剪貼簿
+const copyOutline = async () => {
+  try {
+    await navigator.clipboard.writeText(currentOutline.value)
+    alert(t('transcriptions.outline.copySuccess'))
+  } catch (err) {
+    console.error('複製失敗:', err)
+    // 降級方案：使用傳統方法
+    const textArea = document.createElement('textarea')
+    textArea.value = currentOutline.value
+    document.body.appendChild(textArea)
+    textArea.select()
+    try {
+      document.execCommand('copy')
+      alert(t('transcriptions.outline.copySuccess'))
+    } catch (fallbackErr) {
+      console.error('降級複製也失敗:', fallbackErr)
+      alert(t('transcriptions.outline.copyError'))
+    }
+    document.body.removeChild(textArea)
+  }
 }
 
 // 下載逐字稿

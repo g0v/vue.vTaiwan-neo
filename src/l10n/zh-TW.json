@@ -386,7 +386,10 @@
     },
     "outline": {
       "title": "會議大綱",
-      "close": "關閉"
+      "close": "關閉",
+      "copy": "複製大綱",
+      "copySuccess": "大綱已複製到剪貼簿",
+      "copyError": "複製失敗，請稍後再試"
     },
     "messages": {
       "selectFileFirst": "請選擇檔案",
