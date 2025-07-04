@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <Header :user="user" @logout="handleLogout" @show-login="showLoginModal = true" />
+    <Header :user="user" :userData="userData" @logout="handleLogout" @show-login="showLoginModal = true" />
     <main class="flex-grow">
       <!-- Debug info -->
       <div v-if="false" class="text-xs text-gray-500 p-2">

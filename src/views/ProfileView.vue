@@ -13,9 +13,9 @@
       <div v-else-if="!editing" class="space-y-6">
         <div class="flex items-center space-x-4 mb-6">
           <img
-            v-if="user.photoURL"
-            :src="user.photoURL"
-            :alt="user.displayName || '用戶頭像'"
+            v-if="userData && userData.photoURL"
+            :src="userData.photoURL"
+            :alt="userData.name || '用戶頭像'"
             class="w-16 h-16 rounded-full"
           />
           <div v-else class="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
@@ -70,9 +70,9 @@
       <div v-else class="space-y-6">
         <div class="flex items-center space-x-4 mb-6">
           <img
-            v-if="user.photoURL"
-            :src="user.photoURL"
-            :alt="editForm.displayName || '用戶頭像'"
+            v-if="userData && userData.photoURL"
+            :src="userData.photoURL"
+            :alt="userData.name || '用戶頭像'"
             class="w-16 h-16 rounded-full"
           />
           <div v-else class="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">

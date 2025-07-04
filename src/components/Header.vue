@@ -30,15 +30,15 @@
               :title="$t('common.profile')"
             >
               <img
-                v-if="user.photoURL"
-                :src="user.photoURL"
-                :alt="user.displayName"
+                v-if="userData && userData.photoURL"
+                :src="userData.photoURL"
+                :alt="userData.name"
                 class="w-8 h-8 rounded-full hover:ring-2 hover:ring-democratic-red transition"
               />
               <div v-else class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center hover:bg-democratic-red transition">
                 <span class="text-white text-xs">👤</span>
               </div>
-              <span class="text-sm hidden lg:block">{{ user.displayName }}</span>
+              <span class="text-sm hidden lg:block">{{ userData && userData.name }}</span>
             </router-link>
           </div>
 
@@ -107,6 +107,10 @@ const toggleMobileMenu = () => {
 // 接收來自 App.vue 的用戶資料
 const props = defineProps({
   user: {
+    type: Object,
+    default: null
+  },
+  userData: {
     type: Object,
     default: null
   }
