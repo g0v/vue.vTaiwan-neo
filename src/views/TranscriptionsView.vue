@@ -57,9 +57,11 @@
       <div v-if="!loading && transcriptions.length > 0" class="space-y-4">
         <h2 class="text-xl font-semibold mb-4">{{ $t('transcriptions.list.title') }}</h2>
 
-        <div class="grid gap-4">
+        <input type="text" v-model="search" placeholder="Search..." class="w-full p-2 border border-gray-300 rounded-md mb-4" />
+
+        <div class="gap-4 flex flex-col-reverse">
           <div
-            v-for="transcription in transcriptions"
+            v-for="transcription in transcriptions.filter(t => t.meeting_id.includes(search) || t.outline.includes(search))"
             :key="transcription.meeting_id"
             class="bg-white rounded-lg shadow-md p-6 border border-gray-200 relative"
           >
@@ -92,6 +94,14 @@
                   class="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                 >
                   {{ $t('transcriptions.list.download') }}
+                </button>
+
+                <!-- 複製逐字稿連結 -->
+                <button
+                  @click="copyTranscriptionLink(transcription.meeting_id)"
+                  class="px-3 py-1 bg-gray-600 text-white text-sm rounded-md hover:bg-gray-700"
+                >
+                  {{ $t('transcriptions.list.copyLink') }}
                 </button>
               </div>
             </div>
@@ -203,6 +213,9 @@ const fileInput = ref<HTMLInputElement>()
 const showOutlineModal = ref(false)
 const currentOutline = ref('')
 const currentOutlineMeetingId = ref('')
+
+// 搜尋
+const search = ref('')
 
 // 載入逐字稿列表
 const loadTranscriptions = async () => {
@@ -343,6 +356,14 @@ const copyOutline = async () => {
     }
     document.body.removeChild(textArea)
   }
+}
+
+// 複製逐字稿連結
+
+const copyTranscriptionLink = (meetingId: string) => {
+  const url = `https://r2-vtaiwan.bestian.tw/${meetingId}.txt`
+  navigator.clipboard.writeText(url)
+  alert(t('transcriptions.list.copyLinkSuccess'))
 }
 
 // 下載逐字稿

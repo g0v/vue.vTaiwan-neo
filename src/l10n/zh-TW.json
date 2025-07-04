@@ -382,7 +382,10 @@
       "fileName": "檔案名稱",
       "viewOutline": "查看大綱",
       "download": "下載全文",
-      "empty": "目前沒有逐字稿資料"
+      "empty": "目前沒有逐字稿資料",
+      "copyLink": "複製逐字稿連結",
+      "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
+      "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
     },
     "outline": {
       "title": "會議大綱",

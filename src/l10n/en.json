@@ -382,7 +382,10 @@
       "fileName": "File Name",
       "viewOutline": "View Outline",
       "download": "Download Full Text",
-      "empty": "No transcription data available"
+      "empty": "No transcription data available",
+      "copyLink": "Copy Transcription Link",
+      "copyLinkSuccess": "Transcription link copied to clipboard",
+      "copyLinkError": "Copy failed, please try again later"
     },
     "outline": {
       "title": "Meeting Outline",
