@@ -13,6 +13,7 @@ import ContributorsView from '../views/ContributorsView.vue'
 import ContactView from '../views/ContactView.vue'
 import JitsiView from '../views/JitsiView.vue'
 import TranscriptionsView from '../views/TranscriptionsView.vue'
+import TranscriptionDetailView from '../views/TranscriptionDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ProposeView from '../views/ProposeView.vue'
 
@@ -88,6 +89,11 @@ const router = createRouter({
       path: '/transcriptions',
       name: 'transcriptions',
       component: TranscriptionsView
+    },
+    {
+      path: '/transcription_detail/:meeting_id',
+      name: 'transcription-detail',
+      component: TranscriptionDetailView
     },
     {
       path: '/profile',

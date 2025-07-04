@@ -380,13 +380,15 @@
       "title": "Transcription List",
       "meetingId": "Meeting ID",
       "fileName": "File Name",
-      "viewOutline": "View Outline",
-      "download": "Download Full Text",
-      "empty": "No transcription data available",
-      "copyLink": "Copy Transcription Link",
-      "copyLinkSuccess": "Transcription link copied to clipboard",
-      "copyLinkError": "Copy failed, please try again later"
+              "viewOutline": "View Outline",
+        "viewDetail": "View Detail",
+        "download": "Download Full Text",
+        "empty": "No transcription data available",
+        "copyLink": "Copy Transcription Link",
+        "copyLinkSuccess": "Transcription link copied to clipboard",
+        "copyLinkError": "Copy failed, please try again later"
     },
+
     "outline": {
       "title": "Meeting Outline",
       "close": "Close",
@@ -403,6 +405,17 @@
       "uploadError": "Upload failed, please try again later",
       "loadError": "Failed to load transcription list, please try again later"
     }
+  },
+  "transcriptionDetail": {
+    "title": "Transcription Detail",
+    "description": "View complete meeting transcription content",
+    "backToList": "Back to List",
+    "speaker": "Speaker",
+    "noContent": "No transcription content available",
+    "loadError": "Failed to load transcription, please try again later",
+    "photoAlt": "User Photo",
+    "loading": "Loading...",
+    "error": "Load Failed"
   },
   "faq": {
     "title": "Frequently Asked Questions (FAQ)",

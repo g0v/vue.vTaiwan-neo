@@ -90,6 +90,12 @@
                   {{ $t('transcriptions.list.viewOutline') }}
                 </button>
                 <button
+                  @click="$router.push(`/transcription_detail/${transcription.meeting_id}`)"
+                  class="px-3 py-1 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-700"
+                >
+                  {{ $t('transcriptions.list.viewDetail') }}
+                </button>
+                <button
                   @click="downloadTranscription(transcription.meeting_id)"
                   class="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
                 >

@@ -172,6 +172,7 @@ const handleProfileUpdated = async (updatedData) => {
     }).catch((error) => {
       console.error('Error updating profile:', error)
     })
+
   }
 }
 </script>

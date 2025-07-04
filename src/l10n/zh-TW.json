@@ -380,13 +380,15 @@
       "title": "逐字稿列表",
       "meetingId": "會議 ID",
       "fileName": "檔案名稱",
-      "viewOutline": "查看大綱",
-      "download": "下載全文",
-      "empty": "目前沒有逐字稿資料",
-      "copyLink": "複製逐字稿連結",
-      "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
-      "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
+              "viewOutline": "查看大綱",
+        "viewDetail": "查看詳情",
+        "download": "下載全文",
+        "empty": "目前沒有逐字稿資料",
+        "copyLink": "複製逐字稿連結",
+        "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
+        "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
     },
+
     "outline": {
       "title": "會議大綱",
       "close": "關閉",
@@ -403,6 +405,17 @@
       "uploadError": "上傳失敗，請稍後再試",
       "loadError": "載入逐字稿列表失敗，請稍後再試"
     }
+  },
+  "transcriptionDetail": {
+    "title": "逐字稿詳情",
+    "description": "查看完整的會議逐字稿內容",
+    "backToList": "返回列表",
+    "speaker": "發言者",
+    "noContent": "沒有逐字稿內容",
+    "loadError": "載入逐字稿失敗，請稍後再試",
+    "photoAlt": "用戶頭像",
+    "loading": "載入中...",
+    "error": "載入失敗"
   },
   "faq": {
     "title": "常見問答 (FAQ)",
