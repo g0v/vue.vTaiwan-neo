@@ -149,7 +149,8 @@
       "dataAnalysis": "Data Analysis",
       "translationSupport": "Translation Support",
       "backendDev": "Backend Development",
-      "eventPlanning": "Event Planning"
+      "eventPlanning": "Event Planning",
+      "contentManager": "Content Manager"
     }
   },
   "blog": {
