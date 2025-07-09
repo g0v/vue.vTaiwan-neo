@@ -245,7 +245,7 @@
               ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse'
               : 'bg-purple-500 text-white hover:bg-purple-600'
           ]"
-          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多30秒)'"
+          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多120秒)'"
         >
           <IconWrapper
             :name="isRecordingAudio ? 'square' : 'mic'"
@@ -254,9 +254,16 @@
           <!-- 倒計時顯示 -->
           <div
             v-if="isRecordingAudio"
-            class="absolute -top-2 -right-2 bg-white text-red-500 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-red-500"
+            class="absolute -top-2 -left-2 bg-white text-red-500 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center border-2 border-red-500"
           >
             {{ recordingTimeLeft }}
+          </div>
+          <!-- "轉錄中，請稍候..." 顯示 -->
+          <div
+            v-if="isTranscripting"
+            class="absolute -bottom-2 right-12 transform -translate-x-1/2 bg-white text-red-500 text-xs font-bold rounded-full w-36 h-6 flex items-center justify-center border-2 border-red-500"
+          >
+            轉錄中，請稍候...
           </div>
         </button>
 
@@ -314,6 +321,7 @@ export default {
   },
   data() {
     return {
+      isTranscripting: false,
       joinMeetingName: '',
       today: '',
       meetingData: {},
@@ -350,7 +358,7 @@ export default {
       audioStream: null,             // 音訊流
       audioChunks: [],               // 錄音片段
       audioRecordingTimer: null,     // 錄音計時器
-      maxRecordingTime: 30000,       // 最大錄音時間（毫秒）- 30秒
+      maxRecordingTime: 120000,       // 最大錄音時間（毫秒）- 120秒
       recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
       countdownInterval: null,       // 倒計時間隔
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/',
@@ -1023,6 +1031,7 @@ export default {
     async sendAudioToTranscription(audioBlob) {
       try {
         console.log('📤 發送音訊到轉錄服務...');
+        this.isTranscripting = true;
 
         // 創建 FormData
         const formData = new FormData();
@@ -1036,6 +1045,7 @@ export default {
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
+          this.isTranscripting = false;
         }
 
         const result = await response.text();
@@ -1051,10 +1061,11 @@ export default {
             text: result
           });
         }
-
+        this.isTranscripting = false;
       } catch (error) {
         console.error('❌ 轉錄請求失敗:', error);
         alert('轉錄服務暫時無法使用，請稍後再試');
+        this.isTranscripting = false;
       }
     },
 
