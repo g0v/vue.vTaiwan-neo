@@ -229,7 +229,7 @@ const loadTranscriptions = async () => {
     loading.value = true
     error.value = ''
 
-    const response = await fetch('https://vtaiwan-jaas-jwt-worker.bestian123.workers.dev/api/query-table')
+    const response = await fetch('https://vtaiwan-transcription-worker.bestian123.workers.dev/api/query-table')
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
@@ -299,7 +299,7 @@ const uploadTranscription = async () => {
     const formData = new FormData()
     formData.append('file', selectedFile.value)
 
-    const response = await fetch('https://vtaiwan-jaas-jwt-worker.bestian123.workers.dev/api/upload-transcription', {
+    const response = await fetch('https://vtaiwan-transcription-worker.bestian123.workers.dev/api/upload-transcription', {
       method: 'POST',
       body: formData
     })
