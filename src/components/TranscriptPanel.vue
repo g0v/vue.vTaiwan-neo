@@ -272,6 +272,10 @@ const editEntry = (index) => {
     speaker: Object.values(transcriptData.value)[index].speaker,
     text: Object.values(transcriptData.value)[index].text
   }
+  // 編輯時自動捲到最下面
+  nextTick(() => {
+    scrollToBottom()
+  })
 }
 
 const saveEntry = () => {
