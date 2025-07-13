@@ -394,10 +394,12 @@
       "title": "會議大綱",
       "close": "關閉",
       "copy": "複製大綱",
-	  "edit": "編輯大綱",
-	  "endEdit": "結束編輯",
+	    "edit": "編輯大綱",
+	    "saveAndEndEdit": "儲存並結束編輯",
+      "cancel": "取消編輯",
       "copySuccess": "大綱已複製到剪貼簿",
-      "copyError": "複製失敗，請稍後再試"
+      "copyError": "複製失敗，請稍後再試",
+      "editRequireAdmin": "需要管理員權限才能編輯大綱"
     },
     "messages": {
       "selectFileFirst": "請選擇檔案",

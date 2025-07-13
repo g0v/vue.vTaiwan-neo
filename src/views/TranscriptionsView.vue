@@ -78,11 +78,11 @@
                   {{ $t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}
                 </h3>
                 <p class="text-gray-600 text-sm mb-4">
-                  {{ truncateText(transcription.outline, 100) }}
+                  <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose prose-sm max-w-none"></div>
                 </p>
               </div>
 
-              <div class="flex space-x-2 ml-4 flex-col">
+              <div class="flex space-y-4 ml-4 flex-col">
                 <button
                   @click="showOutline(transcription.outline, transcription.meeting_id)"
                   class="px-3 py-1 bg-green-600 text-white text-sm rounded-md hover:bg-green-700"
@@ -132,7 +132,7 @@
       @click="closeOutlineModal"
     >
       <div
-        class="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-hidden"
+        class="bg-white rounded-lg max-w-4xl w-full max-h-[80vh]  overflow-y-auto"
         @click.stop
       >
                 <div class="p-6 border-b border-gray-200">
@@ -150,12 +150,14 @@
         </div>
 
         <div class="p-6 overflow-y-auto max-h-[60vh]">
-          <pre class="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed" v-if="!editing">{{ currentOutline }}</pre>
-		  <textarea name="" id="" row="5" col="3" v-else v-model="myOutline"></textarea>
-		  <span>{{ myOutline }}</span>
+          <div id="renderedOutline" v-if="!editing" v-html="renderedOutline" class="prose prose-sm max-w-none"></div>
+          <textarea
+            name="" id="" class="w-full h-full min-h-[200px] max-h-[60vh]" v-else v-model="myOutline">
+          </textarea>
+		    <!-- <span>{{ myOutline }}</span> -->
         </div>
 
-        <div class="p-6 border-t border-gray-200 flex justify-between items-center">
+        <div class="p-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <button
             @click="copyOutline"
             class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center space-x-2"
@@ -165,15 +167,26 @@
             </svg>
             <span>{{ $t('transcriptions.outline.copy') }}</span>
           </button>
-		  <button
-            @click="editOutline"
+		      <button
+            @click="toggleEditOutline"
             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center space-x-2"
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            <!-- edit icon -->
+            <svg v-if="!editing" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            <!-- save icon -->
+            <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14V5H5zm4 0v4h6V5H9zm0 6v6h6v-6H9z"></path>
             </svg>
             <span v-if="!editing">{{ $t('transcriptions.outline.edit') }}</span>
-			<span v-else>{{ $t('transcriptions.outline.endEdit') }}</span>
+			      <span v-else>{{ $t('transcriptions.outline.saveAndEndEdit') }}</span>
+          </button>
+          <button v-if="editing"
+            @click="cancelEditOutline"
+            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+          >
+            {{ $t('transcriptions.outline.cancel') }}
           </button>
           <button
             @click="closeOutlineModal"
@@ -190,6 +203,8 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import axios from 'axios'
+import { marked } from 'marked'
 
 interface Transcription {
   meeting_id: string
@@ -214,6 +229,12 @@ const props = defineProps({
   }
 })
 
+// 配置 marked 選項
+marked.setOptions({
+  breaks: true, // 支援換行
+  gfm: true, // GitHub Flavored Markdown
+})
+
 // 計算用戶是否有管理員權限
 const isAdmin = computed(() => {
   return props.userData && (props.userData.isAdmin === true || props.userData.isSuperAdmin === true)
@@ -236,6 +257,32 @@ const myOutline = ref('')
 
 // 搜尋
 const search = ref('')
+
+// 渲染 Markdown 內容
+const renderedOutline = computed(() => {
+  if (!currentOutline.value) return ''
+  return marked(currentOutline.value)
+})
+
+// 預覽內容
+const previewOutline = computed(() => {
+  if (!myOutline.value) return ''
+  return marked(myOutline.value)
+})
+
+// 渲染大綱預覽（截斷後的markdown）
+const getRenderedOutlinePreview = computed(() => {
+  return (outline: string) => {
+    if (!outline) return ''
+
+    const truncated = outline
+    // 不截斷文字
+    // const truncated = outline.length > 150 ? outline.substring(0, 150) + '...' : outline
+
+    // 渲染 markdown
+    return marked(truncated)
+  }
+})
 
 // 載入逐字稿列表
 const loadTranscriptions = async () => {
@@ -385,9 +432,49 @@ const copyTranscriptionLink = (meetingId: string) => {
   alert(t('transcriptions.list.copyLinkSuccess'))
 }
 
+const startEditOutline = () => {
+  if (!isAdmin.value) {
+    alert(t('transcriptions.outline.editRequireAdmin'))
+    return
+  }
+  console.log('startEditOutline')
+  myOutline.value = currentOutline.value
+  editing.value = true
+}
+
+const endEditOutline = () => {
+  console.log('endEditOutline')
+  editing.value = false
+  // 發送POST請求到後端
+  axios.post('https://vtaiwan-transcription-worker.bestian123.workers.dev/api/update-outline', {
+    meeting_id: currentOutlineMeetingId.value,
+    outline: myOutline.value
+  }).then(response => {
+    console.log(response)
+    if (response.status === 200) {
+      console.log('更新大綱成功')
+      currentOutline.value = myOutline.value
+      myOutline.value = ''
+    }
+  }).catch(error => {
+    console.error('更新大綱失敗:', error)
+  })
+}
+
+const cancelEditOutline = () => {
+  console.log('cancelEditOutline')
+  editing.value = false
+  myOutline.value = ''
+}
+
 // 編輯逐字稿
-const editOutline = async () => {
-  editing.value = !editing.value
+const toggleEditOutline = async () => {
+  if (!editing.value) {
+    startEditOutline()
+  } else {
+    endEditOutline()
+  }
+  // editing.value = !editing.value
 }
 
 // 下載逐字稿
@@ -423,13 +510,7 @@ const formatMeetingId = (meetingId: string): string => {
   return meetingId
 }
 
-// 截斷文字
-const truncateText = (text: string, maxLength: number): string => {
-  if (text.length <= maxLength) {
-    return text
-  }
-  return text.substring(0, maxLength) + '...'
-}
+
 
 // 組件掛載時載入數據
 onMounted(() => {

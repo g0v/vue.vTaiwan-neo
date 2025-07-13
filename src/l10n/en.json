@@ -394,10 +394,12 @@
       "title": "Meeting Outline",
       "close": "Close",
       "copy": "Copy Outline",
-	  "edit": "Edit Outline",
-	  "endEdit": "End Editing",
+	    "edit": "Edit Outline",
+	    "saveAndEndEdit": "Save and End Editing",
+      "cancel": "Cancel Editing",
       "copySuccess": "Outline copied to clipboard",
-      "copyError": "Copy failed, please try again later"
+      "copyError": "Copy failed, please try again later", 
+      "editRequireAdmin": "Admin permission required to edit outline"
     },
     "messages": {
       "selectFileFirst": "Please select a file",
