@@ -1,5 +1,5 @@
 <template>
-  <header class="bg-black text-white sticky top-0 z-10">
+  <header id="navbar"class="bg-black text-white sticky top-0 z-10">
     <div class="w-full px-4 md:mx-auto">
       <div class="flex justify-between items-center h-16">
         <router-link to="/" class="flex items-center">
@@ -129,6 +129,10 @@ const handleShowLogin = () => {
 </script>
 
 <style scoped>
+/* Header styles */
+#navbar {
+  z-index: 999;
+}
 /* 使用 router-link-exact-active class 來標示當前路由 */
 .router-link-exact-active {
   color: #D80000 !important; /* democratic-red 顏色 */
