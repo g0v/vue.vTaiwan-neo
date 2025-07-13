@@ -150,7 +150,9 @@
         </div>
 
         <div class="p-6 overflow-y-auto max-h-[60vh]">
-          <pre class="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed">{{ currentOutline }}</pre>
+          <pre class="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed" v-if="!editing">{{ currentOutline }}</pre>
+		  <textarea name="" id="" row="5" col="3" v-else v-model="myOutline"></textarea>
+		  <span>{{ myOutline }}</span>
         </div>
 
         <div class="p-6 border-t border-gray-200 flex justify-between items-center">
@@ -162,6 +164,16 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
             </svg>
             <span>{{ $t('transcriptions.outline.copy') }}</span>
+          </button>
+		  <button
+            @click="editOutline"
+            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center space-x-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            <span v-if="!editing">{{ $t('transcriptions.outline.edit') }}</span>
+			<span v-else>{{ $t('transcriptions.outline.endEdit') }}</span>
           </button>
           <button
             @click="closeOutlineModal"
@@ -219,6 +231,8 @@ const fileInput = ref<HTMLInputElement>()
 const showOutlineModal = ref(false)
 const currentOutline = ref('')
 const currentOutlineMeetingId = ref('')
+const editing = ref(false)
+const myOutline = ref('')
 
 // 搜尋
 const search = ref('')
@@ -365,11 +379,15 @@ const copyOutline = async () => {
 }
 
 // 複製逐字稿連結
-
 const copyTranscriptionLink = (meetingId: string) => {
   const url = `https://r2-vtaiwan.bestian.tw/${meetingId}.txt`
   navigator.clipboard.writeText(url)
   alert(t('transcriptions.list.copyLinkSuccess'))
+}
+
+// 編輯逐字稿
+const editOutline = async () => {
+  editing.value = !editing.value
 }
 
 // 下載逐字稿
@@ -421,4 +439,11 @@ onMounted(() => {
 
 <style scoped>
 /* 自定義樣式如果需要 */
+  textarea {
+      border: 2px solid #000000;
+	  border-radius: 4px;
+	  padding: 8px;
+	  font-size: 14px;
+	  resize: vertical;
+  }
 </style>

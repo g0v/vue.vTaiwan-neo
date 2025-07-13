@@ -394,6 +394,8 @@
       "title": "會議大綱",
       "close": "關閉",
       "copy": "複製大綱",
+	  "edit": "編輯大綱",
+	  "endEdit": "結束編輯",
       "copySuccess": "大綱已複製到剪貼簿",
       "copyError": "複製失敗，請稍後再試"
     },

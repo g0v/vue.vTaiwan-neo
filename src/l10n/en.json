@@ -394,6 +394,8 @@
       "title": "Meeting Outline",
       "close": "Close",
       "copy": "Copy Outline",
+	  "edit": "Edit Outline",
+	  "endEdit": "End Editing",
       "copySuccess": "Outline copied to clipboard",
       "copyError": "Copy failed, please try again later"
     },
