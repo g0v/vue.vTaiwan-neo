@@ -15,6 +15,12 @@
     "info": "Info",
     "profile": "Profile"
   },
+  "underConstruction": {
+    "title": "Under Construction",
+    "message": "Welcome to vTaiwan, currently we are under construction. Please submit feature suggestions and bug reports on GitHub Issues.",
+    "messageEn": "歡迎來到 vTaiwan，目前施工中，功能建議與錯誤回報請在Github Issues上提出",
+    "githubIssues": "GitHub Issues"
+  },
   "header": {
     "home": "Home",
     "about": "About",
