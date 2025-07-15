@@ -62,24 +62,80 @@
           <div class="mb-12">
             <h2 class="text-2xl font-bold mb-6">{{ $t('meetupDetail.details') }}</h2>
             <div class="bg-gray-50 rounded-lg p-6">
-              <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h3 class="font-semibold mb-2">{{ $t('meetupDetail.date') }}</h3>
-                  <p class="text-gray-600">{{ formatDate(meetup.date) }}</p>
+              <div class="flex flex-col lg:flex-row gap-6">
+                <!-- 會議資訊 -->
+                <div class="flex-1">
+                  <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 class="font-semibold mb-2">{{ $t('meetupDetail.date') }}</h3>
+                      <p class="text-gray-600">{{ formatDate(meetup.date) }}</p>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold mb-2">{{ $t('meetupDetail.time') }}</h3>
+                      <p class="text-gray-600">{{ meetup.time }}</p>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold mb-2">{{ $t('meetupDetail.location') }}</h3>
+                      <p class="text-gray-600">{{ meetup.location }}</p>
+                    </div>
+                    <div>
+                      <h3 class="font-semibold mb-2">{{ $t('meetupDetail.relatedProject') }}</h3>
+                      <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
+                        {{ meetup.project }}
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h3 class="font-semibold mb-2">{{ $t('meetupDetail.time') }}</h3>
-                  <p class="text-gray-600">{{ meetup.time }}</p>
-                </div>
-                <div>
-                  <h3 class="font-semibold mb-2">{{ $t('meetupDetail.location') }}</h3>
-                  <p class="text-gray-600">{{ meetup.location }}</p>
-                </div>
-                <div>
-                  <h3 class="font-semibold mb-2">{{ $t('meetupDetail.relatedProject') }}</h3>
-                  <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
-                    {{ meetup.project }}
-                  </a>
+
+                <!-- 分享按鈕 -->
+                <div class="lg:w-64 mt-4 lg:mt-0">
+                  <h3 class="font-semibold mb-4">{{ $t('meetupDetail.share.title') }}</h3>
+                  <div class="space-y-0">
+                    <!-- Facebook -->
+                    <a
+                      :href="getFacebookShareUrl()"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-3 p-3 bg-white rounded-lg border hover:border-blue-500 hover:bg-blue-50 transition-colors"
+                    >
+                      <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                      </div>
+                      <span class="text-sm font-medium">{{ $t('meetupDetail.share.facebook') }}</span>
+                    </a>
+
+                    <!-- Line -->
+                    <a
+                      :href="getLineShareUrl()"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-3 p-3 bg-white rounded-lg border hover:border-green-500 hover:bg-green-50 transition-colors"
+                    >
+                      <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M21 12c0-5.52-4.48-10-10-10S1 6.48 1 12c0 1.84.5 3.58 1.38 5.06L1 22l4.94-1.38C7.42 21.5 9.16 22 11 22c5.52 0 10-4.48 10-10zm-10 7c-1.38 0-2.73-.31-3.92-.87L3 19l.87-4.08C3.31 13.73 3 12.38 3 11c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
+                        </svg>
+                      </div>
+                      <span class="text-sm font-medium">{{ $t('meetupDetail.share.line') }}</span>
+                    </a>
+
+                    <!-- X (Twitter) -->
+                    <a
+                      :href="getTwitterShareUrl()"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-3 p-3 bg-white rounded-lg border hover:border-black hover:bg-gray-50 transition-colors"
+                    >
+                      <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                      </div>
+                      <span class="text-sm font-medium">{{ $t('meetupDetail.share.twitter') }}</span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -267,5 +323,33 @@ const isUpcoming = computed(() => {
 // 格式化日期
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('zh-TW')
+}
+
+// 分享功能
+const getCurrentUrl = () => {
+  return window.location.href
+}
+
+const getShareText = () => {
+  if (!meetup.value) return ''
+  const text = `${meetup.value.title} - vTaiwan 會議`
+  return text
+}
+
+const getFacebookShareUrl = () => {
+  const url = encodeURIComponent(getCurrentUrl())
+  return `https://www.facebook.com/sharer/sharer.php?u=${url}`
+}
+
+const getLineShareUrl = () => {
+  const url = encodeURIComponent(getCurrentUrl())
+  const text = encodeURIComponent(getShareText())
+  return `https://line.me/R/msg/text/?${text}%0A${url}`
+}
+
+const getTwitterShareUrl = () => {
+  const url = encodeURIComponent(getCurrentUrl())
+  const text = encodeURIComponent(getShareText())
+  return `https://twitter.com/intent/tweet?text=${text}&url=${url}`
 }
 </script>

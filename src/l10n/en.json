@@ -337,7 +337,13 @@
     "backToMeetups": "Back to Meetups",
     "register": "Register Now",
     "notFound": "Meetup Not Found",
-    "notFoundDesc": "The meetup you are looking for does not exist or has been removed."
+    "notFoundDesc": "The meetup you are looking for does not exist or has been removed.",
+    "share": {
+      "title": "Share This Topic",
+      "facebook": "Share on Facebook",
+      "line": "Share on Line",
+      "twitter": "Share on X (Twitter)"
+    }
   },
   "contact": {
     "title": "Contact Us",

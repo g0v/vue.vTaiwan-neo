@@ -110,7 +110,7 @@
 
               <p class="text-gray-700 mb-4">{{ meetup.description }}</p>
 
-              <div class="flex items-center gap-1 text-sm">
+              <div class="flex items-center gap-1 text-sm" v-if="meetup.project">
                 <span>{{ $t('meetups.relatedProject') }}：</span>
                 <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
                   {{ meetup.project }}
@@ -337,7 +337,7 @@
 
               <p class="text-gray-700 mb-4">{{ meetup.description }}</p>
 
-              <div class="flex items-center gap-1 text-sm">
+              <div class="flex items-center gap-1 text-sm" v-if="meetup.project">
                 <span>{{ $t('meetups.relatedProject') }}：</span>
                 <a :href="meetup.projectUrl" class="text-democratic-red hover:text-democratic-red/80 transition">
                   {{ meetup.project }}
