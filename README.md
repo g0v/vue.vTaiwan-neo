@@ -43,14 +43,21 @@ npm install
 npm run dev
 ```
 
-3. 建置生產版本：
+3. 類型檢查：
+```bash
+npm run type-check
+```
+
+
+4. 建置生產版本：
 ```bash
 npm run build
 ```
 
-4. 類型檢查：
+
+5. 預覽生產版本Preview：
 ```bash
-npm run type-check
+npm run preview
 ```
 
 ## 專案結構
