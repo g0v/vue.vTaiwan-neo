@@ -77,9 +77,9 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">
                   {{ $t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}
                 </h3>
-                <p class="text-gray-600 text-sm mb-4">
+                <div class="text-gray-600 text-sm mb-4">
                   <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose prose-sm max-w-none"></div>
-                </p>
+                </div>
               </div>
 
               <div class="flex space-y-4 ml-4 flex-col">
