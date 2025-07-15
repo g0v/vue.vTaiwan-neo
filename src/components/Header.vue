@@ -92,7 +92,7 @@ const route = useRoute()
 const mobileMenuOpen = ref(false)
 
 const navItems = [
-  { href: '/projects', label: 'header.projects', icon: 'folder' },
+  { href: '/topics', label: 'header.topics', icon: 'message-circle' },
   { href: '/meetups', label: 'header.meetups', icon: 'calendar' },
   { href: '/blogs', label: 'header.blogs', icon: 'file-text' },
   { href: '/faq', label: 'header.faq', icon: 'help-circle' },

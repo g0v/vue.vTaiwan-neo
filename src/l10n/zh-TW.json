@@ -27,6 +27,7 @@
     "contact": "聯絡我們",
     "profile": "個人資料",
     "projects": "專案",
+    "topics": "議題",
     "meetups": "會議",
     "blogs": "部落格",
     "transcriptions": "逐字稿管理",
@@ -343,6 +344,37 @@
       "facebook": "分享到 Facebook",
       "line": "分享到 Line",
       "twitter": "分享到 X (Twitter)"
+    }
+  },
+  "topics": {
+    "title": "議題",
+    "description": "vTaiwan 的議題討論區，參與政策制定過程。",
+    "list": {
+      "title": "議題列表",
+      "empty": "目前沒有議題",
+      "loading": "載入中..."
+    },
+    "search": {
+      "placeholder": "搜尋議題...",
+      "results": "找到 {count} 個結果「{query}」",
+      "noResults": "找不到符合的議題",
+      "clearSearch": "清除搜尋"
+    },
+    "detail": {
+      "title": "議題詳情",
+      "discussion": "討論",
+      "timeline": "時間軸",
+      "notFound": "找不到議題",
+      "comments": "留言",
+      "participate": "參與討論"
+    },
+    "status": {
+      "preparing": "準備中",
+      "discussion": "討論中",
+      "voting": "投票中",
+      "completed": "已完成",
+      "draft": "草案研擬",
+      "collection": "意見徵集"
     }
   },
   "contact": {

@@ -1,9 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import ProjectsView from '../views/ProjectsView.vue'
-import ProjectDetailView from '../views/ProjectDetailView.vue'
+import TopicsView from '../views/TopicsView.vue'
+import TopicDetailView from '../views/TopicDetailView.vue'
 import MeetupsView from '../views/MeetupsView.vue'
-import MeetupDetailView from '../views/MeetupDetailView.vue'
 import BlogsView from '../views/BlogsView.vue'
 import BlogDetailView from '../views/BlogDetailView.vue'
 import PostBlogView from '../views/PostBlogView.vue'
@@ -31,24 +30,19 @@ const router = createRouter({
       component: JitsiView
     },
     {
-      path: '/projects',
-      name: 'projects',
-      component: ProjectsView
+      path: '/topics',
+      name: 'topics',
+      component: TopicsView
     },
     {
-      path: '/projects/:topic',
-      name: 'project-detail',
-      component: ProjectDetailView
+      path: '/topics/:id',
+      name: 'topic-detail',
+      component: TopicDetailView
     },
     {
       path: '/meetups',
       name: 'meetups',
       component: MeetupsView
-    },
-    {
-      path: '/meetups/:slug',
-      name: 'meetup-detail',
-      component: MeetupDetailView
     },
     {
       path: '/blogs',

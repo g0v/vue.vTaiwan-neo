@@ -27,6 +27,7 @@
     "contact": "Contact",
     "profile": "Profile",
     "projects": "Projects",
+    "topics": "Topics",
     "meetups": "Meetups",
     "blogs": "Blogs",
     "transcriptions": "Transcriptions",
@@ -343,6 +344,37 @@
       "facebook": "Share on Facebook",
       "line": "Share on Line",
       "twitter": "Share on X (Twitter)"
+    }
+  },
+  "topics": {
+    "title": "Topics",
+    "description": "vTaiwan's topic discussion forum, participate in the policy-making process.",
+    "list": {
+      "title": "Topic List",
+      "empty": "No topics available",
+      "loading": "Loading..."
+    },
+    "search": {
+      "placeholder": "Search topics...",
+      "results": "Found {count} results for \"{query}\"",
+      "noResults": "No matching topics found",
+      "clearSearch": "Clear Search"
+    },
+    "detail": {
+      "title": "Topic Details",
+      "discussion": "Discussion",
+      "timeline": "Timeline",
+      "notFound": "Topic not found",
+      "comments": "Comments",
+      "participate": "Participate in Discussion"
+    },
+    "status": {
+      "preparing": "Preparing",
+      "discussion": "In Discussion",
+      "voting": "Voting",
+      "completed": "Completed",
+      "draft": "Draft Development",
+      "collection": "Opinion Collection"
     }
   },
   "contact": {
