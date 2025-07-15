@@ -6,8 +6,8 @@ export interface Meetup {
   date: string
   time: string
   location: string
-  project: string
-  projectUrl: string
+  project?: string
+  projectUrl?: string
   registrationUrl?: string
   recordingUrl?: string
   summaryUrl?: string
@@ -16,6 +16,7 @@ export interface Meetup {
   googleFormUrl?: string // google form 的 url
   tags: string[]
   isPrototype?: boolean
+  isUpcoming?: boolean
 }
 
 export const meetups: Meetup[] = [
@@ -119,6 +120,19 @@ export const meetups: Meetup[] = [
     summaryUrl: '/meetups/summary/environmental-info-transparency',
     tags: ['環境政策', '資訊公開'],
     isPrototype: true
+  },
+  {
+    id: '8',
+    slug: 'free-speech-and-ai-content-moderation',
+    title: '言論自由與社群媒體利用 AI 管制的實際案例',
+    description: '探討社群媒體平台如何利用 AI 進行內容審查與管制，以及這對言論自由的影響。',
+    date: '2025-08-04',
+    time: '尚待確認', // 時間待確認
+    location: '尚待確認', // 地點待確認
+    tags: ['言論自由', 'AI 管制'],
+    isPrototype: false,
+    isUpcoming: true
+    // 請內容管理員補充斧正這個會議的資訊，謝謝!
   }
 ]
 
