@@ -364,9 +364,13 @@
       "title": "Topic Details",
       "discussion": "Discussion",
       "timeline": "Timeline",
+      "introduction": "Introduction",
       "notFound": "Topic not found",
       "comments": "Comments",
-      "participate": "Participate in Discussion"
+      "participate": "Participate in Discussion",
+      "noSlide": "No introduction material available",
+      "noInfo": "No detailed information available",
+      "enterDiscussion": "Enter Discussion"
     },
     "status": {
       "preparing": "Preparing",

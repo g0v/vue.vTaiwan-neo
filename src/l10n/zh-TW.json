@@ -364,9 +364,13 @@
       "title": "議題詳情",
       "discussion": "討論",
       "timeline": "時間軸",
+      "introduction": "簡介",
       "notFound": "找不到議題",
       "comments": "留言",
-      "participate": "參與討論"
+      "participate": "參與討論",
+      "noSlide": "暫無簡介資料",
+      "noInfo": "暫無詳細資訊",
+      "enterDiscussion": "進入討論"
     },
     "status": {
       "preparing": "準備中",

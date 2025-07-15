@@ -1,82 +1,58 @@
 <template>
   <div v-if="topic">
-    <!-- Hero Section -->
-    <section class="bg-black text-white py-16">
-      <div class="container mx-auto px-4">
-        <div class="max-w-4xl relative">
-          <div class="flex items-center mb-6">
-            <div class="w-16 h-16 rounded-full bg-jade-green/20 flex items-center justify-center mr-6">
-              <IconWrapper name="message-circle" :size="32" />
-            </div>
-            <div>
-              <span
-                class="inline-block px-3 py-1 rounded-full text-sm font-medium"
-                :class="getStatusClass(topic.status)"
-              >
-                {{ getStatusText(topic.status) }}
-              </span>
-            </div>
-          </div>
+    <!-- 進度條 -->
+    <TopicProgress v-if="realTopicId" :topic-id="realTopicId" />
 
-          <h1 class="text-4xl md:text-5xl font-bold mb-6">
+    <!-- 議題標題 -->
+    <section class="py-8">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
             {{ topic.title }}
           </h1>
-
-          <p v-if="topic.slogan" class="text-xl text-gray-300 mb-8 max-w-3xl">
-            {{ topic.slogan }}
-          </p>
-
-          <div class="flex flex-wrap gap-6 text-sm">
-            <div class="flex items-center gap-2">
-              <IconWrapper name="eye" :size="16" />
-              <span>{{ topic.views || 0 }} 次瀏覽</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <IconWrapper name="message-circle" :size="16" />
-              <span>{{ topic.posts_count || 0 }} 則留言</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <IconWrapper name="calendar" :size="16" />
-              <span>{{ formatDate(topic.last_posted_at || topic.created_at) }}</span>
-            </div>
-            <div v-if="topic.owner" class="flex items-center gap-2">
-              <IconWrapper name="user" :size="16" />
-              <span>{{ topic.owner }}</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- Content Section -->
+    <!-- Slide 簡介區塊 -->
+    <TopicSlide
+      v-if="realTopicId"
+      :topic-id="realTopicId"
+      :show-discussion-button="showDiscussionButton"
+    />
+
+    <!-- 標籤頁區域 -->
     <section class="py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto">
           <!-- Navigation Tabs -->
-          <div class="flex flex-wrap gap-4 mb-8 border-b border-gray-200">
+          <div class="flex flex-wrap gap-4 mb-8 border-b border-gray-200 justify-center">
             <button
               @click="activeTab = 'timeline'"
               :class="[
-                'px-6 py-3 font-medium border-b-2 transition-colors',
+                'px-6 py-3 font-medium border-b-2 transition-colors flex items-center',
                 activeTab === 'timeline'
                   ? 'text-jade-green border-jade-green'
                   : 'text-gray-500 border-transparent hover:text-gray-700'
               ]"
             >
               <IconWrapper name="calendar" :size="16" class="mr-2" />
-              {{ $t('topics.detail.timeline') }}
+              <span class="hidden md:inline">{{ $t('topics.detail.timeline') }}</span>
+              <span class="md:hidden">時程</span>
             </button>
             <button
+              v-if="showDiscussionTab"
               @click="activeTab = 'discussion'"
               :class="[
-                'px-6 py-3 font-medium border-b-2 transition-colors',
+                'px-6 py-3 font-medium border-b-2 transition-colors flex items-center',
                 activeTab === 'discussion'
                   ? 'text-jade-green border-jade-green'
                   : 'text-gray-500 border-transparent hover:text-gray-700'
               ]"
             >
               <IconWrapper name="message-circle" :size="16" class="mr-2" />
-              {{ $t('topics.detail.discussion') }}
+              <span class="hidden md:inline">{{ $t('topics.detail.discussion') }}</span>
+              <span class="md:hidden">討論</span>
             </button>
           </div>
 
@@ -137,6 +113,8 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
+import TopicProgress from '../components/TopicProgress.vue'
+import TopicSlide from '../components/TopicSlide.vue'
 import TopicTimeline from '../components/TopicTimeline.vue'
 import TopicDiscussion from '../components/TopicDiscussion.vue'
 import discourseApi from '../lib/discourse'
@@ -155,6 +133,18 @@ const currentLanguage = computed(() => locale.value)
 
 // 議題 ID (routeName)
 const topicId = computed(() => route.params.id)
+
+// 是否顯示討論按鈕
+const showDiscussionButton = computed(() => {
+  if (!topic.value || !topic.value.status) return false
+  const allowedStages = ['意見徵集', '研擬草案']
+  return allowedStages.includes(topic.value.status)
+})
+
+// 是否顯示討論標籤頁
+const showDiscussionTab = computed(() => {
+  return showDiscussionButton.value
+})
 
 // 載入議題詳情
 const loadTopic = async () => {
@@ -181,40 +171,19 @@ const loadTopic = async () => {
     const topicData = await discourseApi.getTopic(targetTopic.id)
     topic.value = discourseApi.formatTopicData(topicData)
 
+    // 根據 hash 設定預設標籤頁
+    if (route.hash === '#discussion' && showDiscussionTab.value) {
+      activeTab.value = 'discussion'
+    } else {
+      activeTab.value = 'timeline'
+    }
+
   } catch (error) {
     console.error('Error loading topic:', error)
     topic.value = null
   } finally {
     loading.value = false
   }
-}
-
-// 取得狀態樣式
-const getStatusClass = (status) => {
-  const statusMap = {
-    '準備中': 'bg-gray-100 text-gray-800',
-    '即將開始': 'bg-yellow-100 text-yellow-800',
-    '意見徵集': 'bg-blue-100 text-blue-800',
-    '研擬草案': 'bg-orange-100 text-orange-800',
-    '討論中': 'bg-green-100 text-green-800',
-    '投票中': 'bg-purple-100 text-purple-800',
-    '已完成': 'bg-gray-100 text-gray-800'
-  }
-  return statusMap[status] || 'bg-gray-100 text-gray-800'
-}
-
-// 取得狀態文字
-const getStatusText = (status) => {
-  const statusKey = Object.keys(t('topics.status')).find(key =>
-    t(`topics.status.${key}`) === status
-  )
-  return statusKey ? t(`topics.status.${statusKey}`) : status
-}
-
-// 格式化日期
-const formatDate = (dateString) => {
-  if (!dateString) return ''
-  return new Date(dateString).toLocaleDateString(currentLanguage.value)
 }
 
 // 組件掛載時載入資料
