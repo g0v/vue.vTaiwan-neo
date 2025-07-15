@@ -284,6 +284,12 @@
   "meetups": {
     "title": "Meetups",
     "description": "vTaiwan regularly hosts online and physical meetings to discuss project progress and public policy issues. Everyone is welcome to participate!",
+    "search": {
+      "placeholder": "Search meetups or topics...",
+      "noResults": "No meetups found for \"{query}\"",
+      "resultsFor": "Search results for: \"{query}\"",
+      "clearSearch": "Clear search"
+    },
     "upcoming": {
       "title": "Upcoming Meetups",
       "empty": "No upcoming meetups at the moment"

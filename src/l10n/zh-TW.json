@@ -284,6 +284,12 @@
   "meetups": {
     "title": "會議",
     "description": "vTaiwan 定期舉辦線上與實體會議，討論各專案的進展與公共政策議題。歡迎所有人參與！",
+    "search": {
+      "placeholder": "搜尋會議或議題...",
+      "noResults": "找不到符合「{query}」的會議",
+      "resultsFor": "搜尋結果：「{query}」",
+      "clearSearch": "清除搜尋"
+    },
     "upcoming": {
       "title": "即將舉行的會議",
       "empty": "目前沒有即將舉行的會議"
