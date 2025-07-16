@@ -419,7 +419,9 @@ const exportTranscript = () => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `transcript-${new Date().toISOString().split("T")[0]}.txt`;
+  // 使用當前選擇的日期作為檔名
+  const meetingDate = selectedDate.value; // YYYY-MM-DD 格式
+  a.download = `transcript-${meetingDate}.txt`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
