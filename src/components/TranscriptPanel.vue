@@ -226,7 +226,11 @@ const editingEntry = ref({ speaker: '', text: '' })
 const transcriptContent = ref(null)
 const manualTranscript = ref('')
 const selectedDate = ref(props.selectedDate)
-const todayDate = computed(() => new Date().toISOString().split('T')[0])
+const todayDate = computed(() => {
+  const tomorrow = new Date()
+  tomorrow.setDate(tomorrow.getDate() + 2)
+  return tomorrow.toISOString().split('T')[0]
+})
 
 // 監聽 props 變化，同步 selectedDate
 watch(() => props.selectedDate, (newDate) => {
