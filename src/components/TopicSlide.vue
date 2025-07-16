@@ -28,14 +28,6 @@
               </div>
             </div>
           </div>
-
-          <!-- 進入討論按鈕 -->
-          <div v-if="showDiscussionLink" class="text-center mt-8">
-            <router-link :to="discussionLink" class="btn-primary btn-lg">
-              <IconWrapper name="message-circle" :size="20" class="mr-2" />
-              {{ $t('topics.detail.enterDiscussion') }}
-            </router-link>
-          </div>
         </div>
       </div>
     </div>
@@ -125,7 +117,7 @@ onMounted(() => {
 
 <style scoped>
 .topic-slide {
-  min-height: 400px;
+  /* min-height: 400px; */
 }
 
 .iframe-container :deep(iframe) {
