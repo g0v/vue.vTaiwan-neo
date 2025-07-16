@@ -201,6 +201,7 @@
   "transcript": {
     "title": "Live Transcript",
     "subtitle": "Real-time meeting transcription and proofreading",
+    "selectDate": "Select Date",
     "toggleTranscript": "Toggle Transcript",
     "hideTranscript": "Hide Transcript",
     "showTranscript": "Show Transcript",

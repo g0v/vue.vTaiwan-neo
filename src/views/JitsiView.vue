@@ -56,14 +56,16 @@
       v-if="showTranscript && !isMobile"
       class="w-[62%] md:w-[38%] h-full"
     >
-      <TranscriptPanel
+              <TranscriptPanel
           @close="hideTranscript"
           :user-data="userData" :transcript-data="transcriptData"
           :is-recorder="isRecorder"
+          :selected-date="selectedDate"
           @add-data="addTranscriptData"
           @update-data="updateTranscriptData"
           @delete-data="deleteTranscriptData"
-          @i-am-recorder="toggleRecorder" />
+          @i-am-recorder="toggleRecorder"
+          @date-change="onDateChange" />
     </div>
 
     <!-- 窄螢幕抽屜式逐字稿面板 -->
@@ -89,10 +91,12 @@
           @close="hideTranscript"
           :user-data="userData" :transcript-data="transcriptData"
           :is-recorder="isRecorder"
+          :selected-date="selectedDate"
           @add-data="addTranscriptData"
           @update-data="updateTranscriptData"
           @delete-data="deleteTranscriptData"
-          @i-am-recorder="toggleRecorder" />
+          @i-am-recorder="toggleRecorder"
+          @date-change="onDateChange" />
       </div>
     </div>
 
@@ -324,8 +328,10 @@ export default {
       isTranscripting: false,
       joinMeetingName: '',
       today: '',
+      selectedDate: '',
       meetingData: {},
       transcriptData: {},
+      firebaseUnsubscribe: null, // 用於取消 Firebase 監聽
       appId: 'vpaas-magic-cookie-7c142b7a730e4478878703f86c03d5a1', // 替換自己的 App ID
       room: 'vtaiwan',
       jwt: '',
@@ -391,32 +397,13 @@ export default {
     const day = String(now.getDate()).padStart(2, '0');
     this.today = `${year}${month}${day}`;
 
+    // 設定預設選擇日期為今天 (YYYY-MM-DD 格式)
+    this.selectedDate = `${year}-${month}-${day}`;
+
     console.log('today', this.today);
 
-    // 測試能否取得 meetingData
-    get(dbRef(database, `/meetings/${this.today}`)).then((snapshot) => {
-      console.log('meeting exists', snapshot.exists());
-      if (snapshot.exists()) {
-        console.log('meetingData', snapshot.val());
-      } else {
-        console.log('meeting does not exist');
-        // 如果 meeting 不存在，則建立一個新的 meeting
-        set(dbRef(database, `/meetings/${this.today}`), {
-          recorder: '',
-          transcripts: {}
-        });
-      }
-    });
-
-    onValue(dbRef(database, `/meetings/${this.today}`), (snapshot) => {
-      if (snapshot.exists()) {
-        this.meetingData = snapshot.val();
-        console.log('meetingData', this.meetingData);
-        this.transcriptData = (this.meetingData || {}).transcripts || {};
-        this.isRecorder = this.meetingData.recorder == (this.userData || {}).uid;
-        console.log('transcriptData', this.transcriptData);
-      }
-    });
+    // 初始載入會議資料
+    this.loadMeetingData();
 
     // this.getJwt();
   },
@@ -429,6 +416,12 @@ export default {
     if (this.jitsiApi) {
       this.jitsiApi.dispose();
       this.jitsiApi = null;
+    }
+
+    // 清理 Firebase 監聽器
+    if (this.firebaseUnsubscribe) {
+      this.firebaseUnsubscribe();
+      this.firebaseUnsubscribe = null;
     }
 
     // 清理轉錄緩存計時器
@@ -1300,6 +1293,59 @@ export default {
       console.log('🔌 檢測到設備變更，重新載入設備列表...');
       this.loadAudioDevices();
     },
+
+    onDateChange(newDate) {
+      console.log('Date changed to:', newDate);
+
+      // 將 YYYY-MM-DD 格式轉換為 yyyymmdd 格式
+      const dateParts = newDate.split('-');
+      this.today = dateParts[0] + dateParts[1] + dateParts[2];
+
+      console.log('Converted date format:', this.today);
+
+      // 當日期變更時，重新載入 meetingData 和 transcriptData
+      this.loadMeetingData();
+    },
+
+    async loadMeetingData() {
+      try {
+        // 先取消現有的 Firebase 監聽
+        if (this.firebaseUnsubscribe) {
+          this.firebaseUnsubscribe();
+          this.firebaseUnsubscribe = null;
+        }
+
+        // 檢查會議資料是否存在
+        const snapshot = await get(dbRef(database, `/meetings/${this.today}`));
+        if (snapshot.exists()) {
+          console.log('Meeting data exists for', this.today);
+        } else {
+          console.log('Meeting data not found for', this.today, 'creating new one');
+          // 如果 meeting 不存在，則建立一個新的 meeting
+          await set(dbRef(database, `/meetings/${this.today}`), {
+            recorder: '',
+            transcripts: {}
+          });
+        }
+
+        // 設定新的 Firebase 監聽
+        this.firebaseUnsubscribe = onValue(dbRef(database, `/meetings/${this.today}`), (snapshot) => {
+          if (snapshot.exists()) {
+            this.meetingData = snapshot.val();
+            console.log('Meeting data updated for', this.today, this.meetingData);
+            this.transcriptData = (this.meetingData || {}).transcripts || {};
+            this.isRecorder = this.meetingData.recorder == (this.userData || {}).uid;
+            console.log('Transcript data updated:', this.transcriptData);
+          } else {
+            this.meetingData = { recorder: '', transcripts: {} };
+            this.transcriptData = {};
+            this.isRecorder = false;
+          }
+        });
+      } catch (error) {
+        console.error('Error loading meeting data:', error);
+      }
+    }
   }
 };
 </script>

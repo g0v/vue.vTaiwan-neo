@@ -201,6 +201,7 @@
   "transcript": {
     "title": "即時逐字稿",
     "subtitle": "會議內容即時轉錄與校對",
+    "selectDate": "選擇日期",
     "toggleTranscript": "切換逐字稿",
     "hideTranscript": "隱藏逐字稿",
     "showTranscript": "顯示逐字稿",
