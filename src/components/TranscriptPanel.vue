@@ -19,6 +19,22 @@
         </button>
       </div>
 
+      <!-- 日期選擇器 -->
+      <div class="mb-3">
+        <div class="flex items-center gap-2">
+          <label class="text-sm font-medium text-gray-700"
+            >{{ $t("transcript.selectDate") }}:</label
+          >
+          <input
+            type="date"
+            v-model="selectedDate"
+            @change="onDateChange"
+            class="px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-jade-green"
+            :max="todayDate"
+          />
+        </div>
+      </div>
+
       <!-- 控制按鈕 -->
       <div class="flex items-center gap-2 flex-wrap">
         <!-- <button
@@ -232,6 +248,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectedDate: {
+    type: String,
+    default: () => new Date().toISOString().split("T")[0],
+  },
 });
 
 // Emits
@@ -250,6 +270,20 @@ const manualTranscript = ref("");
 const showEditModal = ref(false);
 const shouldScrollToEditedEntry = ref(false);
 const lastEditedIndex = ref(-1);
+const selectedDate = ref(props.selectedDate);
+const todayDate = computed(() => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 2);
+  return tomorrow.toISOString().split("T")[0];
+});
+
+// 監聽 props 變化，同步 selectedDate
+watch(
+  () => props.selectedDate,
+  (newDate) => {
+    selectedDate.value = newDate;
+  }
+);
 
 watch(transcriptData, () => {
   if (autoScroll.value && !shouldScrollToEditedEntry.value) {
@@ -394,6 +428,10 @@ const exportTranscript = () => {
 
 const iAmRecorder = () => {
   emit("i-am-recorder");
+};
+
+const onDateChange = () => {
+  emit("date-change", selectedDate.value);
 };
 
 // 模擬即時逐字稿更新（實際使用時會替換為 WebSocket 或其他即時通訊）
