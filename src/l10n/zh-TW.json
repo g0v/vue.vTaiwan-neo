@@ -235,7 +235,11 @@
     "testingAudio": "測試中...",
     "audioLevel": "音訊音量",
     "speakToTest": "請對著麥克風說話來測試音量",
-    "stopTest": "停止測試"
+    "stopTest": "停止測試",
+    "editEntry": "編輯逐字稿",
+    "close": "關閉",
+    "speakerPlaceholder": "請輸入發言者姓名",
+    "contentPlaceholder": "請輸入逐字稿內容..."
   },
   "projects": {
     "title": "專案列表",
@@ -435,21 +439,21 @@
       "title": "逐字稿列表",
       "meetingId": "會議 ID",
       "fileName": "檔案名稱",
-              "viewOutline": "查看大綱",
-        "viewDetail": "查看詳情",
-        "download": "下載全文",
-        "empty": "目前沒有逐字稿資料",
-        "copyLink": "複製逐字稿連結",
-        "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
-        "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
+      "viewOutline": "查看大綱",
+      "viewDetail": "查看詳情",
+      "download": "下載全文",
+      "empty": "目前沒有逐字稿資料",
+      "copyLink": "複製逐字稿連結",
+      "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
+      "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
     },
 
     "outline": {
       "title": "會議大綱",
       "close": "關閉",
       "copy": "複製大綱",
-	    "edit": "編輯大綱",
-	    "saveAndEndEdit": "儲存並結束編輯",
+      "edit": "編輯大綱",
+      "saveAndEndEdit": "儲存並結束編輯",
       "cancel": "取消編輯",
       "copySuccess": "大綱已複製到剪貼簿",
       "copyError": "複製失敗，請稍後再試",
@@ -540,4 +544,4 @@
       }
     }
   }
-} 
+}

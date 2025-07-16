@@ -4,8 +4,9 @@
     <div class="flex-shrink-0 p-4 border-b border-gray-200 bg-gray-50">
       <div class="flex items-center justify-between mb-2">
         <div>
-          <h3 class="text-lg font-bold text-gray-900">{{ $t('transcript.title') }}
-            <span class="text-sm text-gray-600">{{ $t('transcript.subtitle') }}</span>
+          <h3 class="text-lg font-bold text-gray-900">
+            {{ $t("transcript.title") }}
+            <span class="text-sm text-gray-600">{{ $t("transcript.subtitle") }}</span>
           </h3>
         </div>
 
@@ -20,7 +21,6 @@
 
       <!-- 控制按鈕 -->
       <div class="flex items-center gap-2 flex-wrap">
-
         <!-- <button
           @click="iAmRecorder"
           :class="[
@@ -37,28 +37,23 @@
           @click="toggleAutoScroll"
           :class="[
             'px-3 py-1 text-xs rounded-full transition',
-            autoScroll
-              ? 'bg-jade-green text-white'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            autoScroll ? 'bg-jade-green text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300',
           ]"
         >
-          {{ $t('transcript.autoScroll') }}
+          {{ $t("transcript.autoScroll") }}
         </button>
 
-        <select
-          v-model="fontSize"
-          class="px-2 py-1 text-xs border border-gray-300 rounded"
-        >
-          <option value="small">{{ $t('transcript.fontSizeSmall') }}</option>
-          <option value="medium">{{ $t('transcript.fontSizeMedium') }}</option>
-          <option value="large">{{ $t('transcript.fontSizeLarge') }}</option>
+        <select v-model="fontSize" class="px-2 py-1 text-xs border border-gray-300 rounded">
+          <option value="small">{{ $t("transcript.fontSizeSmall") }}</option>
+          <option value="medium">{{ $t("transcript.fontSizeMedium") }}</option>
+          <option value="large">{{ $t("transcript.fontSizeLarge") }}</option>
         </select>
 
         <button
           @click="exportTranscript"
           class="px-3 py-1 text-xs bg-jade-green text-white rounded hover:bg-jade-green/90 transition"
         >
-          {{ $t('transcript.exportTranscript') }}
+          {{ $t("transcript.exportTranscript") }}
         </button>
       </div>
     </div>
@@ -71,7 +66,7 @@
     >
       <div v-if="Object.keys(transcriptData).length === 0" class="text-center text-gray-500 py-8">
         <IconWrapper name="file-text" :size="48" class="mx-auto mb-4 text-gray-300" />
-        <p>{{ $t('transcript.noContent') }}</p>
+        <p>{{ $t("transcript.noContent") }}</p>
       </div>
 
       <div
@@ -102,35 +97,9 @@
           </div>
         </div>
 
-        <div v-if="editingIndex === index" class="space-y-2">
-          <input
-            v-model="editingEntry.speaker"
-            :placeholder="$t('transcript.speaker')"
-            class="w-full px-2 py-1 text-sm border border-gray-300 rounded"
-          />
-          <textarea
-            v-model="editingEntry.text"
-            :placeholder="$t('transcript.content')"
-            class="w-full px-2 py-1 text-sm border border-gray-300 rounded resize-none"
-            rows="3"
-          ></textarea>
-          <div class="flex gap-2">
-            <button
-              @click="saveEntry"
-              class="px-3 py-1 text-xs bg-jade-green text-white rounded hover:bg-jade-green/90 transition"
-            >
-              {{ $t('transcript.save') }}
-            </button>
-            <button
-              @click="cancelEdit"
-              class="px-3 py-1 text-xs bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition"
-            >
-              {{ $t('transcript.cancel') }}
-            </button>
-          </div>
+        <div class="text-gray-900 whitespace-pre-wrap" style="word-break: break-all">
+          {{ entry.text }}
         </div>
-
-        <div v-else class="text-gray-900 whitespace-pre-wrap" style="word-break: break-all;">{{ entry.text }}</div>
       </div>
     </div>
 
@@ -146,7 +115,8 @@
         <button
           @click="addManualTranscript"
           class="px-3 py-1 text-xs bg-jade-green text-white rounded hover:bg-jade-green/90 transition"
-        > {{ $t('transcript.addManualTranscript') }}
+        >
+          {{ $t("transcript.addManualTranscript") }}
         </button>
       </div>
     </div>
@@ -156,11 +126,81 @@
       <div class="flex items-center justify-between text-xs text-gray-500">
         <span>{{ Object.keys(transcriptData).length }} 條記錄</span>
         <div class="flex items-center gap-2">
-          <div :class="[
-            'w-2 h-2 rounded-full',
-            isConnected ? 'bg-jade-green' : 'bg-red-500'
-          ]"></div>
-          <span>{{ isConnected ? '已連接' : $t('transcript.disconnected') }}</span>
+          <div
+            :class="['w-2 h-2 rounded-full', isConnected ? 'bg-jade-green' : 'bg-red-500']"
+          ></div>
+          <span>{{ isConnected ? "已連接" : $t("transcript.disconnected") }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 編輯彈出框 -->
+    <div
+      v-if="showEditModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] mx-4 flex flex-col">
+        <!-- 彈出框標題 -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+          <h3 class="text-xl font-bold text-gray-900">{{ $t("transcript.editEntry") }}</h3>
+          <button
+            @click="cancelEdit"
+            class="p-2 hover:bg-gray-100 rounded-lg transition"
+            :title="$t('transcript.close')"
+          >
+            <IconWrapper name="x" :size="24" />
+          </button>
+        </div>
+
+        <!-- 彈出框內容 -->
+        <div class="flex-1 p-6 overflow-y-auto">
+          <div class="space-y-4">
+            <!-- 時間戳記 -->
+            <div class="text-sm text-gray-500">
+              {{ $t("transcript.timestamp") }}: {{ formatTimestamp(editingEntry.timestamp) }}
+            </div>
+
+            <!-- 發言者 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                {{ $t("transcript.speaker") }}
+              </label>
+              <input
+                v-model="editingEntry.speaker"
+                :placeholder="$t('transcript.speakerPlaceholder')"
+                class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-jade-green focus:border-transparent"
+              />
+            </div>
+
+            <!-- 內容 -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                {{ $t("transcript.content") }}
+              </label>
+              <textarea
+                v-model="editingEntry.text"
+                :placeholder="$t('transcript.contentPlaceholder')"
+                class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-jade-green focus:border-transparent"
+                rows="12"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- 彈出框底部按鈕 -->
+        <div class="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
+          <button
+            @click="cancelEdit"
+            class="px-6 py-3 text-base bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition"
+          >
+            {{ $t("transcript.cancel") }}
+          </button>
+          <button
+            @click="saveEntry"
+            class="px-6 py-3 text-base bg-jade-green text-white rounded-lg hover:bg-jade-green/90 transition"
+          >
+            {{ $t("transcript.save") }}
+          </button>
         </div>
       </div>
     </div>
@@ -168,185 +208,219 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
-import IconWrapper from './IconWrapper.vue'
+import { ref, computed, nextTick, watch } from "vue";
+import { useI18n } from "vue-i18n";
+import IconWrapper from "./IconWrapper.vue";
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 // Props
 const props = defineProps({
   userData: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   transcriptData: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   isVisible: {
     type: Boolean,
-    default: true
+    default: true,
   },
   isRecorder: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
 // Emits
-const emit = defineEmits(['close', 'add-data', 'i-am-recorder'])
+const emit = defineEmits(["close", "add-data", "i-am-recorder", "update-data", "delete-data"]);
 
 // 響應式數據
-const transcriptData = computed(() => props.transcriptData || {})
+const transcriptData = computed(() => props.transcriptData || {});
 
-const autoScroll = ref(true)
-const fontSize = ref('medium')
-const isConnected = ref(true)
-const editingIndex = ref(-1)
-const editingEntry = ref({ speaker: '', text: '' })
-const transcriptContent = ref(null)
-const manualTranscript = ref('')
+const autoScroll = ref(true);
+const fontSize = ref("medium");
+const isConnected = ref(true);
+const editingIndex = ref(-1);
+const editingEntry = ref({ speaker: "", text: "", timestamp: Date.now() });
+const transcriptContent = ref(null);
+const manualTranscript = ref("");
+const showEditModal = ref(false);
+const shouldScrollToEditedEntry = ref(false);
+const lastEditedIndex = ref(-1);
 
 watch(transcriptData, () => {
-  if (autoScroll.value) {
+  if (autoScroll.value && !shouldScrollToEditedEntry.value) {
     nextTick(() => {
-      scrollToBottom()
-    })
+      scrollToBottom();
+    });
   }
-})
+});
 
 // 計算屬性
 const fontSizeClass = computed(() => {
   switch (fontSize.value) {
-    case 'small': return 'text-sm'
-    case 'large': return 'text-lg'
-    default: return 'text-base'
+    case "small":
+      return "text-sm";
+    case "large":
+      return "text-lg";
+    default:
+      return "text-base";
   }
-})
+});
 
 // 方法
 const formatTimestamp = (timestamp) => {
-  return new Date(timestamp).toLocaleTimeString('zh-TW', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  })
-}
+  return new Date(timestamp).toLocaleTimeString("zh-TW", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+};
 
 // 滾動到底部
 const scrollToBottom = () => {
   if (transcriptContent.value) {
-    transcriptContent.value.scrollTop = transcriptContent.value.scrollHeight
+    transcriptContent.value.scrollTop = transcriptContent.value.scrollHeight;
   }
-}
+};
+
+// 滾動到特定項目
+const scrollToEditedEntry = (index) => {
+  if (transcriptContent.value) {
+    const entries = transcriptContent.value.querySelectorAll(".transcript-entry");
+    if (entries[index]) {
+      entries[index].scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }
+};
 
 const toggleAutoScroll = () => {
-  autoScroll.value = !autoScroll.value
-}
+  autoScroll.value = !autoScroll.value;
+};
 
 const addNewData = () => {
   const timestamp = Date.now();
   const newData = {
-    speaker: '',
-    text: '',
-    timestamp
+    speaker: "",
+    text: "",
+    timestamp,
   };
-  emit('add-data', newData);
-}
+  emit("add-data", newData);
+};
 
 const addManualTranscript = () => {
   const timestamp = Date.now();
   const newData = {
-    speaker: props.userData.name || 'Guest',
+    speaker: props.userData.name || "Guest",
     text: manualTranscript.value,
-    timestamp
+    timestamp,
   };
-  emit('add-data', newData);
-  manualTranscript.value = ''
-}
+  emit("add-data", newData);
+  manualTranscript.value = "";
+};
 
 const editEntry = (index) => {
-  editingIndex.value = index
+  editingIndex.value = index;
+  const entry = Object.values(transcriptData.value)[index];
   editingEntry.value = {
-    speaker: Object.values(transcriptData.value)[index].speaker,
-    text: Object.values(transcriptData.value)[index].text
-  }
-  // 編輯時自動捲到最下面
-  nextTick(() => {
-    scrollToBottom()
-  })
-}
+    speaker: entry.speaker || "",
+    text: entry.text || "",
+    timestamp: entry.timestamp,
+  };
+  showEditModal.value = true;
+};
 
 const saveEntry = () => {
   if (editingIndex.value >= 0) {
     const updatedData = {
       ...Object.values(transcriptData.value)[editingIndex.value],
       speaker: editingEntry.value.speaker,
-      text: editingEntry.value.text
-    }
-    emit('update-data', updatedData)
-    cancelEdit()
+      text: editingEntry.value.text,
+    };
+    const savedIndex = editingIndex.value; // 儲存編輯的索引
+    emit("update-data", updatedData);
+    cancelEdit();
+    // 設定標記，避免自動捲動到底部
+    shouldScrollToEditedEntry.value = true;
+    lastEditedIndex.value = savedIndex;
+    // 編輯結束後捲動到原本編輯的項目位置
+    nextTick(() => {
+      scrollToEditedEntry(savedIndex);
+      // 重置標記
+      setTimeout(() => {
+        shouldScrollToEditedEntry.value = false;
+      }, 100);
+    });
   }
-}
+};
 
 const cancelEdit = () => {
-  editingIndex.value = -1
-  editingEntry.value = { speaker: '', text: '' }
-}
+  editingIndex.value = -1;
+  editingEntry.value = { speaker: "", text: "", timestamp: Date.now() };
+  showEditModal.value = false;
+};
 
 const deleteEntry = (index) => {
-  if (confirm(t('transcript.confirmClear'))) {
-    emit('delete-data', Object.values(transcriptData.value)[index].timestamp)
+  if (confirm(t("transcript.confirmClear"))) {
+    emit("delete-data", Object.values(transcriptData.value)[index].timestamp);
   }
-}
+};
 
 const exportTranscript = () => {
-  const content = Object.values(transcriptData.value).map(entry => {
-    const time = formatTimestamp(entry.timestamp)
-    const speaker = entry.speaker ? `${entry.speaker}: ` : ''
-    return `[${time}] ${speaker}${entry.text}`
-  }).join('\n\n')
+  const content = Object.values(transcriptData.value)
+    .map((entry) => {
+      const time = formatTimestamp(entry.timestamp);
+      const speaker = entry.speaker ? `${entry.speaker}: ` : "";
+      return `[${time}] ${speaker}${entry.text}`;
+    })
+    .join("\n\n");
 
-  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `transcript-${new Date().toISOString().split('T')[0]}.txt`
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-  URL.revokeObjectURL(url)
-}
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `transcript-${new Date().toISOString().split("T")[0]}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
 
 const iAmRecorder = () => {
-  emit('i-am-recorder')
-}
+  emit("i-am-recorder");
+};
 
 // 模擬即時逐字稿更新（實際使用時會替換為 WebSocket 或其他即時通訊）
 const simulateRealTimeUpdate = () => {
   const sampleTexts = [
-    '這是一個很重要的議題，我們需要仔細討論。',
-    '我同意剛才的發言，但是我想補充一些觀點。',
-    '從技術角度來看，這個提案是可行的。',
-    '我們需要考慮到實施的成本和效益。',
-    '這個政策對於民眾的影響是什麼？'
-  ]
+    "這是一個很重要的議題，我們需要仔細討論。",
+    "我同意剛才的發言，但是我想補充一些觀點。",
+    "從技術角度來看，這個提案是可行的。",
+    "我們需要考慮到實施的成本和效益。",
+    "這個政策對於民眾的影響是什麼？",
+  ];
 
-  const speakers = ['主持人', '與會者A', '與會者B', '與會者C', '專家']
+  const speakers = ["主持人", "與會者A", "與會者B", "與會者C", "專家"];
 
   setInterval(() => {
-    if (Math.random() > 0.7) { // 30% 機率添加新內容
+    if (Math.random() > 0.7) {
+      // 30% 機率添加新內容
       const newEntry = {
         id: Date.now(),
         timestamp: new Date(),
         speaker: speakers[Math.floor(Math.random() * speakers.length)],
-        text: sampleTexts[Math.floor(Math.random() * sampleTexts.length)]
-      }
-      emit('add-data', newEntry)
+        text: sampleTexts[Math.floor(Math.random() * sampleTexts.length)],
+      };
+      emit("add-data", newEntry);
     }
-  }, 5000) // 每5秒檢查一次
-}
+  }, 5000); // 每5秒檢查一次
+};
 
 // 組件掛載時開始模擬
 // simulateRealTimeUpdate() // 取消註解以啟用模擬數據

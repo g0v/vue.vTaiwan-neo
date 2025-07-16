@@ -235,7 +235,11 @@
     "testingAudio": "Testing...",
     "audioLevel": "Audio Level",
     "speakToTest": "Please speak into the microphone to test volume",
-    "stopTest": "Stop Test"
+    "stopTest": "Stop Test",
+    "editEntry": "Edit Transcript Entry",
+    "close": "Close",
+    "speakerPlaceholder": "Enter speaker name",
+    "contentPlaceholder": "Enter transcript content..."
   },
   "projects": {
     "title": "Project List",
@@ -435,24 +439,24 @@
       "title": "Transcription List",
       "meetingId": "Meeting ID",
       "fileName": "File Name",
-              "viewOutline": "View Outline",
-        "viewDetail": "View Detail",
-        "download": "Download Full Text",
-        "empty": "No transcription data available",
-        "copyLink": "Copy Transcription Link",
-        "copyLinkSuccess": "Transcription link copied to clipboard",
-        "copyLinkError": "Copy failed, please try again later"
+      "viewOutline": "View Outline",
+      "viewDetail": "View Detail",
+      "download": "Download Full Text",
+      "empty": "No transcription data available",
+      "copyLink": "Copy Transcription Link",
+      "copyLinkSuccess": "Transcription link copied to clipboard",
+      "copyLinkError": "Copy failed, please try again later"
     },
 
     "outline": {
       "title": "Meeting Outline",
       "close": "Close",
       "copy": "Copy Outline",
-	    "edit": "Edit Outline",
-	    "saveAndEndEdit": "Save and End Editing",
+      "edit": "Edit Outline",
+      "saveAndEndEdit": "Save and End Editing",
       "cancel": "Cancel Editing",
       "copySuccess": "Outline copied to clipboard",
-      "copyError": "Copy failed, please try again later", 
+      "copyError": "Copy failed, please try again later",
       "editRequireAdmin": "Admin permission required to edit outline"
     },
     "messages": {
@@ -540,4 +544,4 @@
       }
     }
   }
-} 
+}
