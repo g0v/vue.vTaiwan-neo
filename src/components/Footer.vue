@@ -80,6 +80,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import IconWrapper from './IconWrapper.vue'
 
 const { t } = useI18n()
 const currentYear = computed(() => new Date().getFullYear())

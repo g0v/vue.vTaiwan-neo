@@ -26,9 +26,13 @@
           </div>
           <div class="p-4">
             <TopicDiscussionComment
+              v-if="disc.id"
               :comment-id="disc.id"
               :slice="false"
             />
+            <div v-else class="text-gray-500 text-center py-4">
+              無法載入討論內容
+            </div>
           </div>
         </div>
       </div>
@@ -185,25 +189,39 @@ const processDiscussionType = async (topicData) => {
         type: 'livehouse',
         embeder: `<iframe width="100%" height="1000px" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`
       }
-    } else if (link.indexOf('talk.vtaiwan.tw') > -1) {
+            } else if (link.indexOf('talk.vtaiwan.tw') > -1) {
       // discourse 討論串
       const categoryUrl = link.replace(/(.*)\/$/, '$1') // 移除末尾的斜線
 
       try {
-        const topics = await discourseApi.getAllTopics(categoryUrl + '.json')
-        const sortedTopics = topics.sort((a, b) =>
-          a.title.localeCompare(b.title, 'zh-TW')
-        )
+        // 使用專門的方法獲取分類下的所有討論串
+        const topics = await discourseApi.getAllCategoryTopics(categoryUrl + '.json')
+
+        // 使用中文排序邏輯，複刻舊網站行為
+        const sortedTopics = topics.sort((a, b) => {
+          // 使用discourse.js中的chineseSort邏輯
+          const c2n = { "一": "1", "二": "2", "三": "3", "四": "4", "五": "5", "六": "6", "七": "7", "八": "8", "九": "9", "十": "10" }
+
+          const chineseToNumber = (str) => {
+            return str.replace(/一|二|三|四|五|六|七|八|九|十/gi, (matched) => {
+              return c2n[matched]
+            })
+          }
+
+          return chineseToNumber(a.title).localeCompare(chineseToNumber(b.title), 'zh-TW', { numeric: true })
+        })
 
         discussionType.value = {
           type: 'discourse',
-          embeder: sortedTopics.map(t => ({
-            title: t.title,
-            id: t.id
-          }))
+          embeder: sortedTopics
+            .filter(t => t.id && t.title) // 只包含有效的topic
+            .map(t => ({
+              title: t.title,
+              id: t.id
+            }))
         }
       } catch (error) {
-        console.error('Error loading discourse topics:', error)
+        console.error('Error loading discourse category topics:', error)
         discussionType.value = { type: '', embeder: '' }
       }
     } else if (link.indexOf('typeform') > -1) {

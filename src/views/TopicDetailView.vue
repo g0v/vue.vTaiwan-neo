@@ -64,7 +64,7 @@
             </div>
 
             <!-- Discussion Tab -->
-            <div v-if="activeTab === 'discussion' && realTopicId">
+            <div v-if="activeTab === 'discussion' && realTopicId && showDiscussionTab">
               <TopicDiscussion :topic-id="realTopicId" />
             </div>
           </div>
@@ -166,13 +166,15 @@ const loadTopic = async () => {
       return
     }
 
+    console.log('targetTopic', targetTopic)
+
     // 使用真正的 topic ID 獲取詳細資訊
     realTopicId.value = targetTopic.id
     const topicData = await discourseApi.getTopic(targetTopic.id)
     topic.value = discourseApi.formatTopicData(topicData)
 
     // 根據 hash 設定預設標籤頁
-    if (route.hash === '#discussion' && showDiscussionTab.value) {
+    if (route.hash === '#discussion' && showDiscussionButton.value) {
       activeTab.value = 'discussion'
     } else {
       activeTab.value = 'timeline'

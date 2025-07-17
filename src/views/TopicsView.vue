@@ -85,7 +85,7 @@
           <div class="mb-4">
             <h3 class="text-xl font-bold mb-2">
               <router-link
-                :to="`/topics/${topic.routeName || topic.id}`"
+                :to="`/topics/${topic.id}`"
                 class="hover:text-jade-green transition"
               >
                 {{ topic.title }}
@@ -178,12 +178,17 @@ const currentLanguage = computed(() => locale.value)
 // 篩選議題
 const filteredTopics = computed(() => {
   if (!searchQuery.value.trim()) {
-    return topics.value
+    return topics.value.filter(topic => topic.title !== '網站基本設定')
   }
 
   const query = searchQuery.value.toLowerCase().trim()
 
   return topics.value.filter(topic => {
+
+    if (topic.title === '網站基本設定') {
+      return false
+    }
+
     // 搜尋標題
     if (topic.title && topic.title.toLowerCase().includes(query)) {
       return true
