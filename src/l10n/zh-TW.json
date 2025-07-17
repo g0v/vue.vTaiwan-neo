@@ -432,7 +432,7 @@
     "upload": {
       "title": "上傳逐字稿",
       "selectFile": "選擇檔案 (.txt)",
-      "uploading": "上傳中...",
+      "uploading": "上傳中...由AI整理摘要，需等待約60秒",
       "uploadButton": "上傳逐字稿",
       "loginRequired": "請先登入才能上傳逐字稿檔案"
     },
