@@ -80,6 +80,10 @@ const router = createRouter({
       component: ContactView
     },
     {
+      path: '/contactus',
+      redirect: '/contact'
+    },
+    {
       path: '/transcriptions',
       name: 'transcriptions',
       component: TranscriptionsView
