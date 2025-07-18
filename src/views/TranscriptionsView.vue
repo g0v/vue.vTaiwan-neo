@@ -454,6 +454,13 @@ const endEditOutline = () => {
     if (response.status === 200) {
       console.log('更新大綱成功')
       currentOutline.value = myOutline.value
+
+      // 同時更新逐字稿列表中的大綱
+      const transcriptionIndex = transcriptions.value.findIndex(t => t.meeting_id === currentOutlineMeetingId.value)
+      if (transcriptionIndex !== -1) {
+        transcriptions.value[transcriptionIndex].outline = myOutline.value
+      }
+
       myOutline.value = ''
     }
   }).catch(error => {
