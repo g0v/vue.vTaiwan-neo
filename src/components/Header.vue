@@ -50,7 +50,7 @@
             </button>
           </div>
 
-          <button @click="toggleMobileMenu" class="lg:hidden text-white">
+          <button @click="toggleMobileMenu" class="lg:hidden text-white" title="Menu" name="Menu">
             <IconWrapper name="menu" :size="24" color="white" />
           </button>
         </div>
