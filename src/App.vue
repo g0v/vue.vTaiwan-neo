@@ -59,10 +59,10 @@ const showLoginModal = ref(false)
 // 獲取用戶詳細資訊
 const loadUserData = async (uid) => {
   try {
-    console.log('Loading user data for uid:', uid)
+    // console.log('Loading user data for uid:', uid)
     const userSnapshot = await get(dbRef(database, `users/${uid}`))
     const data = userSnapshot.val()
-    console.log('User data from Firebase:', data)
+    // console.log('User data from Firebase:', data)
 
     // 確保響應式更新
     if (data) {
@@ -77,7 +77,7 @@ const loadUserData = async (uid) => {
 
     // 強制觸發響應式更新
     await nextTick()
-    console.log('userData.value after nextTick:', userData.value)
+    // console.log('userData.value after nextTick:', userData.value)
   } catch (error) {
     console.error('Error loading user data:', error)
     userData.value = { uid }
@@ -88,7 +88,7 @@ const loadUserData = async (uid) => {
 onMounted(() => {
   const auth = getAuth()
   onAuthStateChanged(auth, async (currentUser) => {
-    console.log('Auth state changed:', currentUser)
+    //console.log('Auth state changed:', currentUser)
     user.value = currentUser
     if (currentUser) {
       showLoginModal.value = false // 登入成功後關閉模態框
