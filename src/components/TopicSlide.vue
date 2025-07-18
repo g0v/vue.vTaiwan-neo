@@ -67,7 +67,7 @@ const showDiscussionLink = computed(() => {
 
 // 討論連結
 const discussionLink = computed(() => {
-  return `/topics/${props.topicId}#discussion`
+  return `/topic/${props.topicId}#discussion`
 })
 
 // 載入 Slide 資料

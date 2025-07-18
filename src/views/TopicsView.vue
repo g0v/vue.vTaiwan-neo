@@ -85,7 +85,7 @@
           <div class="mb-4">
             <h3 class="text-xl font-bold mb-2">
               <router-link
-                :to="`/topics/${topic.id}`"
+                :to="`/topic/${topic.id}`"
                 class="hover:text-jade-green transition"
               >
                 {{ topic.title }}
@@ -127,7 +127,7 @@
           <!-- Action Button -->
           <div class="mt-auto">
             <router-link
-              :to="`/topics/${topic.routeName || topic.id}`"
+              :to="`/topic/${topic.routeName || topic.id}`"
               class="btn-primary w-full text-center"
             >
               {{ $t('topics.detail.participate') }}
