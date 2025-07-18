@@ -35,7 +35,7 @@ const closeUnderConstructionModal = () => {
             <router-link to="/projects" class="btn-primary rounded-md">
               {{ $t('home.hero.buttons.browseProjects') }}
             </router-link>
-            <router-link to="/about" class="btn-outline bg-transparent text-white border-white rounded-md">
+            <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
               {{ $t('home.hero.buttons.learnMore') }}
             </router-link>
           </div>
@@ -87,7 +87,7 @@ const closeUnderConstructionModal = () => {
           <router-link to="/projects" class="btn-primary rounded-md">
             {{ $t('home.cta.buttons.browseProjects') }}
           </router-link>
-          <router-link to="/about" class="btn-outline bg-transparent text-white border-white rounded-md">
+          <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
             {{ $t('home.cta.buttons.learnMore') }}
           </router-link>
         </div>

@@ -36,7 +36,7 @@
       <p class="text-gray-600 mb-6">
         {{ $t('contributors.joinUsDescription') }}
       </p>
-      <router-link to="/about" class="btn-primary rounded-md">
+      <router-link to="/intro" class="btn-primary rounded-md">
         {{ $t('contributors.learnMore') }}
       </router-link>
     </div>

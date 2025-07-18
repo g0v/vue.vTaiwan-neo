@@ -65,7 +65,11 @@ const router = createRouter({
       component: FAQView
     },
     {
-      path: '/about',
+      path: '/how-to-use',
+      redirect: '/faq'
+    },
+    {
+      path: '/intro',
       name: 'about',
       component: AboutView
     },
