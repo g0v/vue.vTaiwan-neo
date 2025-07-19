@@ -8,7 +8,7 @@
       </p>
       <br/>
 
-      <div class="flex justify-center gap-4" v-if="userData && userData.uid">
+      <div class="flex justify-center gap-4">
         <!-- <a href="https://meet.jit.si/vtaiwan" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md inline-block">
           {{ $t('meetups.jitsi') }}(Current)
           <br/>
@@ -21,13 +21,6 @@
         </RouterLink>
         <RouterLink to="/transcriptions" class="btn-primary rounded-md inline-block">
           {{ $t('meetups.transcriptions') }}(Beta)
-        </RouterLink>
-      </div>
-      <div class="flex justify-center gap-4" v-else>
-        <RouterLink to="/jitsi" class="btn-primary rounded-md inline-block">
-          {{ $t('meetups.jitsi') }}(Beta)
-          <br/>
-          <span class="text-sm text-black">(Wednesdays 19:00)</span>
         </RouterLink>
       </div>
     </div>
