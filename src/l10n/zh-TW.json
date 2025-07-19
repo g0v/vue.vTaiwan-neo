@@ -198,6 +198,13 @@
     "isPrototype": "這是樣稿",
     "prototype": "樣稿"
   },
+  "topicDetail": {
+    "discussion": "討論區",
+    "admin": "管理員",
+    "moderator": "版主",
+    "showAllPosts": "顯示全部 {count} 則留言",
+    "showLess": "顯示較少"
+  },
   "transcript": {
     "title": "即時逐字稿",
     "subtitle": "會議內容即時轉錄與校對",

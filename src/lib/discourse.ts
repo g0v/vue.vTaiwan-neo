@@ -279,28 +279,16 @@ const discourseAPI: DiscourseAPI = {
   },
 
   // 取得議題的所有貼文
-  async getAllPosts(topicId: string | number): Promise<DiscoursePost[]> {
-    const allPosts: DiscoursePost[] = []
-    let page = 0
-
-    try {
-      while (true) {
-        const response = await cachedGet(`/t/${topicId}.json?include_raw=1&page=${page}`)
-        const posts: DiscoursePost[] = response.data.post_stream.posts
-
-        if (posts && posts.length > 0) {
-          allPosts.push(...posts)
-          page++
-        } else {
-          break
-        }
-      }
-
-      return allPosts
-    } catch (error) {
-      console.error('Failed to fetch posts:', error)
-      throw error
-    }
+  getAllPosts(categoryUri: string): Promise<DiscoursePost[]> {
+    return cachedGet(categoryUri + "?include_raw=1")
+      .then(result => {
+        const posts: DiscoursePost[] = result['data']['post_stream']['posts']
+        return posts || []
+      })
+      .catch(error => {
+        console.error('Failed to fetch posts:', error)
+        throw error
+      })
   },
 
   // 取得議題統計資訊

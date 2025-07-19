@@ -386,6 +386,13 @@
       "collection": "Opinion Collection"
     }
   },
+  "topicDetail": {
+    "discussion": "Discussion",
+    "admin": "Admin",
+    "moderator": "Moderator",
+    "showAllPosts": "Show All {count} Posts",
+    "showLess": "Show Less"
+  },
   "contact": {
     "title": "Contact Us",
     "subtitle": "Join the vTaiwan community and help us promote digital democracy",
