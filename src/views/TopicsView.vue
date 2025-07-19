@@ -33,6 +33,30 @@
     </div>
   </section>
 
+  <!-- Topic Progress -->
+  <div class="topic-progress py-6">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="step-progress-bar">
+          <ul class="progress-bar">
+            <li
+              v-for="(step, index) in steps"
+              :key="index"
+              class="cursor-pointer"
+              :class="{
+                active: step.active,
+                current: step.current
+              }"
+              @click="handleStepClick(index)"
+            >
+              {{ step.title }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Topics List -->
   <section class="py-12">
     <div class="container mx-auto px-4">
@@ -167,10 +191,41 @@ import discourseApi from '../lib/discourse'
 
 const { t, locale } = useI18n()
 
+
+
 // 響應式資料
 const topics = ref([])
 const loading = ref(true)
 const searchQuery = ref('')
+
+
+const steps = ref([
+  {
+    title: '即將開始',
+    active: false,
+    current: false
+  },
+  {
+    title: '意見徵集',
+    active: false,
+    current: false
+  },
+  {
+    title: '研擬草案',
+    active: false,
+    current: false
+  },
+  {
+    title: '送交院會',
+    active: false,
+    current: false
+  },
+  {
+    title: '歷史案件',
+    active: false,
+    current: false
+  }
+])
 
 // 當前語言
 const currentLanguage = computed(() => locale.value)
@@ -290,6 +345,16 @@ const clearSearch = () => {
   searchQuery.value = ''
 }
 
+// 處理步驟點擊
+const handleStepClick = (index) => {
+  console.log('Step clicked:', index)
+  steps.value.forEach((step, i) => {
+    step.active = i <= index
+    step.current = i === index
+  })
+  searchQuery.value = steps.value[index].title
+}
+
 // 組件掛載時載入資料
 onMounted(() => {
   loadTopics()
@@ -310,4 +375,109 @@ onMounted(() => {
   height: 3px;
   background-color: #D80000;
 }
+
+
+.step-progress-bar {
+  margin: 0 auto;
+  display: block;
+  padding: 10px 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.progress-bar {
+  counter-reset: step;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+}
+
+.progress-bar li {
+  color: #6b7280;
+  width: 20%;
+  position: relative;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 500;
+
+  @media (min-width: 768px) {
+    font-size: 1.125rem;
+  }
+}
+
+.progress-bar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 32px;
+  height: 32px;
+  border: 2px solid #6b7280;
+  border-radius: 50%;
+  display: block;
+  text-align: center;
+  line-height: 28px;
+  margin: 0 auto 10px auto;
+  z-index: 9;
+  background-color: white;
+  font-weight: 600;
+  position: relative;
+}
+
+.progress-bar li:after {
+  content: "";
+  width: 100%;
+  position: absolute;
+  height: 2px;
+  background-color: #6b7280;
+  top: 16px;
+  left: 50%;
+  z-index: -1;
+}
+
+.progress-bar li:last-child:after {
+  content: none;
+}
+
+.progress-bar li.active {
+  color: #10b981;
+}
+
+.progress-bar li.active:before {
+  border-color: #10b981;
+}
+
+.progress-bar li.active:after {
+  background-color: #10b981;
+}
+
+.progress-bar li.current {
+  color: #f59e0b;
+}
+
+.progress-bar li.current:before {
+  border-color: #f59e0b;
+  background-color: #f59e0b;
+  color: white;
+}
+
+.progress-bar li.current:after {
+  background-color: #f59e0b;
+}
+
+@media (max-width: 767px) {
+  .progress-bar li {
+    font-size: 0.875rem;
+  }
+
+  .progress-bar li:before {
+    width: 28px;
+    height: 28px;
+    line-height: 24px;
+  }
+
+  .progress-bar li:after {
+    top: 14px;
+  }
+}
+
 </style>
