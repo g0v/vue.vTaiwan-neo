@@ -252,9 +252,9 @@ const showDiscussionTab = computed(() => {
 // 顯示的留言列表（分頁處理）
 const displayedPosts = computed(() => {
   if (showAllPosts.value || posts.value.length <= 10) {
-    return posts.value
+    return posts.value.slice(1)
   }
-  return posts.value.slice(0, 10)
+  return posts.value.slice(1, 11)
 })
 
 // 格式化日期
