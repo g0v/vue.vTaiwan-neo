@@ -85,7 +85,7 @@
           <div class="mb-4">
             <h3 class="text-xl font-bold mb-2">
               <router-link
-                :to="`/topic/${topic.id}`"
+                :to="`/topic/${topic.routeName}`"
                 class="hover:text-jade-green transition"
               >
                 {{ topic.title }}
