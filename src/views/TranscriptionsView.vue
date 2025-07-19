@@ -168,6 +168,7 @@
             <span>{{ $t('transcriptions.outline.copy') }}</span>
           </button>
 		      <button
+            v-if="userData && (userData.uid)"
             @click="toggleEditOutline"
             class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center space-x-2"
           >
