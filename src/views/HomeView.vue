@@ -32,8 +32,8 @@ const closeUnderConstructionModal = () => {
           </h1>
           <p class="text-xl mb-8">{{ $t('home.hero.subtitle') }}</p>
           <div class="flex flex-wrap justify-center gap-4">
-            <router-link to="/projects" class="btn-primary rounded-md">
-              {{ $t('home.hero.buttons.browseProjects') }}
+            <router-link to="/topics" class="btn-primary rounded-md">
+              {{ $t('home.hero.buttons.browseTopics') }}
             </router-link>
             <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
               {{ $t('home.hero.buttons.learnMore') }}
