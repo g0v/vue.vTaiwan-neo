@@ -18,9 +18,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useI18n } from 'vue-i18n'
+
+const props = defineProps({
+  inApp: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+})
 
 const { t } = useI18n()
 const loading = ref(false)
@@ -29,6 +37,11 @@ const loading = ref(false)
 const emit = defineEmits(['login-success'])
 
 const handleGoogleLogin = async () => {
+  if (props.inApp) {
+    alert(t('auth.inAppBrowserNotSupported'))
+    return
+  }
+
   try {
     loading.value = true
     const auth = getAuth()

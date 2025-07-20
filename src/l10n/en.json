@@ -69,7 +69,8 @@
     "loginFailed": "Login failed, please try again",
     "logoutConfirm": "Are you sure you want to logout?",
     "loginError": "An error occurred during login, please try again later",
-    "logoutError": "An error occurred during logout, please try again later"
+    "logoutError": "An error occurred during logout, please try again later",
+    "inAppBrowserNotSupported": "This system does not support in-app browsers like Facebook or Line. Please open with a regular browser to login. Thank you."
   },
   "footer": {
     "description": "Open collaboration platform for public policy",

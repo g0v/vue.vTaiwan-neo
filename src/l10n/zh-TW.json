@@ -69,7 +69,8 @@
     "loginFailed": "登入失敗，請重試",
     "logoutConfirm": "確定要登出嗎？",
     "loginError": "登入時發生錯誤，請稍後再試",
-    "logoutError": "登出時發生錯誤，請稍後再試"
+    "logoutError": "登出時發生錯誤，請稍後再試",
+    "inAppBrowserNotSupported": "本系統不支援Facebook, Line等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝"
   },
   "footer": {
     "description": "公共政策的開放協作平台",
