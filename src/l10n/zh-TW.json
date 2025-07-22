@@ -365,13 +365,30 @@
     "list": {
       "title": "議題列表",
       "empty": "目前沒有議題",
-      "loading": "載入中..."
+      "loading": "載入中...",
+      "found": "找到 {count} 個議題",
+      "lastUpdated": "最後更新"
     },
     "search": {
       "placeholder": "搜尋議題...",
       "results": "找到 {count} 個結果「{query}」",
       "noResults": "找不到符合的議題",
       "clearSearch": "清除搜尋"
+    },
+    "sort": {
+      "latest": "最新",
+      "participants": "參與人數",
+      "views": "瀏覽數"
+    },
+    "metrics": {
+      "participants": "參與者",
+      "posts": "貼文",
+      "views": "瀏覽",
+      "lastActivity": "最後活動"
+    },
+    "actions": {
+      "share": "分享議題",
+      "bookmark": "加入書籤"
     },
     "detail": {
       "title": "議題詳情",
