@@ -1,8 +1,8 @@
 <template>
   <!-- Hero Section - 更簡潔的設計 -->
   <section class="bg-black text-white py-8">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
+    <div class="container mx-auto px-2">
+      <div class="max-w-7xl mx-auto">
         <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ $t('topics.title') }}</h1>
         <p class="text-lg opacity-90 mb-6">
           {{ $t('topics.description') }}
@@ -75,25 +75,48 @@
     </div>
   </section>
 
-  <!-- 進度篩選器 - 更現代的設計 -->
-  <div class="bg-white border-b border-gray-200">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap gap-2 py-4">
-          <button
-            v-for="(step, index) in steps"
-            :key="index"
-            @click="handleStepClick(index)"
-            :class="[
-              'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
-                             step.active || step.current
-                 ? 'bg-democratic-red text-white shadow-md'
-                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            ]"
-          >
-            <span class="hidden sm:inline">{{ step.title }}</span>
-            <span class="sm:hidden">{{ step.shortTitle || step.title }}</span>
-          </button>
+    <!-- 進度篩選器 - 圓圈連接線設計 -->
+  <div class="bg-white border-b border-gray-200 py-8">
+    <div class="container mx-auto px-2">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex justify-center items-center">
+          <div class="flex items-center space-x-8 md:space-x-12">
+            <div
+              v-for="(step, index) in steps"
+              :key="index"
+              class="flex flex-col items-center cursor-pointer group"
+              @click="handleStepClick(index)"
+            >
+              <!-- 圓圈 -->
+              <div
+                :class="[
+                  'relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                  step.active || step.current
+                    ? 'bg-democratic-red text-white shadow-md'
+                    : 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+                ]"
+              >
+                {{ index + 1 }}
+                <!-- 連接線 -->
+                <div
+                  v-if="index < steps.length - 1"
+                  :class="[
+                    'absolute left-full top-1/2 -translate-y-1/2 h-0.5 w-8 md:w-12 transition-colors duration-300',
+                    step.active ? 'bg-democratic-red' : 'bg-gray-300'
+                  ]"
+                ></div>
+              </div>
+              <!-- 文字標籤 -->
+              <span
+                :class="[
+                  'mt-3 text-sm md:text-base font-medium text-center transition-colors duration-300',
+                  step.active || step.current ? 'text-democratic-red' : 'text-gray-600 group-hover:text-gray-800'
+                ]"
+              >
+                {{ step.title }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -101,8 +124,8 @@
 
   <!-- 議題列表 - 新的卡片設計 -->
   <section class="py-8">
-    <div class="container mx-auto px-4">
-      <div class="max-w-6xl mx-auto">
+    <div class="container mx-auto px-2">
+      <div class="max-w-7xl mx-auto">
         <!-- 結果統計 -->
         <div class="flex justify-between items-center mb-6">
           <div class="text-gray-600">
@@ -119,8 +142,8 @@
           <p class="mt-4 text-gray-600">{{ $t('topics.list.loading') }}</p>
         </div>
 
-                 <!-- Topics Grid - 網格佈局，每行五個 -->
-         <div v-else-if="filteredTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+                 <!-- Topics Grid - 網格佈局，每行六個 -->
+         <div v-else-if="filteredTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3">
            <div
              v-for="topic in filteredTopics"
              :key="topic.id"
