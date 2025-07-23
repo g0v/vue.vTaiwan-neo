@@ -1,11 +1,13 @@
 import { createI18n } from 'vue-i18n'
 import zhTW from '../l10n/zh-TW.json'
 import en from '../l10n/en.json'
+import ja from '../l10n/ja.json'
 
 // 支援的語言列表
 export const supportedLocales = [
   { code: 'zh-TW', name: '繁體中文', flag: '🇹🇼' },
-  { code: 'en', name: 'English', flag: '🇺🇸' }
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' }
 ] as const
 
 // 支援的語言代碼類型
@@ -40,7 +42,8 @@ const i18n = createI18n({
   fallbackLocale: defaultLocale,
   messages: {
     'zh-TW': zhTW,
-    'en': en
+    'en': en,
+    'ja': ja
   },
   globalInjection: true, // 全域注入 $t 函數
   silentTranslationWarn: true, // 在開發環境中隱藏翻譯警告
