@@ -85,7 +85,7 @@ const closeUnderConstructionModal = () => {
         <p class="text-xl mb-8 max-w-2xl mx-auto">{{ $t('home.cta.description') }}</p>
         <div class="flex flex-wrap justify-center gap-4">
           <router-link to="/topics" class="btn-primary rounded-md">
-            {{ $t('home.cta.buttons.browseProjects') }}
+            {{ $t('home.cta.buttons.browseTopics') }}
           </router-link>
           <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
             {{ $t('home.cta.buttons.learnMore') }}

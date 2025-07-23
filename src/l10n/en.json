@@ -119,6 +119,7 @@
       "description": "Whether you are a citizen, expert, government official, or anyone concerned about public affairs, you are welcome to join the vTaiwan platform and contribute your ideas.",
       "buttons": {
         "browseProjects": "Browse Projects",
+        "browseTopics": "Browse Topics",
         "learnMore": "Learn More"
       }
     }
