@@ -119,6 +119,7 @@
       "description": "市民、専門家、政府関係者、公共事業に関心のある方、どなたでもvTaiwanプラットフォームへの参加を歓迎します。",
       "buttons": {
         "browseProjects": "プロジェクトを見る",
+        "browseTopics": "トピックを見る",
         "learnMore": "もっと知る"
       }
     }
