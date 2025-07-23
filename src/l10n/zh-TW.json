@@ -390,6 +390,9 @@
       "share": "分享議題",
       "bookmark": "加入書籤"
     },
+    "bookmarks": {
+      "myBookmarks": "書籤"
+    },
     "detail": {
       "title": "議題詳情",
       "discussion": "討論",

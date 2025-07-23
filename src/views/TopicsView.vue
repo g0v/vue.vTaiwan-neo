@@ -17,7 +17,7 @@
                 v-model="searchQuery"
                 type="text"
                 :placeholder="$t('topics.search.placeholder')"
-                class="w-full px-4 py-3 pl-12 pr-12 text-gray-900 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-jade-green"
+                class="w-full px-4 py-3 pl-12 pr-12 text-gray-900 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-jade-green min-w-64"
               />
               <IconWrapper
                 name="search"
@@ -35,39 +35,53 @@
           </div>
 
           <!-- 排序選項 -->
-          <div class="flex gap-2">
+          <div class="flex gap-2 items-center w-full justify-start lg:justify-between">
+            <div class="flex gap-2">
+              <button
+                @click="sortBy = 'latest'"
+                :class="[
+                  'px-4 py-2 rounded-lg font-medium transition-colors',
+                  sortBy === 'latest'
+                    ? 'bg-white text-black'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                ]"
+              >
+                {{ $t('topics.sort.latest') }}
+              </button>
+              <button
+                @click="sortBy = 'participants'"
+                :class="[
+                  'px-4 py-2 rounded-lg font-medium transition-colors',
+                  sortBy === 'participants'
+                    ? 'bg-white text-black'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                ]"
+              >
+                {{ $t('topics.sort.participants') }}
+              </button>
+              <button
+                @click="sortBy = 'views'"
+                :class="[
+                  'px-4 py-2 rounded-lg font-medium transition-colors',
+                  sortBy === 'views'
+                    ? 'bg-white text-black'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                ]"
+              >
+                {{ $t('topics.sort.views') }}
+              </button>
+            </div>
             <button
-              @click="sortBy = 'latest'"
+              @click="toggleBookmarksOnly"
               :class="[
-                'px-4 py-2 rounded-lg font-medium transition-colors',
-                                 sortBy === 'latest'
-                   ? 'bg-white text-black'
-                   : 'bg-white/20 text-white hover:bg-white/30'
+                'flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ml-2',
+                showBookmarksOnly
+                  ? 'bg-democratic-red text-white shadow'
+                  : 'bg-white/20 text-white hover:bg-white/30'
               ]"
             >
-              {{ $t('topics.sort.latest') }}
-            </button>
-            <button
-              @click="sortBy = 'participants'"
-              :class="[
-                'px-4 py-2 rounded-lg font-medium transition-colors',
-                                 sortBy === 'participants'
-                   ? 'bg-white text-black'
-                   : 'bg-white/20 text-white hover:bg-white/30'
-              ]"
-            >
-              {{ $t('topics.sort.participants') }}
-            </button>
-            <button
-              @click="sortBy = 'views'"
-              :class="[
-                'px-4 py-2 rounded-lg font-medium transition-colors',
-                                 sortBy === 'views'
-                   ? 'bg-white text-black'
-                   : 'bg-white/20 text-white hover:bg-white/30'
-              ]"
-            >
-              {{ $t('topics.sort.views') }}
+              <IconWrapper name="bookmark" :size="18" :class="showBookmarksOnly ? 'fill-white' : 'fill-none'" />
+              <span>{{ $t('topics.bookmarks.myBookmarks') || '我的書籤' }}</span>
             </button>
           </div>
         </div>
@@ -166,7 +180,7 @@
              </div>
 
              <!-- 描述 -->
-             <p v-if="topic.slogan" class="text-gray-600 text-xs mb-3 line-clamp-3 flex-1">
+             <p v-if="topic.slogan" class="text-gray-600 text-sm mb-3 line-clamp-3 flex-1">
                {{ topic.slogan }}
              </p>
 
@@ -202,10 +216,10 @@
                  </button>
                  <button
                    @click.stop="bookmarkTopic(topic)"
-                   class="p-1 text-gray-400 hover:text-democratic-red transition-colors"
+                   class="p-1 transition-colors"
                    :title="$t('topics.actions.bookmark')"
                  >
-                   <IconWrapper name="bookmark" :size="12" />
+                   <IconWrapper name="bookmark" :size="12" :class="isBookmarked(topic) ? 'text-democratic-red fill-democratic-red' : 'text-gray-400 hover:text-democratic-red'" />
                  </button>
                </div>
              </div>
@@ -237,7 +251,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
@@ -286,12 +300,24 @@ const steps = ref([
   }
 ])
 
+const bookmarkedIds = ref([])
+const showBookmarksOnly = ref(false)
+
+const toggleBookmarksOnly = () => {
+  showBookmarksOnly.value = !showBookmarksOnly.value
+}
+
 // 當前語言
 const currentLanguage = computed(() => locale.value)
 
 // 篩選議題
 const filteredTopics = computed(() => {
   let filtered = topics.value
+
+  // 書籤過濾
+  if (showBookmarksOnly.value) {
+    filtered = filtered.filter(topic => bookmarkedIds.value.includes(topic.id))
+  }
 
   // 搜尋篩選
   if (searchQuery.value) {
@@ -431,11 +457,45 @@ const shareTopic = (topic) => {
   }
 }
 
+// 讀取 localStorage 書籤
+const loadBookmarks = () => {
+  const stored = localStorage.getItem('bookmarkedTopics')
+  if (stored) {
+    try {
+      bookmarkedIds.value = JSON.parse(stored)
+    } catch {
+      bookmarkedIds.value = []
+    }
+  } else {
+    bookmarkedIds.value = []
+  }
+}
+
+// 儲存到 localStorage
+const saveBookmarks = () => {
+  localStorage.setItem('bookmarkedTopics', JSON.stringify(bookmarkedIds.value))
+}
+
+// 判斷是否已書籤
+const isBookmarked = (topic) => {
+  return bookmarkedIds.value.includes(topic.id)
+}
+
 // 書籤議題
 const bookmarkTopic = (topic) => {
-  // 實作書籤功能
-  console.log('Bookmark topic:', topic.title)
+  const idx = bookmarkedIds.value.indexOf(topic.id)
+  if (idx === -1) {
+    bookmarkedIds.value.push(topic.id)
+  } else {
+    bookmarkedIds.value.splice(idx, 1)
+  }
+  saveBookmarks()
 }
+
+// 監聽 topics 載入時同步書籤
+watch(topics, () => {
+  loadBookmarks()
+})
 
 // 載入議題
 const loadTopics = async () => {
@@ -471,6 +531,7 @@ const loadTopics = async () => {
 // 組件掛載時載入資料
 onMounted(() => {
   loadTopics()
+  loadBookmarks()
 })
 </script>
 

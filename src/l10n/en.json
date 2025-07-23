@@ -385,6 +385,9 @@
       "completed": "Completed",
       "draft": "Draft Development",
       "collection": "Opinion Collection"
+    },
+    "bookmarks": {
+      "myBookmarks": "Bookmarks"
     }
   },
   "topicDetail": {
