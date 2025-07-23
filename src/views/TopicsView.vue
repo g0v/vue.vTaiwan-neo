@@ -312,7 +312,8 @@ const currentLanguage = computed(() => locale.value)
 
 // 篩選議題
 const filteredTopics = computed(() => {
-  let filtered = topics.value
+  let filtered = topics.value.filter(topic => topic.title !== '網站基本設定')
+
 
   // 書籤過濾
   if (showBookmarksOnly.value) {
