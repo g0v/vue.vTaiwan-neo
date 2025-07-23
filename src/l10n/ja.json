@@ -1,0 +1,508 @@
+{
+  "common": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "edit": "編集",
+    "delete": "削除",
+    "search": "検索",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "warning": "警告",
+    "info": "情報",
+    "profile": "プロフィール"
+  },
+  "underConstruction": {
+    "title": "工事中",
+    "message": "vTaiwanへようこそ。現在工事中です。機能提案やバグ報告はGitHub Issuesでお願いします。",
+    "messageEn": "Welcome to vTaiwan, currently we are under construction. Please submit feature suggestions and bug reports on GitHub Issues.",
+    "githubIssues": "GitHub Issues"
+  },
+  "header": {
+    "home": "ホーム",
+    "about": "私たちについて",
+    "contact": "お問い合わせ",
+    "profile": "プロフィール",
+    "projects": "プロジェクト",
+    "topics": "トピック",
+    "meetups": "ミートアップ",
+    "blogs": "ブログ",
+    "transcriptions": "書き起こし管理",
+    "faq": "よくある質問",
+    "contributors": "貢献者"
+  },
+  "about": {
+    "title": "私たちについて",
+    "mission": {
+      "title": "vTaiwanの使命",
+      "description": "vTaiwanは台湾の公共政策オープンコラボレーションプラットフォームであり、政府と市民の対話を促進し、誰もが公共政策の形成プロセスに参加できるようにします。私たちは、オープン・協働・共創のアプローチを通じて、台湾の未来のためにより良い解決策を見つけられると信じています。"
+    },
+    "values": {
+      "title": "私たちの価値観",
+      "open": {
+        "title": "オープン",
+        "description": "情報の透明性、プロセスの公開"
+      },
+      "collaborate": {
+        "title": "協働",
+        "description": "多方面の参加、共同討論"
+      },
+      "coCreate": {
+        "title": "共創",
+        "description": "革新的な思考、問題解決"
+      }
+    },
+    "contact": {
+      "title": "お問い合わせ",
+      "description": "ご質問やご提案がある場合は、お気軽にご連絡ください：",
+      "contactUs": "お問い合わせ",
+      "facebook": "Facebook"
+    }
+  },
+  "auth": {
+    "loginTitle": "ログイン",
+    "loginWithGoogle": "Googleでログイン",
+    "loggingIn": "ログイン中...",
+    "loginFailed": "ログインに失敗しました。再度お試しください。",
+    "logoutConfirm": "ログアウトしてもよろしいですか？",
+    "loginError": "ログイン中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "logoutError": "ログアウト中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "inAppBrowserNotSupported": "このシステムはFacebookやLineなどのアプリ内ブラウザをサポートしていません。通常のブラウザで開いてログインしてください。ありがとうございます。"
+  },
+  "footer": {
+    "description": "公共政策のオープンコラボレーションプラットフォーム",
+    "community": "コミュニティ",
+    "contact": "お問い合わせ",
+    "copyright": "© {year} vTaiwan. All rights reserved.",
+    "sourceCode": "ソースコード",
+    "privacyPolicy": "プライバシーポリシー",
+    "termsOfService": "利用規約"
+  },
+  "home": {
+    "welcome": "vTaiwanへようこそ",
+    "description": "台湾のデジタルガバナンスのための革新的なプラットフォーム",
+    "hero": {
+      "title": {
+        "open": "オープン",
+        "collaborate": "協働",
+        "coCreate": "共創",
+        "taiwanFuture": "台湾の未来"
+      },
+      "subtitle": "vTaiwanは政府と市民の対話を促進するオープンコラボレーションプラットフォームであり、誰もが公共政策の形成プロセスに参加できます。",
+      "buttons": {
+        "browseTopics": "トピックを見る",
+        "learnMore": "もっと知る"
+      }
+    },
+    "features": {
+      "title": "仕組み",
+      "items": {
+        "propose": {
+          "title": "トピック提案",
+          "description": "誰でも議論に値する公共政策トピックを提案でき、初期審査後に議論段階に進みます。"
+        },
+        "discuss": {
+          "title": "オープンディスカッション",
+          "description": "オンライン討論や実会議を通じて各方面の意見を集め、具体的な政策提案を形成します。"
+        },
+        "policy": {
+          "title": "政策形成",
+          "description": "市民のコンセンサスを具体的な政策提案に変換し、関連政府部門に提出します。"
+        }
+      }
+    },
+    "cta": {
+      "title": "私たちと一緒に台湾の未来を形作りましょう",
+      "description": "市民、専門家、政府関係者、公共事業に関心のある方、どなたでもvTaiwanプラットフォームへの参加を歓迎します。",
+      "buttons": {
+        "browseProjects": "プロジェクトを見る",
+        "learnMore": "もっと知る"
+      }
+    }
+  },
+  "profile": {
+    "title": "プロフィール",
+    "name": "氏名",
+    "email": "メールアドレス",
+    "role": "役割",
+    "createdAt": "作成日時",
+    "lastLogin": "最終ログイン",
+    "loginRequired": "プロフィールの閲覧・編集にはログインが必要です"
+  },
+  "contributors": {
+    "title": "貢献者",
+    "coreTeam": "コアチーム",
+    "communityContributors": "コミュニティ貢献者",
+    "joinUs": "参加する",
+    "joinUsDescription": "市民、専門家、政府関係者、公共事業に関心のある方、どなたでもvTaiwanプラットフォームへの参加を歓迎します。",
+    "learnMore": "もっと知る",
+    "roles": {
+      "projectManager": "プロジェクトマネージャー",
+      "techDirector": "技術ディレクター",
+      "designer": "デザイナー"
+    },
+    "descriptions": {
+      "projectManager": "プロジェクト全体の企画と調整を担当",
+      "techDirector": "技術アーキテクチャとプラットフォーム開発を担当",
+      "designer": "vTaiwanウェブサイトのデザインと体験設計を担当"
+    },
+    "contributions": {
+      "policyResearch": "政策リサーチ",
+      "uiuxDesign": "UI/UXデザイン",
+      "frontendDev": "フロントエンド開発",
+      "contentEditor": "コンテンツ編集",
+      "dataAnalysis": "データ分析",
+      "translationSupport": "翻訳サポート",
+      "backendDev": "バックエンド開発",
+      "eventPlanning": "イベント企画",
+      "contentManager": "コンテンツマネージャー"
+    }
+  },
+  "blog": {
+    "loading": "読み込み中...",
+    "notFound": "記事が見つかりません",
+    "backToList": "ブログ一覧に戻る",
+    "editArticle": "記事を編集",
+    "deleteArticle": "記事を削除",
+    "saving": "保存中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "title": "タイトル",
+    "author": "著者",
+    "publishDate": "公開日",
+    "tags": "タグ（カンマ区切り）",
+    "tagsPlaceholder": "例：vTaiwan, デジタル民主主義, オープンガバメント",
+    "summary": "概要",
+    "content": "内容（Markdown）",
+    "contentPlaceholder": "ここにMarkdown形式の内容を入力...",
+    "preview": "プレビュー",
+    "deleteConfirmTitle": "削除の確認",
+    "deleteConfirmMessage": "この記事を削除してもよろしいですか？この操作は元に戻せません。",
+    "deleting": "削除中...",
+    "confirmDelete": "削除を確認",
+    "saveError": "保存中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "deleteError": "削除中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "loginRequired": "記事を投稿するにはログインが必要です",
+    "postNewArticle": "新しい記事を投稿",
+    "publisher": "発行者",
+    "posting": "投稿中...",
+    "postArticle": "記事を投稿",
+    "postError": "記事投稿中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "language": "言語",
+    "languageAll": "すべての言語",
+    "languageZhTW": "繁体字中国語",
+    "languageEn": "英語",
+    "languageSelect": "表示言語を選択",
+    "isPrototype": "これはプロトタイプです",
+    "prototype": "プロトタイプ"
+  },
+  "transcript": {
+    "title": "ライブ書き起こし",
+    "subtitle": "会議内容のリアルタイム書き起こしと校正",
+    "selectDate": "日付を選択",
+    "toggleTranscript": "書き起こし切替",
+    "hideTranscript": "書き起こしを隠す",
+    "showTranscript": "書き起こしを表示",
+    "noContent": "まだ書き起こし内容がありません",
+    "connecting": "接続中...",
+    "disconnected": "接続が切断されました",
+    "edit": "編集",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "editing": "編集モード",
+    "timestamp": "タイムスタンプ",
+    "speaker": "発言者",
+    "content": "内容",
+    "addEntry": "項目を追加",
+    "deleteEntry": "項目を削除",
+    "exportTranscript": "書き起こしをエクスポート",
+    "clearAll": "すべてクリア",
+    "confirmClear": "この書き起こしをクリアしてもよろしいですか？",
+    "autoScroll": "自動スクロール",
+    "fontSize": "文字サイズ",
+    "fontSizeSmall": "小",
+    "fontSizeMedium": "中",
+    "fontSizeLarge": "大",
+    "iAmRecorder": "私は記録者です",
+    "manualTranscript": "手動書き起こし",
+    "addManualTranscript": "手動書き起こしを追加",
+    "audioSettings": "音声設定",
+    "selectAudioSource": "音声ソースを選択",
+    "loadingAudioDevices": "音声デバイスを読み込み中...",
+    "unknownDevice": "不明なデバイス",
+    "testAudioDevice": "音声デバイスをテスト",
+    "testingAudio": "テスト中...",
+    "audioLevel": "音量",
+    "speakToTest": "マイクに向かって話して音量をテストしてください",
+    "stopTest": "テストを停止",
+    "editEntry": "書き起こし項目を編集",
+    "close": "閉じる",
+    "speakerPlaceholder": "発言者名を入力",
+    "contentPlaceholder": "書き起こし内容を入力..."
+  },
+  "projects": {
+    "title": "プロジェクト一覧",
+    "description": "vTaiwanプラットフォーム上のすべての公共政策コラボレーションプロジェクト。各プロジェクトは提案・議論・合意形成・政策提案のプロセスを経ます。",
+    "filters": {
+      "status": "状態",
+      "category": "カテゴリ",
+      "search": "検索",
+      "searchPlaceholder": "プロジェクトを検索..."
+    },
+    "status": {
+      "all": "すべて",
+      "active": "進行中",
+      "completed": "完了"
+    },
+    "categories": {
+      "all": "すべてのカテゴリ"
+    },
+    "participants": "参加者",
+    "created": "作成日",
+    "cta": {
+      "title": "新しいプロジェクトを提案したいですか？",
+      "description": "議論に値する公共政策トピックがあれば、プロジェクト提案を歓迎します。",
+      "button": "プロジェクトを提案"
+    }
+  },
+  "projectDetail": {
+    "objectives": "プロジェクト目標",
+    "howToParticipate": "参加方法",
+    "discuss": "議論に参加",
+    "discussDesc": "プロジェクトの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
+    "contribute": "コンテンツ貢献",
+    "contributeDesc": "専門知識・研究資料・実務経験を提供し、プロジェクトの発展を支援します。",
+    "share": "情報共有",
+    "shareDesc": "プロジェクト情報をより多くの関心者に共有し、影響力を拡大しましょう。",
+    "join": "チームに参加",
+    "joinDesc": "プロジェクトのコアメンバーとなり、意思決定や実行作業に参加します。",
+    "relatedLinks": "関連リンク",
+    "githubRepo": "GitHubリポジトリ",
+    "documentation": "プロジェクト文書",
+    "discussion": "議論フォーラム",
+    "backToProjects": "プロジェクト一覧に戻る",
+    "joinProject": "プロジェクトに参加",
+    "notFound": "プロジェクトが見つかりません",
+    "notFoundDesc": "ご覧になりたいプロジェクトは存在しないか、削除されました。"
+  },
+  "meetups": {
+    "title": "ミートアップ",
+    "description": "vTaiwanは定期的にオンラインおよびオフラインのミートアップを開催し、各プロジェクトの進捗や公共政策トピックについて議論します。どなたでもご参加いただけます！",
+    "search": {
+      "placeholder": "ミートアップやトピックを検索...",
+      "noResults": "「{query}」に該当するミートアップは見つかりません",
+      "resultsFor": "検索結果：「{query}」",
+      "clearSearch": "検索をクリア"
+    },
+    "upcoming": {
+      "title": "今後のミートアップ",
+      "empty": "現在、今後のミートアップはありません"
+    },
+    "past": {
+      "title": "過去のミートアップ",
+      "empty": "現在、過去のミートアップ記録はありません"
+    },
+    "calendar": {
+      "title": "ミートアップカレンダー",
+      "description": "私たちのミートアップカレンダーを購読して、重要なイベントを見逃さないようにしましょう。",
+      "googleCalendar": "Googleカレンダー",
+      "icalFile": "iCalファイル"
+    },
+    "relatedProject": "関連プロジェクト",
+    "register": "今すぐ登録",
+    "details": "詳細情報",
+    "watchRecording": "録画を見る",
+    "meetingRecord": "ミートアップ記録",
+    "viewMorePast": "過去のミートアップをもっと見る",
+    "host": {
+      "title": "ミートアップを開催したいですか？",
+      "description": "特定のプロジェクトや公共政策トピックについて議論するミートアップを開催したい場合は、お気軽にご連絡ください。",
+      "contactUs": "お問い合わせ"
+    },
+    "jitsi": "Jitsiミート",
+    "transcriptions": "書き起こし管理"
+  },
+  "meetupDetail": {
+    "objectives": "ミートアップ目標",
+    "howToParticipate": "参加方法",
+    "discuss": "議論に参加",
+    "discussDesc": "ミートアップの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
+    "contribute": "コンテンツ貢献",
+    "contributeDesc": "専門知識・研究資料・実務経験を提供し、ミートアップの発展を支援します。",
+    "share": "情報共有",
+    "shareDesc": "ミートアップ情報をより多くの関心者に共有し、影響力を拡大しましょう。",
+    "join": "チームに参加",
+    "joinDesc": "ミートアップのコアメンバーとなり、意思決定や実行作業に参加します。",
+    "relatedLinks": "関連リンク",
+    "githubRepo": "GitHubリポジトリ",
+    "documentation": "ミートアップ文書",
+    "discussion": "議論フォーラム",
+    "backToMeetups": "ミートアップ一覧に戻る",
+    "joinMeetup": "ミートアップに参加",
+    "notFound": "ミートアップが見つかりません",
+    "notFoundDesc": "ご覧になりたいミートアップは存在しないか、削除されました。"
+  },
+  "topics": {
+    "title": "トピック一覧",
+    "description": "vTaiwanプラットフォーム上のすべての公共政策トピック。各トピックは提案・議論・合意形成・政策提案のプロセスを経ます。",
+    "filters": {
+      "status": "状態",
+      "category": "カテゴリ",
+      "search": "検索",
+      "searchPlaceholder": "トピックを検索..."
+    },
+    "status": {
+      "all": "すべて",
+      "active": "進行中",
+      "completed": "完了"
+    },
+    "categories": {
+      "all": "すべてのカテゴリ"
+    },
+    "participants": "参加者",
+    "created": "作成日",
+    "cta": {
+      "title": "新しいトピックを提案したいですか？",
+      "description": "議論に値する公共政策トピックがあれば、トピック提案を歓迎します。",
+      "button": "トピックを提案"
+    }
+  },
+  "topicDetail": {
+    "objectives": "トピック目標",
+    "howToParticipate": "参加方法",
+    "discuss": "議論に参加",
+    "discussDesc": "トピックの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
+    "contribute": "コンテンツ貢献",
+    "contributeDesc": "専門知識・研究資料・実務経験を提供し、トピックの発展を支援します。",
+    "share": "情報共有",
+    "shareDesc": "トピック情報をより多くの関心者に共有し、影響力を拡大しましょう。",
+    "join": "チームに参加",
+    "joinDesc": "トピックのコアメンバーとなり、意思決定や実行作業に参加します。",
+    "relatedLinks": "関連リンク",
+    "githubRepo": "GitHubリポジトリ",
+    "documentation": "トピック文書",
+    "discussion": "議論フォーラム",
+    "backToTopics": "トピック一覧に戻る",
+    "joinTopic": "トピックに参加",
+    "notFound": "トピックが見つかりません",
+    "notFoundDesc": "ご覧になりたいトピックは存在しないか、削除されました。"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "description": "ご質問やご提案がある場合は、お気軽にご連絡ください：",
+    "contactUs": "お問い合わせ",
+    "facebook": "Facebook"
+  },
+  "transcriptions": {
+    "title": "書き起こし管理",
+    "description": "vTaiwanプラットフォーム上のすべての書き起こし記録。各記録は議論・合意形成・政策提案のプロセスを経ます。",
+    "filters": {
+      "status": "状態",
+      "category": "カテゴリ",
+      "search": "検索",
+      "searchPlaceholder": "書き起こしを検索..."
+    },
+    "status": {
+      "all": "すべて",
+      "active": "進行中",
+      "completed": "完了"
+    },
+    "categories": {
+      "all": "すべてのカテゴリ"
+    },
+    "participants": "参加者",
+    "created": "作成日",
+    "cta": {
+      "title": "新しい書き起こしを記録したいですか？",
+      "description": "議論に値する公共政策トピックがあれば、書き起こし記録を歓迎します。",
+      "button": "書き起こしを記録"
+    }
+  },
+  "transcriptionDetail": {
+    "objectives": "書き起こし目標",
+    "howToParticipate": "参加方法",
+    "discuss": "議論に参加",
+    "discussDesc": "書き起こしの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
+    "contribute": "コンテンツ貢献",
+    "contributeDesc": "専門知識・研究資料・実務経験を提供し、書き起こしの発展を支援します。",
+    "share": "情報共有",
+    "shareDesc": "書き起こし情報をより多くの関心者に共有し、影響力を拡大しましょう。",
+    "join": "チームに参加",
+    "joinDesc": "書き起こしのコアメンバーとなり、意思決定や実行作業に参加します。",
+    "relatedLinks": "関連リンク",
+    "githubRepo": "GitHubリポジトリ",
+    "documentation": "書き起こし文書",
+    "discussion": "議論フォーラム",
+    "backToTranscriptions": "書き起こし一覧に戻る",
+    "joinTranscription": "書き起こしに参加",
+    "notFound": "書き起こしが見つかりません",
+    "notFoundDesc": "ご覧になりたい書き起こしは存在しないか、削除されました。"
+  },
+  "faq": {
+    "title": "よくある質問 (FAQ)",
+    "description": "以下はvTaiwanプラットフォームに関するよくある質問とその回答です。その他のご質問はお気軽にご連絡ください。",
+    "contact": {
+      "title": "他にご質問がありますか？",
+      "description": "他にご質問やサポートが必要な場合は、以下の方法でご連絡ください：",
+      "email": {
+        "title": "メールアドレス"
+      },
+      "social": {
+        "title": "ソーシャルメディア"
+      }
+    }
+  },
+  "propose": {
+    "title": "プロジェクト提案",
+    "description": "議論に値する公共政策トピックがあれば、プロジェクト提案を歓迎します。提案前に参加要件をご確認ください。",
+    "requirements": {
+      "title": "参加要件",
+      "meeting": {
+        "title": "vTaiwanオンライン会議への参加",
+        "description": "提案前にvTaiwanのオンライン会議に参加し、コミュニティの運営方法や議論の雰囲気を理解してください。",
+        "bullet1": "少なくとも1回vTaiwanオンライン会議に参加する",
+        "bullet2": "会議で議論されるトピックや流れを理解する",
+        "bullet3": "コミュニティメンバーと連絡を取る"
+      },
+      "admin": {
+        "title": "コンテンツ管理者の役割を引き受ける",
+        "description": "提案には管理・推進する人が必要です。あなたがその提案のコンテンツ管理者となる必要があります。",
+        "bullet1": "提案のコンテンツ管理・更新を担当する",
+        "bullet2": "議論の調整や意見収集を担当する",
+        "bullet3": "提案の進捗や実行を推進する"
+      }
+    },
+    "process": {
+      "title": "提案プロセス",
+      "step1": {
+        "title": "会議に参加",
+        "description": "vTaiwanオンライン会議に参加し、コミュニティ運営を理解する"
+      },
+      "step2": {
+        "title": "提案を提出",
+        "description": "会議中にあなたの提案を発表し、コミュニティの支持を得る"
+      },
+      "step3": {
+        "title": "管理を引き受ける",
+        "description": "コンテンツ管理者となり、提案の推進を担当する"
+      }
+    },
+    "contact": {
+      "title": "参加を始める",
+      "description": "提案の準備はできましたか？まずは会議に参加するか、コミュニティに連絡してください。",
+      "meeting": {
+        "title": "オンライン会議に参加",
+        "description": "私たちのオンライン会議に参加し、vTaiwanの運営方法を理解し、コミュニティメンバーと交流しましょう。",
+        "button": "会議に参加"
+      },
+      "community": {
+        "title": "コミュニティに連絡",
+        "description": "ご質問やサポートが必要な場合は、各種チャネルからvTaiwanコミュニティにご連絡ください。",
+        "button": "お問い合わせ"
+      }
+    }
+  }
+} 

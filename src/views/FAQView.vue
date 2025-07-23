@@ -83,6 +83,9 @@ const { locale } = useI18n()
 
 // 根據當前語言取得問題文字
 const getLocalizedQuestion = (faq) => {
+  if (locale.value === 'ja' && faq.question_ja) {
+    return faq.question_ja
+  }
   if (locale.value === 'en' && faq.question_en) {
     return faq.question_en
   }
@@ -91,6 +94,9 @@ const getLocalizedQuestion = (faq) => {
 
 // 根據當前語言取得答案文字
 const getLocalizedAnswer = (faq) => {
+  if (locale.value === 'ja' && faq.answer_ja) {
+    return faq.answer_ja
+  }
   if (locale.value === 'en' && faq.answer_en) {
     return faq.answer_en
   }
@@ -99,6 +105,9 @@ const getLocalizedAnswer = (faq) => {
 
 // 根據當前語言取得詳細內容
 const getLocalizedDetails = (faq) => {
+  if (locale.value === 'ja' && faq.details_ja) {
+    return faq.details_ja
+  }
   if (locale.value === 'en' && faq.details_en) {
     return faq.details_en
   }
