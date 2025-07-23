@@ -302,7 +302,9 @@ const loadTopic = async () => {
     topic.value = discourseApi.formatTopicData(topicData)
 
     const postsData = await discourseApi.getAllPosts(`/t/${targetTopic.id}.json`)
-    // console.log('posts', postsData)
+
+    console.log('posts', postsData)
+
     posts.value = postsData
 
     // 根據 hash 設定預設標籤頁
