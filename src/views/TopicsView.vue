@@ -158,19 +158,99 @@
 
         <div v-else-if="filteredTopics.length > 0">
 
+                     <!-- Topics Grid big img 大圖版本 -->
+           <div v-if="filteredTopicsBigImg.length > 0" class="flex flex-wrap justify-center gap-6 mb-6">
+            <div
+              v-for="topic in filteredTopicsBigImg"
+              :key="topic.id"
+              class="card p-6 relative hover:shadow-lg transition-shadow w-full max-w-sm md:max-w-sm lg:max-w-md"
+            >
+              <!-- Status Badge -->
+              <div class="absolute top-[-14px] right-[-8px] z-10">
+                <span
+                  class="px-3 py-1 text-xs font-medium rounded-full"
+                  :class="getStatusColor(topic.status)"
+                >
+                  {{ getStatusText(topic.status) }}
+                </span>
+              </div>
 
+              <!-- Topic Cover -->
+              <div
+                v-if="topic.cover"
+                class="w-full h-48 bg-cover bg-center rounded-lg mb-4"
+                :style="{ backgroundImage: `url(${topic.cover})` }"
+              ></div>
+              <div v-else class="w-full h-48 bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
+                <IconWrapper name="message-circle" :size="48" color="#9CA3AF" />
+              </div>
 
-          <!-- Topics Grid - 網格佈局，每行六個 -->
-          <div v-if="filteredTopicsSmallImg.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-0">
+              <!-- Topic Content -->
+              <div class="mb-4">
+                <h3 class="text-xl font-bold mb-2">
+                  <router-link
+                    :to="`/topic/${topic.routeName}`"
+                    class="hover:text-jade-green transition"
+                  >
+                    {{ topic.title }}
+                  </router-link>
+                </h3>
+
+                <p v-if="topic.slogan" class="text-gray-600 mb-3">
+                  {{ topic.slogan }}
+                </p>
+
+                <!-- Topic Meta -->
+                <div class="flex flex-wrap gap-4 text-sm text-gray-500 mb-3">
+                  <div class="flex items-center gap-1">
+                    <IconWrapper name="eye" :size="16" />
+                    <span>{{ topic.views || 0 }}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <IconWrapper name="message-circle" :size="16" />
+                    <span>{{ topic.posts_count || 0 }}</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <IconWrapper name="calendar" :size="16" />
+                    <span>{{ formatDate(topic.last_posted_at || topic.created_at) }}</span>
+                  </div>
+                </div>
+
+                <!-- Tags -->
+                <div v-if="topic.tags && topic.tags.length > 0" class="flex flex-wrap gap-2 mb-3">
+                  <span
+                    v-for="tag in topic.tags"
+                    :key="tag"
+                    class="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs"
+                  >
+                    {{ tag }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Action Button -->
+              <div class="mt-auto">
+                <router-link
+                  :to="`/topic/${topic.routeName || topic.id}`"
+                  class="btn-primary w-full text-center"
+                >
+                  {{ $t('topics.detail.participate') }}
+                </router-link>
+              </div>
+            </div>
+          </div>
+
+          <!-- Topics Grid small img - 網格佈局，每行六個 -->
+          <div v-if="filteredTopicsSmallImg.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-0 md:gap-6">
             <div
               v-for="topic in filteredTopicsSmallImg"
               :key="topic.id"
-              class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all
+              class="bg-white border-b md:border border-gray-200 md:rounded-lg p-2 md:p-4 hover:shadow-md transition-all
               duration-200 cursor-pointer h-34 md:h-60 flex flex-row md:flex-col relative"
               @click="goToTopic(topic)"
             >
               <!-- Status Badge -->
-              <div class="absolute top-4 right-4 z-10">
+              <div class="absolute top-[-14px] right-[-8px] z-10">
                 <span
                   class="px-3 py-1 text-xs font-medium rounded-full"
                   :class="getStatusColor(topic.status)"
@@ -180,7 +260,7 @@
               </div>
 
               <!-- 小圖版本 -->
-              <div class="flex items-center md:items-start justify-center md:justify-start pr-4 md:pb-4">
+              <div class="flex items-center md:items-start justify-center md:justify-start mr-2 md:mr-0 md:pb-4">
                 <div
                   v-if="topic.cover"
                   class="w-16 h-16 bg-cover bg-center rounded-lg"
@@ -191,7 +271,7 @@
                 </div>
               </div>
 
-              <div class="flex flex-col flex-1">
+              <div class="flex flex-col flex-1 max-w-[calc(100%-4rem)]">
 
                 <!-- 標題 -->
                 <div class="flex items-start justify-between mb-2">
@@ -378,7 +458,7 @@ const filteredTopics = computed(() => {
 })
 
 const filteredTopicsBigImg = computed(() => {
-  return filteredTopics.value.filter(topic => topic.status === '即將開始')
+  return filteredTopics.value.filter(topic => topic.status === '即將開始' || !topic.status)
 })
 
 const filteredTopicsSmallImg = computed(() => {
