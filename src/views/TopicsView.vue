@@ -156,73 +156,97 @@
           <p class="mt-4 text-gray-600">{{ $t('topics.list.loading') }}</p>
         </div>
 
-                 <!-- Topics Grid - 網格佈局，每行六個 -->
-         <div v-else-if="filteredTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3">
-           <div
-             v-for="topic in filteredTopics"
-             :key="topic.id"
-             class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer h-48 flex flex-col"
-             @click="goToTopic(topic)"
-           >
-                         <!-- 標題和狀態 -->
-             <div class="flex items-start justify-between mb-2">
-               <h3 class="text-sm font-semibold text-gray-900 truncate flex-1">
-                 {{ topic.title }}
-               </h3>
-               <span
-                 :class="[
-                   'px-2 py-1 text-xs font-medium rounded-full ml-2',
-                   getStatusColor(topic.status)
-                 ]"
-               >
-                 {{ topic.status }}
-               </span>
-             </div>
+        <!-- Topics Grid - 網格佈局，每行六個 -->
+        <div v-else-if="filteredTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3">
+          <div
+            v-for="topic in filteredTopics"
+            :key="topic.id"
+            class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer h-52 flex flex-col"
+            @click="goToTopic(topic)"
+          >
+            <!-- 小圖版本 -->
+            <div class="flex items-start justify-between">
+              <div
+                v-if="topic.cover"
+                class="w-16 h-16 bg-cover bg-center rounded-lg mb-4"
+                :style="{ backgroundImage: `url(${topic.cover})` }"
+              ></div>
+              <div v-else class="w-16 h-16 bg-cover bg-center rounded-lg mb-4">
+                <IconWrapper name="image" :size="16" class="text-gray-400" />
+              </div>
+              <div>
+                <span
+                  :class="[
+                    'px-2 py-1 text-xs font-medium rounded-full ml-2',
+                    getStatusColor(topic.status)
+                  ]"
+                >
+                  {{ topic.status }}
+                </span>
+              </div>
+            </div>
 
-             <!-- 描述 -->
-             <p v-if="topic.slogan" class="text-gray-600 text-sm mb-3 line-clamp-3 flex-1">
-               {{ topic.slogan }}
-             </p>
+            <!-- 標題和狀態 -->
+            <div class="flex items-start justify-between mb-2">
+              <h3 class="text-sm font-semibold text-gray-900 truncate flex-1">
+                {{ topic.title }}
+              </h3>
+              <!-- 狀態標籤：無圖版本 -->
+              <!-- <span
+                :class="[
+                  'px-2 py-1 text-xs font-medium rounded-full ml-2',
+                  getStatusColor(topic.status)
+                ]"
+              >
+                {{ topic.status }}
+              </span>
+              -->
+            </div>
 
-             <!-- 參與度指標 -->
-             <div class="flex items-center gap-3 text-xs text-gray-500 mb-2">
-               <div class="flex items-center gap-1">
-                 <IconWrapper name="users" :size="12" />
-                 <span>{{ topic.participant_count || 0 }}</span>
-               </div>
-               <div class="flex items-center gap-1">
-                 <IconWrapper name="message-circle" :size="12" />
-                 <span>{{ topic.posts_count || 0 }}</span>
-               </div>
-               <div class="flex items-center gap-1">
-                 <IconWrapper name="eye" :size="12" />
-                 <span>{{ topic.views || 0 }}</span>
-               </div>
-             </div>
+            <!-- 描述 -->
+            <p v-if="topic.slogan" class="text-gray-600 text-sm mb-3 line-clamp-3 flex-1">
+              {{ topic.slogan }}
+            </p>
 
-             <!-- 時間資訊 -->
-             <div class="flex items-center justify-between text-xs text-gray-400 mt-auto">
-               <div class="flex items-center gap-1">
-                 <IconWrapper name="calendar" :size="10" />
-                 <span>{{ formatDate(topic.created_at) }}</span>
-               </div>
-               <div class="flex items-center gap-1">
-                 <button
-                   @click.stop="shareTopic(topic)"
-                   class="p-1 text-gray-400 hover:text-democratic-red transition-colors"
-                   :title="$t('topics.actions.share')"
-                 >
-                   <IconWrapper name="share-2" :size="12" />
-                 </button>
-                 <button
-                   @click.stop="bookmarkTopic(topic)"
-                   class="p-1 transition-colors"
-                   :title="$t('topics.actions.bookmark')"
-                 >
-                   <IconWrapper name="bookmark" :size="12" :class="isBookmarked(topic) ? 'text-democratic-red fill-democratic-red' : 'text-gray-400 hover:text-democratic-red'" />
-                 </button>
-               </div>
-             </div>
+            <!-- 參與度指標 -->
+            <div class="flex items-center gap-3 text-xs text-gray-500 mb-2">
+              <div class="flex items-center gap-1">
+                <IconWrapper name="users" :size="12" />
+                <span>{{ topic.participant_count || 0 }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <IconWrapper name="message-circle" :size="12" />
+                <span>{{ topic.posts_count || 0 }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <IconWrapper name="eye" :size="12" />
+                <span>{{ topic.views || 0 }}</span>
+              </div>
+            </div>
+
+            <!-- 時間資訊 -->
+            <div class="flex items-center justify-between text-xs text-gray-400 mt-auto">
+              <div class="flex items-center gap-1">
+                <IconWrapper name="calendar" :size="10" />
+                <span>{{ formatDate(topic.created_at) }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <button
+                  @click.stop="shareTopic(topic)"
+                  class="p-1 text-gray-400 hover:text-democratic-red transition-colors"
+                  :title="$t('topics.actions.share')"
+                >
+                  <IconWrapper name="share-2" :size="12" />
+                </button>
+                <button
+                  @click.stop="bookmarkTopic(topic)"
+                  class="p-1 transition-colors"
+                  :title="$t('topics.actions.bookmark')"
+                >
+                  <IconWrapper name="bookmark" :size="12" :class="isBookmarked(topic) ? 'text-democratic-red fill-democratic-red' : 'text-gray-400 hover:text-democratic-red'" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
