@@ -161,7 +161,7 @@
           <div
             v-for="topic in filteredTopics"
             :key="topic.id"
-            class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer h-52 flex flex-col"
+            class="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-all duration-200 cursor-pointer h-64 flex flex-col"
             @click="goToTopic(topic)"
           >
             <!-- 小圖版本 -->
