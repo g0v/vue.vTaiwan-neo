@@ -93,7 +93,7 @@
                   'relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
                   step.active || step.current
                     ? 'bg-democratic-red text-white shadow-md'
-                    : 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+                    : getStepColor(index)
                 ]"
               >
                 {{ index + 1 }}
@@ -102,7 +102,7 @@
                   v-if="index < steps.length - 1"
                   :class="[
                     'absolute left-full top-1/2 -translate-y-1/2 h-0.5 w-8 md:w-12 transition-colors duration-300',
-                    step.active ? 'bg-democratic-red' : 'bg-gray-300'
+                    step.active ? 'bg-democratic-red' : getStepLineColor(index)
                   ]"
                 ></div>
               </div>
@@ -110,7 +110,7 @@
               <span
                 :class="[
                   'mt-3 text-sm md:text-base font-medium text-center transition-colors duration-300',
-                  step.active || step.current ? 'text-democratic-red' : 'text-gray-600 group-hover:text-gray-800'
+                  step.active || step.current ? 'text-democratic-red' : getStepTextColor(index)
                 ]"
               >
                 {{ step.title }}
@@ -327,6 +327,52 @@ const filteredTopics = computed(() => {
   return filtered
 })
 
+// 獲取步驟圓圈顏色
+const getStepColor = (index) => {
+  const activeIndex = steps.value.findIndex(step => step.active || step.current)
+  if (activeIndex === -1) {
+    return 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+  }
+
+  if (index < activeIndex) {
+    return 'bg-green-200 text-green-700 group-hover:bg-green-300'
+  } else if (index > activeIndex) {
+    return 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+  } else {
+    return 'bg-gray-200 text-gray-600 group-hover:bg-gray-300'
+  }
+}
+
+// 獲取步驟連接線顏色
+const getStepLineColor = (index) => {
+  const activeIndex = steps.value.findIndex(step => step.active || step.current)
+  if (activeIndex === -1) {
+    return 'bg-gray-300'
+  }
+
+  if (index < activeIndex) {
+    return 'bg-green-300'
+  } else {
+    return 'bg-gray-300'
+  }
+}
+
+// 獲取步驟文字顏色
+const getStepTextColor = (index) => {
+  const activeIndex = steps.value.findIndex(step => step.active || step.current)
+  if (activeIndex === -1) {
+    return 'text-gray-600 group-hover:text-gray-800'
+  }
+
+  if (index < activeIndex) {
+    return 'text-green-600 group-hover:text-green-700'
+  } else if (index > activeIndex) {
+    return 'text-gray-600 group-hover:text-gray-800'
+  } else {
+    return 'text-gray-600 group-hover:text-gray-800'
+  }
+}
+
 // 獲取狀態顏色
 const getStatusColor = (status) => {
   const colorMap = {
@@ -359,7 +405,7 @@ const clearSearch = () => {
 const handleStepClick = (index) => {
   // 重設所有步驟
   steps.value.forEach((step, i) => {
-    step.active = i <= index
+    step.active = i === index
     step.current = i === index
   })
 }
