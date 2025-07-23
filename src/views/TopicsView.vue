@@ -165,7 +165,7 @@
             @click="goToTopic(topic)"
           >
             <!-- 小圖版本 -->
-            <div class="flex items-start justify-between">
+            <!-- <div class="flex items-start justify-between">
               <div
                 v-if="topic.cover"
                 class="w-16 h-16 bg-cover bg-center rounded-lg mb-4"
@@ -184,7 +184,7 @@
                   {{ topic.status }}
                 </span>
               </div>
-            </div>
+            </div> -->
 
             <!-- 標題和狀態 -->
             <div class="flex items-start justify-between mb-2">
@@ -192,7 +192,7 @@
                 {{ topic.title }}
               </h3>
               <!-- 狀態標籤：無圖版本 -->
-              <!-- <span
+              <span
                 :class="[
                   'px-2 py-1 text-xs font-medium rounded-full ml-2',
                   getStatusColor(topic.status)
@@ -200,7 +200,6 @@
               >
                 {{ topic.status }}
               </span>
-              -->
             </div>
 
             <!-- 描述 -->
