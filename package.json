@@ -17,6 +17,7 @@
     "lucide-vue-next": "^0.514.0",
     "marked": "^15.0.12",
     "vue": "^3.4.0",
+    "vue-gtag-next": "^1.14.0",
     "vue-i18n": "^9.14.4",
     "vue-router": "^4.2.5",
     "vue3-carousel": "^0.16.0"
