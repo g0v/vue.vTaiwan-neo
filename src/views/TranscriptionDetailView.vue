@@ -77,8 +77,11 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-
+import { useHead } from '@unhead/vue'
 const { t } = useI18n()
+useHead({
+  title: t('transcriptionDetail.title') + ' | vTaiwan'
+})
 const route = useRoute()
 const router = useRouter()
 

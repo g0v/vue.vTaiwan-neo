@@ -78,6 +78,11 @@
 <script setup>
 import { faqs } from '../data/faqs'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
+const { t } = useI18n()
+useHead({
+  title: t('faq.title') + ' | vTaiwan'
+})
 
 const { locale } = useI18n()
 

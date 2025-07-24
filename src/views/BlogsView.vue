@@ -66,10 +66,15 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import { database, blogsRef } from '../lib/firebase'
 import { onValue } from 'firebase/database'
 
 const { locale } = useI18n()
+const { t } = useI18n()
+useHead({
+  title: t('header.blogs') + ' | vTaiwan'
+})
 
 const blogs = ref([])
 const loading = ref(true)

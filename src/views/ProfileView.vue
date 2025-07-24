@@ -160,9 +160,13 @@
 import { ref, reactive, computed, watch } from 'vue'
 import { updateProfile as firebaseUpdateProfile } from 'firebase/auth'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import GoogleLogin from '../components/GoogleLogin.vue'
 
 const { t } = useI18n()
+useHead({
+  title: t('profile.title') + ' | vTaiwan'
+})
 
 // Props
 const props = defineProps({

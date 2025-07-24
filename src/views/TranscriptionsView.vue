@@ -204,6 +204,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import axios from 'axios'
 import { marked } from 'marked'
 
@@ -214,6 +215,9 @@ interface Transcription {
 }
 
 const { locale, t } = useI18n()
+useHead({
+  title: t('transcriptions.title') + ' | vTaiwan'
+})
 
 // 當前語言
 const currentLanguage = computed(() => locale.value)

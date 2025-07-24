@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import IconWrapper from '../components/IconWrapper.vue'
 import UnderConstructionModal from '../components/UnderConstructionModal.vue'
+import { useHead } from '@unhead/vue'
 
 const { t } = useI18n()
 
@@ -12,6 +13,10 @@ const showUnderConstructionModal = ref(true)
 const closeUnderConstructionModal = () => {
   showUnderConstructionModal.value = false
 }
+
+useHead({
+  title: t('home.title')
+})
 </script>
 
 <template>

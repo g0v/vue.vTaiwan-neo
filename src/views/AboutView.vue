@@ -60,6 +60,12 @@
 
 <script setup lang="ts">
 import IconWrapper from '../components/IconWrapper.vue'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
+const { t } = useI18n()
+useHead({
+  title: t('about.title') + ' | vTaiwan'
+})
 </script>
 
 <style>

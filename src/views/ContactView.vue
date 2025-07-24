@@ -136,4 +136,10 @@
 
 <script setup>
 import IconWrapper from '@/components/IconWrapper.vue'
+import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
+const { t } = useI18n()
+useHead({
+  title: t('contact.title') + ' | vTaiwan'
+})
 </script>

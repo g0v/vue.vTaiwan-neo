@@ -65,8 +65,9 @@
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
+import { useHead } from '@unhead/vue'
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 // 定義 props
 const props = defineProps({
@@ -90,6 +91,10 @@ const currentLanguage = computed(() => locale.value)
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('zh-TW')
 }
+
+useHead({
+  title: t('meetups.title') + ' | vTaiwan'
+})
 </script>
 
 <style scoped>
