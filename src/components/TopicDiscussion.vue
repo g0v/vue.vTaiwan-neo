@@ -9,7 +9,7 @@
     <!-- Discussion Content -->
     <div v-else-if="discussionType && discussionType.type">
       <!-- Discourse 討論串 -->
-      <!-- <div
+      <div
         v-if="discussionType.type === 'discourse'"
         class="space-y-6"
       >
@@ -35,11 +35,11 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- 嵌入式內容 (polis, slido, etc.) -->
       <div
-        v-if="discussionType.embeder"
+        v-else-if="discussionType.embeder"
         class="embedded-content"
       >
         <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
@@ -104,7 +104,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
-// import TopicDiscussionComment from './TopicDiscussionComment.vue'
+import TopicDiscussionComment from './TopicDiscussionComment.vue'
 import discourseApi from '../lib/discourse'
 
 const { t } = useI18n()
