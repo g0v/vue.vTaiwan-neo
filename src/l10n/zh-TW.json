@@ -414,7 +414,9 @@
       "completed": "已完成",
       "draft": "草案研擬",
       "collection": "意見徵集"
-    }
+    },
+    "recentTitle": "近三個月的議題",
+    "recentDesc": "以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題"
   },
   "contact": {
     "title": "聯絡我們",

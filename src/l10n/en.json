@@ -390,7 +390,9 @@
     },
     "bookmarks": {
       "myBookmarks": "Bookmarks"
-    }
+    },
+    "recentTitle": "Recent Topics (Last 3 Months)",
+    "recentDesc": "Below are topics updated in the last 3 months, suitable for newcomers to see what vTaiwan is focusing on."
   },
   "topicDetail": {
     "discussion": "Discussion",

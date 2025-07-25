@@ -8,83 +8,6 @@
           {{ $t('topics.description') }}
         </p>
 
-        <!-- 搜尋和篩選區域 -->
-        <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
-          <!-- 搜尋欄位 -->
-          <div class="flex-1 max-w-md">
-            <div class="relative">
-              <input
-                v-model="searchQuery"
-                type="text"
-                :placeholder="$t('topics.search.placeholder')"
-                class="w-full px-4 py-3 pl-12 pr-12 text-gray-900 bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-jade-green min-w-64"
-              />
-              <IconWrapper
-                name="search"
-                :size="20"
-                class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
-              />
-              <button
-                v-if="searchQuery"
-                @click="clearSearch"
-                class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <IconWrapper name="x" :size="16" />
-              </button>
-            </div>
-          </div>
-
-          <!-- 排序選項 -->
-          <div class="flex gap-2 items-center w-full justify-start lg:justify-between">
-            <div class="flex gap-2">
-              <button
-                @click="sortBy = 'latest'"
-                :class="[
-                  'px-4 py-2 rounded-lg font-medium transition-colors',
-                  sortBy === 'latest'
-                    ? 'bg-white text-black'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                ]"
-              >
-                {{ $t('topics.sort.latest') }}
-              </button>
-              <button
-                @click="sortBy = 'participants'"
-                :class="[
-                  'px-4 py-2 rounded-lg font-medium transition-colors',
-                  sortBy === 'participants'
-                    ? 'bg-white text-black'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                ]"
-              >
-                {{ $t('topics.sort.participants') }}
-              </button>
-              <button
-                @click="sortBy = 'views'"
-                :class="[
-                  'px-4 py-2 rounded-lg font-medium transition-colors',
-                  sortBy === 'views'
-                    ? 'bg-white text-black'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                ]"
-              >
-                {{ $t('topics.sort.views') }}
-              </button>
-            </div>
-            <button
-              @click="toggleBookmarksOnly"
-              :class="[
-                'flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ml-2',
-                showBookmarksOnly
-                  ? 'bg-democratic-red text-white shadow'
-                  : 'bg-white/20 text-white hover:bg-white/30'
-              ]"
-            >
-              <IconWrapper name="bookmark" :size="18" :class="showBookmarksOnly ? 'fill-white' : 'fill-none'" />
-              <span>{{ $t('topics.bookmarks.myBookmarks') || '我的書籤' }}</span>
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -93,13 +16,17 @@
   <section class="bg-gray-50 py-12">
     <div class="container mx-auto px-2">
       <div class="max-w-7xl mx-auto">
-        <h2 class="text-2xl md:text-3xl font-bold text-left mb-3">近三個月的議題</h2>
+        <h2 class="text-2xl md:text-3xl font-bold text-left mb-3">{{$t('topics.recentTitle')}}</h2>
         <p class="text-gray-600 text-left mb-8 max-w-2xl">
-          以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題
+          {{$t('topics.recentDesc')}}
         </p>
 
         <!-- 近三個月議題展示 -->
-        <div v-if="recentTopics.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-if="loading" class="text-center py-8">
+          <IconWrapper name="calendar" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
+          <p class="text-gray-500">{{$t('common.loading')}}</p>
+        </div>
+        <div v-else-if="recentTopics.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
             v-for="topic in recentTopics"
             :key="topic.id"
@@ -159,75 +86,104 @@
         <!-- 如果沒有近期議題 -->
         <div v-else class="text-center py-8">
           <IconWrapper name="calendar" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-          <p class="text-gray-500">近三個月內沒有更新的議題</p>
+          <p class="text-gray-500">{{$t('topics.noRecent')}}</p>
         </div>
       </div>
     </div>
   </section>
 
-    <!--
-    <div class="bg-white border-b border-gray-200 py-8">
-      <div class="container mx-auto px-2">
-        <div class="max-w-7xl mx-auto">
-          <div class="flex justify-center items-center">
-            <div class="flex items-center space-x-8 md:space-x-12">
-              <div
-                v-for="(step, index) in steps"
-                :key="index"
-                class="flex flex-col items-center cursor-pointer group"
-                @click="handleStepClick(index)"
-              >
-                <div
-                  :class="[
-                    'relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
-                    step.active || step.current
-                      ? 'bg-democratic-red text-white shadow-md'
-                      : getStepColor(index)
-                  ]"
-                >
-                  {{ index + 1 }}
-                  <div
-                    v-if="index < steps.length - 1"
-                    :class="[
-                      'absolute left-full top-1/2 -translate-y-1/2 h-0.5 w-8 md:w-12 transition-colors duration-300',
-                      step.active ? 'bg-democratic-red' : getStepLineColor(index)
-                    ]"
-                  ></div>
-                </div>
-                <span
-                  :class="[
-                    'mt-3 text-sm md:text-base font-medium text-center transition-colors duration-300',
-                    step.active || step.current ? 'text-democratic-red' : getStepTextColor(index)
-                  ]"
-                >
-                  {{ step.title }}
-                </span>
-              </div>
-            </div>
+    <!-- 搜尋和篩選區域 -->
+    <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+      <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+        <!-- 搜尋欄位 -->
+        <div class="flex-1 max-w-md">
+          <div class="relative">
+            <input
+              v-model="searchQuery"
+              type="text"
+              :placeholder="$t('topics.search.placeholder')"
+              class="w-full px-4 py-3 pl-12 pr-12 text-gray-900 bg-white rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-jade-green min-w-64"
+            />
+            <IconWrapper
+              name="search"
+              :size="20"
+              class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+            />
+            <button
+              v-if="searchQuery"
+              @click="clearSearch"
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            >
+              <IconWrapper name="x" :size="16" />
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-    -->
-    <!-- 設計感的下拉選單 -->
-    <div class="bg-white border-b border-gray-200 py-8">
-      <div class="container mx-auto px-2">
-        <div class="max-w-7xl mx-auto">
-          <div class="flex justify-center items-center relative w-64 mx-auto">
-            <select
-              v-model="selectedStep"
-              @change="handleStepChange"
-              class="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full"
+
+        <!-- 排序選項 -->
+        <div class="flex gap-2 items-center w-full justify-start lg:justify-between">
+          <div class="flex gap-2">
+            <button
+              @click="sortBy = 'latest'"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                sortBy === 'latest'
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-black hover:bg-gray-200'
+              ]"
             >
-              <option value="">全部</option>
-              <option v-for="(step, index) in steps" :key="index" :value="index">
-                {{ step.title }}
-              </option>
-            </select>
-            <span class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
-              <IconWrapper name="chevron-down" :size="20" />
-            </span>
+              {{ $t('topics.sort.latest') }}
+            </button>
+            <button
+              @click="sortBy = 'participants'"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                sortBy === 'participants'
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-black hover:bg-gray-200'
+              ]"
+            >
+              {{ $t('topics.sort.participants') }}
+            </button>
+            <button
+              @click="sortBy = 'views'"
+              :class="[
+                'px-4 py-2 rounded-lg font-medium transition-colors',
+                sortBy === 'views'
+                  ? 'bg-black text-white'
+                  : 'bg-gray-100 text-black hover:bg-gray-200'
+              ]"
+            >
+              {{ $t('topics.sort.views') }}
+            </button>
           </div>
+          <button
+            @click="toggleBookmarksOnly"
+            :class="[
+              'flex items-center gap-1 px-4 py-2 rounded-lg font-medium transition-colors ml-2',
+              showBookmarksOnly
+                ? 'bg-democratic-red text-white shadow'
+                : 'bg-gray-100 text-black hover:bg-gray-200'
+            ]"
+          >
+            <IconWrapper name="bookmark" :size="18" :class="showBookmarksOnly ? 'fill-white' : 'fill-none'" />
+            <span>{{ $t('topics.bookmarks.myBookmarks') || '我的書籤' }}</span>
+          </button>
+        </div>
+        <!-- 下拉選單 -->
+        <div class="relative w-64 mx-auto mt-4 lg:mt-0">
+          <select
+            v-model="selectedStep"
+            @change="handleStepChange"
+            class="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full"
+          >
+            <option value="">全部</option>
+            <option v-for="(step, index) in steps" :key="index" :value="index">
+              {{ step.title }}
+            </option>
+          </select>
+          <span class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
+            <IconWrapper name="chevron-down" :size="20" />
+          </span>
         </div>
       </div>
     </div>
@@ -502,7 +458,7 @@ const steps = ref([
 const bookmarkedIds = ref([])
 const showBookmarksOnly = ref(false)
 
-const selectedStep = ref(0)
+const selectedStep = ref('')
 
 const toggleBookmarksOnly = () => {
   showBookmarksOnly.value = !showBookmarksOnly.value
