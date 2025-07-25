@@ -89,6 +89,82 @@
     </div>
   </section>
 
+  <!-- 近三個月的議題 Section -->
+  <section class="bg-gray-50 py-12">
+    <div class="container mx-auto px-2">
+      <div class="max-w-7xl mx-auto">
+        <h2 class="text-2xl md:text-3xl font-bold text-left mb-3">近三個月的議題</h2>
+        <p class="text-gray-600 text-left mb-8 max-w-2xl">
+          以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題
+        </p>
+        
+        <!-- 近三個月議題展示 -->
+        <div v-if="recentTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            v-for="topic in recentTopics"
+            :key="topic.id"
+            class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 cursor-pointer"
+            @click="goToTopic(topic)"
+          >
+            <!-- Status Badge -->
+            <div class="flex justify-between items-start mb-4">
+              <span
+                class="px-3 py-1 text-xs font-medium rounded-full"
+                :class="getStatusColor(topic.status)"
+              >
+                {{ getStatusText(topic.status) }}
+              </span>
+              <span class="text-xs text-gray-500">
+                {{ formatDate(topic.last_posted_at || topic.created_at) }}
+              </span>
+            </div>
+
+            <!-- Topic Cover -->
+            <div
+              v-if="topic.cover"
+              class="w-full h-32 bg-cover bg-center rounded-lg mb-4"
+              :style="{ backgroundImage: `url(${topic.cover})` }"
+            ></div>
+            <div v-else class="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center">
+              <IconWrapper name="message-circle" :size="32" color="#9CA3AF" />
+            </div>
+
+            <!-- Topic Content -->
+            <h3 class="text-lg font-bold mb-2 line-clamp-2">
+              {{ topic.title }}
+            </h3>
+            
+            <p v-if="topic.slogan" class="text-gray-600 text-sm mb-4 line-clamp-2">
+              {{ topic.slogan }}
+            </p>
+
+            <!-- Topic Meta -->
+            <div class="flex items-center gap-4 text-sm text-gray-500">
+              <div class="flex items-center gap-1">
+                <IconWrapper name="users" :size="14" />
+                <span>{{ topic.participant_count || 0 }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <IconWrapper name="message-circle" :size="14" />
+                <span>{{ topic.posts_count || 0 }}</span>
+              </div>
+              <div class="flex items-center gap-1">
+                <IconWrapper name="eye" :size="14" />
+                <span>{{ topic.views || 0 }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 如果沒有近期議題 -->
+        <div v-else class="text-center py-8">
+          <IconWrapper name="calendar" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
+          <p class="text-gray-500">近三個月內沒有更新的議題</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
     <!--
     <div class="bg-white border-b border-gray-200 py-8">
       <div class="container mx-auto px-2">
@@ -431,6 +507,29 @@ const selectedStep = ref(0)
 const toggleBookmarksOnly = () => {
   showBookmarksOnly.value = !showBookmarksOnly.value
 }
+
+// 篩選近三個月的議題
+const recentTopics = computed(() => {
+  const threeMonthsAgo = new Date()
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+  
+  return topics.value
+    .filter(topic => {
+      // 過濾掉網站基本設定
+      if (topic.title === '網站基本設定') return false
+      
+      // 使用 last_posted_at 或 created_at 作為判斷依據
+      const topicDate = new Date(topic.last_posted_at || topic.created_at)
+      return topicDate >= threeMonthsAgo
+    })
+    .sort((a, b) => {
+      // 按更新時間排序，最新的在前
+      const dateA = new Date(a.last_posted_at || a.created_at)
+      const dateB = new Date(b.last_posted_at || b.created_at)
+      return dateB - dateA
+    })
+    .slice(0, 6) // 限制顯示最多6個議題
+})
 
 // 當前語言
 const currentLanguage = computed(() => locale.value)
