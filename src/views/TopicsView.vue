@@ -89,52 +89,72 @@
     </div>
   </section>
 
-    <!-- 進度篩選器 - 圓圈連接線設計 -->
-  <div class="bg-white border-b border-gray-200 py-8">
-    <div class="container mx-auto px-2">
-      <div class="max-w-7xl mx-auto">
-        <div class="flex justify-center items-center">
-          <div class="flex items-center space-x-8 md:space-x-12">
-            <div
-              v-for="(step, index) in steps"
-              :key="index"
-              class="flex flex-col items-center cursor-pointer group"
-              @click="handleStepClick(index)"
-            >
-              <!-- 圓圈 -->
+    <!--
+    <div class="bg-white border-b border-gray-200 py-8">
+      <div class="container mx-auto px-2">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex justify-center items-center">
+            <div class="flex items-center space-x-8 md:space-x-12">
               <div
-                :class="[
-                  'relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
-                  step.active || step.current
-                    ? 'bg-democratic-red text-white shadow-md'
-                    : getStepColor(index)
-                ]"
+                v-for="(step, index) in steps"
+                :key="index"
+                class="flex flex-col items-center cursor-pointer group"
+                @click="handleStepClick(index)"
               >
-                {{ index + 1 }}
-                <!-- 連接線 -->
                 <div
-                  v-if="index < steps.length - 1"
                   :class="[
-                    'absolute left-full top-1/2 -translate-y-1/2 h-0.5 w-8 md:w-12 transition-colors duration-300',
-                    step.active ? 'bg-democratic-red' : getStepLineColor(index)
+                    'relative w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold transition-all duration-300',
+                    step.active || step.current
+                      ? 'bg-democratic-red text-white shadow-md'
+                      : getStepColor(index)
                   ]"
-                ></div>
+                >
+                  {{ index + 1 }}
+                  <div
+                    v-if="index < steps.length - 1"
+                    :class="[
+                      'absolute left-full top-1/2 -translate-y-1/2 h-0.5 w-8 md:w-12 transition-colors duration-300',
+                      step.active ? 'bg-democratic-red' : getStepLineColor(index)
+                    ]"
+                  ></div>
+                </div>
+                <span
+                  :class="[
+                    'mt-3 text-sm md:text-base font-medium text-center transition-colors duration-300',
+                    step.active || step.current ? 'text-democratic-red' : getStepTextColor(index)
+                  ]"
+                >
+                  {{ step.title }}
+                </span>
               </div>
-              <!-- 文字標籤 -->
-              <span
-                :class="[
-                  'mt-3 text-sm md:text-base font-medium text-center transition-colors duration-300',
-                  step.active || step.current ? 'text-democratic-red' : getStepTextColor(index)
-                ]"
-              >
-                {{ step.title }}
-              </span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    -->
+    <!-- 設計感的下拉選單 -->
+    <div class="bg-white border-b border-gray-200 py-8">
+      <div class="container mx-auto px-2">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex justify-center items-center relative w-64 mx-auto">
+            <select
+              v-model="selectedStep"
+              @change="handleStepChange"
+              class="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full"
+            >
+              <option value="0">全部</option>
+              <option v-for="(step, index) in steps" :key="index+1" :value="index+1">
+                {{ step.title }}
+              </option>
+            </select>
+            <span class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
+              <IconWrapper name="chevron-down" :size="20" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- 議題列表 - 新的卡片設計 -->
   <section class="py-8">
@@ -406,6 +426,8 @@ const steps = ref([
 const bookmarkedIds = ref([])
 const showBookmarksOnly = ref(false)
 
+const selectedStep = ref(0)
+
 const toggleBookmarksOnly = () => {
   showBookmarksOnly.value = !showBookmarksOnly.value
 }
@@ -416,7 +438,6 @@ const currentLanguage = computed(() => locale.value)
 // 篩選議題
 const filteredTopics = computed(() => {
   let filtered = topics.value.filter(topic => topic.title !== '網站基本設定')
-
 
   // 書籤過濾
   if (showBookmarksOnly.value) {
@@ -433,7 +454,15 @@ const filteredTopics = computed(() => {
     )
   }
 
-  // 進度篩選
+  // 下拉選單狀態過濾
+  if (selectedStep.value !== '') {
+    const stepTitle = steps.value[selectedStep.value]?.title
+    if (stepTitle) {
+      filtered = filtered.filter(topic => topic.status === stepTitle)
+    }
+  }
+
+  // 進度篩選（原本圈圈的）
   const activeSteps = steps.value.filter(step => step.active || step.current)
   if (activeSteps.length > 0) {
     const activeStatuses = activeSteps.map(step => step.title)
@@ -657,6 +686,11 @@ onMounted(() => {
   loadTopics()
   loadBookmarks()
 })
+
+// handleStepChange 方法可選擇性保留（如有需要）
+function handleStepChange() {
+  // 這裡可根據需要做額外處理
+}
 </script>
 
 <style scoped>
