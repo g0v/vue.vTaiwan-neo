@@ -143,8 +143,8 @@
               @change="handleStepChange"
               class="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full"
             >
-              <option value=""></option>
-              <option v-for="(step, index) in steps" :key="index" :value="index+1">
+              <option value="">全部</option>
+              <option v-for="(step, index) in steps" :key="index" :value="index">
                 {{ step.title }}
               </option>
             </select>
