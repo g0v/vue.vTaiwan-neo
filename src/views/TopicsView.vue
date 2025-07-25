@@ -97,13 +97,13 @@
         <p class="text-gray-600 text-left mb-8 max-w-2xl">
           以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題
         </p>
-        
+
         <!-- 近三個月議題展示 -->
-        <div v-if="recentTopics.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-if="recentTopics.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
             v-for="topic in recentTopics"
             :key="topic.id"
-            class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 cursor-pointer"
+            class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 cursor-pointer max-w-sm"
             @click="goToTopic(topic)"
           >
             <!-- Status Badge -->
@@ -133,7 +133,7 @@
             <h3 class="text-lg font-bold mb-2 line-clamp-2">
               {{ topic.title }}
             </h3>
-            
+
             <p v-if="topic.slogan" class="text-gray-600 text-sm mb-4 line-clamp-2">
               {{ topic.slogan }}
             </p>
@@ -512,12 +512,12 @@ const toggleBookmarksOnly = () => {
 const recentTopics = computed(() => {
   const threeMonthsAgo = new Date()
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-  
+
   return topics.value
     .filter(topic => {
       // 過濾掉網站基本設定
       if (topic.title === '網站基本設定') return false
-      
+
       // 使用 last_posted_at 或 created_at 作為判斷依據
       const topicDate = new Date(topic.last_posted_at || topic.created_at)
       return topicDate >= threeMonthsAgo
