@@ -142,6 +142,7 @@
             {{ $t('blog.language') }}：
             <span v-if="blog.language === 'zh-TW'" class="font-medium">{{ $t('blog.languageZhTW') }}</span>
             <span v-else-if="blog.language === 'en'" class="font-medium">{{ $t('blog.languageEn') }}</span>
+            <span v-else-if="blog.language === 'ja'" class="font-medium">{{ $t('blog.languageJa') }}</span>
             <span v-else-if="blog.language === 'all'" class="font-medium">{{ $t('blog.languageAll') }}</span>
             <span v-else class="text-gray-400">{{ $t('blog.languageSelect') }}</span>
           </span>
@@ -452,6 +453,11 @@ const loadBlog = () => {
         else if (blogData.language === 'en' && currentLang === 'en') {
           blog.value = { id, ...blogData }
           console.log('Found blog (en):', blog.value)
+        }
+        // 如果lang是ja，只在日文時顯示
+        else if (blogData.language === 'ja' && currentLang === 'ja') {
+          blog.value = { id, ...blogData }
+          console.log('Found blog (ja):', blog.value)
         }
         // 其他情況不顯示
         else {

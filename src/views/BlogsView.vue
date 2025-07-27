@@ -103,6 +103,10 @@ const filteredBlogs = computed(() => {
     if (blog.language === 'en' && currentLang === 'en') {
       return true
     }
+    // 如果lang是ja，只在日文時顯示
+    if (blog.language === 'ja' && currentLang === 'ja') {
+      return true
+    }
 
     return false
   })

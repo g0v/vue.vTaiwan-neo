@@ -101,6 +101,7 @@
             <option value="">{{ $t('blog.languageSelect') }}</option>
             <option value="zh-TW">{{ $t('blog.languageZhTW') }}</option>
             <option value="en">{{ $t('blog.languageEn') }}</option>
+            <option value="ja">{{ $t('blog.languageJa') }}</option>
             <option value="all">{{ $t('blog.languageAll') }}</option>
           </select>
         </div>
