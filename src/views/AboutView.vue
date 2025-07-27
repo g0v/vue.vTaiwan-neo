@@ -64,7 +64,29 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 const { t } = useI18n()
 useHead({
-  title: t('about.title') + ' | vTaiwan'
+  title: t('about.title') + ' | vTaiwan',
+  meta: [
+    {
+      property: 'og:title',
+      content: t('about.title') + ' | vTaiwan'
+    },
+    {
+      property: 'og:description',
+      content: t('about.mission.description')
+    },
+    {
+      property: 'og:url',
+      content: 'https://vtaiwan.tw/about'
+    },
+    {
+      property: 'twitter:title',
+      content: t('about.title') + ' | vTaiwan'
+    },
+    {
+      property: 'twitter:description',
+      content: t('about.mission.description')
+    }
+  ]
 })
 </script>
 

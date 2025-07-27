@@ -15,7 +15,29 @@ const closeUnderConstructionModal = () => {
 }
 
 useHead({
-  title: t('home.title')
+  title: t('home.title'),
+  meta: [
+    {
+      property: 'og:title',
+      content: t('home.title')
+    },
+    {
+      property: 'og:description',
+      content: t('home.hero.subtitle')
+    },
+    {
+      property: 'og:url',
+      content: 'https://vtaiwan.tw/'
+    },
+    {
+      property: 'twitter:title',
+      content: t('home.title')
+    },
+    {
+      property: 'twitter:description',
+      content: t('home.hero.subtitle')
+    }
+  ]
 })
 </script>
 

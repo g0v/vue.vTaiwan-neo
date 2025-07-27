@@ -409,11 +409,38 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useHead } from '@unhead/vue'
 import IconWrapper from '../components/IconWrapper.vue'
 import discourseApi from '../lib/discourse'
 
 const router = useRouter()
 const { t, locale } = useI18n()
+
+useHead({
+  title: t('topics.title') + ' | vTaiwan',
+  meta: [
+    {
+      property: 'og:title',
+      content: t('topics.title') + ' | vTaiwan'
+    },
+    {
+      property: 'og:description',
+      content: t('topics.description')
+    },
+    {
+      property: 'og:url',
+      content: 'https://vtaiwan.tw/topics'
+    },
+    {
+      property: 'twitter:title',
+      content: t('topics.title') + ' | vTaiwan'
+    },
+    {
+      property: 'twitter:description',
+      content: t('topics.description')
+    }
+  ]
+})
 
 // 響應式資料
 const topics = ref([])
