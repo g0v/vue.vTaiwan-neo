@@ -143,8 +143,8 @@ const loadTranscriptionContent = async () => {
 
     const text = await response.text()
 
-    // 按 \n\n 分割內容
-    transcriptionContent.value = text.split('\n\n').filter(block => block.trim().length > 0)
+    // 按 \n{2,4} 分割內容
+    transcriptionContent.value = text.split(/\n{2,4}/).filter(block => block.trim().length > 0)
   } catch (err) {
     console.error('載入逐字稿失敗:', err)
     error.value = t('transcriptionDetail.loadError')
