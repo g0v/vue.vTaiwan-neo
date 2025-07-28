@@ -200,7 +200,10 @@
     "languageJa": "Japanese",
     "languageSelect": "Select display language",
     "isPrototype": "This is a prototype",
-    "prototype": "Prototype"
+    "prototype": "Prototype",
+    "fetchError": "An error occurred while fetching posts, please try again later",
+    "noPosts": "No posts available in the current language",
+    "viewOriginal": "View Original Post"
   },
   "transcript": {
     "title": "Live Transcript",

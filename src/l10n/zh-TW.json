@@ -200,7 +200,10 @@
     "languageJa": "日文",
     "languageSelect": "選擇顯示語言",
     "isPrototype": "這是樣稿",
-    "prototype": "樣稿"
+    "prototype": "樣稿",
+    "fetchError": "取得貼文時發生錯誤，請稍後再試",
+    "noPosts": "目前沒有符合當前語言的貼文",
+    "viewOriginal": "查看原始貼文"
   },
   "topicDetail": {
     "discussion": "討論區",

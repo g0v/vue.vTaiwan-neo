@@ -4,8 +4,8 @@ import TopicsView from '../views/TopicsView.vue'
 import TopicDetailView from '../views/TopicDetailView.vue'
 import MeetupsView from '../views/MeetupsView.vue'
 import BlogsView from '../views/BlogsView.vue'
-import BlogDetailView from '../views/BlogDetailView.vue'
-import PostBlogView from '../views/PostBlogView.vue'
+
+
 import FAQView from '../views/FAQView.vue'
 import AboutView from '../views/AboutView.vue'
 import ContributorsView from '../views/ContributorsView.vue'
@@ -49,16 +49,8 @@ const router = createRouter({
       name: 'blogs',
       component: BlogsView
     },
-    {
-      path: '/blogs/:title',
-      name: 'blog-detail',
-      component: BlogDetailView
-    },
-    {
-      path: '/blogs/post_blog',
-      name: 'post-blog',
-      component: PostBlogView
-    },
+
+
     {
       path: '/faq',
       name: 'faq',
