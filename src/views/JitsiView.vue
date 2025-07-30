@@ -364,10 +364,12 @@ export default {
       audioStream: null,             // 音訊流
       audioChunks: [],               // 錄音片段
       audioRecordingTimer: null,     // 錄音計時器
-      maxRecordingTime: 120000,       // 最大錄音時間（毫秒）- 120秒
+      maxRecordingTime: 12 * 1000,       // 最大錄音時間（毫秒）- 12秒
       recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
       countdownInterval: null,       // 倒計時間隔
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/',
+      autoRestartRecording: false,   // 是否自動重新開始錄音
+      isPageVisible: true,           // 頁面是否可見
 
       // 音訊設定相關
       showAudioSettings: false,      // 是否顯示音訊設定模態框
@@ -444,6 +446,9 @@ export default {
 
     // 清理設備變更監聽器
     navigator.mediaDevices.removeEventListener('devicechange', this.handleDeviceChange);
+
+    // 清理頁面可見性監聽器
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange);
   },
   mounted() {
     // 監聽視窗大小變化
@@ -457,6 +462,9 @@ export default {
 
     // 監聽設備變更
     navigator.mediaDevices.addEventListener('devicechange', this.handleDeviceChange);
+
+    // 監聽頁面可見性變化
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
   },
   watch: {
     userData: {
@@ -896,6 +904,9 @@ export default {
       if (this.isRecordingAudio) {
         await this.stopAudioRecording();
       } else {
+        // 在開始錄音時請求通知權限
+        console.log('🔔 開始錄音前請求通知權限...');
+        await this.requestNotificationPermission();
         await this.startAudioRecording();
       }
     },
@@ -904,22 +915,27 @@ export default {
       try {
         console.log('🎤 開始音訊錄製...');
 
-        // 請求音訊權限（使用選擇的音訊設備）
-        const audioConstraints = {
-          echoCancellation: true,
-          noiseSuppression: true,
-          sampleRate: 44100
-        };
+        // 如果已經有音訊流且正在自動重啟，直接使用現有的
+        if (this.autoRestartRecording && this.audioStream) {
+          console.log('🔄 使用現有音訊流重新開始錄音');
+        } else {
+          // 請求音訊權限（使用選擇的音訊設備）
+          const audioConstraints = {
+            echoCancellation: true,
+            noiseSuppression: true,
+            sampleRate: 44100
+          };
 
-        // 如果有選擇的音訊設備，則使用該設備
-        if (this.selectedAudioDeviceId) {
-          audioConstraints.deviceId = { exact: this.selectedAudioDeviceId };
+          // 如果有選擇的音訊設備，則使用該設備
+          if (this.selectedAudioDeviceId) {
+            audioConstraints.deviceId = { exact: this.selectedAudioDeviceId };
+          }
+
+          this.audioStream = await navigator.mediaDevices.getUserMedia({
+            audio: audioConstraints,
+            video: false
+          });
         }
-
-        this.audioStream = await navigator.mediaDevices.getUserMedia({
-          audio: audioConstraints,
-          video: false
-        });
 
         // 清空之前的錄音片段
         this.audioChunks = [];
@@ -960,6 +976,13 @@ export default {
         // 設置自動停止計時器
         this.audioRecordingTimer = setTimeout(() => {
           console.log('⏰ 錄音時間到達上限，自動停止...');
+
+          // 檢查頁面是否可見，決定是否自動重新開始
+          if (!this.isPageVisible) {
+            console.log('📱 頁面不在焦點，將自動重新開始錄音');
+            this.autoRestartRecording = true;
+          }
+
           this.stopAudioRecording();
         }, this.maxRecordingTime);
 
@@ -970,7 +993,7 @@ export default {
       }
     },
 
-        async stopAudioRecording() {
+    async stopAudioRecording() {
       try {
         console.log('⏹️ 停止音訊錄製...');
 
@@ -994,6 +1017,24 @@ export default {
         this.isRecordingAudio = false;
         this.recordingTimeLeft = 0;
 
+        // 檢查是否需要自動重新開始錄音
+        if (this.autoRestartRecording && !this.isPageVisible) {
+          console.log('🔄 頁面不在焦點，自動重新開始錄音...');
+
+          // 發送瀏覽器通知
+          this.sendBrowserNotification('已繼續轉錄', '音訊轉錄已自動重新開始');
+
+          // 延遲0.3秒後重新開始錄音
+          setTimeout(() => {
+            this.startAudioRecording();
+          }, 300);
+        } else {
+          // 只有在頁面可見或手動停止時才重設自動重新開始標誌
+          if (this.isPageVisible) {
+            this.autoRestartRecording = false;
+          }
+        }
+
         console.log('✅ 音訊錄製已停止');
       } catch (error) {
         console.error('❌ 停止錄音時發生錯誤:', error);
@@ -1014,8 +1055,13 @@ export default {
         // 發送到轉錄服務
         await this.sendAudioToTranscription(audioBlob);
 
-        // 清理資源
-        this.cleanupAudioRecording();
+        // 只有在手動停止或頁面可見時才清理資源
+        if (!this.autoRestartRecording) {
+          console.log('🧹 手動停止，清理音訊資源');
+          this.cleanupAudioRecording();
+        } else {
+          console.log('🔄 自動重啟模式，保持音訊資源');
+        }
       } catch (error) {
         console.error('❌ 處理錄音時發生錯誤:', error);
       }
@@ -1344,6 +1390,61 @@ export default {
         });
       } catch (error) {
         console.error('Error loading meeting data:', error);
+      }
+    },
+
+    handleVisibilityChange() {
+      this.isPageVisible = !document.hidden;
+      console.log('Page visibility changed:', this.isPageVisible);
+    },
+
+    // 請求瀏覽器通知權限
+    async requestNotificationPermission() {
+      if ('Notification' in window) {
+        console.log('🔔 當前通知權限:', Notification.permission);
+
+        if (Notification.permission === 'default') {
+          console.log('🔔 請求通知權限...');
+          const permission = await Notification.requestPermission();
+          console.log('🔔 通知權限結果:', permission);
+          return permission === 'granted';
+        }
+        return Notification.permission === 'granted';
+      }
+      console.log('❌ 瀏覽器不支援通知功能');
+      return false;
+    },
+
+    // 發送瀏覽器通知
+    async sendBrowserNotification(title, body) {
+      try {
+        console.log('📢 準備發送通知:', title, body);
+
+        const hasPermission = await this.requestNotificationPermission();
+        console.log('📢 通知權限檢查結果:', hasPermission);
+
+        if (hasPermission) {
+          const notification = new Notification(title, {
+            body: body,
+            icon: '/logo.png', // 使用網站 logo
+            badge: '/logo.png',
+            tag: 'vtaiwan-transcription', // 相同 tag 的通知會替換
+            requireInteraction: false,
+            silent: false
+          });
+
+          // 添加通知事件監聽
+          notification.onclick = () => {
+            console.log('📢 通知被點擊');
+            window.focus(); // 聚焦到視窗
+          };
+
+          console.log('📢 瀏覽器通知已發送:', title);
+        } else {
+          console.log('❌ 沒有通知權限，無法發送通知');
+        }
+      } catch (error) {
+        console.error('❌ 發送通知失敗:', error);
       }
     }
   }
