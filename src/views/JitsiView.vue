@@ -1394,8 +1394,15 @@ export default {
     },
 
     handleVisibilityChange() {
+      const wasVisible = this.isPageVisible;
       this.isPageVisible = !document.hidden;
       console.log('Page visibility changed:', this.isPageVisible);
+
+      // 當頁面從可見變為不可見，且正在錄音時，發送通知
+      if (wasVisible && !this.isPageVisible && this.isRecordingAudio) {
+        console.log('📱 頁面離開焦點，發送自動轉錄模式通知');
+        this.sendBrowserNotification('模式已切換為自動持續轉錄模式', '當您切換回此頁面時，轉錄將停止自動循環');
+      }
     },
 
     // 請求瀏覽器通知權限
