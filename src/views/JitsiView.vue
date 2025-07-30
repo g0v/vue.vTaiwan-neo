@@ -249,7 +249,7 @@
               ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse'
               : 'bg-purple-500 text-white hover:bg-purple-600'
           ]"
-          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多120秒)'"
+          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多60秒)'"
         >
           <IconWrapper
             :name="isRecordingAudio ? 'square' : 'mic'"
@@ -364,7 +364,7 @@ export default {
       audioStream: null,             // 音訊流
       audioChunks: [],               // 錄音片段
       audioRecordingTimer: null,     // 錄音計時器
-      maxRecordingTime: 12 * 1000,       // 最大錄音時間（毫秒）- 12秒
+      maxRecordingTime: 60 * 1000,       // 最大錄音時間（毫秒）- 60秒
       recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
       countdownInterval: null,       // 倒計時間隔
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/',
@@ -1402,14 +1402,20 @@ export default {
     async requestNotificationPermission() {
       if ('Notification' in window) {
         console.log('🔔 當前通知權限:', Notification.permission);
+        console.log('🔔 瀏覽器支援通知:', 'Notification' in window);
 
         if (Notification.permission === 'default') {
           console.log('🔔 請求通知權限...');
           const permission = await Notification.requestPermission();
           console.log('🔔 通知權限結果:', permission);
           return permission === 'granted';
+        } else if (Notification.permission === 'granted') {
+          console.log('🔔 已有通知權限');
+          return true;
+        } else {
+          console.log('🔔 通知權限被拒絕:', Notification.permission);
+          return false;
         }
-        return Notification.permission === 'granted';
       }
       console.log('❌ 瀏覽器不支援通知功能');
       return false;
@@ -1419,19 +1425,20 @@ export default {
     async sendBrowserNotification(title, body) {
       try {
         console.log('📢 準備發送通知:', title, body);
+        console.log('📢 當前頁面可見性:', this.isPageVisible);
 
         const hasPermission = await this.requestNotificationPermission();
         console.log('📢 通知權限檢查結果:', hasPermission);
 
         if (hasPermission) {
+          console.log('📢 創建通知對象...');
+
+          // 使用最簡單的通知設定（與手動測試相同）
           const notification = new Notification(title, {
-            body: body,
-            icon: '/logo.png', // 使用網站 logo
-            badge: '/logo.png',
-            tag: 'vtaiwan-transcription', // 相同 tag 的通知會替換
-            requireInteraction: false,
-            silent: false
+            body: body
           });
+
+          console.log('📢 通知對象創建成功:', notification);
 
           // 添加通知事件監聽
           notification.onclick = () => {
@@ -1439,12 +1446,27 @@ export default {
             window.focus(); // 聚焦到視窗
           };
 
+          notification.onshow = () => {
+            console.log('📢 通知已顯示');
+          };
+
+          notification.onerror = (error) => {
+            console.error('📢 通知錯誤:', error);
+          };
+
+          notification.onclose = () => {
+            console.log('📢 通知已關閉');
+          };
+
           console.log('📢 瀏覽器通知已發送:', title);
+
         } else {
           console.log('❌ 沒有通知權限，無法發送通知');
         }
       } catch (error) {
         console.error('❌ 發送通知失敗:', error);
+        console.error('❌ 錯誤詳情:', error.message);
+        console.error('❌ 錯誤堆疊:', error.stack);
       }
     }
   }
