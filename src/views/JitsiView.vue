@@ -35,7 +35,7 @@
           <br/>
           <!-- Google 登入 -->
           <p v-if="!userData || !userData.uid" class="text-gray-600 text-sm">
-            如欲啟用完整逐字稿功能，請先登入
+            如欲加入會議並啟用完整逐字稿功能，請先登入
           </p>
 
         </div>
@@ -535,6 +535,10 @@ export default {
       if (!this.jwt) {
         console.error('No JWT available');
         await this.getJwt();
+      }
+
+      if (!this.jwt) {
+        return;
       }
 
       try {
