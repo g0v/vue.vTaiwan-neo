@@ -452,7 +452,7 @@ export default {
   },
   mounted() {
     // 監聽視窗大小變化
-    this.joinMeetingName = (this.userData || {}).name || 'Guest' + Math.floor(Math.random() * 1000000);
+    this.joinMeetingName = (this.userData || {}).name || 'Guest';
 
     window.addEventListener('resize', this.handleResize);
 
@@ -471,7 +471,7 @@ export default {
       handler(newVal, oldVal) {
         console.log('userData', newVal);
         this.isRecorder = this.meetingData.recorder == (this.userData || {}).uid;
-        this.joinMeetingName = (this.userData || {}).name || 'Guest' + Math.floor(Math.random() * 1000000);
+        this.joinMeetingName = (this.userData || {}).name || 'Guest';
         // this.getJwt();
       },
     },
@@ -486,7 +486,13 @@ export default {
   methods: {
 
     async getJwt() {
-      const user_id = (this.userData || {}).uid || 'guest' + Math.floor(Math.random() * 1000000);
+      const user_id = (this.userData || {}).uid || 'Guest';
+
+      if (user_id == 'Guest') {
+        window.alert('請先登入，方可加入會議');
+        return;
+      }
+
       const user_name = this.joinMeetingName;
 
       console.log('user_name', user_name);
