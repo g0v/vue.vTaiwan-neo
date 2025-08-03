@@ -1,4 +1,10 @@
 {
+  "即將開始": "Upcoming",
+  "意見徵集": "Collecting Opinions",
+  "研擬草案": "Drafting",
+  "送交院會": "To Legislature",
+  "歷史案件": "Archived"
+  ,
   "common": {
     "login": "Login",
     "logout": "Logout",
@@ -402,7 +408,11 @@
       "participate": "Participate in Discussion",
       "noSlide": "No introduction material available",
       "noInfo": "No detailed information available",
-      "enterDiscussion": "Enter Discussion"
+      "enterDiscussion": "Enter Discussion",
+      "backToList": "← Back to Topic List",
+      "noDiscussion": "No discussion content available",
+      "noTimeline": "No timeline data available",
+      "loading": "Loading..."
     },
     "status": {
       "preparing": "Preparing",

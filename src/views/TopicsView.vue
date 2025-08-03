@@ -39,7 +39,7 @@
                 class="px-3 py-1 text-xs font-medium rounded-full"
                 :class="getStatusColor(topic.status)"
               >
-                {{ getStatusText(topic.status) }}
+                {{ t('topics.steps.' + getStatusText(topic.status)) }}
               </span>
               <span class="text-xs text-gray-500">
                 {{ formatDate(topic.last_posted_at || topic.created_at) }}
@@ -223,7 +223,7 @@
                   class="px-3 py-1 text-xs font-medium rounded-full"
                   :class="getStatusColor(topic.status)"
                 >
-                  {{ getStatusText(topic.status) }}
+                  {{ t('topics.steps.' + getStatusText(topic.status)) }}
                 </span>
               </div>
 
@@ -307,7 +307,7 @@
                   class="px-3 py-1 text-xs font-medium rounded-full"
                   :class="getStatusColor(topic.status)"
                 >
-                  {{ getStatusText(topic.status) }}
+                  {{ t('topics.steps.' + getStatusText(topic.status)) }}
                 </span>
               </div>
 

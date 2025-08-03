@@ -409,7 +409,11 @@
       "participate": "參與討論",
       "noSlide": "暫無簡介資料",
       "noInfo": "暫無詳細資訊",
-      "enterDiscussion": "進入討論"
+      "enterDiscussion": "進入討論",
+      "backToList": "← 返回議題列表",
+      "noDiscussion": "目前沒有討論內容",
+      "noTimeline": "目前沒有時間軸資料",
+      "loading": "載入中..."
     },
     "status": {
       "preparing": "準備中",
