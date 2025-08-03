@@ -579,8 +579,8 @@ export default {
         height: '100%',
         configOverwrite: {
           disableDeepLinking: true,
-          startWithAudioMuted: false,
-          startWithVideoMuted: false,
+          startWithAudioMuted: true,  // 預設關閉麥克風
+          startWithVideoMuted: true,  // 預設關閉鏡頭
           prejoinPageEnabled: false,
           // 禁用analytics以避免screen sharing時的錯誤
           analytics: {
