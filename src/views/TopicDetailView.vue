@@ -73,7 +73,7 @@
           <div class="mt-12 text-center">
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
               <router-link to="/topics" class="btn-secondary">
-                ← 返回議題列表
+                {{ $t('topics.detail.backToList') }}
               </router-link>
               <a
                 :href="`https://talk.vtaiwan.tw/t/topic/${realTopicId}`"
@@ -95,7 +95,7 @@
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-4xl font-bold mb-4">{{ $t('topics.detail.notFound') }}</h1>
       <p class="text-lg text-gray-600 mb-8">{{ $t('topics.detail.notFound') }}</p>
-      <router-link to="/topics" class="btn-primary">← 返回議題列表</router-link>
+      <router-link to="/topics" class="btn-primary">{{ $t('topics.detail.backToList') }}</router-link>
     </div>
   </div>
 

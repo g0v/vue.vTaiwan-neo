@@ -78,7 +78,7 @@
     <!-- Empty State -->
     <div v-else class="text-center py-8">
       <IconWrapper name="calendar" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-      <p class="text-gray-500">目前沒有時間軸資料</p>
+      <p class="text-gray-500">{{ $t('topics.detail.noTimeline') }}</p>
     </div>
   </div>
 </template>

@@ -39,7 +39,7 @@
                 class="px-3 py-1 text-xs font-medium rounded-full"
                 :class="getStatusColor(topic.status)"
               >
-                {{ getStatusText(topic.status) }}
+                {{ t('topics.steps.' + getStatusText(topic.status)) }}
               </span>
               <span class="text-xs text-gray-500">
                 {{ formatDate(topic.last_posted_at || topic.created_at) }}
@@ -176,9 +176,9 @@
             @change="handleStepChange"
             class="appearance-none bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-10 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500 w-full"
           >
-            <option value="">全部</option>
+            <option value="">{{ $t('topics.steps.all') }}</option>
             <option v-for="(step, index) in steps" :key="index" :value="index">
-              {{ step.title }}
+              {{ $t('topics.steps.' + step.key) }}
             </option>
           </select>
           <span class="pointer-events-none absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -223,7 +223,7 @@
                   class="px-3 py-1 text-xs font-medium rounded-full"
                   :class="getStatusColor(topic.status)"
                 >
-                  {{ getStatusText(topic.status) }}
+                  {{ t('topics.steps.' + getStatusText(topic.status)) }}
                 </span>
               </div>
 
@@ -307,7 +307,7 @@
                   class="px-3 py-1 text-xs font-medium rounded-full"
                   :class="getStatusColor(topic.status)"
                 >
-                  {{ getStatusText(topic.status) }}
+                  {{ t('topics.steps.' + getStatusText(topic.status)) }}
                 </span>
               </div>
 
@@ -451,32 +451,32 @@ const lastUpdated = ref('')
 
 const steps = ref([
   {
-    title: '即將開始',
-    shortTitle: '即將',
+    key: '即將開始',
+    shortKey: '即將',
     active: false,
     current: false
   },
   {
-    title: '意見徵集',
-    shortTitle: '徵集',
+    key: '意見徵集',
+    shortKey: '徵集',
     active: false,
     current: false
   },
   {
-    title: '研擬草案',
-    shortTitle: '草案',
+    key: '研擬草案',
+    shortKey: '草案',
     active: false,
     current: false
   },
   {
-    title: '送交院會',
-    shortTitle: '院會',
+    key: '送交院會',
+    shortKey: '院會',
     active: false,
     current: false
   },
   {
-    title: '歷史案件',
-    shortTitle: '歷史',
+    key: '歷史案件',
+    shortKey: '歷史',
     active: false,
     current: false
   }
@@ -538,16 +538,16 @@ const filteredTopics = computed(() => {
 
   // 下拉選單狀態過濾
   if (selectedStep.value !== '') {
-    const stepTitle = steps.value[selectedStep.value]?.title
-    if (stepTitle) {
-      filtered = filtered.filter(topic => topic.status === stepTitle)
+    const stepKey = steps.value[selectedStep.value]?.key
+    if (stepKey) {
+      filtered = filtered.filter(topic => topic.status === stepKey)
     }
   }
 
   // 進度篩選（原本圈圈的）
   const activeSteps = steps.value.filter(step => step.active || step.current)
   if (activeSteps.length > 0) {
-    const activeStatuses = activeSteps.map(step => step.title)
+    const activeStatuses = activeSteps.map(step => step.key)
     filtered = filtered.filter(topic => activeStatuses.includes(topic.status))
   }
 

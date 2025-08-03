@@ -3,7 +3,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="text-center py-8">
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-jade-green mx-auto"></div>
-      <p class="mt-2 text-gray-600">載入討論內容...</p>
+      <p class="mt-2 text-gray-600">{{ $t('topics.detail.loading') }}</p>
     </div>
 
     <!-- Discussion Content -->
@@ -31,7 +31,7 @@
               :slice="false"
             />
             <div v-else class="text-gray-500 text-center py-4">
-              無法載入討論內容
+              {{ $t('topics.detail.loading') }}
             </div>
           </div>
         </div>
@@ -82,7 +82,7 @@
     <!-- Empty State -->
     <div v-else class="text-center py-8">
       <IconWrapper name="message-circle" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-      <p class="text-gray-500">目前沒有討論內容</p>
+      <p class="text-gray-500">{{ $t('topics.detail.noDiscussion') }}</p>
     </div>
 
     <!-- 參與討論按鈕 -->

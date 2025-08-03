@@ -1,4 +1,10 @@
 {
+  "即將開始": "Upcoming",
+  "意見徵集": "Collecting Opinions",
+  "研擬草案": "Drafting",
+  "送交院會": "To Legislature",
+  "歷史案件": "Archived"
+  ,
   "common": {
     "login": "Login",
     "logout": "Logout",
@@ -364,13 +370,33 @@
     "list": {
       "title": "Topic List",
       "empty": "No topics available",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "found": "Found {count} topics",
+      "lastUpdated": "Last Updated"
     },
     "search": {
       "placeholder": "Search topics...",
       "results": "Found {count} results for \"{query}\"",
       "noResults": "No matching topics found",
       "clearSearch": "Clear Search"
+    },
+    "sort": {
+      "latest": "Latest",
+      "participants": "Participants",
+      "views": "Views"
+    },
+    "metrics": {
+      "participants": "Participants",
+      "posts": "Posts",
+      "views": "Views",
+      "lastActivity": "Last Activity"
+    },
+    "actions": {
+      "share": "Share Topic",
+      "bookmark": "Add Bookmark"
+    },
+    "bookmarks": {
+      "myBookmarks": "Bookmarks"
     },
     "detail": {
       "title": "Topic Details",
@@ -382,7 +408,11 @@
       "participate": "Participate in Discussion",
       "noSlide": "No introduction material available",
       "noInfo": "No detailed information available",
-      "enterDiscussion": "Enter Discussion"
+      "enterDiscussion": "Enter Discussion",
+      "backToList": "← Back to Topic List",
+      "noDiscussion": "No discussion content available",
+      "noTimeline": "No timeline data available",
+      "loading": "Loading..."
     },
     "status": {
       "preparing": "Preparing",
@@ -392,11 +422,16 @@
       "draft": "Draft Development",
       "collection": "Opinion Collection"
     },
-    "bookmarks": {
-      "myBookmarks": "Bookmarks"
-    },
     "recentTitle": "Recent Topics (Last 3 Months)",
-    "recentDesc": "Below are topics updated in the last 3 months, suitable for newcomers to see what vTaiwan is focusing on."
+    "recentDesc": "Below are topics updated in the last 3 months, suitable for newcomers to see what vTaiwan is focusing on.",
+    "steps": {
+      "all": "All",
+      "即將開始": "Upcoming",
+      "意見徵集": "Collecting Opinions",
+      "研擬草案": "Drafting",
+      "送交院會": "To Legislature",
+      "歷史案件": "Archived"
+    }
   },
   "topicDetail": {
     "discussion": "Discussion",

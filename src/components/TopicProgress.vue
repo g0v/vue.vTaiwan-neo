@@ -12,7 +12,7 @@
                 current: step.current
               }"
             >
-              {{ step.title }}
+              {{ t(step.title) }}
             </li>
           </ul>
         </div>

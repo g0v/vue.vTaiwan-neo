@@ -409,7 +409,11 @@
       "participate": "參與討論",
       "noSlide": "暫無簡介資料",
       "noInfo": "暫無詳細資訊",
-      "enterDiscussion": "進入討論"
+      "enterDiscussion": "進入討論",
+      "backToList": "← 返回議題列表",
+      "noDiscussion": "目前沒有討論內容",
+      "noTimeline": "目前沒有時間軸資料",
+      "loading": "載入中..."
     },
     "status": {
       "preparing": "準備中",
@@ -420,7 +424,15 @@
       "collection": "意見徵集"
     },
     "recentTitle": "近三個月的議題",
-    "recentDesc": "以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題"
+    "recentDesc": "以下是近三個月內有更新的議題，適合新來的朋友了解目前 vTaiwan 正在關注的政策議題",
+    "steps": {
+      "all": "全部",
+      "即將開始": "即將開始",
+      "意見徵集": "意見徵集",
+      "研擬草案": "研擬草案",
+      "送交院會": "送交院會",
+      "歷史案件": "歷史案件"
+    }
   },
   "contact": {
     "title": "聯絡我們",
