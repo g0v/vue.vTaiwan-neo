@@ -68,7 +68,7 @@
           <h4 class="font-bold mb-4">{{ $t('footer.contact') }}</h4>
           <p class="text-gray-300 flex items-center gap-2 mb-2">
             <IconWrapper name="mail" :size="16" />
-            <a href="mailto:contact@vtaiwan.org" class="hover:text-democratic-red transition">contact@vtaiwan.org</a>
+            <a href="mailto:info@vtaiwan.tw" class="hover:text-democratic-red transition">info@vtaiwan.tw</a>
           </p>
         </div>
       </div>

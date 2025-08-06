@@ -42,8 +42,8 @@
         <ul class="space-y-2">
           <li class="flex items-center gap-2">
             <IconWrapper name="mail" :size="16" />
-            <a href="mailto:contact@vtaiwan.org" class="text-democratic-red hover:underline">
-              contact@vtaiwan.org
+            <a href="mailto:info@vtaiwan.tw" class="text-democratic-red hover:underline">
+              info@vtaiwan.tw
             </a>
           </li>
           <li class="flex items-center gap-2">
