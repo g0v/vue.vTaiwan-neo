@@ -65,7 +65,7 @@
 
             <!-- Discussion Tab -->
             <div v-if="activeTab === 'discussion' && realTopicId && showDiscussionTab">
-              <TopicDiscussion :topic-id="realTopicId" />
+              <TopicDiscussion :topic-id="realTopicId" :user-data="userData" />
             </div>
           </div>
 
@@ -80,6 +80,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn-primary"
+                v-if="userData && userData.isAdmin"
               >
                 {{ $t('topics.detail.participate') }} →
               </a>
@@ -118,6 +119,15 @@ import TopicSlide from '../components/TopicSlide.vue'
 import TopicTimeline from '../components/TopicTimeline.vue'
 import TopicDiscussion from '../components/TopicDiscussion.vue'
 import discourseApi from '../lib/discourse'
+
+// 定義 props
+const props = defineProps({
+  userData: {
+    type: Object,
+    required: false,
+    default: () => ({})
+  }
+})
 
 const route = useRoute()
 const { t, locale } = useI18n()

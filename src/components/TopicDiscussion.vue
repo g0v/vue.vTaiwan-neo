@@ -92,6 +92,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="btn-primary inline-flex items-center"
+        v-if="userData && userData.isAdmin"
       >
         <IconWrapper name="message-circle" :size="20" class="mr-2" />
         {{ $t('topics.detail.participate') }}
@@ -114,6 +115,11 @@ const props = defineProps({
   topicId: {
     type: [String, Number],
     required: true
+  },
+  userData: {
+    type: Object,
+    required: false,
+    default: () => ({})
   }
 })
 
