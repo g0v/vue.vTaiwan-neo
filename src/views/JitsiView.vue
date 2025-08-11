@@ -426,8 +426,31 @@ export default {
 
     // this.getJwt();
   },
-  async mounted() {
+  mounted() {
     console.log('mounted');
+
+    // 啟動錄音計時器，每秒更新一次以觸發 computed 重新計算
+    this.recordingTimerInterval = setInterval(() => {
+      // console.log('recordingTimerInterval');
+      // 更新計時器變數以觸發 computed 重新計算
+      this.recordingTimer = Date.now();
+    }, 1000);
+
+    // 監聽視窗大小變化
+    this.joinMeetingName = (this.userData || {}).name || 'Guest';
+
+    window.addEventListener('resize', this.handleResize);
+
+    // 載入音訊設備和設定
+    this.loadAudioDevices();
+    this.loadAudioSettings();
+
+    // 監聽設備變更
+    navigator.mediaDevices.addEventListener('devicechange', this.handleDeviceChange);
+
+    // 監聽頁面可見性變化
+    document.addEventListener('visibilitychange', this.handleVisibilityChange);
+
     // this.getJwt();
   },
   beforeUnmount() {
@@ -472,22 +495,6 @@ export default {
 
     // 清理頁面可見性監聽器
     document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-  },
-  mounted() {
-    // 監聽視窗大小變化
-    this.joinMeetingName = (this.userData || {}).name || 'Guest';
-
-    window.addEventListener('resize', this.handleResize);
-
-    // 載入音訊設備和設定
-    this.loadAudioDevices();
-    this.loadAudioSettings();
-
-    // 監聽設備變更
-    navigator.mediaDevices.addEventListener('devicechange', this.handleDeviceChange);
-
-    // 監聽頁面可見性變化
-    document.addEventListener('visibilitychange', this.handleVisibilityChange);
   },
   watch: {
     userData: {
@@ -1028,12 +1035,6 @@ export default {
           }
         }, 1000);
 
-        // 啟動錄音計時器，每秒更新一次以觸發 computed 重新計算
-        this.recordingTimerInterval = setInterval(() => {
-          // 更新計時器變數以觸發 computed 重新計算
-          this.recordingTimer = Date.now();
-        }, 1000);
-
         // 設置自動停止計時器
         this.audioRecordingTimer = setTimeout(() => {
           console.log('⏰ 錄音時間到達上限，自動停止...');
@@ -1082,12 +1083,6 @@ export default {
         if (this.countdownInterval) {
           clearInterval(this.countdownInterval);
           this.countdownInterval = null;
-        }
-
-        // 清除錄音計時器間隔
-        if (this.recordingTimerInterval) {
-          clearInterval(this.recordingTimerInterval);
-          this.recordingTimerInterval = null;
         }
 
         // 停止錄音
