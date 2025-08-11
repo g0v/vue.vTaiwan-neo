@@ -265,11 +265,16 @@
           <!-- "轉錄中，請稍候..." 顯示 -->
           <div
             v-if="isTranscripting"
-            class="absolute -bottom-2 right-12 transform -translate-x-1/2 bg-white text-red-500 text-xs font-bold rounded-full w-36 h-6 flex items-center justify-center border-2 border-red-500"
+            class="absolute -bottom-2 right-2 transform -translate-x-1/2 bg-white text-red-500 text-xs font-bold rounded-full w-36 h-6 flex items-center justify-center border-2 border-red-500"
           >
             轉錄中，請稍候...
           </div>
         </button>
+
+        <!-- 錄音者顯示 -->
+        <div v-if="meetingData.recordingSpeaker && !isTranscripting" class="absolute -bottom-2 -right-10 bg-white text-red-500 text-xs font-bold rounded-full w-48 h-6 flex items-center justify-center border-2 border-red-500">
+          {{ meetingData.recordingSpeaker }} 錄音中，已錄 {{ recordingDuration }} 秒
+        </div>
 
         <!-- 桌面版音訊設定小按鈕（僅在非手機時顯示） -->
         <button
@@ -329,7 +334,10 @@ export default {
       joinMeetingName: '',
       today: '',
       selectedDate: '',
-      meetingData: {},
+      meetingData: {
+        recordingStartTime: null,
+        recordingSpeaker: null,
+      },
       transcriptData: {},
       firebaseUnsubscribe: null, // 用於取消 Firebase 監聽
       appId: 'vpaas-magic-cookie-7c142b7a730e4478878703f86c03d5a1', // 替換自己的 App ID
@@ -382,12 +390,20 @@ export default {
       audioContext: null,            // 音訊上下文
       audioSource: null,             // 音訊來源
       levelUpdateInterval: null,     // 音量更新間隔
+      recordingTimerInterval: null,  // 錄音計時器間隔
+      recordingTimer: 0,             // 錄音計時器（用於觸發 computed 更新）
     };
   },
   computed: {
     fullRoomName() { return `${this.appId}/${this.room}`; },
     isMobile() {
       return window.innerWidth < 768; // md breakpoint
+    },
+    recordingDuration() {
+      if (!this.meetingData.recordingStartTime) return 0;
+      // 依賴於 recordingTimer 來觸發每秒更新
+      this.recordingTimer; // 依賴於這個變數
+      return Math.floor((new Date().getTime() - this.meetingData.recordingStartTime) / 1000);
     }
   },
   created() {
@@ -431,6 +447,12 @@ export default {
 
     // 清理音訊錄製資源
     this.cleanupAudioRecording();
+
+    // 清理錄音計時器間隔
+    if (this.recordingTimerInterval) {
+      clearInterval(this.recordingTimerInterval);
+      this.recordingTimerInterval = null;
+    }
 
     // 清理音訊測試資源
     this.stopAudioTest();
@@ -736,9 +758,9 @@ export default {
       this.meetingData.transcripts = this.transcriptData;
 
       // 更新記錄者
-      set(dbRef(database, `/meetings/${this.today}/recorder`), this.meetingData.recorder).then(() => {
+      /* set(dbRef(database, `/meetings/${this.today}/recorder`), this.meetingData.recorder).then(() => {
         console.log('Meeting data updated');
-      });
+      }); */
 
       // 更新逐字稿
       set(dbRef(database, `/meetings/${this.today}/transcripts`), this.transcriptData).then(() => {
@@ -921,7 +943,8 @@ export default {
       }
     },
 
-        async startAudioRecording() {
+    async startAudioRecording() {
+
       try {
         console.log('🎤 開始音訊錄製...');
 
@@ -972,6 +995,27 @@ export default {
         this.audioMediaRecorder.start();
         this.isRecordingAudio = true;
 
+        // 在Firebase中記錄發言者和錄音開始時間
+        const currentTime = new Date().getTime();
+        const speakerName = (this.userData || {}).name || '未知說話者';
+        this.meetingData.recordingStartTime = currentTime;
+        this.meetingData.recordingSpeaker = speakerName;
+
+        // 更新錄音者
+        if (this.meetingData.recordingSpeaker) {
+          set(dbRef(database, `/meetings/${this.today}/recordingSpeaker`), this.meetingData.recordingSpeaker).then(() => {
+            console.log('Recording speaker updated');
+          });
+
+          // 更新錄音開始時間
+          this.meetingData.recordingStartTime = new Date().getTime();
+
+          set(dbRef(database, `/meetings/${this.today}/recordingStartTime`), this.meetingData.recordingStartTime).then(() => {
+            console.log('Recording start time updated');
+          });
+        }
+
+
         // 設置倒計時
         this.recordingTimeLeft = Math.ceil(this.maxRecordingTime / 1000); // 轉換為秒
 
@@ -981,6 +1025,12 @@ export default {
           if (this.recordingTimeLeft <= 0) {
             this.recordingTimeLeft = 0;
           }
+        }, 1000);
+
+        // 啟動錄音計時器，每秒更新一次以觸發 computed 重新計算
+        this.recordingTimerInterval = setInterval(() => {
+          // 更新計時器變數以觸發 computed 重新計算
+          this.recordingTimer = Date.now();
         }, 1000);
 
         // 設置自動停止計時器
@@ -1004,8 +1054,22 @@ export default {
     },
 
     async stopAudioRecording() {
+
+      // 在Firebase中移除發言者和錄音開始時間
+      console.log('🔄 移除發言者和錄音開始時間');
+      this.meetingData.recordingStartTime = null;
+      this.meetingData.recordingSpeaker = null;
+      set(dbRef(database, `/meetings/${this.today}/recordingStartTime`), null).then(() => {
+        console.log('Recording start time updated');
+      });
+      set(dbRef(database, `/meetings/${this.today}/recordingSpeaker`), null).then(() => {
+        console.log('Recording speaker updated');
+      });
+      this.recordingTimer = 0;
+
       try {
         console.log('⏹️ 停止音訊錄製...');
+
 
         // 清除計時器
         if (this.audioRecordingTimer) {
@@ -1017,6 +1081,12 @@ export default {
         if (this.countdownInterval) {
           clearInterval(this.countdownInterval);
           this.countdownInterval = null;
+        }
+
+        // 清除錄音計時器間隔
+        if (this.recordingTimerInterval) {
+          clearInterval(this.recordingTimerInterval);
+          this.recordingTimerInterval = null;
         }
 
         // 停止錄音
@@ -1043,6 +1113,7 @@ export default {
           if (this.isPageVisible) {
             this.autoRestartRecording = false;
           }
+
         }
 
         console.log('✅ 音訊錄製已停止');
@@ -1118,7 +1189,7 @@ export default {
       }
     },
 
-        cleanupAudioRecording() {
+    cleanupAudioRecording() {
       // 清除所有計時器
       if (this.audioRecordingTimer) {
         clearTimeout(this.audioRecordingTimer);
