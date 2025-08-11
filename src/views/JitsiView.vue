@@ -330,6 +330,7 @@ export default {
   },
   data() {
     return {
+      isRecorder: false,
       isTranscripting: false,
       joinMeetingName: '',
       today: '',
