@@ -485,6 +485,7 @@
     "description": "Manage meeting transcriptions, including query, download, and upload functions",
     "upload": {
       "title": "Upload Transcription",
+      "description": "By uploading, you agree to release under CC-BY-SA Creative Commons license and consent to AI-generated outlines, with outlines released under CC0",
       "selectFile": "Select File (.txt)",
       "uploading": "Uploading...AI will summarize the transcription, please wait for about 60 seconds",
       "uploadButton": "Upload Transcription",

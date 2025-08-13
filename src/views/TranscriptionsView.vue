@@ -10,11 +10,12 @@
       <!-- 上傳區域 -->
       <div v-if="props.user" class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 class="text-xl font-semibold mb-4">{{ $t('transcriptions.upload.title') }}</h2>
+        <p class="text-gray-600">{{ $t('transcriptions.upload.description') }}</p>
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <!-- <label class="block text-sm font-medium text-gray-700 mb-2">
               {{ $t('transcriptions.upload.selectFile') }}
-            </label>
+            </label> -->
             <input
               type="file"
               ref="fileInput"
@@ -72,12 +73,13 @@
               </div>
             </div>
 
-                        <div class="flex justify-between items-start">
+            <div class="flex justify-between items-start">
               <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">
                   {{ $t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}
                 </h3>
                 <div class="text-gray-600 text-sm mb-4">
+                  <img src="@/assets/CC0.png" alt="CC0.png" class="w-auto h-8">
                   <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose prose-sm max-w-none"></div>
                 </div>
               </div>
@@ -135,7 +137,7 @@
         class="bg-white rounded-lg max-w-4xl w-full max-h-[80vh]  overflow-y-auto"
         @click.stop
       >
-                <div class="p-6 border-b border-gray-200">
+        <div class="p-6 border-b border-gray-200">
           <div class="flex justify-between items-center">
             <h3 class="text-xl font-semibold">{{ $t('transcriptions.outline.title') }} - {{ currentOutlineMeetingId }}</h3>
             <button
@@ -150,6 +152,9 @@
         </div>
 
         <div class="p-6 overflow-y-auto max-h-[60vh]">
+          <div class="flex items-center mb-4">
+            <img src="@/assets/CC0.png" alt="CC0.png" class="w-auto h-8">
+          </div>
           <div id="renderedOutline" v-if="!editing" v-html="renderedOutline" class="prose prose-sm max-w-none"></div>
           <textarea
             name="" id="" class="w-full h-full min-h-[200px] max-h-[60vh]" v-else v-model="myOutline">
@@ -280,9 +285,9 @@ const getRenderedOutlinePreview = computed(() => {
   return (outline: string) => {
     if (!outline) return ''
 
-    const truncated = outline
-    // 不截斷文字
-    // const truncated = outline.length > 150 ? outline.substring(0, 150) + '...' : outline
+    // const truncated = outline
+    // 截斷文字
+    const truncated = outline.length > 500 ? outline.substring(0, 500) + '...' : outline
 
     // 渲染 markdown
     return marked(truncated)

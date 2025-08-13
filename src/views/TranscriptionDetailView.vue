@@ -1,6 +1,17 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
+      <!-- CC-BY-SA-4.0 授權標註 -->
+      <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-center space-x-3">
+          <img src="@/assets/CC_BY_SA.png" alt="CC-BY-SA-4.0" class="w-auto h-8">
+          <div class="text-sm text-blue-800">
+            <p class="font-medium">本內容以 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600">CC-BY-SA-4.0</a> 授權分享</p>
+            <p class="text-xs mt-1">您可以自由分享、修改本內容，惟需標註原作者並以相同授權條款分享</p>
+          </div>
+        </div>
+      </div>
+
       <!-- 頁面標題 -->
       <div class="mb-8">
         <div class="flex items-center justify-between">

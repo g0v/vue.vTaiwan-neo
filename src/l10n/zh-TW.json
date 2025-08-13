@@ -479,6 +479,7 @@
     "description": "管理會議逐字稿，包含查詢、下載和上傳功能",
     "upload": {
       "title": "上傳逐字稿",
+      "description": "上傳即代表您同意以CC-BY-SA創用授權釋出，並同意由AI整理大綱，大綱以CC0釋出",
       "selectFile": "選擇檔案 (.txt)",
       "uploading": "上傳中...由AI整理摘要，需等待約60秒",
       "uploadButton": "上傳逐字稿",
