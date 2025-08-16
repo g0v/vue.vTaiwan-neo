@@ -243,13 +243,17 @@
         <button
           v-if="userData && userData.uid"
           @click="toggleAudioRecording"
+          :disabled="isTranscripting"
           :class="[
             'p-4 rounded-full shadow-lg transition-all duration-300 relative',
             isRecordingAudio
               ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse'
-              : 'bg-purple-500 text-white hover:bg-purple-600'
+              : 'bg-purple-500 text-white hover:bg-purple-600',
+            isTranscripting ? 'opacity-50 cursor-not-allowed' : ''
           ]"
-          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)` : '開始錄音轉錄 (最多60秒)'"
+          :title="isRecordingAudio ?
+            (isTranscripting ? '轉錄進行中，請稍候...' : `停止錄音轉錄 (${recordingTimeLeft}秒)`) :
+            '開始錄音轉錄 (Push to Start, Push to Stop)'"
         >
           <IconWrapper
             :name="isRecordingAudio ? 'square' : 'mic'"
@@ -373,11 +377,10 @@ export default {
       audioStream: null,             // 音訊流
       audioChunks: [],               // 錄音片段
       audioRecordingTimer: null,     // 錄音計時器
-      maxRecordingTime: 60 * 1000,       // 最大錄音時間（毫秒）- 60秒
+      maxRecordingTime: 30 * 1000,       // 最大錄音時間（毫秒）- 30秒
       recordingTimeLeft: 0,          // 剩餘錄音時間（秒）
       countdownInterval: null,       // 倒計時間隔
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/',
-      autoRestartRecording: false,   // 是否自動重新開始錄音
       isPageVisible: true,           // 頁面是否可見
 
       // 音訊設定相關
@@ -941,6 +944,12 @@ export default {
 
     // 音訊轉錄相關方法
     async toggleAudioRecording() {
+      // 如果正在轉錄中，禁止操作
+      if (this.isTranscripting) {
+        console.log('⚠️ 轉錄進行中，禁止操作錄音按鈕');
+        return;
+      }
+
       if (this.isRecordingAudio) {
         await this.stopAudioRecording();
       } else {
@@ -956,27 +965,31 @@ export default {
       try {
         console.log('🎤 開始音訊錄製...');
 
-        // 如果已經有音訊流且正在自動重啟，直接使用現有的
-        if (this.autoRestartRecording && this.audioStream) {
-          console.log('🔄 使用現有音訊流重新開始錄音');
-        } else {
-          // 請求音訊權限（使用選擇的音訊設備）
-          const audioConstraints = {
-            echoCancellation: true,
-            noiseSuppression: true,
-            sampleRate: 44100
-          };
-
-          // 如果有選擇的音訊設備，則使用該設備
-          if (this.selectedAudioDeviceId) {
-            audioConstraints.deviceId = { exact: this.selectedAudioDeviceId };
+        // 如果已經在錄音，先停止現有的
+        if (this.isRecordingAudio && this.audioMediaRecorder) {
+          console.log('🔄 檢測到現有錄音，先停止...');
+          if (this.audioMediaRecorder.state !== 'inactive') {
+            this.audioMediaRecorder.stop();
           }
-
-          this.audioStream = await navigator.mediaDevices.getUserMedia({
-            audio: audioConstraints,
-            video: false
-          });
+          this.isRecordingAudio = false;
         }
+
+        // 請求音訊權限（使用選擇的音訊設備）
+        const audioConstraints = {
+          echoCancellation: true,
+          noiseSuppression: true,
+          sampleRate: 44100
+        };
+
+        // 如果有選擇的音訊設備，則使用該設備
+        if (this.selectedAudioDeviceId) {
+          audioConstraints.deviceId = { exact: this.selectedAudioDeviceId };
+        }
+
+        this.audioStream = await navigator.mediaDevices.getUserMedia({
+          audio: audioConstraints,
+          video: false
+        });
 
         // 清空之前的錄音片段
         this.audioChunks = [];
@@ -1037,15 +1050,13 @@ export default {
 
         // 設置自動停止計時器
         this.audioRecordingTimer = setTimeout(() => {
-          console.log('⏰ 錄音時間到達上限，自動停止...');
+          console.log('⏰ 錄音時間到達上限，停止錄音並處理音訊...');
 
-          // 檢查頁面是否可見，決定是否自動重新開始
-          if (!this.isPageVisible) {
-            console.log('📱 頁面不在焦點，將自動重新開始錄音');
-            this.autoRestartRecording = true;
-          }
+          // 發送瀏覽器通知
+          this.sendBrowserNotification('轉錄時間到', '60秒錄音完成，正在處理音訊並準備下一輪轉錄');
 
-          this.stopAudioRecording();
+          // 停止錄音並處理音訊，然後自動開始下一輪
+          this.stopAudioRecordingForNextRound();
         }, this.maxRecordingTime);
 
         console.log(`✅ 音訊錄製已開始（最多 ${this.maxRecordingTime / 1000} 秒）`);
@@ -1056,9 +1067,8 @@ export default {
     },
 
     async stopAudioRecording() {
-
       // 在Firebase中移除發言者和錄音開始時間
-      console.log('🔄 移除發言者和錄音開始時間');
+      console.log('🔄 手動停止：移除發言者和錄音開始時間');
       this.meetingData.recordingStartTime = null;
       this.meetingData.recordingSpeaker = null;
       set(dbRef(database, `/meetings/${this.today}/recordingStartTime`), null).then(() => {
@@ -1070,8 +1080,7 @@ export default {
       this.recordingTimer = 0;
 
       try {
-        console.log('⏹️ 停止音訊錄製...');
-
+        console.log('⏹️ 手動停止音訊錄製...');
 
         // 清除計時器
         if (this.audioRecordingTimer) {
@@ -1093,26 +1102,10 @@ export default {
         this.isRecordingAudio = false;
         this.recordingTimeLeft = 0;
 
-        // 檢查是否需要自動重新開始錄音
-        if (this.autoRestartRecording && !this.isPageVisible) {
-          console.log('🔄 頁面不在焦點，自動重新開始錄音...');
+        // 清理音訊資源（手動停止時）
+        this.cleanupAudioRecording();
 
-          // 發送瀏覽器通知
-          this.sendBrowserNotification('已繼續轉錄', '音訊轉錄已自動重新開始');
-
-          // 延遲0.3秒後重新開始錄音
-          setTimeout(() => {
-            this.startAudioRecording();
-          }, 300);
-        } else {
-          // 只有在頁面可見或手動停止時才重設自動重新開始標誌
-          if (this.isPageVisible) {
-            this.autoRestartRecording = false;
-          }
-
-        }
-
-        console.log('✅ 音訊錄製已停止');
+        console.log('✅ 音訊錄製已手動停止');
       } catch (error) {
         console.error('❌ 停止錄音時發生錯誤:', error);
       }
@@ -1129,18 +1122,31 @@ export default {
         const audioBlob = new Blob(this.audioChunks, { type: 'audio/webm' });
         console.log('📁 音訊文件大小:', (audioBlob.size / 1024).toFixed(2), 'KB');
 
-        // 發送到轉錄服務
-        await this.sendAudioToTranscription(audioBlob);
+        // 清空錄音片段，準備下一輪錄音
+        this.audioChunks = [];
 
-        // 只有在手動停止或頁面可見時才清理資源
-        if (!this.autoRestartRecording) {
-          console.log('🧹 手動停止，清理音訊資源');
-          this.cleanupAudioRecording();
+        // 檢查是否為自動重啟模式（通過檢查是否有錄音者記錄）
+        if (this.meetingData.recordingSpeaker) {
+          console.log('🔄 自動重啟模式，並行處理：立即重啟錄音 + 後端轉錄');
+
+          // 立即開始下一輪錄音（不等待轉錄完成）
+          this.startNextRecordingRound();
+
+          // 並行發送音訊到後端轉錄（不阻塞錄音重啟）
+          this.sendAudioToTranscriptionAsync(audioBlob);
         } else {
-          console.log('🔄 自動重啟模式，保持音訊資源');
+          console.log('🛑 手動停止模式，等待轉錄完成');
+          // 手動停止時，等待轉錄完成
+          await this.sendAudioToTranscription(audioBlob);
         }
       } catch (error) {
         console.error('❌ 處理錄音時發生錯誤:', error);
+        // 即使出錯，如果是自動重啟模式也要嘗試下一輪
+        if (this.meetingData.recordingSpeaker) {
+          setTimeout(() => {
+            this.startNextRecordingRound();
+          }, 1000);
+        }
       }
     },
 
@@ -1185,7 +1191,56 @@ export default {
       }
     },
 
+        // 非阻塞的轉錄方法（用於自動重啟模式）
+    sendAudioToTranscriptionAsync(audioBlob) {
+      console.log('📤 並行發送音訊到轉錄服務（非阻塞）...');
+
+      // 設定轉錄狀態為進行中
+      this.isTranscripting = true;
+
+      // 創建 FormData
+      const formData = new FormData();
+      formData.append('file', audioBlob, 'recording.webm');
+
+      // 發送到後端（不等待結果）
+      fetch(this.transcriptionApiUrl, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
+      .then(result => {
+        console.log('✅ 並行轉錄完成:', result);
+
+        // 如果有轉錄文字，加入到逐字稿中
+        if (result) {
+          const speakerName = (this.userData || {}).name || '未知說話者';
+          this.addTranscriptData({
+            id: 'audio_' + Date.now(),
+            timestamp: Date.now(),
+            speaker: speakerName,
+            text: result
+          });
+        }
+
+        // 轉錄完成，更新狀態
+        this.isTranscripting = false;
+      })
+      .catch(error => {
+        console.error('❌ 並行轉錄失敗:', error);
+        // 並行轉錄失敗不影響錄音流程，只記錄錯誤
+        // 轉錄失敗時也要更新狀態
+        this.isTranscripting = false;
+      });
+    },
+
     cleanupAudioRecording() {
+      console.log('🧹 清理音訊錄製資源...');
+
       // 清除所有計時器
       if (this.audioRecordingTimer) {
         clearTimeout(this.audioRecordingTimer);
@@ -1217,7 +1272,7 @@ export default {
       this.isRecordingAudio = false;
       this.recordingTimeLeft = 0;
 
-      console.log('🧹 音訊錄製資源已清理');
+      console.log('🧹 音訊錄製資源已清理完成');
     },
 
     // 音訊設定相關方法
@@ -1503,6 +1558,60 @@ export default {
       }
       console.log('❌ 瀏覽器不支援通知功能');
       return false;
+    },
+
+    // 停止錄音並處理音訊，然後自動開始下一輪
+    async stopAudioRecordingForNextRound() {
+      try {
+        console.log('🔄 停止錄音並處理音訊，準備下一輪...');
+
+        // 清除計時器
+        if (this.audioRecordingTimer) {
+          clearTimeout(this.audioRecordingTimer);
+          this.audioRecordingTimer = null;
+        }
+
+        if (this.countdownInterval) {
+          clearInterval(this.countdownInterval);
+          this.countdownInterval = null;
+        }
+
+        // 停止錄音
+        if (this.audioMediaRecorder && this.audioMediaRecorder.state !== 'inactive') {
+          this.audioMediaRecorder.stop();
+        }
+
+        this.isRecordingAudio = false;
+        this.recordingTimeLeft = 0;
+
+        // 等待錄音停止事件觸發，然後在 processRecordedAudio 中自動開始下一輪
+        console.log('⏳ 等待音訊處理完成...');
+      } catch (error) {
+        console.error('❌ 停止錄音準備下一輪時發生錯誤:', error);
+        // 如果出錯，嘗試直接開始下一輪
+        setTimeout(() => {
+          this.startNextRecordingRound();
+        }, 1000);
+      }
+    },
+
+    // 自動開始下一輪錄音
+    async startNextRecordingRound() {
+      try {
+        console.log('🔄 自動開始下一輪錄音...');
+
+        // 清空錄音片段
+        this.audioChunks = [];
+
+        // 重新開始錄音
+        await this.startAudioRecording();
+
+        console.log('✅ 下一輪錄音已開始');
+      } catch (error) {
+        console.error('❌ 自動開始下一輪錄音失敗:', error);
+        // 如果自動開始失敗，發送通知提醒用戶
+        this.sendBrowserNotification('轉錄錯誤', '自動開始下一輪錄音失敗，請手動重新開始');
+      }
     },
 
     // 發送瀏覽器通知
