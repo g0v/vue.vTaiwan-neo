@@ -243,16 +243,14 @@
         <button
           v-if="userData && userData.uid"
           @click="toggleAudioRecording"
-          :disabled="isTranscripting"
           :class="[
             'p-4 rounded-full shadow-lg transition-all duration-300 relative',
             isRecordingAudio
               ? 'bg-red-500 text-white hover:bg-red-600 animate-pulse'
-              : 'bg-purple-500 text-white hover:bg-purple-600',
-            isTranscripting ? 'opacity-50 cursor-not-allowed' : ''
+              : 'bg-purple-500 text-white hover:bg-purple-600'
           ]"
           :title="isRecordingAudio ?
-            (isTranscripting ? '轉錄進行中，請稍候...' : `停止錄音轉錄 (${recordingTimeLeft}秒)`) :
+            `停止錄音轉錄 (${recordingTimeLeft}秒)${isTranscripting ? ' - 轉錄中，音檔將排隊處理' : ''}` :
             '開始錄音轉錄 (Push to Start, Push to Stop)'"
         >
           <IconWrapper
@@ -278,6 +276,11 @@
         <!-- 錄音者顯示 -->
         <div v-if="meetingData.recordingSpeaker && !isTranscripting" class="absolute -bottom-2 -right-10 bg-white text-red-500 text-xs font-bold rounded-full w-48 h-6 flex items-center justify-center border-2 border-red-500">
           {{ meetingData.recordingSpeaker }} 錄音中，已錄 {{ recordingDuration }} 秒
+        </div>
+
+        <!-- 排隊狀態顯示 -->
+        <div v-if="audioQueue.length > 0 && !meetingData.recordingSpeaker" class="absolute -bottom-2 -right-10 bg-blue-500 text-white text-xs font-bold rounded-full px-3 py-1 flex items-center justify-center border-2 border-blue-500">
+          📋 {{ audioQueue.length }} 個音檔排隊中
         </div>
 
         <!-- 桌面版音訊設定小按鈕（僅在非手機時顯示） -->
@@ -383,6 +386,10 @@ export default {
       transcriptionApiUrl: 'https://vtaiwan-transcription-worker.bestian123.workers.dev/api/transcription/',
       isPageVisible: true,           // 頁面是否可見
 
+      // 音檔序列排隊系統
+      audioQueue: [],                // 音檔排隊序列
+      isProcessingQueue: false,      // 是否正在處理排隊序列
+
       // 音訊設定相關
       showAudioSettings: false,      // 是否顯示音訊設定模態框
       audioDevices: [],              // 可用的音訊設備列表
@@ -474,6 +481,10 @@ export default {
 
     // 清理音訊錄製資源
     this.cleanupAudioRecording();
+
+    // 清理排隊序列處理
+    this.stopQueueProcessing();
+    this.clearAudioQueue();
 
     // 清理錄音計時器間隔
     if (this.recordingTimerInterval) {
@@ -944,12 +955,6 @@ export default {
 
     // 音訊轉錄相關方法
     async toggleAudioRecording() {
-      // 如果正在轉錄中，禁止操作
-      if (this.isTranscripting) {
-        console.log('⚠️ 轉錄進行中，禁止操作錄音按鈕');
-        return;
-      }
-
       if (this.isRecordingAudio) {
         await this.stopAudioRecording();
       } else {
@@ -1125,20 +1130,27 @@ export default {
         // 清空錄音片段，準備下一輪錄音
         this.audioChunks = [];
 
-        // 檢查是否為自動重啟模式（通過檢查是否有錄音者記錄）
+        // 將音檔加入排隊序列
+        const audioItem = {
+          id: Date.now(),
+          blob: audioBlob,
+          timestamp: new Date().toISOString(),
+          size: audioBlob.size
+        };
+
+        this.audioQueue.push(audioItem);
+        console.log(`📋 音檔已加入排隊序列，當前排隊數量: ${this.audioQueue.length}`);
+
+        // 檢查是否為自動重啟模式
         if (this.meetingData.recordingSpeaker) {
-          console.log('🔄 自動重啟模式，並行處理：立即重啟錄音 + 後端轉錄');
-
-          // 立即開始下一輪錄音（不等待轉錄完成）
+          console.log('🔄 自動重啟模式，立即重啟錄音');
+          // 立即開始下一輪錄音
           this.startNextRecordingRound();
-
-          // 並行發送音訊到後端轉錄（不阻塞錄音重啟）
-          this.sendAudioToTranscriptionAsync(audioBlob);
-        } else {
-          console.log('🛑 手動停止模式，等待轉錄完成');
-          // 手動停止時，等待轉錄完成
-          await this.sendAudioToTranscription(audioBlob);
         }
+
+        // 開始處理排隊序列（如果還沒開始的話）
+        this.startQueueProcessing();
+
       } catch (error) {
         console.error('❌ 處理錄音時發生錯誤:', error);
         // 即使出錯，如果是自動重啟模式也要嘗試下一輪
@@ -1153,7 +1165,6 @@ export default {
     async sendAudioToTranscription(audioBlob) {
       try {
         console.log('📤 發送音訊到轉錄服務...');
-        this.isTranscripting = true;
 
         // 創建 FormData
         const formData = new FormData();
@@ -1167,7 +1178,6 @@ export default {
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
-          this.isTranscripting = false;
         }
 
         const result = await response.text();
@@ -1183,60 +1193,14 @@ export default {
             text: result
           });
         }
-        this.isTranscripting = false;
       } catch (error) {
         console.error('❌ 轉錄請求失敗:', error);
         alert('轉錄服務暫時無法使用，請稍後再試');
-        this.isTranscripting = false;
+        throw error; // 重新拋出錯誤，讓調用者處理
       }
     },
 
-        // 非阻塞的轉錄方法（用於自動重啟模式）
-    sendAudioToTranscriptionAsync(audioBlob) {
-      console.log('📤 並行發送音訊到轉錄服務（非阻塞）...');
 
-      // 設定轉錄狀態為進行中
-      this.isTranscripting = true;
-
-      // 創建 FormData
-      const formData = new FormData();
-      formData.append('file', audioBlob, 'recording.webm');
-
-      // 發送到後端（不等待結果）
-      fetch(this.transcriptionApiUrl, {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then(result => {
-        console.log('✅ 並行轉錄完成:', result);
-
-        // 如果有轉錄文字，加入到逐字稿中
-        if (result) {
-          const speakerName = (this.userData || {}).name || '未知說話者';
-          this.addTranscriptData({
-            id: 'audio_' + Date.now(),
-            timestamp: Date.now(),
-            speaker: speakerName,
-            text: result
-          });
-        }
-
-        // 轉錄完成，更新狀態
-        this.isTranscripting = false;
-      })
-      .catch(error => {
-        console.error('❌ 並行轉錄失敗:', error);
-        // 並行轉錄失敗不影響錄音流程，只記錄錯誤
-        // 轉錄失敗時也要更新狀態
-        this.isTranscripting = false;
-      });
-    },
 
     cleanupAudioRecording() {
       console.log('🧹 清理音訊錄製資源...');
@@ -1612,6 +1576,82 @@ export default {
         // 如果自動開始失敗，發送通知提醒用戶
         this.sendBrowserNotification('轉錄錯誤', '自動開始下一輪錄音失敗，請手動重新開始');
       }
+    },
+
+    // 開始處理排隊序列
+    startQueueProcessing() {
+      if (this.isProcessingQueue || this.audioQueue.length === 0) {
+        return;
+      }
+
+      console.log('🚀 開始處理音檔排隊序列...');
+      this.isProcessingQueue = true;
+
+      // 立即處理第一個音檔
+      this.processNextAudioInQueue();
+    },
+
+    // 處理排隊序列中的下一個音檔
+    async processNextAudioInQueue() {
+      if (this.audioQueue.length === 0) {
+        console.log('✅ 排隊序列處理完成');
+        this.stopQueueProcessing();
+        return;
+      }
+
+      // 取出排隊序列中的第一個音檔
+      const audioItem = this.audioQueue.shift();
+      console.log(`📤 處理排隊音檔 ${audioItem.id}，剩餘 ${this.audioQueue.length} 個`);
+
+      try {
+        // 設定轉錄狀態
+        this.isTranscripting = true;
+
+        // 發送音檔到後端轉錄
+        await this.sendAudioToTranscription(audioItem.blob);
+
+        console.log(`✅ 音檔 ${audioItem.id} 轉錄完成`);
+
+        // 轉錄完成後，檢查是否還有排隊的音檔，如果有則繼續處理
+        if (this.audioQueue.length > 0) {
+          console.log(`🔄 還有 ${this.audioQueue.length} 個音檔在排隊，繼續處理...`);
+          // 使用 nextTick 確保狀態更新完成後再處理下一個
+          this.$nextTick(() => {
+            this.processNextAudioInQueue();
+          });
+        } else {
+          // 沒有更多音檔，完成處理
+          console.log('✅ 所有音檔處理完成');
+          this.stopQueueProcessing();
+        }
+      } catch (error) {
+        console.error(`❌ 音檔 ${audioItem.id} 轉錄失敗:`, error);
+
+        // 即使轉錄失敗，也要繼續處理下一個音檔（如果有的話）
+        if (this.audioQueue.length > 0) {
+          console.log(`🔄 轉錄失敗，但還有 ${this.audioQueue.length} 個音檔在排隊，繼續處理...`);
+          this.$nextTick(() => {
+            this.processNextAudioInQueue();
+          });
+        } else {
+          this.stopQueueProcessing();
+        }
+      } finally {
+        // 轉錄完成，更新狀態
+        this.isTranscripting = false;
+      }
+    },
+
+    // 停止排隊序列處理
+    stopQueueProcessing() {
+      this.isProcessingQueue = false;
+      console.log('🛑 排隊序列處理已停止');
+    },
+
+    // 清空排隊序列
+    clearAudioQueue() {
+      this.audioQueue = [];
+      console.log('🗑️ 音檔排隊序列已清空');
     },
 
     // 發送瀏覽器通知
