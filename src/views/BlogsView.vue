@@ -127,29 +127,37 @@ const error = ref(null)
 const filteredPosts = computed(() => {
   const currentLang = locale.value
 
-  return posts.value.filter(post => {
-    // 如果貼文沒有language欄位，不顯示
+  const filtered = posts.value.filter(post => {
+    // 如果貼文沒有language欄位，全部語言都顯示
     if (!post.language) {
-      return false
+      console.log(`✅ 貼文 ${post.id} 無語言設定，顯示在所有語言下`)
+      return true
     }
 
-    // 如果language是zh-TW，只在中文時顯示
-    if (post.language === 'zh-TW' && currentLang === 'zh-TW') {
+    // 如果language是zh-TW 或 zh，只在中文時顯示
+    if ((post.language === 'zh-TW' || post.language === 'zh') && currentLang === 'zh-TW') {
+      console.log(`✅ 貼文 ${post.id} 中文貼文，在中文語言下顯示`)
       return true
     }
 
     // 如果language是en，只在英文時顯示
     if (post.language === 'en' && currentLang === 'en') {
+      console.log(`✅ 貼文 ${post.id} 英文貼文，在英文語言下顯示`)
       return true
     }
 
     // 如果language是ja，只在日文時顯示
     if (post.language === 'ja' && currentLang === 'ja') {
+      console.log(`✅ 貼文 ${post.id} 日文貼文，在日文語言下顯示`)
       return true
     }
 
+    console.log(`❌ 貼文 ${post.id} 語言 ${post.language} 不匹配當前語言 ${currentLang}，不顯示`)
     return false
   })
+
+  console.log(`🔍 過濾結果: 原始 ${posts.value.length} 篇，過濾後 ${filtered.length} 篇`)
+  return filtered
 })
 
 // 格式化日期
@@ -170,6 +178,7 @@ const fetchPosts = async () => {
     loading.value = true
     error.value = null
 
+    console.log('🔍 開始獲取 vTaiwan 標籤下的貼文...')
     const response = await fetch('https://g0v.social/api/v1/timelines/tag/vTaiwan?limit=20')
 
     if (!response.ok) {
@@ -178,10 +187,23 @@ const fetchPosts = async () => {
 
     const data = await response.json()
     posts.value = data
-    console.log('Fetched posts:', data)
+    // console.log('📥 獲取到的原始貼文數據:', data)
+    // console.log('📊 貼文總數:', data.length)
+
+    // 詳細記錄每篇貼文的信息
+    data.forEach((post, index) => {
+      /* console.log(`📝 貼文 ${index + 1}:`, {
+        id: post.id,
+        url: post.url,
+        language: post.language,
+        display_name: post.account?.display_name,
+        created_at: post.created_at,
+        content_length: post.content?.length || 0
+      }) */
+    })
 
   } catch (err) {
-    console.error('Error fetching posts:', err)
+    console.error('❌ 獲取貼文失敗:', err)
     error.value = t('blog.fetchError')
   } finally {
     loading.value = false
