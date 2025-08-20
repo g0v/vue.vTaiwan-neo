@@ -35,14 +35,14 @@
         {{ $t('meetups.calendar.description') }}
       </p>
       <div class="flex justify-center gap-4">
-        <a href="#" class="btn-primary rounded-md flex items-center gap-2">
+        <a href="https://calendar.google.com/calendar/u/2?cid=MjhlZDRjMjYwOGQyMTc3NTZjNjJiOWMxOGYyMjhkNDJjNGY0MzcxNWViYTUxN2FkYmNiOTE2MGZhMzY5NDRhN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md flex items-center gap-2">
           <IconWrapper name="calendar" :size="18" color="#FFFFFF" />
           <span>{{ $t('meetups.calendar.googleCalendar') }}</span>
         </a>
-        <a href="#" class="btn-outline rounded-md flex items-center gap-2">
+        <!-- <a href="#" class="btn-outline rounded-md flex items-center gap-2">
           <IconWrapper name="download" :size="18" />
           <span>{{ $t('meetups.calendar.icalFile') }}</span>
-        </a>
+        </a> -->
       </div>
     </div>
   </section>
