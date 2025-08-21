@@ -203,7 +203,9 @@
     "prototype": "樣稿",
     "fetchError": "取得貼文時發生錯誤，請稍後再試",
     "noPosts": "目前沒有符合當前語言的貼文",
-    "viewOriginal": "查看原始貼文"
+    "viewOriginal": "查看原始貼文",
+    "allLanguages": "所有語言",
+    "currentLanguage": "當前語言"
   },
   "topicDetail": {
     "discussion": "討論區",

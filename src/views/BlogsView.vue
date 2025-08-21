@@ -4,6 +4,32 @@
       <h1 class="text-3xl font-bold">{{ $t('header.blogs') }}</h1>
     </div>
 
+    <!-- 語言切換 Tabs -->
+    <div class="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+      <button
+        @click="render_setting = 'all'"
+        :class="[
+          'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+          render_setting === 'all'
+            ? 'bg-white text-gray-900 shadow-sm'
+            : 'text-gray-600 hover:text-gray-900'
+        ]"
+      >
+        {{ $t('blog.allLanguages') }}
+      </button>
+      <button
+        @click="render_setting = 'current'"
+        :class="[
+          'px-4 py-2 rounded-md text-sm font-medium transition-colors',
+          render_setting === 'current'
+            ? 'bg-white text-gray-900 shadow-sm'
+            : 'text-gray-600 hover:text-gray-900'
+        ]"
+      >
+        {{ $t('blog.currentLanguage') }}
+      </button>
+    </div>
+
     <div v-if="loading" class="text-center py-8">
       <p class="text-gray-600">{{ $t('blog.loading') }}</p>
     </div>
@@ -122,11 +148,18 @@ useHead({
 const posts = ref([])
 const loading = ref(true)
 const error = ref(null)
+const render_setting = ref('all') // 預設為"所有語言"模式
 
 // 根據語言過濾貼文
 const filteredPosts = computed(() => {
-  const currentLang = locale.value
+  // 如果是"所有語言"模式，直接返回所有貼文
+  if (render_setting.value === 'all') {
+    console.log(`🔍 所有語言模式: 顯示全部 ${posts.value.length} 篇貼文`)
+    return posts.value
+  }
 
+  // 如果是"當前語言"模式，按照原本的邏輯過濾
+  const currentLang = locale.value
   const filtered = posts.value.filter(post => {
     // 如果貼文沒有language欄位，全部語言都顯示
     if (!post.language) {
@@ -156,7 +189,7 @@ const filteredPosts = computed(() => {
     return false
   })
 
-  console.log(`🔍 過濾結果: 原始 ${posts.value.length} 篇，過濾後 ${filtered.length} 篇`)
+  console.log(`🔍 當前語言模式: 原始 ${posts.value.length} 篇，過濾後 ${filtered.length} 篇`)
   return filtered
 })
 

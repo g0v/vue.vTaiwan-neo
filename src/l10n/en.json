@@ -209,7 +209,9 @@
     "prototype": "Prototype",
     "fetchError": "An error occurred while fetching posts, please try again later",
     "noPosts": "No posts available in the current language",
-    "viewOriginal": "View Original Post"
+    "viewOriginal": "View Original Post",
+    "allLanguages": "All Languages",
+    "currentLanguage": "Current Language"
   },
   "transcript": {
     "title": "Live Transcript",
