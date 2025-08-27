@@ -602,4 +602,11 @@
       }
     }
   }
+  ,
+  "jitsi": {
+    "tipBanner": {
+      "message": "To enable mic/camera, click once on the black area, then press the mic/camera icons at the bottom-left.",
+      "dismiss": "Got it"
+    }
+  }
 }

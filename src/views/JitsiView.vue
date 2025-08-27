@@ -312,6 +312,28 @@
         />
       </button>
     </div>
+
+    <!-- 加入後提示橫幅：教導點黑色區域再按左下角圖示（可關閉） -->
+    <div
+      v-if="hasJoined && showJitsiTipBanner"
+      class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] max-w-[92vw] md:max-w-2xl"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="flex items-start space-x-3 bg-yellow-50 border border-yellow-300 text-yellow-900 rounded-lg shadow px-4 py-3">
+        <div class="flex-1 text-sm leading-relaxed">
+          {{ $t('jitsi.tipBanner.message') }}
+        </div>
+        <button
+          @click="dismissJitsiTipBanner"
+          class="ml-2 text-yellow-900/70 hover:text-yellow-900 transition-colors"
+          :title="$t('jitsi.tipBanner.dismiss')"
+          aria-label="close"
+        >
+          <IconWrapper name="x" :size="18" />
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -403,6 +425,11 @@ export default {
       levelUpdateInterval: null,     // 音量更新間隔
       recordingTimerInterval: null,  // 錄音計時器間隔
       recordingTimer: 0,             // 錄音計時器（用於觸發 computed 更新）
+
+      // Jitsi 提示橫幅
+      showJitsiTipBanner: (typeof window !== 'undefined' && window.localStorage)
+        ? localStorage.getItem('vtaiwan_jitsi_tip_dismissed') !== '1'
+        : true,
     };
   },
   computed: {
@@ -528,6 +555,14 @@ export default {
     }
   },
   methods: {
+    dismissJitsiTipBanner() {
+      this.showJitsiTipBanner = false;
+      try {
+        localStorage.setItem('vtaiwan_jitsi_tip_dismissed', '1');
+      } catch (e) {
+        // ignore storage errors
+      }
+    },
 
     async getJwt() {
       const user_id = (this.userData || {}).uid || 'Guest';
@@ -1716,7 +1751,7 @@ export default {
 /* Jitsi iframe 樣式 */
 :deep(iframe) {
   width: 100% !important;
-  height: 100% !important;
+  height: calc(100vh - 80px) !important;
   border: none;
 }
 
