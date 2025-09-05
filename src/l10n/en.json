@@ -603,6 +603,124 @@
     }
   }
   ,
+  "privacy": {
+    "title": "Privacy Policy",
+    "metaDescription": "vTaiwan Privacy Policy - We are committed to protecting your personal data and will not share your personal information with third parties",
+    "introduction": {
+      "title": "Introduction",
+      "content": "vTaiwan is committed to protecting user privacy. This privacy policy explains how we collect, use, store, and protect your personal data."
+    },
+    "dataCollection": {
+      "title": "Data Collection",
+      "content": "We may collect the following types of data:",
+      "item1": "Account information: Name, email address, etc. provided when you register an account",
+      "item2": "Usage data: Activity records and preferences when you use our services",
+      "item3": "Technical data: IP address, browser type, operating system, and other technical information"
+    },
+    "dataUsage": {
+      "title": "Data Usage",
+      "content": "We use collected data for the following purposes:",
+      "item1": "Providing and improving our services",
+      "item2": "Communicating with you and providing customer support",
+      "item3": "Ensuring platform security and preventing abuse"
+    },
+    "dataSharing": {
+      "title": "Data Sharing",
+      "content": "Except for necessary analytical and recording purposes, we promise not to sell, rent, or share your browsing history and personal data with third parties.",
+      "highlight": "Important: We will not share your personal data with third parties"
+    },
+    "dataSecurity": {
+      "title": "Data Security",
+      "content": "We take appropriate technical and organizational measures to protect your personal data from unauthorized access, use, or disclosure."
+    },
+    "userRights": {
+      "title": "User Rights",
+      "content": "You have the following rights regarding your personal data:",
+      "item1": "Access right: Request to view personal data we hold about you",
+      "item2": "Correction right: Request to correct inaccurate personal data",
+      "item3": "Deletion right: Request to delete your personal data"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "content": "If you have any questions about this privacy policy or wish to exercise your rights, please contact us through:",
+      "email": "Email",
+      "github": "GitHub"
+    },
+    "updates": {
+      "title": "Policy Updates",
+      "content": "We may update this privacy policy from time to time. Any significant changes will be announced on the website.",
+      "lastUpdated": "Last updated: September 2025"
+    },
+    "backToHome": "Back to Home"
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "metaDescription": "vTaiwan Terms of Service - Using our video and transcription services requires account registration and agreement to CC-BY-SA license",
+    "introduction": {
+      "title": "Introduction",
+      "content": "Welcome to the vTaiwan platform. These terms of service govern your use of our services."
+    },
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "content": "By using our services, you agree to comply with these terms of service. If you do not agree to these terms, please do not use our services."
+    },
+    "account": {
+      "title": "Account Requirements",
+      "content": "Using certain features requires account registration:",
+      "highlight": "Important: Using video and transcription services requires account registration",
+      "item1": "You must provide true and accurate information",
+      "item2": "You are responsible for protecting your account security",
+      "item3": "You must be 18 years old or have guardian consent"
+    },
+    "videoService": {
+      "title": "Video Service",
+      "content": "Our video conferencing service allows users to conduct online discussions and collaboration.",
+      "highlight": "Using video services requires account registration and agreement to relevant terms"
+    },
+    "transcriptionService": {
+      "title": "Transcription Service",
+      "content": "We provide meeting transcription services to help record and organize discussion content. Using this service requires:",
+      "highlight": "Transcription content will be released under CC-BY-SA license",
+      "item1": "Register an account and log in",
+      "item2": "Agree to the licensing terms for transcription content",
+      "item3": "Comply with community standards and discussion etiquette"
+    },
+    "contentLicense": {
+      "title": "Content License",
+      "content": "When you use our transcription service, you agree that:",
+      "highlight": "All transcription content will be released under CC-BY-SA Creative Commons license",
+      "details": "CC-BY-SA license allows others to freely use, modify, and share your content, but must credit the original author and release derivative works under the same license."
+    },
+    "userConduct": {
+      "title": "User Conduct",
+      "content": "When using our services, you agree to:",
+      "item1": "Respect other users and engage in constructive discussions",
+      "item2": "Not post illegal, harmful, or offensive content",
+      "item3": "Not abuse the system or engage in malicious behavior",
+      "item4": "Comply with all applicable laws and regulations"
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "content": "Our services are provided 'as is' without any express or implied warranties. We do not assume any direct or indirect losses arising from the use of services."
+    },
+    "modifications": {
+      "title": "Terms Modifications",
+      "content": "We reserve the right to modify these terms of service at any time. Modified terms will be published on the website, and continued use of services indicates acceptance of the modified terms."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "content": "If you have any questions about these terms of service, please contact us through:",
+      "email": "Email",
+      "github": "GitHub"
+    },
+    "effectiveDate": {
+      "title": "Effective Date",
+      "content": "These terms of service are effective from the date of publication.",
+      "lastUpdated": "Last updated: September 2025"
+    },
+    "backToHome": "Back to Home"
+  }
+  ,
   "jitsi": {
     "tipBanner": {
       "message": "To enable mic/camera, click once on the black area, then press the mic/camera icons at the bottom-left.",

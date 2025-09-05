@@ -15,6 +15,8 @@ import TranscriptionsView from '../views/TranscriptionsView.vue'
 import TranscriptionDetailView from '../views/TranscriptionDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import ProposeView from '../views/ProposeView.vue'
+import PrivacyView from '../views/PrivacyView.vue'
+import TermsView from '../views/TermsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -98,6 +100,16 @@ const router = createRouter({
       path: '/propose',
       name: 'propose',
       component: ProposeView
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: PrivacyView
+    },
+    {
+      path: '/terms',
+      name: 'terms',
+      component: TermsView
     }
   ]
 })
