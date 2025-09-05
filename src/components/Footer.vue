@@ -76,7 +76,7 @@
       <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
         <p>{{ $t('footer.copyright', { year: currentYear }) }}</p>
         <p class="mt-2">
-          <a href="https://github.com/Tofuswang/vtaiwan-neo" class="hover:text-white transition">{{ $t('footer.sourceCode') }}</a> |
+          <a href="https://github.com/g0v/vue.vTaiwan-neo" class="hover:text-white transition">{{ $t('footer.sourceCode') }}</a> |
           <a href="/privacy" class="hover:text-white transition">{{ $t('footer.privacyPolicy') }}</a> |
           <a href="/terms" class="hover:text-white transition">{{ $t('footer.termsOfService') }}</a>
         </p>
