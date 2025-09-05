@@ -1212,6 +1212,15 @@ export default {
         });
 
         if (!response.ok) {
+          // 檢查是否為 AI 幻覺回應（422 狀態碼）
+          if (response.status === 422) {
+            const errorData = await response.json().catch(() => ({}));
+            console.log('🔇 音檔音量過低，AI 產生幻覺回應:', errorData.message || '音檔音量過低');
+            // 422 狀態碼不顯示 alert，只記錄日誌，避免影響用戶體驗
+            return;
+          }
+
+          // 其他錯誤狀態碼
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
