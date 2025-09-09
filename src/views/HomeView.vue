@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { ref } from 'vue'
 import IconWrapper from '../components/IconWrapper.vue'
-import UnderConstructionModal from '../components/UnderConstructionModal.vue'
 import { useHead } from '@unhead/vue'
 
 const { t } = useI18n()
-
-// 控制施工中彈出告示的顯示
-const showUnderConstructionModal = ref(true)
-
-const closeUnderConstructionModal = () => {
-  showUnderConstructionModal.value = false
-}
 
 useHead({
   title: t('home.title'),
@@ -43,12 +34,6 @@ useHead({
 
 <template>
   <div>
-    <!-- 施工中彈出告示 -->
-    <UnderConstructionModal
-      :show="showUnderConstructionModal"
-      @close="closeUnderConstructionModal"
-    />
-
     <!-- Hero Section -->
     <section class="bg-black text-white py-20">
       <div class="container mx-auto px-4">
