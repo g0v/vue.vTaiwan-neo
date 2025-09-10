@@ -17,6 +17,7 @@ import ProfileView from '../views/ProfileView.vue'
 import ProposeView from '../views/ProposeView.vue'
 import PrivacyView from '../views/PrivacyView.vue'
 import TermsView from '../views/TermsView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -110,6 +111,16 @@ const router = createRouter({
       path: '/terms',
       name: 'terms',
       component: TermsView
+    },
+    {
+      path: '/404',
+      name: 'notFound',
+      component: NotFoundView
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'catchAll',
+      component: NotFoundView
     }
   ]
 })

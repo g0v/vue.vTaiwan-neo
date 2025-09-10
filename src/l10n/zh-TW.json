@@ -720,5 +720,21 @@
       "message": "若要啟用麥克風/鏡頭，請先在黑色空白處點一下，再按左下角的麥克風/鏡頭圖示。",
       "dismiss": "知道了"
     }
+  },
+  "notFound": {
+    "title": "頁面不存在",
+    "description": "抱歉，您要訪問的頁面不存在或已被移除。",
+    "suggestion": "請檢查網址是否正確，或使用下方的導航按鈕返回網站。",
+    "buttons": {
+      "backToHome": "返回首頁",
+      "browseTopics": "瀏覽議題",
+      "contactUs": "聯絡我們"
+    },
+    "help": {
+      "title": "需要協助嗎？",
+      "checkUrl": "• 請檢查網址是否正確",
+      "useNavigation": "• 使用上方導航選單瀏覽網站",
+      "contactSupport": "• 如有問題請聯絡我們"
+    }
   }
 }
