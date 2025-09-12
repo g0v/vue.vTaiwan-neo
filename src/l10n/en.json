@@ -211,7 +211,8 @@
     "noPosts": "No posts available in the current language",
     "viewOriginal": "View Original Post",
     "allLanguages": "All Languages",
-    "currentLanguage": "Current Language"
+    "currentLanguage": "Current Language",
+    "sourceDescription": "Article source: Posts under the vTaiwan tag on g0v.social platform, showing summaries only."
   },
   "transcript": {
     "title": "Live Transcript",

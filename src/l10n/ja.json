@@ -211,7 +211,8 @@
     "noPosts": "現在の言語で利用可能な投稿がありません",
     "viewOriginal": "元の投稿を表示",
     "allLanguages": "すべての言語",
-    "currentLanguage": "現在の言語"
+    "currentLanguage": "現在の言語",
+    "sourceDescription": "記事の出典：g0v.socialプラットフォームのvTaiwanタグ下の投稿、要約のみ表示。"
   },
   "transcript": {
     "title": "ライブ書き起こし",

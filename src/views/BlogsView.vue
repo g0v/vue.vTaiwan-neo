@@ -1,7 +1,17 @@
 <template>
   <div class="container mx-auto px-2 py-8">
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold">{{ $t('header.blogs') }}</h1>
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold md:w-1/2">{{ $t('header.blogs') }}</h1>
+       <!-- 加上文章來源：g0v.social中，vTaiwan標籤下的貼文-->
+       <p class="text-sm text-gray-500">
+         {{ $t('blog.sourceDescription') }}
+         <a
+           href="https://g0v.social/tags/vTaiwan"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="text-blue-600 hover:text-blue-800 text-sm"
+         >g0v.social/tags/vTaiwan</a>
+       </p>
     </div>
 
     <!-- 語言切換 Tabs -->
@@ -74,9 +84,9 @@
           </div>
         </div>
 
-        <!-- 貼文內容 -->
+        <!-- 貼文摘要 -->
         <div class="mb-4">
-          <div v-html="post.content" class="prose prose-sm max-w-none"></div>
+          <div class="prose prose-sm max-w-none" v-html="getSummary(post.content)"></div>
         </div>
 
         <!-- 互動統計 -->
@@ -203,6 +213,23 @@ const formatDate = (dateString) => {
     hour: '2-digit',
     minute: '2-digit'
   })
+}
+
+// 取得貼文摘要
+const getSummary = (content) => {
+  if (!content) return ''
+
+  // 移除 HTML 標籤
+  const textContent = content.replace(/<[^>]*>/g, '')
+
+  // 如果超過50字，截取80字加省略號
+  if (textContent.length > 80) {
+    return textContent.substring(0, 80) + '...'
+  }
+
+  // 如果不超過50字，截取一半弱的字數加省略號
+  const halfLength = Math.floor(textContent.length * 0.4) // 取40%作為"一半弱"
+  return textContent.substring(0, halfLength) + '...'
 }
 
 // 取得 Mastodon 貼文

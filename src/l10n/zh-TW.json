@@ -205,7 +205,8 @@
     "noPosts": "目前沒有符合當前語言的貼文",
     "viewOriginal": "查看原始貼文",
     "allLanguages": "所有語言",
-    "currentLanguage": "當前語言"
+    "currentLanguage": "當前語言",
+    "sourceDescription": "文章來源：g0v.social平台中，vTaiwan標籤下的貼文，僅顯示摘要。"
   },
   "topicDetail": {
     "discussion": "討論區",
