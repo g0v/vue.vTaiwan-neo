@@ -25,8 +25,13 @@
             <img v-if="contributor.imgURL" :src="contributor.imgURL" :alt="contributor.name" class="w-full h-full object-cover rounded-full">
             <IconWrapper v-else name="user" :size="24" />
           </div>
-          <h3 class="font-bold mb-1">{{ contributor.name }}</h3>
-          <p v-if="contributor.contribution" class="text-sm text-gray-600">{{ $t(contributor.contribution) }}</p>
+          <h3 class="font-bold mb-2">{{ contributor.name }}</h3>
+          <div v-if="contributor.contributions && contributor.contributions.length > 0" class="space-y-1">
+            <p v-for="contribution in contributor.contributions" :key="contribution" class="text-sm text-gray-600">
+              {{ $t(contribution) }}
+            </p>
+          </div>
+          <p v-else-if="contributor.contribution" class="text-sm text-gray-600">{{ $t(contributor.contribution) }}</p>
         </div>
       </div>
     </div>

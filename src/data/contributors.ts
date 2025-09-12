@@ -4,6 +4,7 @@ export interface Contributor {
   role?: string
   description?: string
   contribution?: string
+  contributions?: string[]
   imgURL?: string
 }
 
@@ -37,7 +38,8 @@ export const coreTeam: Contributor[] = [
   }
 ]
 
-export const communityContributors: Contributor[] = [
+// 原始資料
+const rawCommunityContributors: Contributor[] = [
   { id: '1', name: 'Peter Cui', contribution: 'contributors.contributions.policyResearch', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512' },
   { id: '2', name: 'Peter Cui', contribution: 'contributors.contributions.eventPlanning', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512' },
   { id: '3', name: 'Joshua Yang', contribution: 'contributors.contributions.contentManager', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512' },
@@ -56,3 +58,40 @@ export const communityContributors: Contributor[] = [
   { id: '16', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
   { id: '17', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },
 ]
+
+// 合併相同貢獻者的函數
+function mergeContributors(rawContributors: Contributor[]): Contributor[] {
+  const contributorMap = new Map<string, Contributor>()
+
+  rawContributors.forEach(contributor => {
+    // 沒有頭像或名為Nobody的貢獻者不進行合併，保持獨立
+    if (!contributor.imgURL || contributor.name === 'Nobody') {
+      contributorMap.set(contributor.id, {
+        ...contributor,
+        contributions: contributor.contribution ? [contributor.contribution] : []
+      })
+      return
+    }
+
+    const key = contributor.imgURL // 只使用頭像URL作為唯一鍵
+
+    if (contributorMap.has(key)) {
+      // 如果已存在，將貢獻項目加入陣列
+      const existing = contributorMap.get(key)!
+      if (contributor.contribution && !existing.contributions?.includes(contributor.contribution)) {
+        existing.contributions = existing.contributions || []
+        existing.contributions.push(contributor.contribution)
+      }
+    } else {
+      // 如果不存在，創建新的貢獻者
+      contributorMap.set(key, {
+        ...contributor,
+        contributions: contributor.contribution ? [contributor.contribution] : []
+      })
+    }
+  })
+
+  return Array.from(contributorMap.values())
+}
+
+export const communityContributors: Contributor[] = mergeContributors(rawCommunityContributors)
