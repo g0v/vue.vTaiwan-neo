@@ -1,0 +1,21 @@
+{
+  "name": "vtaiwan-image-crawler",
+  "version": "1.0.0",
+  "description": "爬蟲程式用於下載 vTaiwan 議題頁面的背景圖片",
+  "main": "crawler.js",
+  "scripts": {
+    "start": "node crawler.js",
+    "crawl": "node crawler.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0"
+  },
+  "keywords": [
+    "crawler",
+    "playwright",
+    "vtaiwan",
+    "image-download"
+  ],
+  "author": "vTaiwan Team",
+  "license": "MIT"
+}
