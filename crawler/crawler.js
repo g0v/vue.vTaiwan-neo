@@ -65,7 +65,8 @@ async function crawlVtaiwanImages() {
 
     console.log('📡 正在載入 vTaiwan 議題頁面...');
     await page.goto('https://www.vtaiwan.tw/topics', {
-      waitUntil: 'networkidle'
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
     });
 
     console.log('⏳ 等待 20 秒讓所有資料渲染完成...');
