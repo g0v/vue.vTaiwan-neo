@@ -74,7 +74,7 @@
       </div>
 
       <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-        <p>{{ $t('footer.copyright', { year: currentYear }) }}</p>
+        <p><a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant" class="hover:text-white transition" target="_blank" rel="noopener noreferrer">{{ $t('footer.copyright', { year: currentYear }) }}</a></p>
         <p class="mt-2">
           <a href="https://github.com/g0v/vue.vTaiwan-neo" class="hover:text-white transition">{{ $t('footer.sourceCode') }}</a> |
           <a href="/privacy" class="hover:text-white transition">{{ $t('footer.privacyPolicy') }}</a> |
