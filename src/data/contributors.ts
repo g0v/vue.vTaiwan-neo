@@ -35,6 +35,20 @@ export const coreTeam: Contributor[] = [
     role: 'contributors.roles.designer',
     description: 'contributors.descriptions.designer',
     imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512'
+  },
+  {
+    id: '5',
+    name: 'Joshua Yang',
+    role: 'contributors.roles.processDesigner',
+    description: 'contributors.descriptions.processDesigner',
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512'
+  },
+  {
+    id: '6',
+    name: 'Yi-Ting Lien',
+    role: 'contributors.roles.projectManager',
+    description: 'contributors.descriptions.projectManager',
+    imgURL: ''
   }
 ]
 
@@ -42,7 +56,7 @@ export const coreTeam: Contributor[] = [
 const rawCommunityContributors: Contributor[] = [
   { id: '1', name: 'Peter Cui', contribution: 'contributors.contributions.policyResearch', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512' },
   { id: '2', name: 'Peter Cui', contribution: 'contributors.contributions.eventPlanning', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512' },
-  { id: '3', name: 'Joshua Yang', contribution: 'contributors.contributions.contentManager', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512' },
+  { id: '3', name: 'Joshua Yang', contribution: 'contributors.contributions.eventPlanning', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512' },
   { id: '4', name: 'Shuyang Lin', contribution: 'contributors.contributions.contentManager', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
   { id: '5', name: 'Shuyang Lin', contribution: 'contributors.contributions.uiuxDesign', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
   { id: '6', name: 'Shuyang Lin', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
@@ -57,6 +71,8 @@ const rawCommunityContributors: Contributor[] = [
   { id: '15', name: 'Bestian Tang', contribution: 'contributors.contributions.backendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
   { id: '16', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
   { id: '17', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },
+  { id: '18', name: 'Yi-Ting Lien', contribution: 'contributors.contributions.eventPlanning' },
+  { id: '3', name: 'Joshua Yang', contribution: 'contributors.contributions.policyResearch', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512' },
 ]
 
 // 合併相同貢獻者的函數

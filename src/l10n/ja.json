@@ -150,12 +150,14 @@
     "roles": {
       "projectManager": "プロジェクトマネージャー",
       "techDirector": "技術ディレクター",
-      "designer": "デザイナー"
+      "designer": "デザイナー",
+      "processDesigner": "プロセスデザイナー"
     },
     "descriptions": {
       "projectManager": "プロジェクト全体の企画と調整を担当",
       "techDirector": "技術アーキテクチャとプラットフォーム開発を担当",
-      "designer": "vTaiwanウェブサイトのデザインと体験設計を担当"
+      "designer": "vTaiwanウェブサイトのデザインと体験設計を担当",
+      "processDesigner": "vTaiwanのプロセスとシステム設計を担当"
     },
     "contributions": {
       "policyResearch": "政策リサーチ",
@@ -166,7 +168,8 @@
       "translationSupport": "翻訳サポート",
       "backendDev": "バックエンド開発",
       "eventPlanning": "イベント企画",
-      "contentManager": "コンテンツマネージャー"
+      "contentManager": "コンテンツマネージャー",
+      "processDesign": "プロセス設計"
     }
   },
   "blog": {

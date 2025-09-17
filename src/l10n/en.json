@@ -150,12 +150,14 @@
     "roles": {
       "projectManager": "Project Manager",
       "techDirector": "Technical Director",
-      "designer": "Designer"
+      "designer": "Designer",
+      "processDesigner": "Process Designer"
     },
     "descriptions": {
       "projectManager": "Responsible for overall project planning and coordination",
       "techDirector": "Responsible for technical architecture and platform development",
-      "designer": "Responsible for vTaiwan website design and experience design"
+      "designer": "Responsible for vTaiwan website design and experience design",
+      "processDesigner": "Responsible for vTaiwan process and system design"
     },
     "contributions": {
       "policyResearch": "Policy Research",
@@ -166,7 +168,8 @@
       "translationSupport": "Translation Support",
       "backendDev": "Backend Development",
       "eventPlanning": "Event Planning",
-      "contentManager": "Content Manager"
+      "contentManager": "Content Manager",
+      "processDesign": "Process Design"
     }
   },
   "blog": {
