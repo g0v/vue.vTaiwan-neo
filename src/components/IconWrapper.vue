@@ -21,7 +21,7 @@ const props = defineProps({
 
 const colorMap = {
   default: '#000000',
-  primary: '#D80000',
+  primary: '#D82000',
   teal: '#008888',
   amber: '#DB7700'
 }

@@ -135,11 +135,11 @@ const handleShowLogin = () => {
 }
 /* 使用 router-link-exact-active class 來標示當前路由 */
 .router-link-exact-active {
-  color: #D80000 !important; /* democratic-red 顏色 */
+  color: #D82000 !important; /* democratic-red 顏色 */
 }
 
 /* 確保圖示也會變色 */
 .router-link-exact-active .icon-wrapper {
-  color: #D80000 !important;
+  color: #D82000 !important;
 }
 </style>

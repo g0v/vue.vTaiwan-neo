@@ -13,7 +13,7 @@
           <!-- vTaiwan 工作組 Book -->
           <div class="bg-white rounded-lg shadow-lg p-8">
             <div class="flex items-center mb-6">
-              <IconWrapper name="book-open" :size="32" color="#D80000" />
+              <IconWrapper name="book-open" :size="32" color="#D82000" />
               <h2 class="text-2xl font-bold text-gray-900 ml-3">{{ $t('contact.workingGroup.title') }}</h2>
             </div>
             <p class="text-gray-600 mb-6">
@@ -33,7 +33,7 @@
           <!-- g0v Slack 頻道 -->
           <div class="bg-white rounded-lg shadow-lg p-8">
             <div class="flex items-center mb-6">
-              <IconWrapper name="message-circle" :size="32" color="#D80000" />
+              <IconWrapper name="message-circle" :size="32" color="#D82000" />
               <h2 class="text-2xl font-bold text-gray-900 ml-3">{{ $t('contact.slack.title') }}</h2>
             </div>
             <p class="text-gray-600 mb-6">
@@ -41,7 +41,7 @@
             </p>
             <div class="space-y-4">
               <div class="flex items-center p-4 bg-gray-50 rounded-lg">
-                <IconWrapper name="hash" :size="20" color="#D80000" />
+                <IconWrapper name="hash" :size="20" color="#D82000" />
                 <span class="ml-3 font-medium text-gray-900">{{ $t('contact.slack.channel') }}</span>
               </div>
               <p class="text-sm text-gray-500">
@@ -65,7 +65,7 @@
           <h2 class="text-2xl font-bold text-gray-900 mb-6">{{ $t('contact.otherMethods.title') }}</h2>
           <div class="grid md:grid-cols-3 gap-6">
             <div class="text-center">
-              <IconWrapper name="github" :size="32" color="#D80000" class="mx-auto mb-3" />
+              <IconWrapper name="github" :size="32" color="#D82000" class="mx-auto mb-3" />
               <h3 class="font-semibold text-gray-900 mb-2">{{ $t('contact.otherMethods.github.title') }}</h3>
               <p class="text-gray-600 text-sm mb-3">{{ $t('contact.otherMethods.github.description') }}</p>
               <a
@@ -78,7 +78,7 @@
               </a>
             </div>
             <div class="text-center">
-              <IconWrapper name="mail" :size="32" color="#D80000" class="mx-auto mb-3" />
+              <IconWrapper name="mail" :size="32" color="#D82000" class="mx-auto mb-3" />
               <h3 class="font-semibold text-gray-900 mb-2">{{ $t('contact.otherMethods.email.title') }}</h3>
               <p class="text-gray-600 text-sm mb-3">{{ $t('contact.otherMethods.email.description') }}</p>
               <a
@@ -89,7 +89,7 @@
               </a>
             </div>
             <div class="text-center">
-              <IconWrapper name="calendar" :size="32" color="#D80000" class="mx-auto mb-3" />
+              <IconWrapper name="calendar" :size="32" color="#D82000" class="mx-auto mb-3" />
               <h3 class="font-semibold text-gray-900 mb-2">{{ $t('contact.otherMethods.meetups.title') }}</h3>
               <p class="text-gray-600 text-sm mb-3">{{ $t('contact.otherMethods.meetups.description') }}</p>
               <router-link

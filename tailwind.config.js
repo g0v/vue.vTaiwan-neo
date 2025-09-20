@@ -14,7 +14,7 @@ export default {
         'black': '#000000',
         'white': '#FFFFFF',
         // 強調色
-        'democratic-red': '#D80000',
+        'democratic-red': '#D82000',
         // 輔助色
         'jade-green': '#008888',
         'wheat-yellow': '#DB7700',

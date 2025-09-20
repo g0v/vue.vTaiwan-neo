@@ -109,6 +109,6 @@ useHead({
   left: 0;
   width: 60px;
   height: 3px;
-  background-color: #D80000;
+  background-color: #D82000;
 }
 </style>
