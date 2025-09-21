@@ -80,8 +80,8 @@ export const faqs: FAQ[] = [
     question: '如何追蹤議題的進展？',
     question_en: 'How to track the progress of topics?',
     question_ja: '議題の進捗はどのように追跡できますか？',
-    answer: '您可以在 vTaiwan 網站上查看各議題的最新進展和討論結果。我們會定期更新議題狀態，包括討論階段、參與人數、關鍵意見等資訊。您也可以訂閱我們的電子報，獲取最新的議題進展通知。',
-    answer_en: 'You can view the latest progress and discussion results of each topic on the vTaiwan website. We will regularly update the topic status, including the discussion phase, the number of participants, and key opinions. You can also subscribe to our newsletter to receive the latest topic progress notifications.',
-    answer_ja: 'vTaiwanのウェブサイトで各議題の最新の進捗や議論結果を確認できます。議題のステータス（議論段階、参加人数、主要な意見など）は定期的に更新されます。また、ニュースレターを購読することで最新情報を受け取ることも可能です。'
+    answer: '您可以在 vTaiwan 網站上查看各議題的最新進展和討論結果。我們會定期更新議題狀態，包括討論階段、參與人數、關鍵意見等資訊。您也可以加入 <a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slack #vTaiwan 頻道</a> 和瀏覽 <a href="https://g0v.hackmd.io/@tmonk/rJHYWR9S4/%2Ff9c4pS_TQjClh0g6wCJ8iw?type=book" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">vTaiwan 工作組會議記錄</a>，獲取最新的議題進展通知。',
+    answer_en: 'You can view the latest progress and discussion results of each topic on the vTaiwan website. We will regularly update the topic status, including the discussion phase, the number of participants, and key opinions. You can also join the <a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slack #vTaiwan channel</a> and browse the <a href="https://g0v.hackmd.io/@tmonk/rJHYWR9S4/%2Ff9c4pS_TQjClh0g6wCJ8iw?type=book" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">vTaiwan working group meeting records</a> to receive the latest topic progress notifications.',
+    answer_ja: 'vTaiwanのウェブサイトで各議題の最新の進捗や議論結果を確認できます。議題のステータス（議論段階、参加人数、主要な意見など）は定期的に更新されます。また、<a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slack #vTaiwanチャンネル</a> に参加したり、<a href="https://g0v.hackmd.io/@tmonk/rJHYWR9S4/%2Ff9c4pS_TQjClh0g6wCJ8iw?type=book" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">vTaiwan作業グループ会議記録</a> を閲覧することで最新情報を受け取ることも可能です。'
   }
 ]
