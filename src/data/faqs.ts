@@ -35,9 +35,9 @@ export const faqs: FAQ[] = [
     question: '如何在 vTaiwan 上提出議題？',
     question_en: 'How to propose a topic on vTaiwan?',
     question_ja: 'vTaiwanでどのように議題を提案できますか？',
-    answer: '您可以透過我們的線上平台提出政策議題。點擊網站上的「提案」按鈕，填寫相關資訊，包括議題名稱、背景說明、預期目標等。提案後，我們的團隊會進行初步審核，確認議題的適切性和完整性。',
-    answer_en: 'You can propose a policy topic through our online platform. Click the "Propose" button on the website, fill in the relevant information, including the topic name, background description, and expected goals. After submission, our team will conduct a preliminary review to confirm the appropriateness and completeness of the topic.',
-    answer_ja: '当ウェブサイトの「提案」ボタンをクリックし、議題名、背景説明、目標など必要事項を入力することで、政策議題を提案できます。提案後、当チームが内容の適切性と完全性を確認します。'
+    answer: '您可以透過以下方式提出政策議題與社會議題：參與我們的 <a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slack 頻道</a> 討論，或參加 <a href="https://www.vtaiwan.tw/meetups" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">線上會議</a> 分享您的想法。請提供議題名稱、背景說明、預期目標等相關資訊。我們的團隊會進行初步審核，確認議題的適切性和完整性。',
+    answer_en: 'You can propose policy and social topics through the following ways: participate in our <a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slack channel</a> discussions, or join <a href="https://www.vtaiwan.tw/meetups" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">online meetings</a> to share your ideas. Please provide relevant information including topic name, background description, and expected goals. Our team will conduct a preliminary review to confirm the appropriateness and completeness of the topic.',
+    answer_ja: '以下の方法で政策議題と社会議題を提案できます：私たちの <a href="https://g0v-tw.slack.com/archives/C2Q1M4N1J" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">Slackチャンネル</a> での議論に参加するか、<a href="https://www.vtaiwan.tw/meetups" target="_blank" rel="noopener noreferrer" class="text-democratic-red hover:underline">オンライン会議</a> に参加してアイデアを共有してください。議題名、背景説明、目標などの関連情報を提供してください。当チームが内容の適切性と完全性を確認します。'
   },
   {
     id: '4',

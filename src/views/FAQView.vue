@@ -18,8 +18,7 @@
             <h3 class="text-xl font-bold mb-2 text-democratic-red">
               {{ getLocalizedQuestion(faq) }}
             </h3>
-            <p class="text-gray-700">
-              {{ getLocalizedAnswer(faq) }}
+            <p class="text-gray-700" v-html="getLocalizedAnswer(faq)">
             </p>
             <ol v-if="getLocalizedDetails(faq)" class="list-decimal pl-6 mt-2 space-y-1">
               <li v-for="detail in getLocalizedDetails(faq)" :key="detail" class="text-gray-700">
@@ -135,5 +134,15 @@ const getLocalizedDetails = (faq) => {
 
 .list-decimal li {
   margin-bottom: 0.25rem;
+}
+
+/* FAQ 答案中的超連結樣式 */
+.text-gray-700 a {
+  color: #dc2626;
+  text-decoration: underline;
+}
+
+.text-gray-700 a:hover {
+  color: #b91c1c;
 }
 </style>
