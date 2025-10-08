@@ -4,6 +4,11 @@
 
 本專案使用 `vue-i18n` 套件來實現多語言支援，目前支援繁體中文 (zh-TW) 和英文 (en)。
 
+本專案的後端也是開源的，分為兩個專案：
+
+1. Jisti視訊服務的JWT生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
+2. 音訊轉錄、逐字稿管理與AI大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
+
 ## 檔案結構
 
 ```
