@@ -1,0 +1,37 @@
+{
+  "author": "Tofus, Bestian",
+  "status": "Production",
+  "name": "vTaiwan website(2025)",
+  "name_zh": "vTaiwan網站(2025版)",
+  "description": "new version of vTaiwan Website, using Vue framework",
+  "description_zh": "新版vTaiwan網站，以Vue開發",
+  "homepage": "https://www.vtaiwan.tw/",
+  "thumbnail": "",
+  "document": "",
+  "repository": "https://github.com/g0v/vue.vTaiwan-neo",
+  "licenses": [
+    "MIT"
+  ],
+  "keywords": [
+    "vTaiwan",
+    "website",
+    "Vue"
+  ],
+  "audience": [
+    "vTaiwan社群成員",
+    "一般用戶"
+  ],
+  "products": [
+    ""
+  ],
+  "partOf": "",
+  "projects": [
+    ""
+  ],
+  "contributors": [
+    "https://www.vtaiwan.tw/contributors"
+  ],
+  "needs": [
+    ""
+  ]
+}
