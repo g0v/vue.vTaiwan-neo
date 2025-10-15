@@ -87,6 +87,7 @@ const loadSlide = async () => {
       const iframeElement = doc.querySelector('iframe')
 
       if (iframeElement) {
+        iframeElement.allowFullscreen = true
         slide.value.iframe = iframeElement.outerHTML
       }
 
