@@ -47,7 +47,7 @@ useHead({
             <router-link to="/topics" class="btn-primary rounded-md">
               {{ $t('home.hero.buttons.browseTopics') }}
             </router-link>
-            <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
+            <router-link to="/intro" class="btn-outline-white rounded-md">
               {{ $t('home.hero.buttons.learnMore') }}
             </router-link>
           </div>
@@ -99,7 +99,7 @@ useHead({
           <router-link to="/topics" class="btn-primary rounded-md">
             {{ $t('home.cta.buttons.browseTopics') }}
           </router-link>
-          <router-link to="/intro" class="btn-outline bg-transparent text-white border-white rounded-md">
+          <router-link to="/intro" class="btn-outline-white rounded-md">
             {{ $t('home.cta.buttons.learnMore') }}
           </router-link>
         </div>
