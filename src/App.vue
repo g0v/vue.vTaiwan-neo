@@ -26,7 +26,7 @@
           </button>
         </div>
 
-        <GoogleLogin @login-success="handleLoginSuccess" :inApp="actualInApp" />
+        <GoogleLogin @login-success="handleLoginSuccess" :inApp="isInApp" />
 
         <div class="mt-4 text-center">
           <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700">
@@ -50,13 +50,9 @@ import IconWrapper from './components/IconWrapper.vue'
 import { database, usersRef } from './lib/firebase'
 import { ref as dbRef, get, set, update } from 'firebase/database'
 
-import InApp from 'detect-inapp'; // 導入InApp以偵測瀏覽器內部環境
+import InAppSpy from 'inapp-spy'
 
-const inApp = new InApp(window.navigator.userAgent);
-  // 初始假設為 InApp 庫的偵測結果
-const actualInApp = inApp.isInApp;
-
-
+const { isInApp } = InAppSpy()
 const { t } = useI18n()
 
 const user = ref(null)
