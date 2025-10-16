@@ -45,9 +45,8 @@ import { useI18n } from 'vue-i18n'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import GoogleLogin from './components/GoogleLogin.vue'
-import IconWrapper from './components/IconWrapper.vue'
 
-import { database, usersRef } from './lib/firebase'
+import { database } from './lib/firebase'
 import { ref as dbRef, get, set, update } from 'firebase/database'
 
 import InAppSpy from 'inapp-spy'
