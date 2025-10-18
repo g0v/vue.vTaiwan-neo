@@ -297,7 +297,7 @@
             <div
               v-for="topic in filteredTopicsSmallImg"
               :key="topic.id"
-              class="bg-white border-b md:border border-gray-200 md:rounded-lg p-2 md:p-4 hover:shadow-md transition-all
+              class="bg-white border-b md:border border-gray-200 md:rounded-lg px-2 py-4 md:p-4 hover:shadow-md transition-all
               duration-200 cursor-pointer h-34 md:h-60 flex flex-row md:flex-col relative"
               @click="goToTopic(topic)"
             >
