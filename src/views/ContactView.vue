@@ -25,7 +25,7 @@
               rel="noopener noreferrer"
               class="inline-flex items-center px-6 py-3 bg-democratic-red text-white font-medium rounded-lg hover:bg-red-700 transition duration-200"
             >
-              <IconWrapper name="external-link" :size="20" class="mr-2" />
+              <IconWrapper name="external-link" :size="20" class="mr-2" color="white"/>
               {{ $t('contact.workingGroup.button') }}
             </a>
           </div>
@@ -115,16 +115,16 @@
               rel="noopener noreferrer"
               class="inline-flex items-center px-6 py-3 bg-white text-democratic-red font-medium rounded-lg hover:bg-gray-100 transition duration-200"
             >
-              <IconWrapper name="book-open" :size="20" class="mr-2" />
+              <IconWrapper name="book-open" :size="20" type="primary" class="mr-2" />
               {{ $t('contact.cta.workingGroup') }}
             </a>
             <a
               href="https://join.g0v.tw/"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-democratic-red transition duration-200"
+              class="inline-flex items-center px-6 py-3 border-2 border-white text-white font-medium rounded-lg hover:bg-white hover:text-democratic-red transition duration-200 group"
             >
-              <IconWrapper name="slack" :size="20" class="mr-2" />
+              <IconWrapper name="slack" :size="20" class="mr-2 stroke-white group-hover:stroke-democratic-red" />
               {{ $t('contact.cta.slack') }}
             </a>
           </div>
