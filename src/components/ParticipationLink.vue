@@ -10,7 +10,7 @@
         :title="item.long"
         class="inline-flex items-center px-3 py-1 text-sm bg-jade-green text-white rounded hover:bg-jade-green/80 transition-colors"
       >
-        <IconWrapper :name="item.icon" :size="14" class="mr-1" />
+        <IconWrapper :name="item.icon" :size="14" class="mr-1 flex-shrink-0" color="white" />
         {{ item.text }}
       </a>
     </div>
