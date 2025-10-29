@@ -1,6 +1,12 @@
 # vTaiwan Neo - Vue 版本
 
-這是 vTaiwan Neo 的 Vue 版本，使用 Vue 3 + Vite + Tailwind CSS + Firebase 建構，完整複刻原始 Astro 專案的設計和功能。
+這是 vTaiwan Neo 的 Vue 版本，使用 Vue 3 + Vite + Tailwind CSS + Firebase 建構。
+
+本專案的後端也是開源的，分為兩個專案：
+
+1. Jisti視訊服務的JWT生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
+2. 音訊轉錄、逐字稿管理與AI大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
+
 
 ## 功能特色
 
@@ -201,3 +207,210 @@ npm run build
 firebase deploy
 ```
 
+---
+
+# vTaiwan Neo - Vue Version
+
+This is the Vue version of vTaiwan Neo, built with Vue 3 + Vite + Tailwind CSS + Firebase.
+
+The backend of this project is also open source and consists of two projects:
+
+1. JWT generation for Jitsi video service: https://github.com/g0v/vtaiwan-jaas-jwt-worker
+2. Audio transcription, transcript management, and AI outline generation: https://github.com/g0v/vtaiwan-transcription-worker
+
+## Features
+
+- 🏠 Homepage display (complete replica of original design)
+- 📝 Blog system (Markdown rendering support)
+- 🔐 Google login (global state management)
+- ✍️ Post articles functionality
+- 📱 Responsive design
+- 🎨 Tailwind CSS styling system
+- 🔷 TypeScript support
+- 📊 Project management page
+- 📅 Meeting management page
+- ❓ FAQ page
+- 👥 Contributors page
+- ℹ️ About Us page
+- 🎥 Live video page (supports real-time transcript collaborative editing, in development, currently only works with English)
+
+## Tech Stack
+
+- **Frontend Framework**: Vue 3 (Composition API)
+- **Build Tool**: Vite
+- **Routing**: Vue Router 4
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide Vue Next
+- **Backend Service**: Firebase
+  - Authentication (Google login)
+  - Realtime Database (blog data)
+- **Markdown Rendering**: Marked
+- **Languages**: JavaScript / TypeScript
+
+## Installation & Running
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Start development server:
+```bash
+npm run dev
+```
+
+3. Type checking:
+```bash
+npm run type-check
+```
+
+4. Build production version:
+```bash
+npm run build
+```
+
+5. Preview production version:
+```bash
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── components/              # Vue components
+│   ├── Header.vue          # Page header (navigation and login)
+│   ├── Footer.vue          # Footer component
+│   ├── IconWrapper.vue     # Icon wrapper component
+│   ├── LanguageSwitcher.vue # Language switcher
+│   ├── NewsCarousel.vue    # News carousel component
+│   └── GoogleLogin.vue     # Google login component
+├── views/                  # Page views
+│   ├── HomeView.vue        # Homepage
+│   ├── BlogsView.vue       # Blog list
+│   ├── BlogDetailView.vue  # Blog detail (Markdown support)
+│   ├── PostBlogView.vue    # Post article
+│   ├── ProjectsView.vue    # Project list
+│   ├── MeetupsView.vue     # Meeting list
+│   ├── FAQView.vue         # FAQ
+│   ├── AboutView.vue       # About Us
+│   └── ContributorsView.vue # Contributors
+├── data/                   # Static data files
+│   ├── projects.ts         # Project data
+│   ├── meetups.ts          # Meeting data
+│   └── faqs.ts             # FAQ data
+├── router/                 # Route configuration
+│   └── index.ts
+├── lib/                    # Utility functions
+│   └── firebase.ts         # Firebase configuration
+├── assets/                 # Static resources
+│   └── images/             # Image resources
+└── style.css               # Global styles
+```
+
+## Route Configuration
+
+- `/` - Homepage
+- `/blogs` - Blog list
+- `/blogs/:title` - Blog detail (dynamic route, supports Chinese titles)
+- `/post_blog` - Post new article
+- `/projects` - Project list
+- `/meetups` - Meeting list
+- `/faq` - FAQ
+- `/about` - About Us
+- `/contributors` - Contributors
+
+## Static Data Files (src/data/)
+
+The project uses static data files to manage content, making collaboration and maintenance easier:
+
+### 📊 `projects.ts`
+- **Purpose**: Manage project list data
+- **Content**: Project title, description, status, icon, category, participant count
+- **Collaboration**: Add projects, modify project information, update status
+
+### 📅 `meetups.ts`
+- **Purpose**: Manage meeting data
+- **Content**: Meeting title, date, time, location, description, related projects
+- **Collaboration**: Add meetings, update meeting information, manage registration links
+
+### ❓ `faqs.ts`
+- **Purpose**: Manage frequently asked questions and answers
+- **Content**: Questions, answers, detailed explanation lists
+- **Collaboration**: Add questions, update answers, supplement detailed explanations
+
+## Component Descriptions
+
+### Header.vue
+- Responsive navigation menu
+- Google login state management
+- Language switcher
+- Mobile menu
+
+### IconWrapper.vue
+- Unified icon management
+- Supports Lucide icon library
+- Customizable colors and sizes
+
+### GoogleLogin.vue
+- Google login functionality
+- User data management
+- Login state synchronization
+
+## Firebase Configuration
+
+The project uses Firebase as backend service:
+- **Authentication**: Google login
+- **Realtime Database**: Blog article storage
+- **Data Structure**:
+  ```
+  /blogs/{id}
+    - title: Title
+    - content: Content (Markdown)
+    - author: Author
+    - date: Date
+    - tags: Tags array
+  ```
+
+## Development Notes
+
+1. **Firebase Configuration**: Ensure `.env` file contains correct Firebase configuration
+2. **Chinese Title Handling**: Dynamic routes use `encodeURIComponent` to handle Chinese titles
+3. **Markdown Support**: Uses `marked` package to render blog content
+4. **Responsive Design**: All pages support mobile and desktop versions
+5. **Icon Management**: Use `IconWrapper` component uniformly for icon management
+6. **Static Data**: Prioritize using static files in `src/data/` when adding content
+
+## Collaboration Guide
+
+### Adding Projects
+1. Edit `src/data/projects.ts`
+2. Add project data to the `projects` array
+3. Ensure icon names exist in the Lucide icon library
+
+### Adding Meetings
+1. Edit `src/data/meetups.ts`
+2. Add meeting data to the `meetups` array
+3. Set correct date format (YYYY-MM-DD)
+
+### Adding FAQ
+1. Edit `src/data/faqs.ts`
+2. Add questions and answers to the `faqs` array
+3. Optional `details` array for detailed explanations
+
+### Style Modifications
+- Use Tailwind CSS classes
+- Custom styles in component `<style>` blocks
+- Global styles modify `src/style.css`
+
+## Deployment
+
+1. Build the project:
+```bash
+npm run build
+```
+
+2. Deploy to Firebase Hosting:
+```bash
+firebase deploy
+```
