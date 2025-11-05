@@ -2,7 +2,7 @@
   <header class="bg-black text-white sticky top-0 z-[999]">
     <div class="w-full px-4 md:mx-auto">
       <div class="flex justify-between items-center h-16">
-        <router-link to="/" class="flex items-center">
+        <router-link to="/" class="flex items-center" @click="mobileMenuOpen = false">
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
