@@ -5,7 +5,6 @@
       <p class="text-sm text-gray-500">
         {{ $t('medium.sourceDescription') }}
         <a
-          v-if="mediumUsername"
           :href="`https://medium.com/@${mediumUsername}`"
           target="_blank"
           rel="noopener noreferrer"
@@ -14,52 +13,15 @@
       </p>
     </div>
 
-    <!-- 配置區域 -->
-    <div class="bg-gray-50 rounded-lg p-6 mb-6">
-      <h2 class="text-lg font-semibold mb-4">{{ $t('medium.configTitle') }}</h2>
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
-            {{ $t('medium.usernameLabel') }}
-          </label>
-          <input
-            v-model="inputUsername"
-            type="text"
-            :placeholder="$t('medium.usernamePlaceholder')"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            @keyup.enter="loadArticles"
-          />
-          <p class="text-xs text-gray-500 mt-1">{{ $t('medium.usernameHint') }}</p>
-          <div class="mt-2 p-3 bg-blue-50 rounded-md">
-            <p class="text-xs text-blue-800 font-medium mb-1">{{ $t('medium.howToFind') }}</p>
-            <ol class="text-xs text-blue-700 list-decimal list-inside space-y-1">
-              <li>{{ $t('medium.step1') }}</li>
-              <li>{{ $t('medium.step2') }}</li>
-              <li>{{ $t('medium.step3') }}</li>
-            </ol>
-          </div>
-        </div>
-        <div class="flex items-end">
-          <button
-            @click="loadArticles"
-            :disabled="loading || !inputUsername"
-            class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-          >
-            {{ $t('medium.loadArticles') }}
-          </button>
-        </div>
-      </div>
-    </div>
-
     <div v-if="loading" class="text-center py-8">
       <p class="text-gray-600">{{ $t('medium.loading') }}</p>
     </div>
 
     <div v-else-if="error" class="text-center py-8">
-      <p class="text-red-600">{{ error }}</p>
+      <p class="text-red-600 mb-4">{{ error }}</p>
       <button
         @click="loadArticles"
-        class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
       >
         {{ $t('medium.retry') }}
       </button>
@@ -126,7 +88,6 @@
     <!-- 無文章時顯示 -->
     <div v-if="!loading && !error && articles.length === 0" class="text-center py-8">
       <p class="text-gray-600">{{ $t('medium.noArticles') }}</p>
-      <p class="text-sm text-gray-500 mt-2">{{ $t('medium.configHint') }}</p>
     </div>
   </div>
 </template>
@@ -145,8 +106,7 @@ useHead({
 const articles = ref([])
 const loading = ref(false)
 const error = ref(null)
-const inputUsername = ref('')
-const mediumUsername = ref('')
+const mediumUsername = ref('vtaiwan.tw') // 預設顯示 vtaiwan.tw 的文章
 
 // 格式化日期
 const formatDate = (dateString) => {
@@ -337,61 +297,98 @@ const fetchRSS = async (username) => {
   // Medium RSS feed URL
   const rssUrl = `https://medium.com/feed/@${username}`
   
-  // 使用 CORS 代理來避免跨域問題
-  // 優先使用 allorigins.win，它是一個可靠的公共 CORS 代理
-  const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`
+  // 使用多個 CORS 代理服務作為備選方案
+  const proxyServices = [
+    {
+      name: 'allorigins.win',
+      url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        const data = await response.json()
+        return data.contents || data
+      }
+    },
+    {
+      name: 'corsproxy.io',
+      url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        return await response.text()
+      }
+    },
+    {
+      name: 'api.codetabs.com',
+      url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        return await response.text()
+      }
+    }
+  ]
   
-  try {
-    console.log('🔍 開始獲取 Medium RSS feed:', rssUrl)
-    console.log('📡 使用代理:', proxyUrl)
-    
-    const response = await fetch(proxyUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-      },
-      mode: 'cors'
-    })
+  let lastError = null
+  
+  // 嘗試每個代理服務
+  for (const proxy of proxyServices) {
+    try {
+      console.log(`🔍 嘗試使用 ${proxy.name} 獲取 Medium RSS feed:`, rssUrl)
+      
+      const response = await fetch(proxy.url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/rss+xml, application/xml, text/xml, application/json, */*',
+        },
+        mode: 'cors'
+      })
 
-    if (!response.ok) {
-      console.error(`❌ RSS feed 回應狀態: ${response.status} ${response.statusText}`)
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
+      if (!response.ok) {
+        console.warn(`⚠️ ${proxy.name} 回應狀態: ${response.status} ${response.statusText}`)
+        lastError = new Error(`HTTP error! status: ${response.status}`)
+        continue
+      }
 
-    const xmlText = await response.text()
-    
-    // 檢查是否獲取到有效的 XML
-    if (!xmlText || xmlText.trim().length === 0) {
-      console.error('❌ RSS feed 回應為空')
-      throw new Error('RSS feed 回應為空')
-    }
+      let xmlText = await proxy.parser(response)
+      
+      // 如果是 JSON 格式（allorigins.win），提取 contents
+      if (typeof xmlText === 'object' && xmlText.contents) {
+        xmlText = xmlText.contents
+      }
+      
+      // 確保是字符串
+      if (typeof xmlText !== 'string') {
+        xmlText = String(xmlText)
+      }
+      
+      // 檢查是否獲取到有效的 XML
+      if (!xmlText || xmlText.trim().length === 0) {
+        console.warn(`⚠️ ${proxy.name} 回應為空`)
+        lastError = new Error('RSS feed 回應為空')
+        continue
+      }
 
-    // 檢查是否包含 RSS 標記
-    if (!xmlText.includes('<rss') && !xmlText.includes('<feed') && !xmlText.includes('<?xml')) {
-      console.error('❌ RSS feed 格式不正確，回應內容:', xmlText.substring(0, 200))
-      throw new Error('RSS feed 格式不正確，可能不是有效的 RSS feed')
-    }
+      // 檢查是否包含 RSS 標記
+      if (!xmlText.includes('<rss') && !xmlText.includes('<feed') && !xmlText.includes('<?xml')) {
+        console.warn(`⚠️ ${proxy.name} 格式不正確，回應內容:`, xmlText.substring(0, 200))
+        lastError = new Error('RSS feed 格式不正確')
+        continue
+      }
 
-    console.log('✅ RSS feed 獲取成功，開始解析...')
-    const parsedArticles = parseRSS(xmlText)
-    
-    if (parsedArticles && parsedArticles.length > 0) {
-      console.log(`✅ 成功解析 ${parsedArticles.length} 篇文章`)
-      return parsedArticles
-    } else {
-      console.warn('⚠️ RSS feed 解析後沒有文章')
-      return []
+      console.log(`✅ ${proxy.name} RSS feed 獲取成功，開始解析...`)
+      const parsedArticles = parseRSS(xmlText)
+      
+      if (parsedArticles && parsedArticles.length > 0) {
+        console.log(`✅ 成功使用 ${proxy.name} 解析 ${parsedArticles.length} 篇文章`)
+        return parsedArticles
+      } else {
+        console.warn(`⚠️ ${proxy.name} RSS feed 解析後沒有文章`)
+        lastError = new Error('RSS feed 解析後沒有文章')
+      }
+    } catch (err) {
+      console.warn(`❌ ${proxy.name} 獲取失敗:`, err.message)
+      lastError = err
+      continue
     }
-  } catch (err) {
-    console.error('❌ RSS 獲取錯誤:', err)
-    
-    // 如果是 CORS 錯誤，提供更詳細的信息
-    if (err.message.includes('CORS') || err.message.includes('Failed to fetch')) {
-      throw new Error('CORS 錯誤：無法連接到 Medium RSS feed。請檢查瀏覽器控制台。')
-    }
-    
-    throw err
   }
+  
+  // 所有代理都失敗
+  throw lastError || new Error('所有 CORS 代理服務都無法連接')
 }
 
 // 從 URL 中提取 Medium 用戶名
@@ -424,26 +421,12 @@ const extractUsernameFromUrl = (input) => {
 
 // 載入文章
 const loadArticles = async () => {
-  if (!inputUsername.value.trim()) {
-    error.value = t('medium.usernameRequired')
-    return
-  }
-
   try {
     loading.value = true
     error.value = null
     articles.value = []
 
-    // 從輸入中提取用戶名（支援 URL 或純用戶名）
-    const extractedUsername = extractUsernameFromUrl(inputUsername.value)
-    if (!extractedUsername) {
-      error.value = t('medium.invalidUsername')
-      loading.value = false
-      return
-    }
-    
-    const username = extractedUsername
-    mediumUsername.value = username
+    const username = mediumUsername.value
 
     console.log('🔍 開始獲取 Medium 文章，用戶名:', username)
 
@@ -480,8 +463,8 @@ const loadArticles = async () => {
 }
 
 onMounted(() => {
-  // 可以從 URL 參數或環境變數中讀取預設的 Medium 用戶名
-  // 例如：const defaultUsername = import.meta.env.VITE_MEDIUM_USERNAME
+  // 自動載入預設的 Medium 用戶文章
+  loadArticles()
 })
 </script>
 
