@@ -77,9 +77,7 @@
           :to="item.href"
           class="flex items-center gap-2 py-2 hover:text-democratic-red transition"
           :class="{
-            'text-democratic-red': $route.path === item.href,
-            'text-xs': isJapanese,
-            'text-sm': !isJapanese
+            'text-democratic-red': $route.path === item.href
           }"
           @click="mobileMenuOpen = false"
         >
