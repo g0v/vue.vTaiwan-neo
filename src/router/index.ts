@@ -4,6 +4,7 @@ import TopicsView from '../views/TopicsView.vue'
 import TopicDetailView from '../views/TopicDetailView.vue'
 import MeetupsView from '../views/MeetupsView.vue'
 import BlogsView from '../views/BlogsView.vue'
+import MediumView from '../views/MediumView.vue'
 
 
 import FAQView from '../views/FAQView.vue'
@@ -51,6 +52,11 @@ const router = createRouter({
       path: '/blogs',
       name: 'blogs',
       component: BlogsView
+    },
+    {
+      path: '/medium',
+      name: 'medium',
+      component: MediumView
     },
 
 

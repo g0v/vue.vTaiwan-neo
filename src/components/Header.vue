@@ -95,6 +95,7 @@ const navItems = [
   { href: '/topics', label: 'header.topics', icon: 'message-circle' },
   { href: '/meetups', label: 'header.meetups', icon: 'calendar' },
   { href: '/blogs', label: 'header.blogs', icon: 'file-text' },
+  { href: '/medium', label: 'header.medium', icon: 'book-open' },
   { href: '/faq', label: 'header.faq', icon: 'help-circle' },
   { href: '/intro', label: 'header.about', icon: 'info' },
   { href: '/contributors', label: 'header.contributors', icon: 'users' },

@@ -36,6 +36,7 @@
     "topics": "トピック",
     "meetups": "ミートアップ",
     "blogs": "ブログ",
+    "medium": "Medium 記事",
     "transcriptions": "書き起こし管理",
     "faq": "よくある質問",
     "contributors": "貢献者"
@@ -216,6 +217,30 @@
     "allLanguages": "すべての言語",
     "currentLanguage": "現在の言語",
     "sourceDescription": "記事の出典：g0v.socialプラットフォームのvTaiwanタグ下の投稿、要約のみ表示。"
+  },
+  "medium": {
+    "title": "Medium 記事",
+    "sourceDescription": "記事の出典：",
+    "configTitle": "Medium ユーザーを設定",
+    "usernameLabel": "Medium ユーザー名または URL",
+    "usernamePlaceholder": "例：vtaiwan または https://medium.com/@vtaiwan",
+    "usernameHint": "ユーザー名を直接入力するか、完全な Medium URL を貼り付けることができます",
+    "usernameRequired": "Medium ユーザー名を入力してください",
+    "invalidUsername": "入力からユーザー名を抽出できません。形式が正しいか確認してください",
+    "loadArticles": "記事を読み込む",
+    "loading": "読み込み中...",
+    "retry": "再試行",
+    "readMore": "続きを読む",
+    "noArticles": "記事がありません",
+    "noArticlesFound": "記事が見つかりません。ユーザー名が正しいか確認してください",
+    "fetchError": "記事の取得中にエラーが発生しました。しばらくしてから再度お試しください。",
+    "corsError": "Medium RSS feed に接続できません。CORS 制限の可能性があります。詳細についてはブラウザのコンソールを確認してください。",
+    "userNotFound": "このユーザー名の Medium RSS feed が見つかりません。ユーザー名が正しいか確認してください。",
+    "configHint": "上記に Medium ユーザー名を入力し、「記事を読み込む」ボタンをクリックしてください",
+    "howToFind": "Medium ユーザー名の見つけ方",
+    "step1": "Medium プロフィールページに移動（例：https://medium.com/@ユーザー名）",
+    "step2": "または、公開済み記事の URL を確認してください。通常は https://medium.com/@ユーザー名/記事タイトル の形式です",
+    "step3": "ユーザー名は @ 記号の後の部分です（@ 記号は含めないでください）"
   },
   "transcript": {
     "title": "ライブ書き起こし",
