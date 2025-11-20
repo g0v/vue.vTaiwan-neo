@@ -6,13 +6,25 @@
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
-        <div class="hidden lg:flex items-center space-x-1 md:space-x-2 lg:space-x-6 xl:space-x-10">
+        <div class="hidden lg:flex items-center space-x-1 xl:space-x-10"
+        :class="{
+          'md:space-x-6': !isJapanese,
+          'md:space-x-4': isJapanese,
+          'space-x-6': !isJapanese,
+          'space-x-4': isJapanese
+        }"
+        >
           <router-link
             v-for="item in navItems"
             :key="item.href"
             :to="item.href"
             class="hover:text-democratic-red transition flex items-center gap-1"
-            :class="{ 'text-democratic-red': $route.path === item.href }"
+            :class="{
+              'ml-0': isJapanese,
+              'text-democratic-red': $route.path === item.href,
+              'text-xs': isJapanese,
+              'text-md': !isJapanese
+            }"
           >
             <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
             <span>{{ $t(item.label) }}</span>
@@ -64,7 +76,11 @@
           :key="item.href"
           :to="item.href"
           class="flex items-center gap-2 py-2 hover:text-democratic-red transition"
-          :class="{ 'text-democratic-red': $route.path === item.href }"
+          :class="{
+            'text-democratic-red': $route.path === item.href,
+            'text-xs': isJapanese,
+            'text-sm': !isJapanese
+          }"
           @click="mobileMenuOpen = false"
         >
           <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
@@ -81,15 +97,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import IconWrapper from './IconWrapper.vue'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 const mobileMenuOpen = ref(false)
+
+// 判斷是否為日語環境
+const isJapanese = computed(() => locale.value === 'ja')
 
 const navItems = [
   { href: '/topics', label: 'header.topics', icon: 'message-circle' },
