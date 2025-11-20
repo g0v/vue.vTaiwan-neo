@@ -1,283 +1,470 @@
 <template>
   <div class="container mx-auto px-2 py-8">
     <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold md:w-1/2">{{ $t('header.blogs') }}</h1>
-       <!-- 加上文章來源：g0v.social中，vTaiwan標籤下的貼文-->
-       <p class="text-sm text-gray-500">
-         {{ $t('blog.sourceDescription') }}
-         <a
-           href="https://g0v.social/tags/vTaiwan"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="text-blue-600 hover:text-blue-800 text-sm"
-         >g0v.social/tags/vTaiwan</a>
-       </p>
-    </div>
-
-    <!-- 語言切換 Tabs -->
-    <div class="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
-      <button
-        @click="render_setting = 'all'"
-        :class="[
-          'px-4 py-2 rounded-md text-sm font-medium transition-colors',
-          render_setting === 'all'
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
-        ]"
-      >
-        {{ $t('blog.allLanguages') }}
-      </button>
-      <button
-        @click="render_setting = 'current'"
-        :class="[
-          'px-4 py-2 rounded-md text-sm font-medium transition-colors',
-          render_setting === 'current'
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
-        ]"
-      >
-        {{ $t('blog.currentLanguage') }}
-      </button>
+      <h1 class="text-3xl font-bold md:w-1/2">{{ $t('medium.title') }}</h1>
+      <p class="text-sm text-gray-500">
+        {{ $t('medium.sourceDescription') }}
+        <a
+          :href="`https://medium.com/@${mediumUsername}`"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-600 hover:text-blue-800 text-sm"
+        >Medium/@{{ mediumUsername }}</a>
+      </p>
     </div>
 
     <div v-if="loading" class="text-center py-8">
-      <p class="text-gray-600">{{ $t('blog.loading') }}</p>
+      <p class="text-gray-600">{{ $t('medium.loading') }}</p>
     </div>
 
     <div v-else-if="error" class="text-center py-8">
-      <p class="text-red-600">{{ error }}</p>
+      <p class="text-red-600 mb-4">{{ error }}</p>
+      <button
+        @click="loadArticles"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+      >
+        {{ $t('medium.retry') }}
+      </button>
     </div>
 
-    <div v-else class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div v-else-if="articles.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       <article
-        v-for="post in filteredPosts"
-        :key="post.id"
+        v-for="article in articles"
+        :key="article.id || article.guid"
         class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6"
       >
-        <!-- 貼文標頭 -->
+        <!-- 文章標題 -->
+        <h2 class="text-xl font-bold mb-3">
+          <a
+            :href="article.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-900 hover:text-blue-600 transition-colors"
+          >
+            {{ article.title }}
+          </a>
+        </h2>
+
+        <!-- 作者和日期 -->
         <div class="flex items-center space-x-3 mb-4">
-          <img
-            v-if="post.account.avatar"
-            :src="post.account.avatar"
-            :alt="post.account.display_name"
-            class="w-12 h-12 rounded-full"
-          />
-          <div class="flex-1">
-            <div class="flex items-center space-x-2">
-              <span class="font-semibold text-gray-900">
-                <a
-                :href="post.account.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-600 hover:text-blue-800 text-sm"
-              >{{ post.account.display_name }}</a>
-              </span>
-            </div>
-            <div class="text-sm text-gray-500">
-              <a
-                :href="post.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-blue-600 hover:text-blue-800 text-sm"
-              >{{ formatDate(post.created_at) }}</a>
-            </div>
+          <div v-if="article.author" class="flex items-center space-x-2">
+            <span class="text-sm text-gray-600">{{ article.author }}</span>
+          </div>
+          <div v-if="article.pubDate" class="text-sm text-gray-500">
+            {{ formatDate(article.pubDate) }}
           </div>
         </div>
 
-        <!-- 貼文摘要 -->
+        <!-- 文章摘要 -->
         <div class="mb-4">
-          <div class="prose prose-sm max-w-none" v-html="getSummary(post.content)"></div>
-        </div>
-
-        <!-- 互動統計 -->
-        <div class="flex items-center space-x-6 text-sm text-gray-500">
-          <div class="flex items-center space-x-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-            </svg>
-            <span>{{ post.replies_count }}</span>
-          </div>
-          <div class="flex items-center space-x-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-            </svg>
-            <span>{{ post.reblogs_count }}</span>
-          </div>
-          <div class="flex items-center space-x-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-            </svg>
-            <span>{{ post.favourites_count }}</span>
-          </div>
+          <div class="prose prose-sm max-w-none text-gray-700" v-html="getSummary(article.content || article.description)"></div>
         </div>
 
         <!-- 標籤 -->
-        <div v-if="post.tags && post.tags.length > 0" class="flex flex-wrap gap-2 mt-4">
+        <div v-if="article.categories && article.categories.length > 0" class="flex flex-wrap gap-2 mb-4">
           <span
-            v-for="tag in post.tags"
-            :key="tag.name"
+            v-for="category in article.categories"
+            :key="category"
             class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
           >
-            #{{ tag.name }}
+            #{{ category }}
           </span>
         </div>
 
         <!-- 外部連結 -->
         <div class="mt-4">
           <a
-            :href="post.url"
+            :href="article.link"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-blue-600 hover:text-blue-800 text-sm"
+            class="text-blue-600 hover:text-blue-800 text-sm font-medium"
           >
-            {{ $t('blog.viewOriginal') }}
+            {{ $t('medium.readMore') }} →
           </a>
         </div>
       </article>
     </div>
 
-    <!-- 無貼文時顯示 -->
-    <div v-if="!loading && !error && filteredPosts.length === 0" class="text-center py-8">
-      <p class="text-gray-600">{{ $t('blog.noPosts') }}</p>
+    <!-- 無文章時顯示 -->
+    <div v-if="!loading && !error && articles.length === 0" class="text-center py-8">
+      <p class="text-gray-600">{{ $t('medium.noArticles') }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 
-const { locale } = useI18n()
-const { t } = useI18n()
+const { locale, t } = useI18n()
 
 useHead({
-  title: t('header.blogs') + ' | vTaiwan'
+  title: t('medium.title') + ' | vTaiwan'
 })
 
-const posts = ref([])
-const loading = ref(true)
+const articles = ref([])
+const loading = ref(false)
 const error = ref(null)
-const render_setting = ref('all') // 預設為"所有語言"模式
-
-// 根據語言過濾貼文
-const filteredPosts = computed(() => {
-  // 如果是"所有語言"模式，直接返回所有貼文
-  if (render_setting.value === 'all') {
-    console.log(`🔍 所有語言模式: 顯示全部 ${posts.value.length} 篇貼文`)
-    return posts.value
-  }
-
-  // 如果是"當前語言"模式，按照原本的邏輯過濾
-  const currentLang = locale.value
-  const filtered = posts.value.filter(post => {
-    // 如果貼文沒有language欄位，全部語言都顯示
-    if (!post.language) {
-      console.log(`✅ 貼文 ${post.id} 無語言設定，顯示在所有語言下`)
-      return true
-    }
-
-    // 如果language是zh-TW 或 zh，只在中文時顯示
-    if ((post.language === 'zh-TW' || post.language === 'zh') && currentLang === 'zh-TW') {
-      console.log(`✅ 貼文 ${post.id} 中文貼文，在中文語言下顯示`)
-      return true
-    }
-
-    // 如果language是en，只在英文時顯示
-    if (post.language === 'en' && currentLang === 'en') {
-      console.log(`✅ 貼文 ${post.id} 英文貼文，在英文語言下顯示`)
-      return true
-    }
-
-    // 如果language是ja，只在日文時顯示
-    if (post.language === 'ja' && currentLang === 'ja') {
-      console.log(`✅ 貼文 ${post.id} 日文貼文，在日文語言下顯示`)
-      return true
-    }
-
-    console.log(`❌ 貼文 ${post.id} 語言 ${post.language} 不匹配當前語言 ${currentLang}，不顯示`)
-    return false
-  })
-
-  console.log(`🔍 當前語言模式: 原始 ${posts.value.length} 篇，過濾後 ${filtered.length} 篇`)
-  return filtered
-})
+const mediumUsername = ref('vtaiwan.tw') // 預設顯示 vtaiwan.tw 的文章
 
 // 格式化日期
 const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString(locale.value, {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+  try {
+    const date = new Date(dateString)
+    return date.toLocaleDateString(locale.value, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  } catch (e) {
+    return dateString
+  }
 }
 
-// 取得貼文摘要
+// 取得文章摘要
 const getSummary = (content) => {
   if (!content) return ''
 
   // 移除 HTML 標籤
   const textContent = content.replace(/<[^>]*>/g, '')
 
-  // 如果超過50字，截取80字加省略號
-  if (textContent.length > 80) {
-    return textContent.substring(0, 80) + '...'
+  // 如果超過150字，截取150字加省略號
+  if (textContent.length > 150) {
+    return textContent.substring(0, 150) + '...'
   }
 
-  // 如果不超過50字，截取一半弱的字數加省略號
-  const halfLength = Math.floor(textContent.length * 0.4) // 取40%作為"一半弱"
-  return textContent.substring(0, halfLength) + '...'
+  return textContent
 }
 
-// 取得 Mastodon 貼文
-const fetchPosts = async () => {
+// 解析 RSS XML
+const parseRSS = (xmlText) => {
   try {
-    loading.value = true
-    error.value = null
+    const parser = new DOMParser()
+    const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
 
-    console.log('🔍 開始獲取 vTaiwan 標籤下的貼文...')
-    const response = await fetch('https://g0v.social/api/v1/timelines/tag/vTaiwan?limit=20')
+    // 檢查是否有解析錯誤
+    const parserError = xmlDoc.querySelector('parsererror')
+    if (parserError) {
+      const errorText = parserError.textContent || '未知錯誤'
+      console.error('XML 解析錯誤:', errorText)
+      throw new Error(`RSS 解析失敗: ${errorText}`)
+    }
+
+    // 嘗試獲取 RSS 2.0 格式的 items
+    let items = xmlDoc.querySelectorAll('item')
+    
+    // 如果沒有找到 items，嘗試 Atom 格式
+    if (items.length === 0) {
+      items = xmlDoc.querySelectorAll('entry')
+    }
+
+    if (items.length === 0) {
+      console.warn('RSS feed 中沒有找到文章項目')
+      return []
+    }
+
+    const parsedArticles = []
+
+    items.forEach((item, index) => {
+      try {
+        // RSS 2.0 格式
+        let title = item.querySelector('title')?.textContent || ''
+        let link = item.querySelector('link')?.textContent || ''
+        let description = item.querySelector('description')?.textContent || ''
+        let content = item.querySelector('content\\:encoded')?.textContent || 
+                     item.querySelector('content')?.textContent || 
+                     description
+        let pubDate = item.querySelector('pubDate')?.textContent || 
+                     item.querySelector('published')?.textContent || 
+                     item.querySelector('updated')?.textContent || ''
+        let author = item.querySelector('dc\\:creator')?.textContent || 
+                    item.querySelector('author')?.textContent || 
+                    item.querySelector('name')?.textContent || ''
+        let guid = item.querySelector('guid')?.textContent || link
+
+        // Atom 格式處理
+        if (!title && item.querySelector('title')) {
+          title = item.querySelector('title').textContent || ''
+        }
+        if (!link && item.querySelector('link')) {
+          const linkElement = item.querySelector('link')
+          link = linkElement.getAttribute('href') || linkElement.textContent || ''
+        }
+
+        // 清理 HTML 標籤
+        title = title.replace(/<[^>]*>/g, '').trim()
+        description = description.replace(/<[^>]*>/g, '').trim()
+
+        // 提取標籤
+        const categories = []
+        item.querySelectorAll('category').forEach((cat) => {
+          const categoryText = cat.textContent || cat.getAttribute('term') || ''
+          if (categoryText) {
+            categories.push(categoryText)
+          }
+        })
+
+        // 提取 Atom 格式的標籤
+        item.querySelectorAll('category').forEach((cat) => {
+          const term = cat.getAttribute('term')
+          if (term) {
+            categories.push(term)
+          }
+        })
+
+        if (title && link) {
+          parsedArticles.push({
+            id: guid || `article-${index}`,
+            guid: guid || link,
+            title: title,
+            link: link,
+            description: description,
+            content: content,
+            pubDate: pubDate,
+            author: author,
+            categories: categories
+          })
+        }
+      } catch (itemError) {
+        console.warn('解析文章項目時出錯:', itemError)
+      }
+    })
+
+    console.log(`解析完成，共 ${parsedArticles.length} 篇文章`)
+    return parsedArticles
+  } catch (err) {
+    console.error('RSS 解析錯誤:', err)
+    throw err
+  }
+}
+
+// 使用 Medium JSON API 獲取文章
+const fetchMediumJSON = async (username) => {
+  try {
+    // Medium 的非官方 JSON API
+    const url = `https://medium.com/@${username}?format=json`
+    const response = await fetch(url)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const data = await response.json()
-    posts.value = data
-    // console.log('📥 獲取到的原始貼文數據:', data)
-    // console.log('📊 貼文總數:', data.length)
+    const text = await response.text()
+    // Medium 的 JSON 回應通常以 "])}while(1);</x>" 開頭，需要移除
+    const jsonText = text.replace(/^[\s\S]*?\{/, '{').replace(/\}\s*$/, '}')
+    
+    try {
+      const data = JSON.parse(jsonText)
+      
+      // 解析 Medium 的 JSON 結構
+      // Medium 的 JSON 結構比較複雜，需要根據實際回應調整
+      if (data.payload && data.payload.references) {
+        const posts = []
+        const postRefs = data.payload.references.Post || {}
+        
+        Object.values(postRefs).forEach((post) => {
+          posts.push({
+            id: post.id,
+            title: post.title,
+            link: `https://medium.com/@${username}/${post.uniqueSlug}`,
+            description: post.virtuals?.subtitle || '',
+            content: post.content?.bodyModel?.paragraphs?.map(p => p.text).join(' ') || '',
+            pubDate: new Date(post.firstPublishedAt || post.createdAt).toISOString(),
+            author: post.authorId ? (data.payload.references.User?.[post.authorId]?.name || username) : username,
+            categories: post.virtuals?.tags?.map(tag => tag.name) || []
+          })
+        })
 
-    // 詳細記錄每篇貼文的信息
-    data.forEach((post, index) => {
-      /* console.log(`📝 貼文 ${index + 1}:`, {
-        id: post.id,
-        url: post.url,
-        language: post.language,
-        display_name: post.account?.display_name,
-        created_at: post.created_at,
-        content_length: post.content?.length || 0
-      }) */
-    })
+        // 按發布日期排序（最新的在前）
+        posts.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate))
+        return posts
+      }
+    } catch (jsonError) {
+      console.warn('JSON 解析失敗，嘗試使用 RSS feed:', jsonError)
+      return null
+    }
+
+    return []
+  } catch (err) {
+    console.error('Medium JSON API 錯誤:', err)
+    throw err
+  }
+}
+
+// 使用 RSS feed 獲取文章（使用 CORS 代理）
+const fetchRSS = async (username) => {
+  // Medium RSS feed URL
+  const rssUrl = `https://medium.com/feed/@${username}`
+  
+  // 使用多個 CORS 代理服務作為備選方案
+  const proxyServices = [
+    {
+      name: 'allorigins.win',
+      url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        const data = await response.json()
+        return data.contents || data
+      }
+    },
+    {
+      name: 'corsproxy.io',
+      url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        return await response.text()
+      }
+    },
+    {
+      name: 'api.codetabs.com',
+      url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
+      parser: async (response) => {
+        return await response.text()
+      }
+    }
+  ]
+  
+  let lastError = null
+  
+  // 嘗試每個代理服務
+  for (const proxy of proxyServices) {
+    try {
+      console.log(`🔍 嘗試使用 ${proxy.name} 獲取 Medium RSS feed:`, rssUrl)
+      
+      const response = await fetch(proxy.url, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/rss+xml, application/xml, text/xml, application/json, */*',
+        },
+        mode: 'cors'
+      })
+
+      if (!response.ok) {
+        console.warn(`⚠️ ${proxy.name} 回應狀態: ${response.status} ${response.statusText}`)
+        lastError = new Error(`HTTP error! status: ${response.status}`)
+        continue
+      }
+
+      let xmlText = await proxy.parser(response)
+      
+      // 如果是 JSON 格式（allorigins.win），提取 contents
+      if (typeof xmlText === 'object' && xmlText.contents) {
+        xmlText = xmlText.contents
+      }
+      
+      // 確保是字符串
+      if (typeof xmlText !== 'string') {
+        xmlText = String(xmlText)
+      }
+      
+      // 檢查是否獲取到有效的 XML
+      if (!xmlText || xmlText.trim().length === 0) {
+        console.warn(`⚠️ ${proxy.name} 回應為空`)
+        lastError = new Error('RSS feed 回應為空')
+        continue
+      }
+
+      // 檢查是否包含 RSS 標記
+      if (!xmlText.includes('<rss') && !xmlText.includes('<feed') && !xmlText.includes('<?xml')) {
+        console.warn(`⚠️ ${proxy.name} 格式不正確，回應內容:`, xmlText.substring(0, 200))
+        lastError = new Error('RSS feed 格式不正確')
+        continue
+      }
+
+      console.log(`✅ ${proxy.name} RSS feed 獲取成功，開始解析...`)
+      const parsedArticles = parseRSS(xmlText)
+      
+      if (parsedArticles && parsedArticles.length > 0) {
+        console.log(`✅ 成功使用 ${proxy.name} 解析 ${parsedArticles.length} 篇文章`)
+        return parsedArticles
+      } else {
+        console.warn(`⚠️ ${proxy.name} RSS feed 解析後沒有文章`)
+        lastError = new Error('RSS feed 解析後沒有文章')
+      }
+    } catch (err) {
+      console.warn(`❌ ${proxy.name} 獲取失敗:`, err.message)
+      lastError = err
+      continue
+    }
+  }
+  
+  // 所有代理都失敗
+  throw lastError || new Error('所有 CORS 代理服務都無法連接')
+}
+
+// 從 URL 中提取 Medium 用戶名
+const extractUsernameFromUrl = (input) => {
+  if (!input) return null
+  
+  // 移除前後空格
+  const trimmed = input.trim()
+  
+  // 如果已經是純用戶名（不包含 URL），直接返回
+  if (!trimmed.includes('medium.com') && !trimmed.includes('http')) {
+    return trimmed.replace('@', '')
+  }
+  
+  // 從 URL 中提取用戶名
+  // 匹配格式：https://medium.com/@username 或 medium.com/@username
+  const match = trimmed.match(/medium\.com\/@([^\/\s?]+)/)
+  if (match && match[1]) {
+    return match[1]
+  }
+  
+  // 匹配格式：@username
+  const atMatch = trimmed.match(/@([^\s\/]+)/)
+  if (atMatch && atMatch[1]) {
+    return atMatch[1]
+  }
+  
+  return trimmed.replace('@', '')
+}
+
+// 載入文章
+const loadArticles = async () => {
+  try {
+    loading.value = true
+    error.value = null
+    articles.value = []
+
+    const username = mediumUsername.value
+
+    console.log('🔍 開始獲取 Medium 文章，用戶名:', username)
+
+    // 只使用 RSS feed（最可靠的方式）
+    try {
+      const rssArticles = await fetchRSS(username)
+      if (rssArticles && rssArticles.length > 0) {
+        articles.value = rssArticles
+        console.log('✅ 成功從 RSS feed 獲取', rssArticles.length, '篇文章')
+        return
+      } else {
+        error.value = t('medium.noArticlesFound')
+        console.warn('RSS feed 返回空結果')
+      }
+    } catch (rssError) {
+      console.error('RSS feed 獲取失敗:', rssError)
+      
+      // 提供更詳細的錯誤信息
+      if (rssError.message.includes('CORS') || rssError.message.includes('Failed to fetch')) {
+        error.value = t('medium.corsError') || '無法連接到 Medium RSS feed，可能是 CORS 限制。請檢查瀏覽器控制台獲取詳細信息。'
+      } else if (rssError.message.includes('404') || rssError.message.includes('404')) {
+        error.value = t('medium.userNotFound') || `找不到用戶名 "${username}" 的 Medium RSS feed，請確認用戶名是否正確。`
+      } else {
+        error.value = `${t('medium.fetchError')}: ${rssError.message}`
+      }
+    }
 
   } catch (err) {
-    console.error('❌ 獲取貼文失敗:', err)
-    error.value = t('blog.fetchError')
+    console.error('❌ 獲取文章失敗:', err)
+    error.value = t('medium.fetchError')
   } finally {
     loading.value = false
   }
 }
 
-// 監聽語言變化
-watch(() => locale.value, () => {
-  console.log('Language changed to:', locale.value)
-  console.log('Filtered posts:', filteredPosts.value)
-})
-
 onMounted(() => {
-  fetchPosts()
+  // 自動載入預設的 Medium 用戶文章
+  loadArticles()
 })
 </script>
 
@@ -294,3 +481,4 @@ onMounted(() => {
   @apply mb-2;
 }
 </style>
+

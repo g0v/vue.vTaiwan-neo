@@ -36,6 +36,7 @@
     "topics": "Topics",
     "meetups": "Meetups",
     "blogs": "Blogs",
+    "mastodon": "Posts",
     "transcriptions": "Transcriptions",
     "faq": "FAQ",
     "contributors": "Contributors"
@@ -216,6 +217,30 @@
     "allLanguages": "All Languages",
     "currentLanguage": "Current Language",
     "sourceDescription": "Article source: Posts under the vTaiwan tag on g0v.social platform, showing summaries only."
+  },
+  "medium": {
+    "title": "Medium Articles",
+    "sourceDescription": "Article source: ",
+    "configTitle": "Configure Medium User",
+    "usernameLabel": "Medium Username or URL",
+    "usernamePlaceholder": "e.g., vtaiwan or https://medium.com/@vtaiwan",
+    "usernameHint": "You can enter the username directly, or paste the full Medium URL",
+    "usernameRequired": "Please enter a Medium username",
+    "invalidUsername": "Unable to extract username from input, please verify the format is correct",
+    "loadArticles": "Load Articles",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "readMore": "Read More",
+    "noArticles": "No articles available",
+    "noArticlesFound": "No articles found. Please verify the username is correct",
+    "fetchError": "An error occurred while fetching articles, please try again later",
+    "corsError": "Unable to connect to Medium RSS feed, possibly due to CORS restrictions. Please check the browser console for details.",
+    "userNotFound": "Medium RSS feed not found for this username, please verify the username is correct.",
+    "configHint": "Please enter a Medium username above and click the \"Load Articles\" button",
+    "howToFind": "How to find your Medium username?",
+    "step1": "Go to your Medium profile page (e.g., https://medium.com/@your-username)",
+    "step2": "Or check the URL of your published articles, usually in the format https://medium.com/@username/article-title",
+    "step3": "The username is the part after the @ symbol (don't include the @ symbol)"
   },
   "transcript": {
     "title": "Live Transcript",

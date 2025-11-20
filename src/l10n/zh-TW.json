@@ -30,6 +30,7 @@
     "topics": "議題",
     "meetups": "會議",
     "blogs": "部落格",
+    "mastodon": "社群貼文",
     "transcriptions": "逐字稿管理",
     "faq": "常見問題",
     "contributors": "貢獻者"
@@ -210,6 +211,30 @@
     "allLanguages": "所有語言",
     "currentLanguage": "當前語言",
     "sourceDescription": "文章來源：g0v.social平台中，vTaiwan標籤下的貼文，僅顯示摘要。"
+  },
+  "medium": {
+    "title": "Medium 文章",
+    "sourceDescription": "文章來源：",
+    "configTitle": "配置 Medium 用戶",
+    "usernameLabel": "Medium 用戶名或 URL",
+    "usernamePlaceholder": "例如：vtaiwan 或 https://medium.com/@vtaiwan",
+    "usernameHint": "可以直接輸入用戶名，或貼上完整的 Medium URL",
+    "usernameRequired": "請輸入 Medium 用戶名",
+    "invalidUsername": "無法從輸入中提取用戶名，請確認格式正確",
+    "loadArticles": "載入文章",
+    "loading": "載入中...",
+    "retry": "重試",
+    "readMore": "閱讀全文",
+    "noArticles": "目前沒有文章",
+    "noArticlesFound": "找不到文章，請確認用戶名是否正確",
+    "fetchError": "取得文章時發生錯誤，請稍後再試",
+    "corsError": "無法連接到 Medium RSS feed，可能是 CORS 限制。請檢查瀏覽器控制台獲取詳細信息。",
+    "userNotFound": "找不到該用戶名的 Medium RSS feed，請確認用戶名是否正確。",
+    "configHint": "請在上方輸入 Medium 用戶名並點擊「載入文章」按鈕",
+    "howToFind": "如何找到您的 Medium 用戶名？",
+    "step1": "前往您的 Medium 個人資料頁面（例如：https://medium.com/@您的用戶名）",
+    "step2": "或者查看您已發布文章的 URL，通常格式為 https://medium.com/@用戶名/文章標題",
+    "step3": "用戶名就是 @ 符號後面的部分（不需要包含 @ 符號）"
   },
   "topicDetail": {
     "discussion": "討論區",
