@@ -82,7 +82,7 @@
               <h3 class="font-semibold text-gray-900 mb-2">{{ $t('contact.otherMethods.email.title') }}</h3>
               <p class="text-gray-600 text-sm mb-3">{{ $t('contact.otherMethods.email.description') }}</p>
               <a
-                href="mailto:contact@vtaiwan.tw"
+                href="mailto:info@vtaiwan.tw"
                 class="text-democratic-red hover:text-red-700 text-sm font-medium"
               >
                 {{ $t('contact.otherMethods.email.link') }}
