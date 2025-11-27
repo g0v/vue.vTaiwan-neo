@@ -4,7 +4,7 @@
 
 本專案的後端也是開源的，分為兩個專案：
 
-1. Jisti視訊服務的JWT生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
+1. Jitsi 視訊服務的JWT生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
 2. 音訊轉錄、逐字稿管理與AI大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
 
 
