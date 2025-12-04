@@ -4,8 +4,8 @@
 
 本專案的後端也是開源的，分為兩個專案：
 
-1. Jitsi 視訊服務的JWT生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
-2. 音訊轉錄、逐字稿管理與AI大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
+1. Jitsi 視訊服務的 JWT 生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
+2. 音訊轉錄、逐字稿管理與 AI 大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
 
 
 ## 功能特色
@@ -22,7 +22,7 @@
 - ❓ FAQ 頁面
 - 👥 貢獻者頁面
 - ℹ️ 關於我們頁面
-- 🎥 即時視訊頁面，(支援即時逐字稿共同校對功能，開發中，目前只限英文可以運作)
+- 🎥 即時視訊頁面 (支援即時逐字稿共同校對功能，開發中，目前只限英文可以運作)
 
 ## 技術棧
 
@@ -61,7 +61,7 @@ npm run build
 ```
 
 
-5. 預覽生產版本Preview：
+5. 預覽生產版本 Preview：
 ```bash
 npm run preview
 ```
