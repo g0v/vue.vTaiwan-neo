@@ -110,16 +110,16 @@
     <!-- 音訊設定模態框 -->
     <div
       v-if="showAudioSettings"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 audio-settings-modal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4 audio-settings-modal"
       @click="hideAudioSettings"
     >
       <div
         class="bg-white rounded-lg shadow-xl w-[95vw] max-w-md max-h-[90vh] overflow-y-auto mx-2"
         @click.stop
       >
-        <div class="p-4 sm:p-3">
+        <div class="p-4 sm:p-1">
           <div class="flex items-center justify-between mb-4 sm:mb-1">
-            <h3 class="text-lg sm:text-xl font-bold text-gray-800">{{ $t('transcript.audioSettings') }}</h3>
+            <h3 class="text-lg sm:text-lg font-bold text-gray-800">{{ $t('transcript.audioSettings') }}</h3>
             <button
               @click="hideAudioSettings"
               class="text-gray-400 hover:text-gray-600 transition-colors p-1"
@@ -147,7 +147,7 @@
               >
                 <!-- 設備選擇區域 -->
                 <div
-                  class="flex items-center p-4 sm:p-3 cursor-pointer"
+                  class="flex items-center p-4 sm:p-1 cursor-pointer"
                   @click="selectAudioDevice(device.deviceId)"
                 >
                   <div class="flex-shrink-0 mr-3">
@@ -162,7 +162,7 @@
                     </div>
                   </div>
                   <div class="flex-1">
-                    <div class="font-medium text-gray-800">{{ device.label || $t('transcript.unknownDevice') }}</div>
+                    <div class="text-sm font-medium text-gray-800">{{ device.label || $t('transcript.unknownDevice') }}</div>
                     <div class="text-xs text-gray-500">{{ device.deviceId.length > 10 ? device.deviceId.slice(0, 10) + '...' : device.deviceId }}</div>
                   </div>
                 </div>
@@ -192,6 +192,14 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- 轉錄語言選擇 -->
+          <div class="mb-6">
+            <label class="block text-sm font-medium text-gray-700 mb-3">
+              {{ $t('transcript.selectTranscriptionLanguage') || '轉錄語言' }}
+            </label>
+            <TranscriptLanguageSwitcher v-model="transcriptionLanguage" />
           </div>
 
           <!-- 測試按鈕 -->
@@ -229,14 +237,24 @@
     <!-- 浮動按鈕組 -->
     <div class="fixed bottom-16 right-6 z-50 flex flex-col space-y-3">
       <!-- 手機版音訊設定按鈕（獨立按鈕） -->
-      <button
-        v-if="isMobile && userData && userData.uid"
-        @click="toggleAudioSettings"
-        class="p-4 rounded-full shadow-lg transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 border border-gray-300 flex items-center justify-center hover:scale-105"
-        :title="$t('transcript.audioSettings')"
-      >
-        <IconWrapper name="settings" :size="24" />
-      </button>
+      <div class="relative">
+        <button
+          v-if="isMobile && userData && userData.uid"
+          @click="toggleAudioSettings"
+          class="p-4 rounded-full shadow-lg transition-all duration-300 bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 border border-gray-300 flex items-center justify-center hover:scale-105"
+          :title="$t('transcript.audioSettings')"
+        >
+          <IconWrapper name="settings" :size="24" />
+          <!-- 轉錄語言國旗（手機版：音訊設定按鈕右下角） -->
+          <div
+            v-if="isMobile"
+            class="absolute top-10 -right-1 bg-white rounded-full w-5 h-5 flex items-center justify-center text-sm shadow-sm z-15"
+            :title="`轉錄語言: ${transcriptionLanguage}`"
+          >
+            {{ transcriptionLanguageFlag }}
+          </div>
+        </button>
+      </div>
 
       <!-- 音訊轉錄按鈕 -->
       <div class="relative">
@@ -291,7 +309,16 @@
           :title="$t('transcript.audioSettings')"
         >
           <IconWrapper name="chevron-up" :size="14" />
+          <!-- 轉錄語言國旗（桌面版：音訊設定按鈕右下角） -->
+          <div
+            v-if="!isMobile"
+            class="absolute top-4 -right-1 bg-white rounded-full w-5 h-5 flex items-center justify-center text-sm shadow-sm z-15"
+            :title="`轉錄語言: ${transcriptionLanguage}`"
+          >
+            {{ transcriptionLanguageFlag }}
+          </div>
         </button>
+
       </div>
 
       <!-- 逐字稿切換按鈕 -->
@@ -340,15 +367,18 @@
 <script>
 import TranscriptPanel from '../components/TranscriptPanel.vue';
 import IconWrapper from '../components/IconWrapper.vue';
+import TranscriptLanguageSwitcher from '../components/TranscriptLanguageSwitcher.vue';
 import { useI18n } from 'vue-i18n';
 import { get, onValue, ref as dbRef, set } from 'firebase/database';
 import { database } from '../lib/firebase';
+import { getCurrentLocale, supportedLocales } from '../i18n';
 
 export default {
   name: 'JitsiView',
   components: {
     TranscriptPanel,
-    IconWrapper
+    IconWrapper,
+    TranscriptLanguageSwitcher
   },
   props: {
     userData: { type: Object, required: false, default: () => ({}) }
@@ -426,6 +456,9 @@ export default {
       recordingTimerInterval: null,  // 錄音計時器間隔
       recordingTimer: 0,             // 錄音計時器（用於觸發 computed 更新）
 
+      // 轉錄語言設定
+      transcriptionLanguage: 'zh-TW', // 轉錄語言，預設為網站語言
+
       // Jitsi 提示橫幅
       showJitsiTipBanner: (typeof window !== 'undefined' && window.localStorage)
         ? localStorage.getItem('vtaiwan_jitsi_tip_dismissed') !== '1'
@@ -436,6 +469,10 @@ export default {
     fullRoomName() { return `${this.appId}/${this.room}`; },
     isMobile() {
       return window.innerWidth < 768; // md breakpoint
+    },
+    transcriptionLanguageFlag() {
+      const found = supportedLocales.find(l => l.code === this.transcriptionLanguage);
+      return found ? found.flag : '🌐';
     },
     recordingDuration() {
       if (!this.meetingData.recordingStartTime) return 0;
@@ -477,6 +514,18 @@ export default {
     this.joinMeetingName = (this.userData || {}).name || 'Guest';
 
     window.addEventListener('resize', this.handleResize);
+
+    // 初始化轉錄語言：從 localStorage 載入或使用當前網站語言
+    this.loadTranscriptionLanguage();
+
+    // Watch 網站語言變化，自動更新轉錄語言（如果使用者沒有手動設定）
+    this.$watch(() => getCurrentLocale(), (newLocale) => {
+      const savedLanguage = localStorage.getItem('vtaiwan_transcription_language');
+      // 如果使用者沒有手動設定過，則跟隨網站語言
+      if (!savedLanguage) {
+        this.transcriptionLanguage = newLocale;
+      }
+    });
 
     // 載入音訊設備和設定
     this.loadAudioDevices();
@@ -1205,8 +1254,13 @@ export default {
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.webm');
 
+        // 構建轉錄 API URL，包含語言參數
+        const transcriptionUrl = `${this.transcriptionApiUrl}${this.transcriptionLanguage}`;
+        console.log('🌐 轉錄語言:', this.transcriptionLanguage);
+        console.log('🔗 轉錄 API URL:', transcriptionUrl);
+
         // 發送到後端
-        const response = await fetch(this.transcriptionApiUrl, {
+        const response = await fetch(transcriptionUrl, {
           method: 'POST',
           body: formData
         });
@@ -1318,10 +1372,30 @@ export default {
     saveAudioSettings() {
       try {
         localStorage.setItem('vtaiwan_selected_audio_device', this.selectedAudioDeviceId);
+        localStorage.setItem('vtaiwan_transcription_language', this.transcriptionLanguage);
         console.log('✅ 音訊設定已儲存:', this.selectedAudioDeviceId);
+        console.log('✅ 轉錄語言已儲存:', this.transcriptionLanguage);
         this.hideAudioSettings();
       } catch (error) {
         console.error('❌ 儲存音訊設定失敗:', error);
+      }
+    },
+
+    loadTranscriptionLanguage() {
+      try {
+        const savedLanguage = localStorage.getItem('vtaiwan_transcription_language');
+        if (savedLanguage) {
+          this.transcriptionLanguage = savedLanguage;
+          console.log('✅ 載入已儲存的轉錄語言設定:', savedLanguage);
+        } else {
+          // 如果沒有儲存的設定，使用當前網站語言
+          this.transcriptionLanguage = getCurrentLocale();
+          console.log('✅ 使用當前網站語言作為轉錄語言:', this.transcriptionLanguage);
+        }
+      } catch (error) {
+        console.error('❌ 載入轉錄語言設定失敗:', error);
+        // 預設使用當前網站語言
+        this.transcriptionLanguage = getCurrentLocale();
       }
     },
 

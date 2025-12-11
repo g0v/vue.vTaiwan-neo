@@ -275,6 +275,7 @@
     "addManualTranscript": "新增手動逐字稿",
     "audioSettings": "音訊設定",
     "selectAudioSource": "選擇音訊來源",
+    "selectTranscriptionLanguage": "選擇轉錄語言",
     "loadingAudioDevices": "載入音訊設備中...",
     "unknownDevice": "未知設備",
     "testAudioDevice": "測試音訊設備",

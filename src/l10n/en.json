@@ -274,6 +274,7 @@
     "addManualTranscript": "Add Manual Transcript",
     "audioSettings": "Audio Settings",
     "selectAudioSource": "Select Audio Source",
+    "selectTranscriptionLanguage": "Select Transcription Language",
     "loadingAudioDevices": "Loading audio devices...",
     "unknownDevice": "Unknown Device",
     "testAudioDevice": "Test Audio Device",
