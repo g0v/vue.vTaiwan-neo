@@ -1,43 +1,51 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl font-bold mb-8">{{ $t('about.title') }}</h1>
+      <h1 class="text-3xl font-bold mb-8">{{ $t("about.title") }}</h1>
 
       <div class="prose max-w-none">
-        <h2 class="text-2xl font-bold mb-4">{{ $t('about.mission.title') }}</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ $t("about.mission.title") }}</h2>
         <p class="text-lg mb-6">
-          {{ $t('about.mission.description') }}
+          {{ $t("about.mission.description") }}
         </p>
 
-        <h2 class="text-2xl font-bold mb-4">{{ $t('about.values.title') }}</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ $t("about.values.title") }}</h2>
         <div class="grid md:grid-cols-3 gap-6 mb-8">
           <div class="text-center">
-            <div class="w-16 h-16 bg-democratic-red/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+              class="w-16 h-16 bg-democratic-red/10 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
               <IconWrapper name="globe" type="primary" :size="32" />
             </div>
-            <h3 class="text-xl font-bold mb-2">{{ $t('about.values.open.title') }}</h3>
-            <p class="text-gray-600">{{ $t('about.values.open.description') }}</p>
+            <h3 class="text-xl font-bold mb-2">{{ $t("about.values.open.title") }}</h3>
+            <p class="text-gray-600">{{ $t("about.values.open.description") }}</p>
           </div>
           <div class="text-center">
-            <div class="w-16 h-16 bg-jade-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+              class="w-16 h-16 bg-jade-green/10 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
               <IconWrapper name="users" type="teal" :size="32" />
             </div>
-            <h3 class="text-xl font-bold mb-2">{{ $t('about.values.collaborate.title') }}</h3>
-            <p class="text-gray-600">{{ $t('about.values.collaborate.description') }}</p>
+            <h3 class="text-xl font-bold mb-2">{{ $t("about.values.collaborate.title") }}</h3>
+            <p class="text-gray-600">{{ $t("about.values.collaborate.description") }}</p>
           </div>
           <div class="text-center">
-            <div class="w-16 h-16 bg-wheat-yellow/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div
+              class="w-16 h-16 bg-wheat-yellow/10 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
               <IconWrapper name="lightbulb" type="amber" :size="32" />
             </div>
-            <h3 class="text-xl font-bold mb-2">{{ $t('about.values.coCreate.title') }}</h3>
-            <p class="text-gray-600">{{ $t('about.values.coCreate.description') }}</p>
+            <h3 class="text-xl font-bold mb-2">{{ $t("about.values.coCreate.title") }}</h3>
+            <p class="text-gray-600">{{ $t("about.values.coCreate.description") }}</p>
           </div>
         </div>
 
-        <h2 class="text-2xl font-bold mb-4">{{ $t('about.contact.title') }}</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ $t("about.contact.title") }}</h2>
         <p class="mb-4">
-          {{ $t('about.contact.description') }}
-          <router-link to="/contact" class="text-democratic-red hover:underline">{{ $t('about.contact.contactUs') }}</router-link>
+          {{ $t("about.contact.description") }}
+          <router-link to="/contact" class="text-democratic-red hover:underline">{{
+            $t("about.contact.contactUs")
+          }}</router-link>
         </p>
         <ul class="space-y-2">
           <li class="flex items-center gap-2">
@@ -48,8 +56,28 @@
           </li>
           <li class="flex items-center gap-2">
             <IconWrapper name="facebook" :size="16" />
-            <a href="https://www.facebook.com/vtaiwan.tw/" target="_blank" class="text-democratic-red hover:underline">
-              {{ $t('about.contact.facebook') }}
+            <a
+              href="https://www.facebook.com/vtaiwan.tw/"
+              target="_blank"
+              class="text-democratic-red hover:underline"
+            >
+              {{ $t("about.contact.facebook") }}
+            </a>
+          </li>
+          <li class="flex items-center gap-2">
+            <a
+              href="https://g0v.hackmd.io/@tmonk/rJHYWR9S4/%2Ff9c4pS_TQjClh0g6wCJ8iw?type=book"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-300 hover:text-white transition flex items-center gap-1"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"
+                />
+                <path d="M8 12h8v2H8zm0 4h5v2H8z" />
+              </svg>
+              <span>HackMD</span>
             </a>
           </li>
         </ul>
@@ -59,35 +87,35 @@
 </template>
 
 <script setup lang="ts">
-import IconWrapper from '../components/IconWrapper.vue'
-import { useI18n } from 'vue-i18n'
-import { useHead } from '@unhead/vue'
-const { t } = useI18n()
+import IconWrapper from "../components/IconWrapper.vue";
+import { useI18n } from "vue-i18n";
+import { useHead } from "@unhead/vue";
+const { t } = useI18n();
 useHead({
-  title: t('about.title') + ' | vTaiwan',
+  title: t("about.title") + " | vTaiwan",
   meta: [
     {
-      property: 'og:title',
-      content: t('about.title') + ' | vTaiwan'
+      property: "og:title",
+      content: t("about.title") + " | vTaiwan",
     },
     {
-      property: 'og:description',
-      content: t('about.mission.description')
+      property: "og:description",
+      content: t("about.mission.description"),
     },
     {
-      property: 'og:url',
-      content: 'https://vtaiwan.tw/about'
+      property: "og:url",
+      content: "https://vtaiwan.tw/about",
     },
     {
-      property: 'twitter:title',
-      content: t('about.title') + ' | vTaiwan'
+      property: "twitter:title",
+      content: t("about.title") + " | vTaiwan",
     },
     {
-      property: 'twitter:description',
-      content: t('about.mission.description')
-    }
-  ]
-})
+      property: "twitter:description",
+      content: t("about.mission.description"),
+    },
+  ],
+});
 </script>
 
 <style>
