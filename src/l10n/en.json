@@ -462,7 +462,8 @@
       "研擬草案": "Drafting",
       "送交院會": "To Legislature",
       "歷史案件": "Archived"
-    }
+    },
+    "noRecent": "There are currently no recent topics."
   },
   "topicDetail": {
     "discussion": "Discussion",
