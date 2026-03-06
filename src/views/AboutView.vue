@@ -65,18 +65,18 @@
             </a>
           </li>
           <li class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 16px; height: 16px;">
+              <path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"
+              />
+              <path d="M8 12h8v2H8zm0 4h5v2H8z" />
+            </svg>
             <a
               href="https://g0v.hackmd.io/@tmonk/rJHYWR9S4/%2Ff9c4pS_TQjClh0g6wCJ8iw?type=book"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-gray-300 hover:text-white transition flex items-center gap-1"
+              class="text-democratic-red hover:underline"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
-                <path
-                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1v5h5v10H6V3h7z"
-                />
-                <path d="M8 12h8v2H8zm0 4h5v2H8z" />
-              </svg>
               <span>HackMD</span>
             </a>
           </li>
