@@ -239,7 +239,7 @@ const fetchPosts = async () => {
     error.value = null
 
     console.log('🔍 開始獲取 vTaiwan 標籤下的貼文...')
-    const response = await fetch('https://g0v.social/api/v1/timelines/tag/vTaiwan?limit=20')
+    const response = await fetch('https://g0v.social/api/v1/timelines/tag/vTaiwan?limit=20&local=true')
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
