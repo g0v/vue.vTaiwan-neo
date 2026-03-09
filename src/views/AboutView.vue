@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import IconWrapper from '../components/IconWrapper.vue'
+import IconWrapper from '@/components/IconWrapper.vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 
@@ -98,13 +98,3 @@ useHead({
   ],
 })
 </script>
-
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
