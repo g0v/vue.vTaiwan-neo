@@ -1,24 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import TopicsView from '../views/TopicsView.vue'
-import TopicDetailView from '../views/TopicDetailView.vue'
-import MeetupsView from '../views/MeetupsView.vue'
-import BlogsView from '../views/BlogsView.vue'
-import MastodonView from '../views/MastodonView.vue'
-
-
-import FAQView from '../views/FAQView.vue'
-import AboutView from '../views/AboutView.vue'
-import ContributorsView from '../views/ContributorsView.vue'
-import ContactView from '../views/ContactView.vue'
-import JitsiView from '../views/JitsiView.vue'
-import TranscriptionsView from '../views/TranscriptionsView.vue'
-import TranscriptionDetailView from '../views/TranscriptionDetailView.vue'
-import ProfileView from '../views/ProfileView.vue'
-import ProposeView from '../views/ProposeView.vue'
-import PrivacyView from '../views/PrivacyView.vue'
-import TermsView from '../views/TermsView.vue'
-import NotFoundView from '../views/NotFoundView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -26,44 +6,42 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: () => import('@/views/HomeView.vue')
     },
     {
       path: '/jitsi',
       name: 'jitsi',
-      component: JitsiView
+      component: () => import('@/views/JitsiView.vue')
     },
     {
       path: '/topics',
       name: 'topics',
-      component: TopicsView
+      component: () => import('@/views/TopicsView.vue')
     },
     {
       path: '/topic/:id',
       name: 'topic',
-      component: TopicDetailView
+      component: () => import('@/views/TopicDetailView.vue')
     },
     {
       path: '/meetups',
       name: 'meetups',
-      component: MeetupsView
+      component: () => import('@/views/MeetupsView.vue')
     },
     {
       path: '/blogs',
       name: 'blogs',
-      component: BlogsView
+      component: () => import('@/views/BlogsView.vue')
     },
     {
       path: '/mastodon',
       name: 'mastodon',
-      component: MastodonView
+      component: () => import('@/views/MastodonView.vue')
     },
-
-
     {
       path: '/faq',
       name: 'faq',
-      component: FAQView
+      component: () => import('@/views/FAQView.vue')
     },
     {
       path: '/how-to-use',
@@ -72,17 +50,17 @@ const router = createRouter({
     {
       path: '/intro',
       name: 'about',
-      component: AboutView
+      component: () => import('@/views/AboutView.vue')
     },
     {
       path: '/contributors',
       name: 'contributors',
-      component: ContributorsView
+      component: () => import('@/views/ContributorsView.vue')
     },
     {
       path: '/contact',
       name: 'contact',
-      component: ContactView
+      component: () => import('@/views/ContactView.vue')
     },
     {
       path: '/contactus',
@@ -91,42 +69,42 @@ const router = createRouter({
     {
       path: '/transcriptions',
       name: 'transcriptions',
-      component: TranscriptionsView
+      component: () => import('@/views/TranscriptionsView.vue')
     },
     {
       path: '/transcription_detail/:meeting_id',
       name: 'transcription-detail',
-      component: TranscriptionDetailView
+      component: () => import('@/views/TranscriptionDetailView.vue')
     },
     {
       path: '/profile',
       name: 'profile',
-      component: ProfileView
+      component: () => import('@/views/ProfileView.vue')
     },
     {
       path: '/propose',
       name: 'propose',
-      component: ProposeView
+      component: () => import('@/views/ProposeView.vue')
     },
     {
       path: '/privacy',
       name: 'privacy',
-      component: PrivacyView
+      component: () => import('@/views/PrivacyView.vue')
     },
     {
       path: '/terms',
       name: 'terms',
-      component: TermsView
+      component: () => import('@/views/TermsView.vue')
     },
     {
       path: '/404',
       name: 'notFound',
-      component: NotFoundView
+      component: () => import('@/views/NotFoundView.vue')
     },
     {
       path: '/:pathMatch(.*)*',
       name: 'catchAll',
-      component: NotFoundView
+      component: () => import('@/views/NotFoundView.vue')
     }
   ]
 })
