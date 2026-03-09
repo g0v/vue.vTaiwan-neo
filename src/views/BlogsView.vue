@@ -20,7 +20,7 @@
     </div>
 
     <div v-else-if="articles.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article v-for="article in articles" :key="article.id || article.guid" class="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
+      <article v-for="article in articles" :key="article.id" class="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
         <!-- 文章標題 -->
         <h2 class="mb-3 text-xl font-bold">
           <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-gray-900 transition-colors hover:text-blue-600">
@@ -40,7 +40,9 @@
 
         <!-- 文章摘要 -->
         <div class="mb-4">
-          <div class="prose prose-sm max-w-none text-gray-700" v-html="getSummary(article.content || article.description)"></div>
+          <div class="prose prose-sm max-w-none text-gray-700">
+            {{ article.summary }}
+          </div>
         </div>
 
         <!-- 標籤 -->
@@ -75,11 +77,9 @@ useHead({
 
 interface Article {
   id: string
-  guid: string
   title: string
   link: string
-  description: string
-  content: string
+  summary: string
   pubDate: string
   author: string
   categories: string[]
@@ -119,6 +119,15 @@ const getSummary = (content: string) => {
   return textContent
 }
 
+const getElementTextByTagName = (element: Element, tagNames: string[]) => {
+  for (const tagName of tagNames) {
+    const text = element.getElementsByTagName(tagName)[0]?.textContent
+    if (text) return text
+  }
+
+  return ''
+}
+
 // 解析 RSS XML
 const parseRSS = (xmlText: string) => {
   try {
@@ -151,56 +160,24 @@ const parseRSS = (xmlText: string) => {
     items.forEach((item, index) => {
       try {
         // RSS 2.0 格式
-        let title = item.querySelector('title')?.textContent || ''
-        let link = item.querySelector('link')?.textContent || ''
-        let description = item.querySelector('description')?.textContent || ''
-        let content = item.querySelector('content\\:encoded')?.textContent || item.querySelector('content')?.textContent || description
-        let pubDate = item.querySelector('pubDate')?.textContent || item.querySelector('published')?.textContent || item.querySelector('updated')?.textContent || ''
-        let author = item.querySelector('dc\\:creator')?.textContent || item.querySelector('author')?.textContent || item.querySelector('name')?.textContent || ''
-        let guid = item.querySelector('guid')?.textContent || link
-
-        // Atom 格式處理
-        if (!title && item.querySelector('title')) {
-          title = item.querySelector('title')?.textContent || ''
-        }
-        if (!link && item.querySelector('link')) {
-          const linkElement = item.querySelector('link')
-          link = linkElement?.getAttribute('href') || linkElement?.textContent || ''
-        }
-
-        // 清理 HTML 標籤
-        title = title.replace(/<[^>]*>/g, '').trim()
-        description = description.replace(/<[^>]*>/g, '').trim()
+        const title = getElementTextByTagName(item, ['title'])
+        const link = getElementTextByTagName(item, ['link'])
+        const summary = getSummary(getElementTextByTagName(item, ['content:encoded', 'content', 'description']))
+        const pubDate = getElementTextByTagName(item, ['pubDate', 'published', 'updated'])
+        const author = getElementTextByTagName(item, ['dc:creator', 'author', 'name'])
+        const id = getElementTextByTagName(item, ['guid']) || link || `article-${index}`
 
         // 提取標籤
         const categories: string[] = []
-        item.querySelectorAll('category').forEach(cat => {
+        Array.from(item.getElementsByTagName('category')).forEach(cat => {
           const categoryText = cat.textContent || cat.getAttribute('term') || ''
           if (categoryText) {
             categories.push(categoryText)
           }
         })
 
-        // 提取 Atom 格式的標籤
-        item.querySelectorAll('category').forEach(cat => {
-          const term = cat.getAttribute('term')
-          if (term) {
-            categories.push(term)
-          }
-        })
-
         if (title && link) {
-          parsedArticles.push({
-            id: guid || `article-${index}`,
-            guid: guid || link,
-            title: title,
-            link: link,
-            description: description,
-            content: content,
-            pubDate: pubDate,
-            author: author,
-            categories: categories,
-          })
+          parsedArticles.push({ id, title, link, summary, pubDate, author, categories })
         }
       } catch (itemError) {
         console.warn('解析文章項目時出錯:', itemError)
