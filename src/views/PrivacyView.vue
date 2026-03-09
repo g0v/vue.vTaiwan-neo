@@ -1,18 +1,18 @@
 <template>
-  <div class="container mx-auto px-4 py-8 max-w-4xl">
-    <div class="bg-white rounded-lg shadow-md p-8">
-      <h1 class="text-3xl font-bold mb-8 text-center">{{ $t('privacy.title') }}</h1>
+  <div class="container mx-auto max-w-4xl px-4 py-8">
+    <div class="rounded-lg bg-white p-8 shadow-md">
+      <h1 class="mb-8 text-center text-3xl font-bold">{{ $t('privacy.title') }}</h1>
 
       <div class="prose max-w-none">
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.introduction.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.introduction.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.introduction.content') }}</p>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.dataCollection.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.dataCollection.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.dataCollection.content') }}</p>
-          <ul class="list-disc pl-6 mb-4">
+          <ul class="mb-4 list-disc pl-6">
             <li>{{ $t('privacy.dataCollection.item1') }}</li>
             <li>{{ $t('privacy.dataCollection.item2') }}</li>
             <li>{{ $t('privacy.dataCollection.item3') }}</li>
@@ -20,9 +20,9 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.dataUsage.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.dataUsage.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.dataUsage.content') }}</p>
-          <ul class="list-disc pl-6 mb-4">
+          <ul class="mb-4 list-disc pl-6">
             <li>{{ $t('privacy.dataUsage.item1') }}</li>
             <li>{{ $t('privacy.dataUsage.item2') }}</li>
             <li>{{ $t('privacy.dataUsage.item3') }}</li>
@@ -30,22 +30,22 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.dataSharing.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.dataSharing.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.dataSharing.content') }}</p>
-          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mb-4">
+          <div class="mb-4 border-l-4 border-blue-400 bg-blue-50 p-4">
             <p class="font-semibold text-blue-800">{{ $t('privacy.dataSharing.highlight') }}</p>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.dataSecurity.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.dataSecurity.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.dataSecurity.content') }}</p>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.userRights.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.userRights.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.userRights.content') }}</p>
-          <ul class="list-disc pl-6 mb-4">
+          <ul class="mb-4 list-disc pl-6">
             <li>{{ $t('privacy.userRights.item1') }}</li>
             <li>{{ $t('privacy.userRights.item2') }}</li>
             <li>{{ $t('privacy.userRights.item3') }}</li>
@@ -53,16 +53,21 @@
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.contact.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.contact.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.contact.content') }}</p>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <p><strong>{{ $t('privacy.contact.email') }}:</strong> info@vtaiwan.tw</p>
-            <p><strong>{{ $t('privacy.contact.github') }}:</strong> <a href="https://github.com/g0v/vue.vTaiwan-neo" class="text-blue-600 hover:text-blue-800 underline" target="_blank" rel="noopener noreferrer">https://github.com/g0v/vue.vTaiwan-neo</a></p>
+          <div class="rounded-lg bg-gray-50 p-4">
+            <p>
+              <strong>{{ $t('privacy.contact.email') }}:</strong> info@vtaiwan.tw
+            </p>
+            <p>
+              <strong>{{ $t('privacy.contact.github') }}:</strong>
+              <a href="https://github.com/g0v/vue.vTaiwan-neo" class="text-blue-600 underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">https://github.com/g0v/vue.vTaiwan-neo</a>
+            </p>
           </div>
         </section>
 
         <section class="mb-8">
-          <h2 class="text-2xl font-semibold mb-4">{{ $t('privacy.updates.title') }}</h2>
+          <h2 class="mb-4 text-2xl font-semibold">{{ $t('privacy.updates.title') }}</h2>
           <p class="mb-4">{{ $t('privacy.updates.content') }}</p>
           <p class="text-sm text-gray-600">{{ $t('privacy.updates.lastUpdated') }}</p>
         </section>
@@ -88,9 +93,9 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: t('privacy.metaDescription')
-    }
-  ]
+      content: t('privacy.metaDescription'),
+    },
+  ],
 })
 </script>
 
@@ -100,7 +105,7 @@ useHead({
 }
 
 .prose p {
-  @apply text-gray-700 leading-relaxed;
+  @apply leading-relaxed text-gray-700;
 }
 
 .prose ul {

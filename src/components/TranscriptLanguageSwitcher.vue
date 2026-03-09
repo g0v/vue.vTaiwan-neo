@@ -2,31 +2,22 @@
   <div class="relative">
     <button
       @click="isOpen = !isOpen"
-      class="flex items-center space-x-1 px-1 py-2 rounded-lg border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+      class="flex items-center space-x-1 rounded-lg border border-gray-300 px-1 py-2 transition-colors hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       <span class="text-lg">{{ currentLocaleFlag }}</span>
       <span class="text-sm font-medium">{{ currentLocaleName }}</span>
-      <svg
-        class="w-4 h-4 transition-transform"
-        :class="{ 'rotate-180': isOpen }"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
+      <svg class="h-4 w-4 transition-transform" :class="{ 'rotate-180': isOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </button>
 
-    <div
-      v-if="isOpen"
-      class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
-    >
+    <div v-if="isOpen" class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-gray-300 bg-white shadow-lg">
       <div class="py-1">
         <button
           v-for="locale in supportedLocales"
           :key="locale.code"
           @click="switchLocale(locale.code)"
-          class="w-full flex items-center space-x-3 px-4 py-2 text-left hover:bg-gray-100 transition-colors"
+          class="flex w-full items-center space-x-3 px-4 py-2 text-left transition-colors hover:bg-gray-100"
           :class="{ 'bg-blue-50 text-blue-600': currentLocale === locale.code, 'text-democratic-red': currentLocale !== locale.code }"
         >
           <span class="text-lg">{{ locale.flag }}</span>
@@ -55,7 +46,7 @@ const isOpen = ref(false)
 
 const currentLocale = computed({
   get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value)
+  set: value => emit('update:modelValue', value),
 })
 
 const currentLocaleFlag = computed(() => {
@@ -89,4 +80,3 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 </script>
-

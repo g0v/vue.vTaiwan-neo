@@ -6,8 +6,8 @@
     <!-- 議題標題 -->
     <section class="py-8">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <div class="mx-auto max-w-4xl text-center">
+          <h1 class="mb-4 text-4xl font-bold md:text-5xl">
             {{ topic.title }}
           </h1>
         </div>
@@ -15,25 +15,19 @@
     </section>
 
     <!-- Slide 簡介區塊 -->
-    <TopicSlide
-      v-if="realTopicId"
-      :topic-id="realTopicId"
-      :show-discussion-button="showDiscussionButton"
-    />
+    <TopicSlide v-if="realTopicId" :topic-id="realTopicId" :show-discussion-button="showDiscussionButton" />
 
     <!-- 標籤頁區域 -->
     <section class="py-16">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
+        <div class="mx-auto max-w-4xl">
           <!-- Navigation Tabs -->
-          <div class="flex flex-wrap gap-4 mb-8 border-b border-gray-200 justify-center">
+          <div class="mb-8 flex flex-wrap justify-center gap-4 border-b border-gray-200">
             <button
               @click="activeTab = 'timeline'"
               :class="[
-                'px-6 py-3 font-medium border-b-2 transition-colors flex items-center',
-                activeTab === 'timeline'
-                  ? 'text-jade-green border-jade-green'
-                  : 'text-gray-500 border-transparent hover:text-gray-700'
+                'flex items-center border-b-2 px-6 py-3 font-medium transition-colors',
+                activeTab === 'timeline' ? 'border-jade-green text-jade-green' : 'border-transparent text-gray-500 hover:text-gray-700',
               ]"
             >
               <IconWrapper name="calendar" :size="16" class="mr-2" />
@@ -44,10 +38,8 @@
               v-if="showDiscussionTab"
               @click="activeTab = 'discussion'"
               :class="[
-                'px-6 py-3 font-medium border-b-2 transition-colors flex items-center',
-                activeTab === 'discussion'
-                  ? 'text-jade-green border-jade-green'
-                  : 'text-gray-500 border-transparent hover:text-gray-700'
+                'flex items-center border-b-2 px-6 py-3 font-medium transition-colors',
+                activeTab === 'discussion' ? 'border-jade-green text-jade-green' : 'border-transparent text-gray-500 hover:text-gray-700',
               ]"
             >
               <IconWrapper name="message-circle" :size="16" class="mr-2" />
@@ -71,17 +63,11 @@
 
           <!-- Action Buttons -->
           <div class="mt-12 text-center">
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <div class="flex flex-col justify-center gap-4 sm:flex-row">
               <router-link to="/topics" class="btn-secondary">
                 {{ $t('topics.detail.backToList') }}
               </router-link>
-              <a
-                :href="`https://talk.vtaiwan.tw/t/topic/${realTopicId}`"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn-primary"
-                v-if="userData && userData.isAdmin"
-              >
+              <a :href="`https://talk.vtaiwan.tw/t/topic/${realTopicId}`" target="_blank" rel="noopener noreferrer" class="btn-primary" v-if="userData && userData.isAdmin">
                 {{ $t('topics.detail.participate') }} →
               </a>
             </div>
@@ -94,8 +80,8 @@
   <!-- 404 頁面 -->
   <div v-else-if="!loading" class="py-16">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl font-bold mb-4">{{ $t('topics.detail.notFound') }}</h1>
-      <p class="text-lg text-gray-600 mb-8">{{ $t('topics.detail.notFound') }}</p>
+      <h1 class="mb-4 text-4xl font-bold">{{ $t('topics.detail.notFound') }}</h1>
+      <p class="mb-8 text-lg text-gray-600">{{ $t('topics.detail.notFound') }}</p>
       <router-link to="/topics" class="btn-primary">{{ $t('topics.detail.backToList') }}</router-link>
     </div>
   </div>
@@ -103,7 +89,7 @@
   <!-- Loading -->
   <div v-else class="py-16">
     <div class="container mx-auto px-4 text-center">
-      <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-jade-green mx-auto"></div>
+      <div class="mx-auto h-16 w-16 animate-spin rounded-full border-b-2 border-jade-green"></div>
       <p class="mt-4 text-gray-600">{{ $t('topics.list.loading') }}</p>
     </div>
   </div>
@@ -125,8 +111,8 @@ const props = defineProps({
   userData: {
     type: Object,
     required: false,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 })
 
 const route = useRoute()
@@ -167,14 +153,14 @@ const displayedPosts = computed(() => {
 })
 
 // 格式化日期
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   const date = new Date(dateString)
   return date.toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   })
 }
 
@@ -220,7 +206,6 @@ const loadTopic = async () => {
     } else {
       activeTab.value = 'timeline'
     }
-
   } catch (error) {
     console.error('Error loading topic:', error)
     topic.value = null

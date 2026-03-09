@@ -14,42 +14,37 @@ export const coreTeam: Contributor[] = [
     name: 'Peter Cui',
     role: 'contributors.roles.projectManager',
     description: 'contributors.descriptions.projectManager',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512'
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-UPHFV4KF0-8263b8a8cfdc-512',
   },
   {
     id: '2',
     name: 'Yi-Ting Lien',
     role: 'contributors.roles.projectManager',
     description: 'contributors.descriptions.projectManager',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U071XARBY03-8305075e99fa-512'
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U071XARBY03-8305075e99fa-512',
   },
   {
     id: '3',
     name: 'Joshua Yang',
     role: 'contributors.roles.processDesigner',
     description: 'contributors.descriptions.processDesigner',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512'
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512',
   },
   {
     id: '4',
     name: 'Bestian Tang',
     role: 'contributors.roles.techDirector',
     description: 'contributors.descriptions.techDirector',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512'
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512',
   },
   {
     id: '5',
     name: 'Tofus Wang',
     role: 'contributors.roles.designer',
     description: 'contributors.descriptions.designer',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U01JXVDPS5R-5a1d6aace86d-512'
+    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U01JXVDPS5R-5a1d6aace86d-512',
   },
-  { id: '6',
-    name: 'Shuyang Lin',
-    role: 'contributors.roles.designer',
-    description: 'contributors.descriptions.designer',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512'
-  },
+  { id: '6', name: 'Shuyang Lin', role: 'contributors.roles.designer', description: 'contributors.descriptions.designer', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
 ]
 
 // 原始資料
@@ -74,7 +69,6 @@ const rawCommunityContributors: Contributor[] = [
   { id: '18', name: 'Bestian Tang', contribution: 'contributors.contributions.backendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
   { id: '19', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
   { id: '20', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },
-
 ]
 
 // 合併相同貢獻者的函數
@@ -86,7 +80,7 @@ function mergeContributors(rawContributors: Contributor[]): Contributor[] {
     if (!contributor.imgURL || contributor.name === 'Nobody') {
       contributorMap.set(contributor.id, {
         ...contributor,
-        contributions: contributor.contribution ? [contributor.contribution] : []
+        contributions: contributor.contribution ? [contributor.contribution] : [],
       })
       return
     }
@@ -104,7 +98,7 @@ function mergeContributors(rawContributors: Contributor[]): Contributor[] {
       // 如果不存在，創建新的貢獻者
       contributorMap.set(key, {
         ...contributor,
-        contributions: contributor.contribution ? [contributor.contribution] : []
+        contributions: contributor.contribution ? [contributor.contribution] : [],
       })
     }
   })

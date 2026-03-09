@@ -3,26 +3,26 @@
     <!-- 簡介標題 -->
     <div class="bg-gray-100 py-8">
       <div class="container mx-auto px-4">
-        <div class="max-w-4xl mx-auto">
-          <h3 class="text-2xl font-bold text-center mb-8 flex items-center justify-center">
+        <div class="mx-auto max-w-4xl">
+          <h3 class="mb-8 flex items-center justify-center text-center text-2xl font-bold">
             <IconWrapper name="info" :size="24" class="mr-3" />
             {{ $t('topics.detail.introduction') }}
           </h3>
 
-          <div class="flex flex-col lg:flex-row gap-8">
+          <div class="flex flex-col gap-8 lg:flex-row">
             <!-- Iframe 區域 -->
             <div class="lg:flex-1">
               <div v-if="slide.iframe" v-html="slide.iframe" class="iframe-container"></div>
-              <div v-else class="bg-white rounded-lg p-8 text-center text-gray-500">
+              <div v-else class="rounded-lg bg-white p-8 text-center text-gray-500">
                 {{ $t('topics.detail.noSlide') }}
               </div>
             </div>
 
             <!-- 詳細資訊區域 -->
             <div class="lg:flex-1 lg:pl-8">
-              <div class="bg-white rounded-lg p-6 h-full overflow-auto max-h-96">
+              <div class="h-full max-h-96 overflow-auto rounded-lg bg-white p-6">
                 <div v-if="slide.info" v-html="slide.info" class="prose prose-lg max-w-none"></div>
-                <div v-else class="text-gray-500 text-center">
+                <div v-else class="text-center text-gray-500">
                   {{ $t('topics.detail.noInfo') }}
                 </div>
               </div>
@@ -46,18 +46,18 @@ const { t } = useI18n()
 const props = defineProps({
   topicId: {
     type: [String, Number],
-    required: true
+    required: true,
   },
   showDiscussionButton: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 })
 
 // 響應式資料
 const slide = ref({
   iframe: '',
-  info: ''
+  info: '',
 })
 
 // 是否顯示討論連結
@@ -106,9 +106,13 @@ const loadSlide = async () => {
 }
 
 // 監聽 topicId 變化
-watch(() => props.topicId, () => {
-  loadSlide()
-}, { immediate: true })
+watch(
+  () => props.topicId,
+  () => {
+    loadSlide()
+  },
+  { immediate: true }
+)
 
 // 組件掛載時載入資料
 onMounted(() => {
@@ -129,15 +133,15 @@ onMounted(() => {
 }
 
 .prose :deep(h1) {
-  @apply text-2xl font-bold mb-4;
+  @apply mb-4 text-2xl font-bold;
 }
 
 .prose :deep(h2) {
-  @apply text-xl font-bold mb-3;
+  @apply mb-3 text-xl font-bold;
 }
 
 .prose :deep(h3) {
-  @apply text-lg font-bold mb-2;
+  @apply mb-2 text-lg font-bold;
 }
 
 .prose :deep(p) {
@@ -145,11 +149,11 @@ onMounted(() => {
 }
 
 .prose :deep(ul) {
-  @apply list-disc list-inside mb-4;
+  @apply mb-4 list-inside list-disc;
 }
 
 .prose :deep(ol) {
-  @apply list-decimal list-inside mb-4;
+  @apply mb-4 list-inside list-decimal;
 }
 
 .prose :deep(li) {

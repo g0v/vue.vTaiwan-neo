@@ -7,11 +7,11 @@ import ja from '../l10n/ja.json'
 export const supportedLocales = [
   { code: 'zh-TW', name: '繁體中文', flag: '🇹🇼' },
   { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' }
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
 ] as const
 
 // 支援的語言代碼類型
-export type SupportedLocale = typeof supportedLocales[number]['code']
+export type SupportedLocale = (typeof supportedLocales)[number]['code']
 
 // 預設語言
 const defaultLocale: SupportedLocale = 'zh-TW'
@@ -42,12 +42,12 @@ const i18n = createI18n({
   fallbackLocale: defaultLocale,
   messages: {
     'zh-TW': zhTW,
-    'en': en,
-    'ja': ja
+    en: en,
+    ja: ja,
   },
   globalInjection: true, // 全域注入 $t 函數
   silentTranslationWarn: true, // 在開發環境中隱藏翻譯警告
-  silentFallbackWarn: true
+  silentFallbackWarn: true,
 })
 
 // 語言切換函數

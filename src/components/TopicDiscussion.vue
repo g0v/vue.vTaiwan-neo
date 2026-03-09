@@ -1,36 +1,25 @@
 <template>
   <div class="topic-discussion">
     <!-- Loading State -->
-    <div v-if="loading" class="text-center py-8">
-      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-jade-green mx-auto"></div>
+    <div v-if="loading" class="py-8 text-center">
+      <div class="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-jade-green"></div>
       <p class="mt-2 text-gray-600">{{ $t('topics.detail.loading') }}</p>
     </div>
 
     <!-- Discussion Content -->
     <div v-else-if="discussionType && discussionType.type">
       <!-- Discourse 討論串 -->
-      <div
-        v-if="discussionType.type === 'discourse'"
-        class="space-y-6"
-      >
-        <div
-          v-for="(disc, index) in discussionType.embeder"
-          :key="index"
-          class="bg-white border border-gray-200 rounded-lg shadow-sm"
-        >
+      <div v-if="discussionType.type === 'discourse'" class="space-y-6">
+        <div v-for="(disc, index) in discussionType.embeder" :key="index" class="rounded-lg border border-gray-200 bg-white shadow-sm">
           <div class="border-b border-gray-200 p-4">
-            <h3 class="text-lg font-semibold flex items-center cursor-pointer">
+            <h3 class="flex cursor-pointer items-center text-lg font-semibold">
               <IconWrapper name="message-circle" :size="20" class="mr-2" />
               {{ disc.title }}
             </h3>
           </div>
           <div class="p-4">
-            <TopicDiscussionComment
-              v-if="disc.id"
-              :comment-id="disc.id"
-              :slice="false"
-            />
-            <div v-else class="text-gray-500 text-center py-4">
+            <TopicDiscussionComment v-if="disc.id" :comment-id="disc.id" :slice="false" />
+            <div v-else class="py-4 text-center text-gray-500">
               {{ $t('topics.detail.loading') }}
             </div>
           </div>
@@ -38,13 +27,10 @@
       </div>
 
       <!-- 嵌入式內容 (polis, slido, etc.) -->
-      <div
-        v-else-if="discussionType.embeder"
-        class="embedded-content"
-      >
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+      <div v-else-if="discussionType.embeder" class="embedded-content">
+        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
           <div class="border-b border-gray-200 p-4">
-            <h3 class="text-lg font-semibold flex items-center">
+            <h3 class="flex items-center text-lg font-semibold">
               <IconWrapper name="external-link" :size="20" class="mr-2" />
               {{ getEmbededTitle(discussionType.type) }}
             </h3>
@@ -56,11 +42,8 @@
       </div>
 
       <!-- 圖片內容 -->
-      <div
-        v-else-if="discussionType.type === 'img'"
-        class="text-center"
-      >
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+      <div v-else-if="discussionType.type === 'img'" class="text-center">
+        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
           <div class="p-4">
             <div v-html="discussionType.embeder"></div>
           </div>
@@ -68,11 +51,8 @@
       </div>
 
       <!-- 預設外部連結 -->
-      <div
-        v-else-if="discussionType.type === 'default'"
-        class="text-center"
-      >
-        <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+      <div v-else-if="discussionType.type === 'default'" class="text-center">
+        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
           <IconWrapper name="external-link" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
           <div v-html="discussionType.embeder"></div>
         </div>
@@ -80,20 +60,14 @@
     </div>
 
     <!-- Empty State -->
-    <div v-else class="text-center py-8">
+    <div v-else class="py-8 text-center">
       <IconWrapper name="message-circle" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
       <p class="text-gray-500">{{ $t('topics.detail.noDiscussion') }}</p>
     </div>
 
     <!-- 參與討論按鈕 -->
     <div class="mt-8 text-center">
-      <a
-        :href="`https://talk.vtaiwan.tw/t/topic/${props.topicId}`"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-primary inline-flex items-center"
-        v-if="userData && userData.isAdmin"
-      >
+      <a :href="`https://talk.vtaiwan.tw/t/topic/${props.topicId}`" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center" v-if="userData && userData.isAdmin">
         <IconWrapper name="message-circle" :size="20" class="mr-2" />
         {{ $t('topics.detail.participate') }}
       </a>
@@ -114,19 +88,19 @@ const { t } = useI18n()
 const props = defineProps({
   topicId: {
     type: [String, Number],
-    required: true
+    required: true,
   },
   userData: {
     type: Object,
     required: false,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 })
 
 // 響應式資料
 const discussionType = ref({
   type: '',
-  embeder: ''
+  embeder: '',
 })
 const loading = ref(true)
 const lastStep = ref('')
@@ -141,7 +115,6 @@ const loadDiscussion = async () => {
 
     // 處理討論內容
     await processDiscussionType(topicData)
-
   } catch (error) {
     console.error('Error loading discussion:', error)
   } finally {
@@ -150,7 +123,7 @@ const loadDiscussion = async () => {
 }
 
 // 處理討論類型
-const processDiscussionType = async (topicData) => {
+const processDiscussionType = async topicData => {
   try {
     const posts = topicData.post_stream.posts.slice(1) // 跳過第一篇貼文
     let rawlinks = []
@@ -180,22 +153,22 @@ const processDiscussionType = async (topicData) => {
       // polis 投票
       discussionType.value = {
         type: 'polis',
-        embeder: `<iframe src="${link}" frameborder="0" width="100%" height="1000px"></iframe>`
+        embeder: `<iframe src="${link}" frameborder="0" width="100%" height="1000px"></iframe>`,
       }
     } else if (link.indexOf('sli.do') > -1) {
       // slido 互動
       discussionType.value = {
         type: 'slido',
-        embeder: `<iframe src="${link}" frameborder="0" width="100%" height="1000px"></iframe>`
+        embeder: `<iframe src="${link}" frameborder="0" width="100%" height="1000px"></iframe>`,
       }
     } else if (link.indexOf('livehouse') > -1) {
       // livehouse 直播
       const embedUrl = link.replace('livehouse.in/', 'livehouse.in/embed/')
       discussionType.value = {
         type: 'livehouse',
-        embeder: `<iframe width="100%" height="1000px" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`
+        embeder: `<iframe width="100%" height="1000px" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`,
       }
-            } else if (link.indexOf('talk.vtaiwan.tw') > -1) {
+    } else if (link.indexOf('talk.vtaiwan.tw') > -1) {
       // discourse 討論串
       const categoryUrl = link.replace(/(.*)\/$/, '$1') // 移除末尾的斜線
 
@@ -206,10 +179,10 @@ const processDiscussionType = async (topicData) => {
         // 使用中文排序邏輯，複刻舊網站行為
         const sortedTopics = topics.sort((a, b) => {
           // 使用discourse.js中的chineseSort邏輯
-          const c2n = { "一": "1", "二": "2", "三": "3", "四": "4", "五": "5", "六": "6", "七": "7", "八": "8", "九": "9", "十": "10" }
+          const c2n = { 一: '1', 二: '2', 三: '3', 四: '4', 五: '5', 六: '6', 七: '7', 八: '8', 九: '9', 十: '10' }
 
-          const chineseToNumber = (str) => {
-            return str.replace(/一|二|三|四|五|六|七|八|九|十/gi, (matched) => {
+          const chineseToNumber = str => {
+            return str.replace(/一|二|三|四|五|六|七|八|九|十/gi, matched => {
               return c2n[matched]
             })
           }
@@ -223,8 +196,8 @@ const processDiscussionType = async (topicData) => {
             .filter(t => t.id && t.title) // 只包含有效的topic
             .map(t => ({
               title: t.title,
-              id: t.id
-            }))
+              id: t.id,
+            })),
         }
       } catch (error) {
         console.error('Error loading discourse category topics:', error)
@@ -235,20 +208,20 @@ const processDiscussionType = async (topicData) => {
       const formUrl = link.replace(/.*\((.*)\)/, '$1')
       discussionType.value = {
         type: 'typeform',
-        embeder: `<iframe src="${formUrl}" frameborder="0" width="100%" height="1000px"></iframe>`
+        embeder: `<iframe src="${formUrl}" frameborder="0" width="100%" height="1000px"></iframe>`,
       }
     } else if (link.indexOf('hackpad') > -1) {
       // hackpad (已棄用)
       discussionType.value = {
         type: 'hackpad',
-        embeder: `Hackpad 已遷移至 Dropbox Paper。請使用 <a href="${link}" target="_blank" rel="noopener noreferrer">外部連結</a> 查看。`
+        embeder: `Hackpad 已遷移至 Dropbox Paper。請使用 <a href="${link}" target="_blank" rel="noopener noreferrer">外部連結</a> 查看。`,
       }
     } else if (/.*\.jpg/.test(link)) {
       // 圖片
       const imageUrl = link.replace(/.*\((.*)\)/, '$1')
       discussionType.value = {
         type: 'img',
-        embeder: `<img src="${imageUrl}" alt="議題圖片" class="max-w-full h-auto rounded-lg shadow-md" />`
+        embeder: `<img src="${imageUrl}" alt="議題圖片" class="max-w-full h-auto rounded-lg shadow-md" />`,
       }
     } else {
       // 預設外部連結
@@ -263,10 +236,9 @@ const processDiscussionType = async (topicData) => {
 
       discussionType.value = {
         type: 'default',
-        embeder: `請查看 <a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-jade-green hover:text-jade-green/80">${linkText}</a>`
+        embeder: `請查看 <a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-jade-green hover:text-jade-green/80">${linkText}</a>`,
       }
     }
-
   } catch (error) {
     console.error('Error processing discussion type:', error)
     discussionType.value = { type: '', embeder: '' }
@@ -274,14 +246,14 @@ const processDiscussionType = async (topicData) => {
 }
 
 // 取得嵌入內容的標題
-const getEmbededTitle = (type) => {
+const getEmbededTitle = type => {
   const titleMap = {
-    'polis': 'Polis 意見調查',
-    'slido': 'Slido 互動問答',
-    'livehouse': 'Livehouse 直播',
-    'typeform': 'Typeform 表單',
-    'hackpad': 'Hackpad 文件',
-    'img': '相關圖片'
+    polis: 'Polis 意見調查',
+    slido: 'Slido 互動問答',
+    livehouse: 'Livehouse 直播',
+    typeform: 'Typeform 表單',
+    hackpad: 'Hackpad 文件',
+    img: '相關圖片',
   }
 
   return titleMap[type] || '外部資源'
@@ -311,11 +283,11 @@ onMounted(() => {
 
 /* 確保連結在 v-html 中正確顯示 */
 :deep(a) {
-  color: #40B3BF;
+  color: #40b3bf;
   text-decoration: underline;
 }
 
 :deep(a:hover) {
-  color: #369AA3;
+  color: #369aa3;
 }
 </style>

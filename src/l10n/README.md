@@ -19,6 +19,7 @@ src/l10n/
 ### 1. 在 Vue 元件中使用翻譯
 
 #### 使用 $t 函數 (模板中)
+
 ```vue
 <template>
   <div>
@@ -30,6 +31,7 @@ src/l10n/
 ```
 
 #### 使用 useI18n (Composition API)
+
 ```vue
 <script setup>
 import { useI18n } from 'vue-i18n'
@@ -127,4 +129,4 @@ setLocale('zh-TW')
 - 所有翻譯檔案都使用 JSON 格式
 - 翻譯鍵值使用點號分隔的命名空間 (例如: `header.home`)
 - 建議將相關的翻譯項目組織在同一個命名空間下
-- 新增翻譯時請確保中英文版本都有對應的項目 
+- 新增翻譯時請確保中英文版本都有對應的項目

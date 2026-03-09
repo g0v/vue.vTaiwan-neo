@@ -1,12 +1,12 @@
 <template>
   <!-- Hero Section -->
-  <section class="bg-black text-white py-12">
+  <section class="bg-black py-12 text-white">
     <div class="container mx-auto px-4">
-      <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ $t('meetups.title') }}</h1>
-      <p class="text-xl max-w-3xl">
+      <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ $t('meetups.title') }}</h1>
+      <p class="max-w-3xl text-xl">
         {{ $t('meetups.description') }}
       </p>
-      <br/>
+      <br />
 
       <div class="flex justify-center gap-4">
         <!-- <a href="https://meet.jit.si/vtaiwan" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md inline-block">
@@ -14,28 +14,30 @@
           <br/>
           <span class="text-sm text-black">(Wednesdays 19:00)</span>
         </a> -->
-        <RouterLink to="/jitsi" class="btn-primary rounded-md inline-block">
+        <RouterLink to="/jitsi" class="btn-primary inline-block rounded-md">
           {{ $t('meetups.jitsi') }}(Beta)
-          <br/>
+          <br />
           <span class="text-sm text-black">(Wednesdays 19:00)</span>
         </RouterLink>
-        <RouterLink to="/transcriptions" class="btn-primary rounded-md inline-block">
-          {{ $t('meetups.transcriptions') }}(Beta)
-        </RouterLink>
+        <RouterLink to="/transcriptions" class="btn-primary inline-block rounded-md"> {{ $t('meetups.transcriptions') }}(Beta) </RouterLink>
       </div>
     </div>
   </section>
 
-
   <!-- Calendar View -->
-  <section class="py-12 bg-gray-100" v-if="!isSearching">
+  <section class="bg-gray-100 py-12" v-if="!isSearching">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-6">{{ $t('meetups.calendar.title') }}</h2>
+      <h2 class="mb-6 text-2xl font-bold">{{ $t('meetups.calendar.title') }}</h2>
       <p class="mb-8">
         {{ $t('meetups.calendar.description') }}
       </p>
       <div class="flex justify-center gap-4">
-        <a href="https://calendar.google.com/calendar/u/2?cid=MjhlZDRjMjYwOGQyMTc3NTZjNjJiOWMxOGYyMjhkNDJjNGY0MzcxNWViYTUxN2FkYmNiOTE2MGZhMzY5NDRhN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md flex items-center gap-2">
+        <a
+          href="https://calendar.google.com/calendar/u/2?cid=MjhlZDRjMjYwOGQyMTc3NTZjNjJiOWMxOGYyMjhkNDJjNGY0MzcxNWViYTUxN2FkYmNiOTE2MGZhMzY5NDRhN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary flex items-center gap-2 rounded-md"
+        >
           <IconWrapper name="calendar" :size="18" color="#FFFFFF" />
           <span>{{ $t('meetups.calendar.googleCalendar') }}</span>
         </a>
@@ -48,13 +50,13 @@
   </section>
 
   <!-- Host a Meetup -->
-  <section class="py-12 bg-gray-100" v-if="!isSearching">
+  <section class="bg-gray-100 py-12" v-if="!isSearching">
     <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-4">{{ $t('meetups.host.title') }}</h2>
-      <p class="text-lg mb-6 max-w-2xl mx-auto">
+      <h2 class="mb-4 text-2xl font-bold">{{ $t('meetups.host.title') }}</h2>
+      <p class="mx-auto mb-6 max-w-2xl text-lg">
         {{ $t('meetups.host.description') }}
       </p>
-      <a href="/contact" class="btn-primary rounded-md inline-block">
+      <a href="/contact" class="btn-primary inline-block rounded-md">
         {{ $t('meetups.host.contactUs') }}
       </a>
     </div>
@@ -73,12 +75,12 @@ const { t, locale } = useI18n()
 const props = defineProps({
   user: {
     type: Object,
-    default: null
+    default: null,
   },
   userData: {
     type: Object,
-    default: null
-  }
+    default: null,
+  },
 })
 
 // 為了兼容性，創建 usrData 別名
@@ -88,12 +90,12 @@ const usrData = computed(() => props.userData)
 const currentLanguage = computed(() => locale.value)
 
 // 格式化日期
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   return new Date(dateString).toLocaleDateString('zh-TW')
 }
 
 useHead({
-  title: t('meetups.title') + ' | vTaiwan'
+  title: t('meetups.title') + ' | vTaiwan',
 })
 </script>
 
@@ -109,6 +111,6 @@ useHead({
   left: 0;
   width: 60px;
   height: 3px;
-  background-color: #D82000;
+  background-color: #d82000;
 }
 </style>

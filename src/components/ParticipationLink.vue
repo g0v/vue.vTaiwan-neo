@@ -8,7 +8,7 @@
         target="_blank"
         rel="noopener noreferrer"
         :title="item.long"
-        class="inline-flex items-center px-3 py-1 text-sm bg-jade-green text-white rounded hover:bg-jade-green/80 transition-colors"
+        class="inline-flex items-center rounded bg-jade-green px-3 py-1 text-sm text-white transition-colors hover:bg-jade-green/80"
       >
         <IconWrapper :name="item.icon" :size="14" class="mr-1 flex-shrink-0" color="white" />
         {{ item.text }}
@@ -16,9 +16,7 @@
     </div>
 
     <!-- 空狀態提示 -->
-    <div v-else class="text-xs text-gray-400">
-      無相關連結
-    </div>
+    <div v-else class="text-xs text-gray-400">無相關連結</div>
   </div>
 </template>
 
@@ -30,8 +28,8 @@ import IconWrapper from './IconWrapper.vue'
 const props = defineProps({
   urllink: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 })
 
 // 響應式資料
@@ -43,62 +41,62 @@ const dataBase = [
     key: 'hackpad',
     icon: 'edit',
     text: '共筆',
-    long: '會議共同筆記'
+    long: '會議共同筆記',
   },
   {
     key: 'sayit',
     icon: 'book',
     text: '記錄',
-    long: '當日共同筆記整理出的重點'
+    long: '當日共同筆記整理出的重點',
   },
   {
     key: 'youtube',
     icon: 'play',
     text: '直播',
-    long: '會議直播影片 youtube'
+    long: '會議直播影片 youtube',
   },
   {
     key: 'livehouse',
     icon: 'play',
     text: '直播',
-    long: '會議直播影片 livehouse'
+    long: '會議直播影片 livehouse',
   },
   {
     key: 'pol.is',
     icon: 'users',
     text: '討論',
-    long: '進入討論'
+    long: '進入討論',
   },
   {
     key: 'talk.vtaiwan.tw',
     icon: 'message-circle',
     text: '留言',
-    long: '進入留言'
+    long: '進入留言',
   },
   {
     key: 'app.sli.do',
     icon: 'megaphone',
     text: '提問',
-    long: '會議共同筆記'
+    long: '會議共同筆記',
   },
   {
     key: '.pdf',
     icon: 'download',
     text: 'PDF',
-    long: '會議共同筆記'
+    long: '會議共同筆記',
   },
   {
     key: 'g0v.github',
     icon: 'github',
     text: 'GitBook',
-    long: '會議共同筆記'
+    long: '會議共同筆記',
   },
   {
     key: '',
     icon: 'link',
     text: '相關',
-    long: '與議題相關的連結'
-  }
+    long: '與議題相關的連結',
+  },
 ]
 
 // 處理連結
@@ -121,9 +119,7 @@ const processLinks = () => {
     const item = {}
 
     // 找到匹配的連結類型
-    const matched = dataBase.find(data =>
-      data.key !== '' && link.toLowerCase().indexOf(data.key) > -1
-    ) || dataBase[dataBase.length - 1] // 預設使用最後一個（相關）
+    const matched = dataBase.find(data => data.key !== '' && link.toLowerCase().indexOf(data.key) > -1) || dataBase[dataBase.length - 1] // 預設使用最後一個（相關）
 
     item.icon = matched.icon
     item.long = matched.long

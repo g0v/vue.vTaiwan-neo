@@ -1,7 +1,7 @@
 <template>
   <div class="topic-progress py-6">
     <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
+      <div class="mx-auto max-w-4xl">
         <div class="step-progress-bar">
           <ul class="progress-bar">
             <li
@@ -9,7 +9,7 @@
               :key="index"
               :class="{
                 active: step.active,
-                current: step.current
+                current: step.current,
               }"
             >
               {{ t(step.title) }}
@@ -32,8 +32,8 @@ const { t } = useI18n()
 const props = defineProps({
   topicId: {
     type: [String, Number],
-    required: true
-  }
+    required: true,
+  },
 })
 
 // 響應式資料
@@ -41,28 +41,28 @@ const steps = ref([
   {
     title: '即將開始',
     active: false,
-    current: false
+    current: false,
   },
   {
     title: '意見徵集',
     active: false,
-    current: false
+    current: false,
   },
   {
     title: '研擬草案',
     active: false,
-    current: false
+    current: false,
   },
   {
     title: '送交院會',
     active: false,
-    current: false
+    current: false,
   },
   {
     title: '歷史案件',
     active: false,
-    current: false
-  }
+    current: false,
+  },
 ])
 
 // 載入進度資料
@@ -116,9 +116,13 @@ const loadProgress = async () => {
 }
 
 // 監聽 topicId 變化
-watch(() => props.topicId, () => {
-  loadProgress()
-}, { immediate: true })
+watch(
+  () => props.topicId,
+  () => {
+    loadProgress()
+  },
+  { immediate: true }
+)
 
 // 組件掛載時載入資料
 onMounted(() => {
@@ -174,7 +178,7 @@ onMounted(() => {
 }
 
 .progress-bar li:after {
-  content: "";
+  content: '';
   width: 100%;
   position: absolute;
   height: 2px;

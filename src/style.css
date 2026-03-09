@@ -10,27 +10,32 @@
   }
 
   body {
-    @apply text-black bg-white;
+    @apply bg-white text-black;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif font-bold;
   }
 
   h1 {
-    @apply text-3xl md:text-4xl mb-6;
+    @apply mb-6 text-3xl md:text-4xl;
   }
 
   h2 {
-    @apply text-2xl md:text-3xl mb-4;
+    @apply mb-4 text-2xl md:text-3xl;
   }
 
   h3 {
-    @apply text-xl mb-3;
+    @apply mb-3 text-xl;
   }
 
   h4 {
-    @apply text-lg mb-2;
+    @apply mb-2 text-lg;
   }
 
   #renderedOutline a {
@@ -40,43 +45,43 @@
 
 @layer components {
   .title-underline {
-    @apply border-b-2 border-democratic-red pb-2 inline-block;
+    @apply inline-block border-b-2 border-democratic-red pb-2;
   }
 
   .btn-primary {
-    @apply bg-democratic-red text-white px-4 py-2 hover:bg-democratic-red/90 transition;
+    @apply bg-democratic-red px-4 py-2 text-white transition hover:bg-democratic-red/90;
   }
 
   .btn-secondary {
-    @apply bg-jade-green text-white px-4 py-2 hover:bg-jade-green/90 transition;
+    @apply bg-jade-green px-4 py-2 text-white transition hover:bg-jade-green/90;
   }
 
   .btn-tertiary {
-    @apply bg-wheat-yellow text-white px-4 py-2 hover:bg-wheat-yellow/90 transition;
+    @apply bg-wheat-yellow px-4 py-2 text-white transition hover:bg-wheat-yellow/90;
   }
 
   .btn-outline {
-    @apply border border-black text-black px-4 py-2 hover:bg-gray-100 transition;
+    @apply border border-black px-4 py-2 text-black transition hover:bg-gray-100;
   }
 
   .btn-outline-white {
-    @apply border border-white text-white px-4 py-2 bg-transparent hover:bg-gray-100 hover:text-black transition;
+    @apply border border-white bg-transparent px-4 py-2 text-white transition hover:bg-gray-100 hover:text-black;
   }
 
   .tag-red {
-    @apply bg-democratic-red text-white text-xs px-2 py-1 inline-block;
+    @apply inline-block bg-democratic-red px-2 py-1 text-xs text-white;
   }
 
   .tag-green {
-    @apply bg-jade-green text-white text-xs px-2 py-1 inline-block;
+    @apply inline-block bg-jade-green px-2 py-1 text-xs text-white;
   }
 
   .tag-yellow {
-    @apply bg-wheat-yellow text-white text-xs px-2 py-1 inline-block;
+    @apply inline-block bg-wheat-yellow px-2 py-1 text-xs text-white;
   }
 
   .card {
-    @apply border border-gray-200 bg-white hover:shadow-md transition;
+    @apply border border-gray-200 bg-white transition hover:shadow-md;
   }
 
   .prose {
@@ -84,7 +89,7 @@
   }
 
   .prose a {
-    @apply text-democratic-red hover:text-democratic-red/80 transition;
+    @apply text-democratic-red transition hover:text-democratic-red/80;
   }
 
   .prose img {

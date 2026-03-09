@@ -74,14 +74,22 @@ const discourseApi = axios.create({
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 })
 
 // 中文排序函數 (複刻舊網站邏輯)
 const chineseSort = (a: string, b: string): number => {
   const c2n: Record<string, string> = {
-    "一": "1", "二": "2", "三": "3", "四": "4", "五": "5",
-    "六": "6", "七": "7", "八": "8", "九": "9", "十": "10"
+    一: '1',
+    二: '2',
+    三: '3',
+    四: '4',
+    五: '5',
+    六: '6',
+    七: '7',
+    八: '8',
+    九: '9',
+    十: '10',
   }
 
   const chineseToNumber = (str: string): string => {
@@ -280,7 +288,7 @@ const discourseAPI: DiscourseAPI = {
 
   // 取得議題的所有貼文
   getAllPosts(categoryUri: string): Promise<DiscoursePost[]> {
-    return cachedGet(categoryUri + "?include_raw=1")
+    return cachedGet(categoryUri + '?include_raw=1')
       .then(result => {
         const posts: DiscoursePost[] = result['data']['post_stream']['posts']
         return posts || []
@@ -300,7 +308,7 @@ const discourseAPI: DiscourseAPI = {
         posts_count: response.data.posts_count,
         participant_count: response.data.participant_count,
         last_posted_at: response.data.last_posted_at,
-        created_at: response.data.created_at
+        created_at: response.data.created_at,
       }
     } catch (error) {
       console.error('Failed to fetch topic stats:', error)
@@ -322,7 +330,7 @@ const discourseAPI: DiscourseAPI = {
       return {
         slogan: sloganMatch ? sloganMatch[1] : '',
         owner: ownerMatch ? ownerMatch[1] : '',
-        cover: coverMatch ? coverMatch[1] : ''
+        cover: coverMatch ? coverMatch[1] : '',
       }
     }
 
@@ -340,7 +348,7 @@ const discourseAPI: DiscourseAPI = {
       views: topicData.views,
       posts_count: topicData.posts_count,
       last_posted_at: topicData.last_posted_at,
-      created_at: topicData.created_at
+      created_at: topicData.created_at,
     }
   },
 
@@ -350,19 +358,10 @@ const discourseAPI: DiscourseAPI = {
   // 取得 Discourse 伺服器 URL
   getDiscourseUrl(): string {
     return DISCOURSE_BASE_URL
-  }
+  },
 }
 
 export default discourseAPI
 
 // 導出類型供其他文件使用
-export type {
-  DiscoursePost,
-  DiscourseTopic,
-  DiscourseTopicList,
-  DiscourseSearchResult,
-  TopicStats,
-  FormattedTopicData,
-  ParsedPostData,
-  DiscourseAPI
-}
+export type { DiscoursePost, DiscourseTopic, DiscourseTopicList, DiscourseSearchResult, TopicStats, FormattedTopicData, ParsedPostData, DiscourseAPI }

@@ -7,7 +7,6 @@
 1. Jitsi 視訊服務的 JWT 生成： https://github.com/g0v/vtaiwan-jaas-jwt-worker
 2. 音訊轉錄、逐字稿管理與 AI 大綱整理： https://github.com/g0v/vtaiwan-transcription-worker
 
-
 ## 功能特色
 
 - 🏠 首頁展示（完整複刻原始設計）
@@ -40,28 +39,31 @@
 ## 安裝與運行
 
 1. 安裝依賴：
+
 ```bash
 npm install
 ```
 
 2. 啟動開發伺服器：
+
 ```bash
 npm run dev
 ```
 
 3. 類型檢查：
+
 ```bash
 npm run type-check
 ```
 
-
 4. 建置生產版本：
+
 ```bash
 npm run build
 ```
 
-
 5. 預覽生產版本 Preview：
+
 ```bash
 npm run preview
 ```
@@ -117,16 +119,19 @@ src/
 專案使用靜態資料檔案來管理內容，方便協作和維護：
 
 ### 📊 `projects.ts`
+
 - **用途**: 管理專案列表資料
 - **內容**: 專案標題、描述、狀態、圖標、分類、參與人數
 - **協作方式**: 新增專案、修改專案資訊、更新狀態
 
 ### 📅 `meetups.ts`
+
 - **用途**: 管理會議資料
 - **內容**: 會議標題、日期、時間、地點、描述、相關專案
 - **協作方式**: 新增會議、更新會議資訊、管理報名連結
 
 ### ❓ `faqs.ts`
+
 - **用途**: 管理常見問題與答案
 - **內容**: 問題、答案、詳細說明列表
 - **協作方式**: 新增問題、更新答案、補充詳細說明
@@ -134,17 +139,20 @@ src/
 ## 主要組件說明
 
 ### Header.vue
+
 - 響應式導航選單
 - Google 登入狀態管理
 - 語言切換器
 - 行動裝置選單
 
 ### IconWrapper.vue
+
 - 統一圖標管理
 - 支援 Lucide 圖標庫
 - 顏色和尺寸自訂
 
 ### GoogleLogin.vue
+
 - Google 登入功能
 - 用戶資料管理
 - 登入狀態同步
@@ -152,6 +160,7 @@ src/
 ## Firebase 配置
 
 專案使用 Firebase 作為後端服務：
+
 - **Authentication**: Google 登入
 - **Realtime Database**: 部落格文章儲存
 - **資料結構**:
@@ -176,21 +185,25 @@ src/
 ## 協作指南
 
 ### 新增專案
+
 1. 編輯 `src/data/projects.ts`
 2. 在 `projects` 陣列中新增專案資料
 3. 確保圖標名稱在 Lucide 圖標庫中存在
 
 ### 新增會議
+
 1. 編輯 `src/data/meetups.ts`
 2. 在 `meetups` 陣列中新增會議資料
 3. 設定正確的日期格式 (YYYY-MM-DD)
 
 ### 新增 FAQ
+
 1. 編輯 `src/data/faqs.ts`
 2. 在 `faqs` 陣列中新增問題和答案
 3. 可選的 `details` 陣列用於詳細說明
 
 ### 樣式修改
+
 - 使用 Tailwind CSS 類別
 - 自訂樣式放在組件的 `<style>` 區塊
 - 全域樣式修改 `src/style.css`
@@ -198,11 +211,13 @@ src/
 ## 部署
 
 1. 建置專案：
+
 ```bash
 npm run build
 ```
 
 2. 部署到 Firebase Hosting：
+
 ```bash
 firebase deploy
 ```
@@ -250,26 +265,31 @@ The backend of this project is also open source and consists of two projects:
 ## Installation & Running
 
 1. Install dependencies:
+
 ```bash
 npm install
 ```
 
 2. Start development server:
+
 ```bash
 npm run dev
 ```
 
 3. Type checking:
+
 ```bash
 npm run type-check
 ```
 
 4. Build production version:
+
 ```bash
 npm run build
 ```
 
 5. Preview production version:
+
 ```bash
 npm run preview
 ```
@@ -325,16 +345,19 @@ src/
 The project uses static data files to manage content, making collaboration and maintenance easier:
 
 ### 📊 `projects.ts`
+
 - **Purpose**: Manage project list data
 - **Content**: Project title, description, status, icon, category, participant count
 - **Collaboration**: Add projects, modify project information, update status
 
 ### 📅 `meetups.ts`
+
 - **Purpose**: Manage meeting data
 - **Content**: Meeting title, date, time, location, description, related projects
 - **Collaboration**: Add meetings, update meeting information, manage registration links
 
 ### ❓ `faqs.ts`
+
 - **Purpose**: Manage frequently asked questions and answers
 - **Content**: Questions, answers, detailed explanation lists
 - **Collaboration**: Add questions, update answers, supplement detailed explanations
@@ -342,17 +365,20 @@ The project uses static data files to manage content, making collaboration and m
 ## Component Descriptions
 
 ### Header.vue
+
 - Responsive navigation menu
 - Google login state management
 - Language switcher
 - Mobile menu
 
 ### IconWrapper.vue
+
 - Unified icon management
 - Supports Lucide icon library
 - Customizable colors and sizes
 
 ### GoogleLogin.vue
+
 - Google login functionality
 - User data management
 - Login state synchronization
@@ -360,6 +386,7 @@ The project uses static data files to manage content, making collaboration and m
 ## Firebase Configuration
 
 The project uses Firebase as backend service:
+
 - **Authentication**: Google login
 - **Realtime Database**: Blog article storage
 - **Data Structure**:
@@ -384,21 +411,25 @@ The project uses Firebase as backend service:
 ## Collaboration Guide
 
 ### Adding Projects
+
 1. Edit `src/data/projects.ts`
 2. Add project data to the `projects` array
 3. Ensure icon names exist in the Lucide icon library
 
 ### Adding Meetings
+
 1. Edit `src/data/meetups.ts`
 2. Add meeting data to the `meetups` array
 3. Set correct date format (YYYY-MM-DD)
 
 ### Adding FAQ
+
 1. Edit `src/data/faqs.ts`
 2. Add questions and answers to the `faqs` array
 3. Optional `details` array for detailed explanations
 
 ### Style Modifications
+
 - Use Tailwind CSS classes
 - Custom styles in component `<style>` blocks
 - Global styles modify `src/style.css`
@@ -406,11 +437,13 @@ The project uses Firebase as backend service:
 ## Deployment
 
 1. Build the project:
+
 ```bash
 npm run build
 ```
 
 2. Deploy to Firebase Hosting:
+
 ```bash
 firebase deploy
 ```

@@ -626,8 +626,7 @@
         "button": "聯絡我們"
       }
     }
-  }
-  ,
+  },
   "privacy": {
     "title": "隱私政策",
     "metaDescription": "vTaiwan 隱私政策 - 我們承諾保護您的個人資料，不會將您的個人資料傳遞給第三方",
@@ -744,8 +743,7 @@
       "lastUpdated": "最後更新：2025年9月"
     },
     "backToHome": "返回首頁"
-  }
-  ,
+  },
   "jitsi": {
     "tipBanner": {
       "message": "若要啟用麥克風/鏡頭，請先在黑色空白處點一下，再按左下角的麥克風/鏡頭圖示。",

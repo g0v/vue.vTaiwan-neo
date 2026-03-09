@@ -1,15 +1,15 @@
 <template>
   <div class="topic-discussion-comment">
     <!-- Loading State -->
-    <div v-if="loading" class="text-center py-4">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-jade-green mx-auto"></div>
+    <div v-if="loading" class="py-4 text-center">
+      <div class="mx-auto h-6 w-6 animate-spin rounded-full border-b-2 border-jade-green"></div>
       <p class="mt-2 text-sm text-gray-600">載入留言...</p>
     </div>
 
     <!-- Comments -->
     <div v-else-if="comments.length > 0" class="space-y-6">
       <!-- Stats -->
-      <div class="flex items-center gap-4 text-sm text-gray-500 border-b border-gray-200 pb-4">
+      <div class="flex items-center gap-4 border-b border-gray-200 pb-4 text-sm text-gray-500">
         <div class="flex items-center gap-1">
           <IconWrapper name="message-circle" :size="16" />
           <span>{{ comments.length }} 則留言</span>
@@ -30,23 +30,15 @@
 
       <!-- Comment List -->
       <div class="space-y-4">
-        <div
-          v-for="(comment, index) in comments"
-          :key="index"
-          class="flex space-x-3"
-        >
+        <div v-for="(comment, index) in comments" :key="index" class="flex space-x-3">
           <!-- Avatar -->
           <div class="flex-shrink-0">
-            <img
-              :src="comment.avatar_template"
-              :alt="comment.username"
-              class="w-10 h-10 rounded-full"
-            />
+            <img :src="comment.avatar_template" :alt="comment.username" class="h-10 w-10 rounded-full" />
           </div>
 
           <!-- Comment Content -->
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2 mb-1">
+          <div class="min-w-0 flex-1">
+            <div class="mb-1 flex items-center gap-2">
               <span class="font-semibold text-gray-900">
                 {{ comment.username }}
               </span>
@@ -55,22 +47,14 @@
               </span>
             </div>
 
-            <div
-              class="prose prose-sm max-w-none text-gray-700"
-              v-html="comment.cooked"
-            ></div>
+            <div class="prose prose-sm max-w-none text-gray-700" v-html="comment.cooked"></div>
           </div>
         </div>
       </div>
 
       <!-- Join Discussion Button -->
       <div class="border-t border-gray-200 pt-6 text-center">
-        <a
-          :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary inline-flex items-center"
-        >
+        <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center">
           <IconWrapper name="edit" :size="20" class="mr-2" />
           我要留言
         </a>
@@ -78,15 +62,10 @@
     </div>
 
     <!-- Empty State -->
-    <div v-else class="text-center py-8">
+    <div v-else class="py-8 text-center">
       <IconWrapper name="message-circle" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
       <p class="text-gray-500">目前沒有留言</p>
-      <a
-        :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn-primary mt-4 inline-flex items-center"
-      >
+      <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="btn-primary mt-4 inline-flex items-center">
         <IconWrapper name="edit" :size="20" class="mr-2" />
         成為第一個留言的人
       </a>
@@ -106,12 +85,12 @@ const { locale } = useI18n()
 const props = defineProps({
   commentId: {
     type: [String, Number],
-    required: true
+    required: true,
   },
   slice: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 // 響應式資料
@@ -134,7 +113,7 @@ const loadComments = async () => {
     views.value = {
       views: topicData.views,
       participant_count: topicData.participant_count,
-      last_posted_at: topicData.last_posted_at
+      last_posted_at: topicData.last_posted_at,
     }
 
     // 處理留言
@@ -147,9 +126,8 @@ const loadComments = async () => {
       ...post,
       avatar_template: formatAvatarUrl(post.avatar_template),
       created_at: formatPostDate(post.created_at),
-      cooked: formatPostContent(post.cooked)
+      cooked: formatPostContent(post.cooked),
     }))
-
   } catch (error) {
     console.error('Error loading comments:', error)
     comments.value = []
@@ -159,7 +137,7 @@ const loadComments = async () => {
 }
 
 // 格式化頭像 URL
-const formatAvatarUrl = (avatarTemplate) => {
+const formatAvatarUrl = avatarTemplate => {
   if (!avatarTemplate) return ''
 
   // 如果已經是完整 URL，直接返回
@@ -172,13 +150,13 @@ const formatAvatarUrl = (avatarTemplate) => {
 }
 
 // 格式化貼文日期
-const formatPostDate = (dateString) => {
+const formatPostDate = dateString => {
   if (!dateString) return ''
   return dateString.replace(/T.*/, '') // 只保留日期部分
 }
 
 // 格式化貼文內容
-const formatPostContent = (content) => {
+const formatPostContent = content => {
   if (!content) return ''
 
   // 處理圖片 URL
@@ -186,17 +164,14 @@ const formatPostContent = (content) => {
 
   // 修復不完整的圖片 URL
   if (processedContent.includes('src="/') && !processedContent.includes('src="https://')) {
-    processedContent = processedContent.replace(
-      /src="(?!https:)/g,
-      'src="https://talk.vtaiwan.tw'
-    )
+    processedContent = processedContent.replace(/src="(?!https:)/g, 'src="https://talk.vtaiwan.tw')
   }
 
   return processedContent
 }
 
 // 格式化日期
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   if (!dateString) return ''
 
   try {
@@ -236,12 +211,12 @@ onMounted(() => {
 }
 
 :deep(.prose a) {
-  color: #40B3BF;
+  color: #40b3bf;
   text-decoration: underline;
 }
 
 :deep(.prose a:hover) {
-  color: #369AA3;
+  color: #369aa3;
 }
 
 :deep(.prose blockquote) {

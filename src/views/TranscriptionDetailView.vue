@@ -1,13 +1,15 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="mx-auto max-w-4xl">
       <!-- CC-BY-SA-4.0 授權標註 -->
-      <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4">
         <div class="flex items-center space-x-3">
-          <img src="@/assets/CC_BY_SA.png" alt="CC-BY-SA-4.0" class="w-auto h-8">
+          <img src="@/assets/CC_BY_SA.png" alt="CC-BY-SA-4.0" class="h-8 w-auto" />
           <div class="text-sm text-blue-800">
-            <p class="font-medium">本內容以 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600">CC-BY-SA-4.0</a> 授權分享</p>
-            <p class="text-xs mt-1">您可以自由分享、修改本內容，惟需標註原作者並以相同授權條款分享</p>
+            <p class="font-medium">
+              本內容以 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-600">CC-BY-SA-4.0</a> 授權分享
+            </p>
+            <p class="mt-1 text-xs">您可以自由分享、修改本內容，惟需標註原作者並以相同授權條款分享</p>
           </div>
         </div>
       </div>
@@ -16,16 +18,11 @@
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">
-              {{ $t('transcriptionDetail.title') }} - {{ formatMeetingId(meetingId) }}
-            </h1>
+            <h1 class="mb-2 text-3xl font-bold text-gray-900">{{ $t('transcriptionDetail.title') }} - {{ formatMeetingId(meetingId) }}</h1>
             <p class="text-gray-600">{{ $t('transcriptionDetail.description') }}</p>
           </div>
-          <button
-            @click="$router.push('/transcriptions')"
-            class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center space-x-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button @click="$router.push('/transcriptions')" class="flex items-center space-x-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             <span>{{ $t('transcriptionDetail.backToList') }}</span>
@@ -34,41 +31,33 @@
       </div>
 
       <!-- 載入狀態 -->
-      <div v-if="loading" class="flex justify-center items-center py-12">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div v-if="loading" class="flex items-center justify-center py-12">
+        <div class="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
 
       <!-- 錯誤訊息 -->
-      <div v-if="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+      <div v-if="error" class="mb-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
         {{ error }}
       </div>
 
       <!-- 逐字稿內容 -->
       <div v-if="!loading && !error && transcriptionContent.length > 0" class="space-y-0">
-        <div
-          v-for="(message, index) in transcriptionContent"
-          :key="index"
-          class="bg-white border-b border-gray-200 md:border-b-0 md:rounded-lg md:shadow-md p-6 md:border md:border-gray-200"
-        >
+        <div v-for="(message, index) in transcriptionContent" :key="index" class="border-b border-gray-200 bg-white p-6 md:rounded-lg md:border md:border-b-0 md:border-gray-200 md:shadow-md">
           <div class="flex items-start space-x-4">
             <!-- 頭像 -->
             <div class="flex-shrink-0">
-              <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-
-                <img v-if="getPhotoURL(getSpeaker(message))" :src="getPhotoURL(getSpeaker(message))" :alt="$t('transcriptionDetail.photoAlt')" class="w-10 h-10 rounded-full">
-                <svg v-else class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
+                <img v-if="getPhotoURL(getSpeaker(message))" :src="getPhotoURL(getSpeaker(message))" :alt="$t('transcriptionDetail.photoAlt')" class="h-10 w-10 rounded-full" />
+                <svg v-else class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
-
               </div>
             </div>
 
             <!-- 訊息內容 -->
-            <div class="flex-1 min-w-0">
-              <div class="text-sm text-gray-500 mb-2">
-                {{ getSpeaker(message) }} {{ getDateTime(message) }}
-              </div>
-              <div class="text-gray-900 leading-relaxed whitespace-pre-wrap break-all">
+            <div class="min-w-0 flex-1">
+              <div class="mb-2 text-sm text-gray-500">{{ getSpeaker(message) }} {{ getDateTime(message) }}</div>
+              <div class="whitespace-pre-wrap break-all leading-relaxed text-gray-900">
                 {{ dropSpeakerAndDateTime(message) }}
               </div>
             </div>
@@ -77,7 +66,7 @@
       </div>
 
       <!-- 空狀態 -->
-      <div v-if="!loading && !error && transcriptionContent.length === 0" class="text-center py-12">
+      <div v-if="!loading && !error && transcriptionContent.length === 0" class="py-12 text-center">
         <p class="text-gray-500">{{ $t('transcriptionDetail.noContent') }}</p>
       </div>
     </div>
@@ -91,7 +80,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 const { t } = useI18n()
 useHead({
-  title: t('transcriptionDetail.title') + ' | vTaiwan'
+  title: t('transcriptionDetail.title') + ' | vTaiwan',
 })
 const route = useRoute()
 const router = useRouter()
@@ -127,7 +116,10 @@ const formatMeetingId = (meetingId: string): string => {
 
 // 取得發言者
 const getSpeaker = (message: string): string => {
-  return message.split('\n')[0].replace(/^\[.+?\]/, '').replace(/:.+$/, '')
+  return message
+    .split('\n')[0]
+    .replace(/^\[.+?\]/, '')
+    .replace(/:.+$/, '')
 }
 
 const getDateTime = (message: string): string => {

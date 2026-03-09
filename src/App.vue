@@ -1,29 +1,19 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="flex min-h-screen flex-col">
     <Header :user="user" :userData="userData" @logout="handleLogout" @show-login="showLoginModal = true" />
     <main class="flex-grow">
       <!-- Debug info -->
-      <div v-if="false" class="text-xs text-gray-500 p-2">
-        Debug: user={{ user }}, userData={{ userData }}
-      </div>
-      <router-view
-        :user="user"
-        :userData="userData"
-        @login-success="handleLoginSuccess"
-        @logout="handleLogout"
-        @profile-updated="handleProfileUpdated"
-      />
+      <div v-if="false" class="p-2 text-xs text-gray-500">Debug: user={{ user }}, userData={{ userData }}</div>
+      <router-view :user="user" :userData="userData" @login-success="handleLoginSuccess" @logout="handleLogout" @profile-updated="handleProfileUpdated" />
     </main>
     <Footer />
 
     <!-- 登入模態框 -->
-    <div v-if="showLoginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-      <div class="bg-white rounded-lg p-8 max-w-md w-full mx-4">
-        <div class="flex justify-between items-center mb-6">
+    <div v-if="showLoginModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+      <div class="mx-4 w-full max-w-md rounded-lg bg-white p-8">
+        <div class="mb-6 flex items-center justify-between">
           <h2 class="text-2xl font-bold">{{ $t('auth.loginTitle') }}</h2>
-          <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">
-            ×
-          </button>
+          <button @click="showLoginModal = false" class="text-2xl font-bold text-gray-500 hover:text-gray-700">×</button>
         </div>
 
         <GoogleLogin @login-success="handleLoginSuccess" :inApp="isInApp" />
@@ -59,7 +49,7 @@ const userData = ref({})
 const showLoginModal = ref(false)
 
 // 獲取用戶詳細資訊
-const loadUserData = async (uid) => {
+const loadUserData = async uid => {
   try {
     // console.log('Loading user data for uid:', uid)
     const userSnapshot = await get(dbRef(database, `users/${uid}`))
@@ -89,7 +79,7 @@ const loadUserData = async (uid) => {
 // 監聽登入狀態
 onMounted(() => {
   const auth = getAuth()
-  onAuthStateChanged(auth, async (currentUser) => {
+  onAuthStateChanged(auth, async currentUser => {
     //console.log('Auth state changed:', currentUser)
     user.value = currentUser
     if (currentUser) {
@@ -130,7 +120,7 @@ onMounted(() => {
 })
 
 // 處理登入成功（這個函數主要用於關閉模態框）
-const handleLoginSuccess = async (firebaseUser) => {
+const handleLoginSuccess = async firebaseUser => {
   console.log('handleLoginSuccess called with:', firebaseUser)
   // onAuthStateChanged 會自動處理用戶創建，這裡只需要關閉模態框
   showLoginModal.value = false
@@ -150,31 +140,32 @@ const handleLogout = async () => {
 }
 
 // 處理個人資料更新
-const handleProfileUpdated = async (updatedData) => {
+const handleProfileUpdated = async updatedData => {
   if (user.value) {
     // 更新 Firebase User 對象的本地副本
     user.value = {
       ...user.value,
-      ...updatedData
+      ...updatedData,
     }
 
     // 如果需要，也可以更新 userData
     userData.value = {
       ...userData.value,
-      name: updatedData.displayName
+      name: updatedData.displayName,
     }
 
     // 更新 Firebase 的 userData
     const userRef = dbRef(database, `users/${user.value.uid}`)
 
     update(userRef, {
-      name: updatedData.displayName
-    }).then(() => {
-      console.log('Profile updated successfully')
-    }).catch((error) => {
-      console.error('Error updating profile:', error)
+      name: updatedData.displayName,
     })
-
+      .then(() => {
+        console.log('Profile updated successfully')
+      })
+      .catch(error => {
+        console.error('Error updating profile:', error)
+      })
   }
 }
 </script>

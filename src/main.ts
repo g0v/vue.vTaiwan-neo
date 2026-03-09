@@ -29,8 +29,8 @@ app.use(router)
 app.use(i18n)
 app.use(VueGtag, {
   property: {
-    id: 'G-PJ396EXSTX'
-  }
+    id: 'G-PJ396EXSTX',
+  },
 })
 
 router.afterEach((to, from) => {
@@ -41,7 +41,7 @@ router.afterEach((to, from) => {
     window.gtag('event', 'page_view', {
       page_title: title,
       page_path: to.fullPath,
-      page_location: window.location.href
+      page_location: window.location.href,
     })
   }
 })

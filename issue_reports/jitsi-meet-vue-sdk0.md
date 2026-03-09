@@ -22,21 +22,13 @@ When using the `JaaSMeeting` component in Vue 3, the following warning appears i
 
 ```vue
 <template>
-  <div class="w-full h-screen" v-if="jwt">
-    <JaaSMeeting
-      :app-id="appId"
-      :room-name="fullRoomName"
-      :jwt="jwt"
-      :use-staging="false"
-      lang="zh-TW"
-      @get-iframe-ref-on-api-ready="onIframeReady"
-      @on-api-ready="onApiReady"
-    />
+  <div class="h-screen w-full" v-if="jwt">
+    <JaaSMeeting :app-id="appId" :room-name="fullRoomName" :jwt="jwt" :use-staging="false" lang="zh-TW" @get-iframe-ref-on-api-ready="onIframeReady" @on-api-ready="onApiReady" />
   </div>
 </template>
 
 <script>
-import { JaaSMeeting } from '@jitsi/vue-sdk';
+import { JaaSMeeting } from '@jitsi/vue-sdk'
 
 export default {
   components: { JaaSMeeting },
@@ -44,8 +36,8 @@ export default {
     return {
       appId: 'your-app-id',
       fullRoomName: 'your-room-name',
-      jwt: 'your-jwt-token'
-    };
+      jwt: 'your-jwt-token',
+    }
   },
   methods: {
     onIframeReady(parentNode) {
@@ -53,9 +45,9 @@ export default {
     },
     onApiReady(api) {
       // api ready handler
-    }
-  }
-};
+    },
+  },
+}
 </script>
 ```
 
@@ -109,4 +101,4 @@ This is similar to Vue core issue: https://github.com/vuejs/core/issues/5933
 - The issue only appears in development mode
 - Functionality is not affected
 - This is a common issue with Vue 3 components that don't properly handle attribute inheritance
-- May be related to the component's internal structure using fragments or teleport nodes 
+- May be related to the component's internal structure using fragments or teleport nodes

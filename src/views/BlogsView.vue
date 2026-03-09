@@ -1,52 +1,35 @@
 <template>
   <div class="container mx-auto px-2 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+    <div class="mb-8 flex flex-col items-center justify-between md:flex-row">
       <h1 class="text-3xl font-bold md:w-1/2">{{ $t('medium.title') }}</h1>
       <p class="text-sm text-gray-500">
         {{ $t('medium.sourceDescription') }}
-        <a
-          :href="`https://medium.com/@${mediumUsername}`"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-blue-600 hover:text-blue-800 text-sm"
-        >Medium/@{{ mediumUsername }}</a>
+        <a :href="`https://medium.com/@${mediumUsername}`" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800">Medium/@{{ mediumUsername }}</a>
       </p>
     </div>
 
-    <div v-if="loading" class="text-center py-8">
+    <div v-if="loading" class="py-8 text-center">
       <p class="text-gray-600">{{ $t('medium.loading') }}</p>
     </div>
 
-    <div v-else-if="error" class="text-center py-8">
-      <p class="text-red-600 mb-4">{{ error }}</p>
-      <button
-        @click="loadArticles"
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-      >
+    <div v-else-if="error" class="py-8 text-center">
+      <p class="mb-4 text-red-600">{{ error }}</p>
+      <button @click="loadArticles" class="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
         {{ $t('medium.retry') }}
       </button>
     </div>
 
     <div v-else-if="articles.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article
-        v-for="article in articles"
-        :key="article.id || article.guid"
-        class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6"
-      >
+      <article v-for="article in articles" :key="article.id || article.guid" class="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
         <!-- 文章標題 -->
-        <h2 class="text-xl font-bold mb-3">
-          <a
-            :href="article.link"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-gray-900 hover:text-blue-600 transition-colors"
-          >
+        <h2 class="mb-3 text-xl font-bold">
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-gray-900 transition-colors hover:text-blue-600">
             {{ article.title }}
           </a>
         </h2>
 
         <!-- 作者和日期 -->
-        <div class="flex items-center space-x-3 mb-4">
+        <div class="mb-4 flex items-center space-x-3">
           <div v-if="article.author" class="flex items-center space-x-2">
             <span class="text-sm text-gray-600">{{ article.author }}</span>
           </div>
@@ -61,32 +44,19 @@
         </div>
 
         <!-- 標籤 -->
-        <div v-if="article.categories && article.categories.length > 0" class="flex flex-wrap gap-2 mb-4">
-          <span
-            v-for="category in article.categories"
-            :key="category"
-            class="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
-          >
-            #{{ category }}
-          </span>
+        <div v-if="article.categories && article.categories.length > 0" class="mb-4 flex flex-wrap gap-2">
+          <span v-for="category in article.categories" :key="category" class="rounded-full bg-blue-100 px-2 py-1 text-sm text-blue-700"> #{{ category }} </span>
         </div>
 
         <!-- 外部連結 -->
         <div class="mt-4">
-          <a
-            :href="article.link"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-blue-600 hover:text-blue-800 text-sm font-medium"
-          >
-            {{ $t('medium.readMore') }} →
-          </a>
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:text-blue-800"> {{ $t('medium.readMore') }} → </a>
         </div>
       </article>
     </div>
 
     <!-- 無文章時顯示 -->
-    <div v-if="!loading && !error && articles.length === 0" class="text-center py-8">
+    <div v-if="!loading && !error && articles.length === 0" class="py-8 text-center">
       <p class="text-gray-600">{{ $t('medium.noArticles') }}</p>
     </div>
   </div>
@@ -100,7 +70,7 @@ import { useHead } from '@unhead/vue'
 const { locale, t } = useI18n()
 
 useHead({
-  title: t('medium.title') + ' | vTaiwan'
+  title: t('medium.title') + ' | vTaiwan',
 })
 
 const articles = ref([])
@@ -109,13 +79,13 @@ const error = ref(null)
 const mediumUsername = ref('vtaiwan.tw') // 預設顯示 vtaiwan.tw 的文章
 
 // 格式化日期
-const formatDate = (dateString) => {
+const formatDate = dateString => {
   try {
     const date = new Date(dateString)
     return date.toLocaleDateString(locale.value, {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     })
   } catch (e) {
     return dateString
@@ -123,7 +93,7 @@ const formatDate = (dateString) => {
 }
 
 // 取得文章摘要
-const getSummary = (content) => {
+const getSummary = content => {
   if (!content) return ''
 
   // 移除 HTML 標籤
@@ -138,7 +108,7 @@ const getSummary = (content) => {
 }
 
 // 解析 RSS XML
-const parseRSS = (xmlText) => {
+const parseRSS = xmlText => {
   try {
     const parser = new DOMParser()
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
@@ -153,7 +123,7 @@ const parseRSS = (xmlText) => {
 
     // 嘗試獲取 RSS 2.0 格式的 items
     let items = xmlDoc.querySelectorAll('item')
-    
+
     // 如果沒有找到 items，嘗試 Atom 格式
     if (items.length === 0) {
       items = xmlDoc.querySelectorAll('entry')
@@ -172,15 +142,9 @@ const parseRSS = (xmlText) => {
         let title = item.querySelector('title')?.textContent || ''
         let link = item.querySelector('link')?.textContent || ''
         let description = item.querySelector('description')?.textContent || ''
-        let content = item.querySelector('content\\:encoded')?.textContent || 
-                     item.querySelector('content')?.textContent || 
-                     description
-        let pubDate = item.querySelector('pubDate')?.textContent || 
-                     item.querySelector('published')?.textContent || 
-                     item.querySelector('updated')?.textContent || ''
-        let author = item.querySelector('dc\\:creator')?.textContent || 
-                    item.querySelector('author')?.textContent || 
-                    item.querySelector('name')?.textContent || ''
+        let content = item.querySelector('content\\:encoded')?.textContent || item.querySelector('content')?.textContent || description
+        let pubDate = item.querySelector('pubDate')?.textContent || item.querySelector('published')?.textContent || item.querySelector('updated')?.textContent || ''
+        let author = item.querySelector('dc\\:creator')?.textContent || item.querySelector('author')?.textContent || item.querySelector('name')?.textContent || ''
         let guid = item.querySelector('guid')?.textContent || link
 
         // Atom 格式處理
@@ -198,7 +162,7 @@ const parseRSS = (xmlText) => {
 
         // 提取標籤
         const categories = []
-        item.querySelectorAll('category').forEach((cat) => {
+        item.querySelectorAll('category').forEach(cat => {
           const categoryText = cat.textContent || cat.getAttribute('term') || ''
           if (categoryText) {
             categories.push(categoryText)
@@ -206,7 +170,7 @@ const parseRSS = (xmlText) => {
         })
 
         // 提取 Atom 格式的標籤
-        item.querySelectorAll('category').forEach((cat) => {
+        item.querySelectorAll('category').forEach(cat => {
           const term = cat.getAttribute('term')
           if (term) {
             categories.push(term)
@@ -223,7 +187,7 @@ const parseRSS = (xmlText) => {
             content: content,
             pubDate: pubDate,
             author: author,
-            categories: categories
+            categories: categories,
           })
         }
       } catch (itemError) {
@@ -240,7 +204,7 @@ const parseRSS = (xmlText) => {
 }
 
 // 使用 Medium JSON API 獲取文章
-const fetchMediumJSON = async (username) => {
+const fetchMediumJSON = async username => {
   try {
     // Medium 的非官方 JSON API
     const url = `https://medium.com/@${username}?format=json`
@@ -253,17 +217,17 @@ const fetchMediumJSON = async (username) => {
     const text = await response.text()
     // Medium 的 JSON 回應通常以 "])}while(1);</x>" 開頭，需要移除
     const jsonText = text.replace(/^[\s\S]*?\{/, '{').replace(/\}\s*$/, '}')
-    
+
     try {
       const data = JSON.parse(jsonText)
-      
+
       // 解析 Medium 的 JSON 結構
       // Medium 的 JSON 結構比較複雜，需要根據實際回應調整
       if (data.payload && data.payload.references) {
         const posts = []
         const postRefs = data.payload.references.Post || {}
-        
-        Object.values(postRefs).forEach((post) => {
+
+        Object.values(postRefs).forEach(post => {
           posts.push({
             id: post.id,
             title: post.title,
@@ -271,8 +235,8 @@ const fetchMediumJSON = async (username) => {
             description: post.virtuals?.subtitle || '',
             content: post.content?.bodyModel?.paragraphs?.map(p => p.text).join(' ') || '',
             pubDate: new Date(post.firstPublishedAt || post.createdAt).toISOString(),
-            author: post.authorId ? (data.payload.references.User?.[post.authorId]?.name || username) : username,
-            categories: post.virtuals?.tags?.map(tag => tag.name) || []
+            author: post.authorId ? data.payload.references.User?.[post.authorId]?.name || username : username,
+            categories: post.virtuals?.tags?.map(tag => tag.name) || [],
           })
         })
 
@@ -293,49 +257,49 @@ const fetchMediumJSON = async (username) => {
 }
 
 // 使用 RSS feed 獲取文章（使用 CORS 代理）
-const fetchRSS = async (username) => {
+const fetchRSS = async username => {
   // Medium RSS feed URL
   const rssUrl = `https://medium.com/feed/@${username}`
-  
+
   // 使用多個 CORS 代理服務作為備選方案
   const proxyServices = [
     {
       name: 'allorigins.win',
       url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
-      parser: async (response) => {
+      parser: async response => {
         const data = await response.json()
         return data.contents || data
-      }
+      },
     },
     {
       name: 'corsproxy.io',
       url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
-      parser: async (response) => {
+      parser: async response => {
         return await response.text()
-      }
+      },
     },
     {
       name: 'api.codetabs.com',
       url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
-      parser: async (response) => {
+      parser: async response => {
         return await response.text()
-      }
-    }
+      },
+    },
   ]
-  
+
   let lastError = null
-  
+
   // 嘗試每個代理服務
   for (const proxy of proxyServices) {
     try {
       console.log(`🔍 嘗試使用 ${proxy.name} 獲取 Medium RSS feed:`, rssUrl)
-      
+
       const response = await fetch(proxy.url, {
         method: 'GET',
         headers: {
-          'Accept': 'application/rss+xml, application/xml, text/xml, application/json, */*',
+          Accept: 'application/rss+xml, application/xml, text/xml, application/json, */*',
         },
-        mode: 'cors'
+        mode: 'cors',
       })
 
       if (!response.ok) {
@@ -345,17 +309,17 @@ const fetchRSS = async (username) => {
       }
 
       let xmlText = await proxy.parser(response)
-      
+
       // 如果是 JSON 格式（allorigins.win），提取 contents
       if (typeof xmlText === 'object' && xmlText.contents) {
         xmlText = xmlText.contents
       }
-      
+
       // 確保是字符串
       if (typeof xmlText !== 'string') {
         xmlText = String(xmlText)
       }
-      
+
       // 檢查是否獲取到有效的 XML
       if (!xmlText || xmlText.trim().length === 0) {
         console.warn(`⚠️ ${proxy.name} 回應為空`)
@@ -372,7 +336,7 @@ const fetchRSS = async (username) => {
 
       console.log(`✅ ${proxy.name} RSS feed 獲取成功，開始解析...`)
       const parsedArticles = parseRSS(xmlText)
-      
+
       if (parsedArticles && parsedArticles.length > 0) {
         console.log(`✅ 成功使用 ${proxy.name} 解析 ${parsedArticles.length} 篇文章`)
         return parsedArticles
@@ -386,36 +350,36 @@ const fetchRSS = async (username) => {
       continue
     }
   }
-  
+
   // 所有代理都失敗
   throw lastError || new Error('所有 CORS 代理服務都無法連接')
 }
 
 // 從 URL 中提取 Medium 用戶名
-const extractUsernameFromUrl = (input) => {
+const extractUsernameFromUrl = input => {
   if (!input) return null
-  
+
   // 移除前後空格
   const trimmed = input.trim()
-  
+
   // 如果已經是純用戶名（不包含 URL），直接返回
   if (!trimmed.includes('medium.com') && !trimmed.includes('http')) {
     return trimmed.replace('@', '')
   }
-  
+
   // 從 URL 中提取用戶名
   // 匹配格式：https://medium.com/@username 或 medium.com/@username
   const match = trimmed.match(/medium\.com\/@([^\/\s?]+)/)
   if (match && match[1]) {
     return match[1]
   }
-  
+
   // 匹配格式：@username
   const atMatch = trimmed.match(/@([^\s\/]+)/)
   if (atMatch && atMatch[1]) {
     return atMatch[1]
   }
-  
+
   return trimmed.replace('@', '')
 }
 
@@ -443,7 +407,7 @@ const loadArticles = async () => {
       }
     } catch (rssError) {
       console.error('RSS feed 獲取失敗:', rssError)
-      
+
       // 提供更詳細的錯誤信息
       if (rssError.message.includes('CORS') || rssError.message.includes('Failed to fetch')) {
         error.value = t('medium.corsError') || '無法連接到 Medium RSS feed，可能是 CORS 限制。請檢查瀏覽器控制台獲取詳細信息。'
@@ -453,7 +417,6 @@ const loadArticles = async () => {
         error.value = `${t('medium.fetchError')}: ${rssError.message}`
       }
     }
-
   } catch (err) {
     console.error('❌ 獲取文章失敗:', err)
     error.value = t('medium.fetchError')
@@ -470,7 +433,7 @@ onMounted(() => {
 
 <style scoped>
 .prose :deep(a) {
-  @apply text-blue-600 hover:text-blue-800 underline;
+  @apply text-blue-600 underline hover:text-blue-800;
 }
 
 .prose :deep(p) {
@@ -481,4 +444,3 @@ onMounted(() => {
   @apply mb-2;
 }
 </style>
-

@@ -3,15 +3,10 @@
     <button
       @click="handleGoogleLogin"
       :disabled="loading"
-      class="flex items-center justify-center w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-democratic-red disabled:opacity-50"
+      class="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:opacity-50"
     >
-      <img
-        v-if="!loading"
-        src="https://developers.google.com/identity/images/g-logo.png"
-        alt="Google"
-        class="w-5 h-5 mr-2"
-      />
-      <span v-if="loading" class="animate-spin mr-2">⏳</span>
+      <img v-if="!loading" src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="mr-2 h-5 w-5" />
+      <span v-if="loading" class="mr-2 animate-spin">⏳</span>
       {{ loading ? $t('auth.loggingIn') : $t('auth.loginWithGoogle') }}
     </button>
   </div>
@@ -26,8 +21,8 @@ const props = defineProps({
   inApp: {
     type: Boolean,
     required: false,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const { t } = useI18n()

@@ -3,8 +3,7 @@
   "意見徵集": "Collecting Opinions",
   "研擬草案": "Drafting",
   "送交院會": "To Legislature",
-  "歷史案件": "Archived"
-  ,
+  "歷史案件": "Archived",
   "common": {
     "login": "Login",
     "logout": "Logout",
@@ -632,8 +631,7 @@
         "button": "Contact Us"
       }
     }
-  }
-  ,
+  },
   "privacy": {
     "title": "Privacy Policy",
     "metaDescription": "vTaiwan Privacy Policy - We are committed to protecting your personal data and will not share your personal information with third parties",
@@ -750,8 +748,7 @@
       "lastUpdated": "Last updated: September 2025"
     },
     "backToHome": "Back to Home"
-  }
-  ,
+  },
   "jitsi": {
     "tipBanner": {
       "message": "To enable mic/camera, click once on the black area, then press the mic/camera icons at the bottom-left.",
