@@ -1,21 +1,21 @@
 <template>
   <div class="container mx-auto px-2 py-8">
     <div class="mb-8 flex flex-col items-center justify-between md:flex-row">
-      <h1 class="text-3xl font-bold md:w-1/2">{{ $t('medium.title') }}</h1>
+      <h1 class="text-3xl font-bold md:w-1/2">{{ t('medium.title') }}</h1>
       <p class="text-sm text-gray-500">
-        {{ $t('medium.sourceDescription') }}
+        {{ t('medium.sourceDescription') }}
         <a :href="`https://medium.com/@${mediumUsername}`" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800">Medium/@{{ mediumUsername }}</a>
       </p>
     </div>
 
     <div v-if="loading" class="py-8 text-center">
-      <p class="text-gray-600">{{ $t('medium.loading') }}</p>
+      <p class="text-gray-600">{{ t('medium.loading') }}</p>
     </div>
 
     <div v-else-if="error" class="py-8 text-center">
       <p class="mb-4 text-red-600">{{ error }}</p>
       <button @click="loadArticles" class="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
-        {{ $t('medium.retry') }}
+        {{ t('medium.retry') }}
       </button>
     </div>
 
@@ -50,19 +50,19 @@
 
         <!-- 外部連結 -->
         <div class="mt-4">
-          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:text-blue-800"> {{ $t('medium.readMore') }} → </a>
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:text-blue-800"> {{ t('medium.readMore') }} → </a>
         </div>
       </article>
     </div>
 
     <!-- 無文章時顯示 -->
     <div v-if="!loading && !error && articles.length === 0" class="py-8 text-center">
-      <p class="text-gray-600">{{ $t('medium.noArticles') }}</p>
+      <p class="text-gray-600">{{ t('medium.noArticles') }}</p>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
@@ -73,13 +73,25 @@ useHead({
   title: t('medium.title') + ' | vTaiwan',
 })
 
-const articles = ref([])
+interface Article {
+  id: string
+  guid: string
+  title: string
+  link: string
+  description: string
+  content: string
+  pubDate: string
+  author: string
+  categories: string[]
+}
+
+const articles = ref<Article[]>([])
 const loading = ref(false)
-const error = ref(null)
+const error = ref<string | null>(null)
 const mediumUsername = ref('vtaiwan.tw') // 預設顯示 vtaiwan.tw 的文章
 
 // 格式化日期
-const formatDate = dateString => {
+const formatDate = (dateString: string) => {
   try {
     const date = new Date(dateString)
     return date.toLocaleDateString(locale.value, {
@@ -93,7 +105,7 @@ const formatDate = dateString => {
 }
 
 // 取得文章摘要
-const getSummary = content => {
+const getSummary = (content: string) => {
   if (!content) return ''
 
   // 移除 HTML 標籤
@@ -108,7 +120,7 @@ const getSummary = content => {
 }
 
 // 解析 RSS XML
-const parseRSS = xmlText => {
+const parseRSS = (xmlText: string) => {
   try {
     const parser = new DOMParser()
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
@@ -134,7 +146,7 @@ const parseRSS = xmlText => {
       return []
     }
 
-    const parsedArticles = []
+    const parsedArticles: Article[] = []
 
     items.forEach((item, index) => {
       try {
@@ -149,11 +161,11 @@ const parseRSS = xmlText => {
 
         // Atom 格式處理
         if (!title && item.querySelector('title')) {
-          title = item.querySelector('title').textContent || ''
+          title = item.querySelector('title')?.textContent || ''
         }
         if (!link && item.querySelector('link')) {
           const linkElement = item.querySelector('link')
-          link = linkElement.getAttribute('href') || linkElement.textContent || ''
+          link = linkElement?.getAttribute('href') || linkElement?.textContent || ''
         }
 
         // 清理 HTML 標籤
@@ -161,7 +173,7 @@ const parseRSS = xmlText => {
         description = description.replace(/<[^>]*>/g, '').trim()
 
         // 提取標籤
-        const categories = []
+        const categories: string[] = []
         item.querySelectorAll('category').forEach(cat => {
           const categoryText = cat.textContent || cat.getAttribute('term') || ''
           if (categoryText) {
@@ -204,7 +216,7 @@ const parseRSS = xmlText => {
 }
 
 // 使用 RSS feed 獲取文章（使用 CORS 代理）
-const fetchRSS = async username => {
+const fetchRSS = async (username: string) => {
   // Medium RSS feed URL
   const rssUrl = `https://medium.com/feed/@${username}`
 
@@ -213,7 +225,7 @@ const fetchRSS = async username => {
     {
       name: 'allorigins.win',
       url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
-      parser: async response => {
+      parser: async (response: Response) => {
         const data = await response.json()
         return data.contents || data
       },
@@ -221,14 +233,14 @@ const fetchRSS = async username => {
     {
       name: 'corsproxy.io',
       url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
-      parser: async response => {
+      parser: async (response: Response) => {
         return await response.text()
       },
     },
     {
       name: 'api.codetabs.com',
       url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
-      parser: async response => {
+      parser: async (response: Response) => {
         return await response.text()
       },
     },
@@ -292,9 +304,11 @@ const fetchRSS = async username => {
         lastError = new Error('RSS feed 解析後沒有文章')
       }
     } catch (err) {
-      console.warn(`❌ ${proxy.name} 獲取失敗:`, err.message)
-      lastError = err
-      continue
+      if (err instanceof Error) {
+        console.warn(`❌ ${proxy.name} 獲取失敗:`, err.message)
+        lastError = err
+        continue
+      }
     }
   }
 
@@ -325,15 +339,17 @@ const loadArticles = async () => {
         console.warn('RSS feed 返回空結果')
       }
     } catch (rssError) {
-      console.error('RSS feed 獲取失敗:', rssError)
+      if (rssError instanceof Error) {
+        console.error('RSS feed 獲取失敗:', rssError)
 
-      // 提供更詳細的錯誤信息
-      if (rssError.message.includes('CORS') || rssError.message.includes('Failed to fetch')) {
-        error.value = t('medium.corsError') || '無法連接到 Medium RSS feed，可能是 CORS 限制。請檢查瀏覽器控制台獲取詳細信息。'
-      } else if (rssError.message.includes('404') || rssError.message.includes('404')) {
-        error.value = t('medium.userNotFound') || `找不到用戶名 "${username}" 的 Medium RSS feed，請確認用戶名是否正確。`
-      } else {
-        error.value = `${t('medium.fetchError')}: ${rssError.message}`
+        // 提供更詳細的錯誤信息
+        if (rssError.message.includes('CORS') || rssError.message.includes('Failed to fetch')) {
+          error.value = t('medium.corsError') || '無法連接到 Medium RSS feed，可能是 CORS 限制。請檢查瀏覽器控制台獲取詳細信息。'
+        } else if (rssError.message.includes('404') || rssError.message.includes('404')) {
+          error.value = t('medium.userNotFound') || `找不到用戶名 "${username}" 的 Medium RSS feed，請確認用戶名是否正確。`
+        } else {
+          error.value = `${t('medium.fetchError')}: ${rssError.message}`
+        }
       }
     }
   } catch (err) {
