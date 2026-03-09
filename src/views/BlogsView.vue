@@ -68,6 +68,7 @@
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+import { firstSuccessThenFallback } from '@/utils/firstSuccessThenFallback'
 
 const { locale, t } = useI18n()
 
@@ -184,7 +185,6 @@ const parseRSS = (xmlText: string) => {
       }
     })
 
-    console.log(`解析完成，共 ${parsedArticles.length} 篇文章`)
     return parsedArticles
   } catch (err) {
     console.error('RSS 解析錯誤:', err)
@@ -192,16 +192,43 @@ const parseRSS = (xmlText: string) => {
   }
 }
 
+type RssResponse = string | { contents: string }
+
+const checkRSSFormat = (rssRes: RssResponse) => {
+  // 如果是 JSON 格式（allorigins.win），提取 contents
+  if (typeof rssRes === 'object' && rssRes.contents) {
+    rssRes = rssRes.contents
+  }
+
+  // 確保是字符串
+  if (typeof rssRes !== 'string') {
+    rssRes = String(rssRes)
+  }
+
+  // 檢查是否獲取到有效的 XML
+  if (!rssRes || rssRes.trim().length === 0) {
+    throw new Error('RSS feed 回應為空')
+  }
+
+  // 檢查是否包含 RSS 標記
+  if (!rssRes.includes('<rss') && !rssRes.includes('<feed') && !rssRes.includes('<?xml')) {
+    throw new Error('RSS feed 格式不正確')
+  }
+
+  console.log(`✅ RSS feed 獲取成功，開始解析...`)
+  return rssRes
+}
+
 // 使用 RSS feed 獲取文章（使用 CORS 代理）
 const fetchRSS = async (username: string) => {
   // Medium RSS feed URL
-  const rssUrl = `https://medium.com/feed/@${username}`
+  const rssUrl = encodeURIComponent(`https://medium.com/feed/@${username}`)
 
   // 使用多個 CORS 代理服務作為備選方案
   const proxyServices = [
     {
       name: 'allorigins.win',
-      url: `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`,
+      url: `https://api.allorigins.win/get?url=${rssUrl}`,
       parser: async (response: Response) => {
         const data = await response.json()
         return data.contents || data
@@ -209,85 +236,51 @@ const fetchRSS = async (username: string) => {
     },
     {
       name: 'corsproxy.io',
-      url: `https://corsproxy.io/?${encodeURIComponent(rssUrl)}`,
+      url: `https://corsproxy.io/?${rssUrl}`,
       parser: async (response: Response) => {
         return await response.text()
       },
     },
     {
       name: 'api.codetabs.com',
-      url: `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(rssUrl)}`,
+      url: `https://api.codetabs.com/v1/proxy/?quest=${rssUrl}`,
       parser: async (response: Response) => {
         return await response.text()
       },
     },
   ]
 
-  let lastError = null
+  const requestFns = []
+  const controller = new AbortController()
 
-  // 嘗試每個代理服務
   for (const proxy of proxyServices) {
-    try {
-      console.log(`🔍 嘗試使用 ${proxy.name} 獲取 Medium RSS feed:`, rssUrl)
-
-      const response = await fetch(proxy.url, {
+    requestFns.push(() =>
+      fetch(proxy.url, {
+        signal: controller.signal,
         method: 'GET',
-        headers: {
-          Accept: 'application/rss+xml, application/xml, text/xml, application/json, */*',
-        },
+        headers: { Accept: 'application/rss+xml, application/xml, text/xml, application/json, */*' },
         mode: 'cors',
+      }).then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`)
+        }
+
+        console.log(`✅ ${proxy.name} 服務請求成功`)
+        return proxy.parser(res)
       })
-
-      if (!response.ok) {
-        console.warn(`⚠️ ${proxy.name} 回應狀態: ${response.status} ${response.statusText}`)
-        lastError = new Error(`HTTP error! status: ${response.status}`)
-        continue
-      }
-
-      let xmlText = await proxy.parser(response)
-
-      // 如果是 JSON 格式（allorigins.win），提取 contents
-      if (typeof xmlText === 'object' && xmlText.contents) {
-        xmlText = xmlText.contents
-      }
-
-      // 確保是字符串
-      if (typeof xmlText !== 'string') {
-        xmlText = String(xmlText)
-      }
-
-      // 檢查是否獲取到有效的 XML
-      if (!xmlText || xmlText.trim().length === 0) {
-        console.warn(`⚠️ ${proxy.name} 回應為空`)
-        lastError = new Error('RSS feed 回應為空')
-        continue
-      }
-
-      // 檢查是否包含 RSS 標記
-      if (!xmlText.includes('<rss') && !xmlText.includes('<feed') && !xmlText.includes('<?xml')) {
-        console.warn(`⚠️ ${proxy.name} 格式不正確，回應內容:`, xmlText.substring(0, 200))
-        lastError = new Error('RSS feed 格式不正確')
-        continue
-      }
-
-      console.log(`✅ ${proxy.name} RSS feed 獲取成功，開始解析...`)
-      const parsedArticles = parseRSS(xmlText)
-
-      if (parsedArticles && parsedArticles.length > 0) {
-        console.log(`✅ 成功使用 ${proxy.name} 解析 ${parsedArticles.length} 篇文章`)
-        return parsedArticles
-      } else {
-        console.warn(`⚠️ ${proxy.name} RSS feed 解析後沒有文章`)
-        lastError = new Error('RSS feed 解析後沒有文章')
-      }
-    } catch (err) {
-      if (err instanceof Error) {
-        console.warn(`❌ ${proxy.name} 獲取失敗:`, err.message)
-        lastError = err
-        continue
-      }
-    }
+    )
   }
+
+  const xmlText = await firstSuccessThenFallback<RssResponse, string>(requestFns, checkRSSFormat, controller)
+
+  const parsedArticles = parseRSS(xmlText)
+
+  if (parsedArticles && parsedArticles.length > 0) {
+    console.log(`✅ 成功解析 ${parsedArticles.length} 篇文章`)
+    return parsedArticles
+  }
+
+  let lastError = null
 
   // 所有代理都失敗
   throw lastError || new Error('所有 CORS 代理服務都無法連接')
