@@ -203,59 +203,6 @@ const parseRSS = xmlText => {
   }
 }
 
-// 使用 Medium JSON API 獲取文章
-const fetchMediumJSON = async username => {
-  try {
-    // Medium 的非官方 JSON API
-    const url = `https://medium.com/@${username}?format=json`
-    const response = await fetch(url)
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-
-    const text = await response.text()
-    // Medium 的 JSON 回應通常以 "])}while(1);</x>" 開頭，需要移除
-    const jsonText = text.replace(/^[\s\S]*?\{/, '{').replace(/\}\s*$/, '}')
-
-    try {
-      const data = JSON.parse(jsonText)
-
-      // 解析 Medium 的 JSON 結構
-      // Medium 的 JSON 結構比較複雜，需要根據實際回應調整
-      if (data.payload && data.payload.references) {
-        const posts = []
-        const postRefs = data.payload.references.Post || {}
-
-        Object.values(postRefs).forEach(post => {
-          posts.push({
-            id: post.id,
-            title: post.title,
-            link: `https://medium.com/@${username}/${post.uniqueSlug}`,
-            description: post.virtuals?.subtitle || '',
-            content: post.content?.bodyModel?.paragraphs?.map(p => p.text).join(' ') || '',
-            pubDate: new Date(post.firstPublishedAt || post.createdAt).toISOString(),
-            author: post.authorId ? data.payload.references.User?.[post.authorId]?.name || username : username,
-            categories: post.virtuals?.tags?.map(tag => tag.name) || [],
-          })
-        })
-
-        // 按發布日期排序（最新的在前）
-        posts.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate))
-        return posts
-      }
-    } catch (jsonError) {
-      console.warn('JSON 解析失敗，嘗試使用 RSS feed:', jsonError)
-      return null
-    }
-
-    return []
-  } catch (err) {
-    console.error('Medium JSON API 錯誤:', err)
-    throw err
-  }
-}
-
 // 使用 RSS feed 獲取文章（使用 CORS 代理）
 const fetchRSS = async username => {
   // Medium RSS feed URL
@@ -353,34 +300,6 @@ const fetchRSS = async username => {
 
   // 所有代理都失敗
   throw lastError || new Error('所有 CORS 代理服務都無法連接')
-}
-
-// 從 URL 中提取 Medium 用戶名
-const extractUsernameFromUrl = input => {
-  if (!input) return null
-
-  // 移除前後空格
-  const trimmed = input.trim()
-
-  // 如果已經是純用戶名（不包含 URL），直接返回
-  if (!trimmed.includes('medium.com') && !trimmed.includes('http')) {
-    return trimmed.replace('@', '')
-  }
-
-  // 從 URL 中提取用戶名
-  // 匹配格式：https://medium.com/@username 或 medium.com/@username
-  const match = trimmed.match(/medium\.com\/@([^\/\s?]+)/)
-  if (match && match[1]) {
-    return match[1]
-  }
-
-  // 匹配格式：@username
-  const atMatch = trimmed.match(/@([^\s\/]+)/)
-  if (atMatch && atMatch[1]) {
-    return atMatch[1]
-  }
-
-  return trimmed.replace('@', '')
 }
 
 // 載入文章
