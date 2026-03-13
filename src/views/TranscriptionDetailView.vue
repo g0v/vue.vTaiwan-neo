@@ -18,14 +18,14 @@
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="mb-2 text-3xl font-bold text-gray-900">{{ $t('transcriptionDetail.title') }} - {{ formatMeetingId(meetingId) }}</h1>
-            <p class="text-gray-600">{{ $t('transcriptionDetail.description') }}</p>
+            <h1 class="mb-2 text-3xl font-bold text-gray-900">{{ t('transcriptionDetail.title') }} - {{ formatMeetingId(meetingId) }}</h1>
+            <p class="text-gray-600">{{ t('transcriptionDetail.description') }}</p>
           </div>
           <button @click="$router.push('/transcriptions')" class="flex items-center space-x-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
-            <span>{{ $t('transcriptionDetail.backToList') }}</span>
+            <span>{{ t('transcriptionDetail.backToList') }}</span>
           </button>
         </div>
       </div>
@@ -47,7 +47,7 @@
             <!-- 頭像 -->
             <div class="flex-shrink-0">
               <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
-                <img v-if="getPhotoURL(getSpeaker(message))" :src="getPhotoURL(getSpeaker(message))" :alt="$t('transcriptionDetail.photoAlt')" class="h-10 w-10 rounded-full" />
+                <img v-if="getPhotoURL(getSpeaker(message))" :src="getPhotoURL(getSpeaker(message))" :alt="t('transcriptionDetail.photoAlt')" class="h-10 w-10 rounded-full" />
                 <svg v-else class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
@@ -67,7 +67,7 @@
 
       <!-- 空狀態 -->
       <div v-if="!loading && !error && transcriptionContent.length === 0" class="py-12 text-center">
-        <p class="text-gray-500">{{ $t('transcriptionDetail.noContent') }}</p>
+        <p class="text-gray-500">{{ t('transcriptionDetail.noContent') }}</p>
       </div>
     </div>
   </div>
