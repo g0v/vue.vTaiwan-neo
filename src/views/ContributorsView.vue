@@ -5,7 +5,7 @@
     <div class="mb-8">
       <h2 class="mb-4 text-2xl font-bold">{{ t('contributors.coreTeam') }}</h2>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <div v-for="contributor in coreTeamRef" :key="contributor.id" class="card p-6 text-center">
+        <div v-for="contributor in coreTeam" :key="contributor.id" class="card p-6 text-center">
           <div class="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-gray-200">
             <img v-if="contributor.imgURL" :src="contributor.imgURL" :alt="contributor.name" class="h-full w-full rounded-full object-cover" />
             <IconWrapper v-else name="user" :size="32" />
@@ -20,7 +20,7 @@
     <div>
       <h2 class="mb-4 text-2xl font-bold">{{ t('contributors.communityContributors') }}</h2>
       <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div v-for="contributor in communityContributorsRef" :key="contributor.id" class="card p-4 text-center">
+        <div v-for="contributor in communityContributors" :key="contributor.id" class="card p-4 text-center">
           <div class="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
             <img v-if="contributor.imgURL" :src="contributor.imgURL" :alt="contributor.name" class="h-full w-full rounded-full object-cover" />
             <IconWrapper v-else name="user" :size="24" />
@@ -49,13 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
 import { coreTeam, communityContributors } from '../data/contributors'
 
 const { t } = useI18n()
-
-const coreTeamRef = ref(coreTeam)
-const communityContributorsRef = ref(communityContributors)
 </script>
