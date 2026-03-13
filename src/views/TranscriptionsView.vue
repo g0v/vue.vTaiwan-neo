@@ -90,9 +90,9 @@
                 <button @click="showOutline(transcription.outline, transcription.meeting_id)" class="rounded-md bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">
                   {{ t('transcriptions.list.viewOutline') }}
                 </button>
-                <button @click="$router.push(`/transcription_detail/${transcription.meeting_id}`)" class="rounded-md bg-purple-600 px-3 py-1 text-sm text-white hover:bg-purple-700">
+                <RouterLink :to="`/transcription_detail/${transcription.meeting_id}`" class="rounded-md bg-purple-600 px-3 py-1 text-center text-sm text-white hover:bg-purple-700">
                   {{ t('transcriptions.list.viewDetail') }}
-                </button>
+                </RouterLink>
                 <button @click="downloadTranscription(transcription.meeting_id)" class="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
                   {{ t('transcriptions.list.download') }}
                 </button>
