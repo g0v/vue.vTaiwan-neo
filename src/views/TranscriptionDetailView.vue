@@ -75,7 +75,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 const { t } = useI18n()
@@ -83,7 +83,6 @@ useHead({
   title: t('transcriptionDetail.title') + ' | vTaiwan',
 })
 const route = useRoute()
-const router = useRouter()
 
 // 定義 props
 const props = defineProps<{
@@ -98,13 +97,6 @@ const meetingId = computed(() => route.params.meeting_id as string)
 const loading = ref(true)
 const error = ref('')
 const transcriptionContent = ref<string[]>([])
-
-interface PhotoURL {
-  name: string
-  photoURL: string
-}
-
-const photoURLs = ref<PhotoURL[]>([])
 
 // 格式化會議ID (20250621 -> 2025-06-21)
 const formatMeetingId = (meetingId: string): string => {
