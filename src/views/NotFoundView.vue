@@ -33,7 +33,7 @@ useHead({
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+  <div class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
     <div class="w-full max-w-md text-center">
       <!-- 404 圖示 -->
       <div class="mb-8">
