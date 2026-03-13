@@ -247,7 +247,7 @@
                 </div>
               </div>
 
-              <div class="flex max-w-[calc(100%-4rem)] flex-1 flex-col">
+              <div class="flex max-w-[calc(100%-4rem)] flex-1 flex-col md:max-w-none">
                 <!-- 標題 -->
                 <div class="mb-2 flex items-start justify-between">
                   <h3 class="flex-1 truncate text-sm font-semibold text-gray-900">
