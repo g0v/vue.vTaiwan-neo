@@ -46,28 +46,28 @@ useHead({
       <!-- 錯誤訊息 -->
       <div class="mb-8">
         <h2 class="mb-4 text-2xl font-bold text-gray-900">
-          {{ $t('notFound.title') }}
+          {{ t('notFound.title') }}
         </h2>
         <p class="mb-6 text-gray-600">
-          {{ $t('notFound.description') }}
+          {{ t('notFound.description') }}
         </p>
         <p class="text-sm text-gray-500">
-          {{ $t('notFound.suggestion') }}
+          {{ t('notFound.suggestion') }}
         </p>
       </div>
 
       <!-- 操作按鈕 -->
       <div class="space-y-4">
         <router-link to="/" class="btn-primary block w-full rounded-md">
-          {{ $t('notFound.buttons.backToHome') }}
+          {{ t('notFound.buttons.backToHome') }}
         </router-link>
 
         <div class="flex gap-4">
           <router-link to="/topics" class="btn-outline flex-1 rounded-md">
-            {{ $t('notFound.buttons.browseTopics') }}
+            {{ t('notFound.buttons.browseTopics') }}
           </router-link>
           <router-link to="/contact" class="btn-outline flex-1 rounded-md">
-            {{ $t('notFound.buttons.contactUs') }}
+            {{ t('notFound.buttons.contactUs') }}
           </router-link>
         </div>
       </div>
@@ -75,12 +75,12 @@ useHead({
       <!-- 額外資訊 -->
       <div class="mt-12 border-t border-gray-200 pt-8">
         <p class="mb-4 text-sm text-gray-500">
-          {{ $t('notFound.help.title') }}
+          {{ t('notFound.help.title') }}
         </p>
         <div class="space-y-2 text-sm text-gray-600">
-          <p>{{ $t('notFound.help.checkUrl') }}</p>
-          <p>{{ $t('notFound.help.useNavigation') }}</p>
-          <p>{{ $t('notFound.help.contactSupport') }}</p>
+          <p>{{ t('notFound.help.checkUrl') }}</p>
+          <p>{{ t('notFound.help.useNavigation') }}</p>
+          <p>{{ t('notFound.help.contactSupport') }}</p>
         </div>
       </div>
     </div>
