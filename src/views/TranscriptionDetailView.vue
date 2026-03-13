@@ -21,12 +21,12 @@
             <h1 class="mb-2 text-3xl font-bold text-gray-900">{{ t('transcriptionDetail.title') }} - {{ formatMeetingId(meetingId) }}</h1>
             <p class="text-gray-600">{{ t('transcriptionDetail.description') }}</p>
           </div>
-          <button @click="$router.push('/transcriptions')" class="flex items-center space-x-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
+          <RouterLink to="/transcriptions" class="flex items-center space-x-2 rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             <span>{{ t('transcriptionDetail.backToList') }}</span>
-          </button>
+          </RouterLink>
         </div>
       </div>
 
