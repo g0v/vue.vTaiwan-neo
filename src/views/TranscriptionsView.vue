@@ -3,18 +3,18 @@
     <div class="mx-auto max-w-6xl">
       <!-- 頁面標題 -->
       <div class="mb-8">
-        <h1 class="mb-4 text-3xl font-bold text-gray-900">{{ $t('transcriptions.title') }}</h1>
-        <p class="text-gray-600">{{ $t('transcriptions.description') }}</p>
+        <h1 class="mb-4 text-3xl font-bold text-gray-900">{{ t('transcriptions.title') }}</h1>
+        <p class="text-gray-600">{{ t('transcriptions.description') }}</p>
       </div>
 
       <!-- 上傳區域 -->
       <div v-if="props.user" class="mb-8 rounded-lg bg-white p-6 shadow-md">
-        <h2 class="mb-4 text-xl font-semibold">{{ $t('transcriptions.upload.title') }}</h2>
-        <p class="text-gray-600">{{ $t('transcriptions.upload.description') }}</p>
+        <h2 class="mb-4 text-xl font-semibold">{{ t('transcriptions.upload.title') }}</h2>
+        <p class="text-gray-600">{{ t('transcriptions.upload.description') }}</p>
         <div class="space-y-4">
           <div>
             <!-- <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ $t('transcriptions.upload.selectFile') }}
+              {{ t('transcriptions.upload.selectFile') }}
             </label> -->
             <input
               type="file"
@@ -29,7 +29,7 @@
             :disabled="!selectedFile || uploading"
             class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
           >
-            {{ uploading ? $t('transcriptions.upload.uploading') : $t('transcriptions.upload.uploadButton') }}
+            {{ uploading ? t('transcriptions.upload.uploading') : t('transcriptions.upload.uploadButton') }}
           </button>
         </div>
       </div>
@@ -44,7 +44,7 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          <p class="text-yellow-700">{{ $t('transcriptions.upload.loginRequired') }}</p>
+          <p class="text-yellow-700">{{ t('transcriptions.upload.loginRequired') }}</p>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
 
       <!-- 逐字稿列表 -->
       <div v-if="!loading && transcriptions.length > 0" class="space-y-4">
-        <h2 class="mb-4 text-xl font-semibold">{{ $t('transcriptions.list.title') }}</h2>
+        <h2 class="mb-4 text-xl font-semibold">{{ t('transcriptions.list.title') }}</h2>
 
         <input type="text" v-model="search" placeholder="Search..." class="mb-4 w-full rounded-md border border-gray-300 p-2" />
 
@@ -79,7 +79,7 @@
 
             <div class="flex items-start justify-between">
               <div class="flex-1">
-                <h3 class="mb-2 text-lg font-semibold text-gray-900">{{ $t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}</h3>
+                <h3 class="mb-2 text-lg font-semibold text-gray-900">{{ t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}</h3>
                 <div class="mb-4 text-sm text-gray-600">
                   <img src="@/assets/CC0.png" alt="CC0.png" class="h-8 w-auto" />
                   <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose prose-sm max-w-none"></div>
@@ -88,30 +88,30 @@
 
               <div class="ml-4 flex flex-col space-y-4">
                 <button @click="showOutline(transcription.outline, transcription.meeting_id)" class="rounded-md bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">
-                  {{ $t('transcriptions.list.viewOutline') }}
+                  {{ t('transcriptions.list.viewOutline') }}
                 </button>
                 <button @click="$router.push(`/transcription_detail/${transcription.meeting_id}`)" class="rounded-md bg-purple-600 px-3 py-1 text-sm text-white hover:bg-purple-700">
-                  {{ $t('transcriptions.list.viewDetail') }}
+                  {{ t('transcriptions.list.viewDetail') }}
                 </button>
                 <button @click="downloadTranscription(transcription.meeting_id)" class="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-                  {{ $t('transcriptions.list.download') }}
+                  {{ t('transcriptions.list.download') }}
                 </button>
 
                 <!-- 複製逐字稿連結 -->
                 <button @click="copyTranscriptionLink(transcription.meeting_id)" class="rounded-md bg-gray-600 px-3 py-1 text-sm text-white hover:bg-gray-700">
-                  {{ $t('transcriptions.list.copyLink') }}
+                  {{ t('transcriptions.list.copyLink') }}
                 </button>
               </div>
             </div>
 
-            <div class="mt-2 text-xs text-gray-500">{{ $t('transcriptions.list.fileName') }}: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt</div>
+            <div class="mt-2 text-xs text-gray-500">{{ t('transcriptions.list.fileName') }}: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt</div>
           </div>
         </div>
       </div>
 
       <!-- 空狀態 -->
       <div v-if="!loading && transcriptions.length === 0" class="py-12 text-center">
-        <p class="text-gray-500">{{ $t('transcriptions.list.empty') }}</p>
+        <p class="text-gray-500">{{ t('transcriptions.list.empty') }}</p>
       </div>
     </div>
 
@@ -120,7 +120,7 @@
       <div class="max-h-[80vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white" @click.stop>
         <div class="border-b border-gray-200 p-6">
           <div class="flex items-center justify-between">
-            <h3 class="text-xl font-semibold">{{ $t('transcriptions.outline.title') }} - {{ currentOutlineMeetingId }}</h3>
+            <h3 class="text-xl font-semibold">{{ t('transcriptions.outline.title') }} - {{ currentOutlineMeetingId }}</h3>
             <button @click="closeOutlineModal" class="text-gray-400 hover:text-gray-600">
               <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -148,7 +148,7 @@
                 d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
               ></path>
             </svg>
-            <span>{{ $t('transcriptions.outline.copy') }}</span>
+            <span>{{ t('transcriptions.outline.copy') }}</span>
           </button>
           <button v-if="userData && userData.uid" @click="toggleEditOutline" class="flex items-center space-x-2 rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700">
             <!-- edit icon -->
@@ -164,14 +164,14 @@
             <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14V5H5zm4 0v4h6V5H9zm0 6v6h6v-6H9z"></path>
             </svg>
-            <span v-if="!editing">{{ $t('transcriptions.outline.edit') }}</span>
-            <span v-else>{{ $t('transcriptions.outline.saveAndEndEdit') }}</span>
+            <span v-if="!editing">{{ t('transcriptions.outline.edit') }}</span>
+            <span v-else>{{ t('transcriptions.outline.saveAndEndEdit') }}</span>
           </button>
           <button v-if="editing" @click="cancelEditOutline" class="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700">
-            {{ $t('transcriptions.outline.cancel') }}
+            {{ t('transcriptions.outline.cancel') }}
           </button>
           <button @click="closeOutlineModal" class="rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
-            {{ $t('transcriptions.outline.close') }}
+            {{ t('transcriptions.outline.close') }}
           </button>
         </div>
       </div>
