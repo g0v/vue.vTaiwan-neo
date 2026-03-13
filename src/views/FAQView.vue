@@ -12,11 +12,11 @@
           <!-- FAQ 項目 -->
           <div v-for="faq in faqs" :key="faq.id" class="overflow-hidden rounded-lg border bg-white p-6 shadow-sm transition hover:shadow-md">
             <h3 class="mb-2 text-xl font-bold text-democratic-red">
-              {{ getLocalizedQuestion(faq) }}
+              {{ faq.question[locale] }}
             </h3>
-            <p class="text-gray-700" v-html="getLocalizedAnswer(faq)"></p>
-            <ol v-if="getLocalizedDetails(faq)" class="mt-2 list-decimal space-y-1 pl-6">
-              <li v-for="detail in getLocalizedDetails(faq)" :key="detail" class="text-gray-700">
+            <p class="text-gray-700" v-html="faq.answer[locale]"></p>
+            <ol v-if="faq.details" class="mt-2 list-decimal space-y-1 pl-6">
+              <li v-for="detail in faq.details[locale]" :key="detail" class="text-gray-700">
                 {{ detail }}
               </li>
             </ol>
@@ -75,45 +75,13 @@
 import { faqs } from '../data/faqs'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+
 const { t } = useI18n()
+const { locale } = useI18n()
+
 useHead({
   title: t('faq.title') + ' | vTaiwan',
 })
-
-const { locale } = useI18n()
-
-// 根據當前語言取得問題文字
-const getLocalizedQuestion = faq => {
-  if (locale.value === 'ja' && faq.question_ja) {
-    return faq.question_ja
-  }
-  if (locale.value === 'en' && faq.question_en) {
-    return faq.question_en
-  }
-  return faq.question
-}
-
-// 根據當前語言取得答案文字
-const getLocalizedAnswer = faq => {
-  if (locale.value === 'ja' && faq.answer_ja) {
-    return faq.answer_ja
-  }
-  if (locale.value === 'en' && faq.answer_en) {
-    return faq.answer_en
-  }
-  return faq.answer
-}
-
-// 根據當前語言取得詳細內容
-const getLocalizedDetails = faq => {
-  if (locale.value === 'ja' && faq.details_ja) {
-    return faq.details_ja
-  }
-  if (locale.value === 'en' && faq.details_en) {
-    return faq.details_en
-  }
-  return faq.details
-}
 </script>
 
 <style scoped>
