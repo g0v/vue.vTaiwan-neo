@@ -114,7 +114,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 
@@ -217,20 +217,6 @@ const fetchPosts = async () => {
 
     const data = await response.json()
     posts.value = data
-    // console.log('📥 獲取到的原始貼文數據:', data)
-    // console.log('📊 貼文總數:', data.length)
-
-    // 詳細記錄每篇貼文的信息
-    data.forEach((post, index) => {
-      /* console.log(`📝 貼文 ${index + 1}:`, {
-        id: post.id,
-        url: post.url,
-        language: post.language,
-        display_name: post.account?.display_name,
-        created_at: post.created_at,
-        content_length: post.content?.length || 0
-      }) */
-    })
   } catch (err) {
     console.error('❌ 獲取貼文失敗:', err)
     error.value = t('blog.fetchError')
@@ -238,15 +224,6 @@ const fetchPosts = async () => {
     loading.value = false
   }
 }
-
-// 監聽語言變化
-watch(
-  () => locale.value,
-  () => {
-    console.log('Language changed to:', locale.value)
-    console.log('Filtered posts:', filteredPosts.value)
-  }
-)
 
 onMounted(() => {
   fetchPosts()
