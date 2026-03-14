@@ -18,33 +18,26 @@ export const coreTeam: Contributor[] = [
   },
   {
     id: '2',
-    name: 'Yi-Ting Lien',
-    role: 'contributors.roles.projectManager',
-    description: 'contributors.descriptions.projectManager',
-    imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U071XARBY03-8305075e99fa-512',
-  },
-  {
-    id: '3',
     name: 'Joshua Yang',
     role: 'contributors.roles.processDesigner',
     description: 'contributors.descriptions.processDesigner',
     imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U02E9C8B42U-21f68e5ff15c-512',
   },
   {
-    id: '4',
+    id: '3',
     name: 'Bestian Tang',
     role: 'contributors.roles.techDirector',
     description: 'contributors.descriptions.techDirector',
     imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512',
   },
   {
-    id: '5',
+    id: '4',
     name: 'Tofus Wang',
     role: 'contributors.roles.designer',
     description: 'contributors.descriptions.designer',
     imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U01JXVDPS5R-5a1d6aace86d-512',
   },
-  { id: '6', name: 'Shuyang Lin', role: 'contributors.roles.designer', description: 'contributors.descriptions.designer', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
+  { id: '5', name: 'Shuyang Lin', role: 'contributors.roles.designer', description: 'contributors.descriptions.designer', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U2PUXG69E-f59903ccf61f-512' },
 ]
 
 // 原始資料
