@@ -19,10 +19,10 @@ npm run dev
 
 **不用改程式碼**，只要編輯 `src/data/` 底下的檔案，存檔後重整頁面即可看到變更。
 
-| 要改的內容     | 編輯檔案               | 說明 |
-|----------------|------------------------|------|
-| 專案列表       | `src/data/projects.ts` | 在 `projects` 陣列新增/修改，圖標名需為 [Lucide](https://lucide.dev/) 有的名稱 |
-| 常見問題 FAQ   | `src/data/faqs.ts`     | 在 `faqs` 陣列新增/修改問題與答案 |
+| 要改的內容     | 編輯檔案                    | 說明 |
+|----------------|-----------------------------|------|
+| 貢獻者         | `src/data/contributors.ts`  | 在 `coreTeam` 等陣列新增/修改成員（name、role、description、imgURL 等） |
+| 常見問題 FAQ   | `src/data/faqs.ts`          | 在 `faqs` 陣列新增/修改問題與答案 |
 
 樣式想微調：用 Tailwind 類別或改組件內 `<style>`；全站樣式改 `src/style.css`。
 
@@ -36,7 +36,7 @@ npm run dev
 ## 專案結構（與維護相關）
 
 - `src/views/` — 各頁面（首頁、部落格、專案、會議等）
-- `src/data/` — **靜態資料**（專案、會議、FAQ），維護時主要改這裡
+- `src/data/` — **靜態資料**（貢獻者、FAQ），維護時主要改這裡
 - `src/components/` — 共用的 Header、Footer、登入等組件
 - `src/router/index.ts` — 路由；`src/lib/firebase.ts` — Firebase 設定
 
@@ -74,10 +74,10 @@ Open the URL shown in the terminal. Other commands: `npm run type-check`, `npm r
 
 Edit files under `src/data/` — no code changes needed; refresh the page to see updates.
 
-| What to edit      | File                    | Notes |
-|-------------------|-------------------------|-------|
-| Project list      | `src/data/projects.ts`  | Add/edit in `projects` array; icon names must exist in [Lucide](https://lucide.dev/) |
-| FAQ               | `src/data/faqs.ts`      | Add/edit in `faqs` array |
+| What to edit      | File                         | Notes |
+|-------------------|------------------------------|-------|
+| Contributors      | `src/data/contributors.ts`   | Add/edit in `coreTeam` etc.; fields: name, role, description, imgURL |
+| FAQ               | `src/data/faqs.ts`           | Add/edit in `faqs` array |
 
 Styles: use Tailwind classes or component `<style>`; global styles in `src/style.css`.
 
@@ -90,7 +90,7 @@ Homepage, Google login, topics, post articles, projects/meetups/FAQ/contributors
 ## Project Structure
 
 - `src/views/` — Pages
-- `src/data/` — **Static data** (projects, meetups, FAQ) — main place to edit for content
+- `src/data/` — **Static data** (contributors, FAQ) — main place to edit for content
 - `src/components/` — Header, Footer, login, etc.
 - `src/router/index.ts`, `src/lib/firebase.ts`
 
