@@ -30,7 +30,7 @@ npm run dev
 
 ## 功能與技術摘要
 
-- 首頁、部落格（Markdown）、Google 登入、發布文章、專案/會議/FAQ/貢獻者/關於我們、即時視訊（逐字稿校對，開發中、暫限英文）
+- 首頁、Google 登入、議題、專案/會議/FAQ/貢獻者/關於我們、即時視訊（逐字稿校對，開發中）
 - 技術：Vue 3、Vite、Vue Router、Tailwind、Lucide 圖標、Firebase（登入 + Realtime Database）、Marked 渲染 Markdown
 
 ## 專案結構（與維護相關）
@@ -85,7 +85,7 @@ Styles: use Tailwind classes or component `<style>`; global styles in `src/style
 
 ## Features & Tech
 
-Homepage, blog (Markdown), Google login, post articles, projects/meetups/FAQ/contributors/about, live video (transcript collab, in dev, English only). Stack: Vue 3, Vite, Vue Router, Tailwind, Lucide, Firebase (auth + Realtime DB), Marked.
+Homepage, Google login, topics, post articles, projects/meetups/FAQ/contributors/about, live video (transcript collab, in dev). Stack: Vue 3, Vite, Vue Router, Tailwind, Firebase (auth + Realtime DB), Marked.
 
 ## Project Structure
 
