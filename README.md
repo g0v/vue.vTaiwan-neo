@@ -23,8 +23,32 @@ npm run dev
 |----------------|-----------------------------|------|
 | 貢獻者         | `src/data/contributors.ts`  | 在 `coreTeam` 等陣列新增/修改成員（name、role、description、imgURL 等） |
 | 常見問題 FAQ   | `src/data/faqs.ts`          | 在 `faqs` 陣列新增/修改問題與答案 |
+| 介面文字翻譯   | `src/l10n/*.json`           | 見下方「多語言翻譯」說明 |
 
 樣式想微調：用 Tailwind 類別或改組件內 `<style>`；全站樣式改 `src/style.css`。
+
+### 多語言翻譯檔案（l10n）
+
+介面上的按鈕、標題、說明等文字來自 `src/l10n/` 的 JSON 檔，目前支援繁體中文、英文、日文：
+
+```
+src/l10n/
+├── zh-TW.json   # 繁體中文
+├── en.json      # 英文
+├── ja.json      # 日文
+└── README.md    # 進階 i18n 說明（給開發者）
+```
+
+**結構**：三個 JSON 檔的「鍵（key）」要一致，值才是各語言文字。鍵用點號分層，例如 `header.home`、`common.save`、`about.mission.title`。
+
+**修改現有文字**：在對應語言的檔案裡找到同一個鍵，改右邊的值即可。例如把首頁選單「首頁」改成別的字，就改 `zh-TW.json` 裡 `header.home` 的值。
+
+**新增一段翻譯**：在三個檔案裡**同一個位置**新增相同的鍵、各自語言的値。例如新增 `newPage.title`：
+- `zh-TW.json`：在適當區塊加 `"title": "新頁面標題"`
+- `en.json`：同區塊加 `"title": "New Page Title"`
+- `ja.json`：同區塊加 `"title": "新規ページ"`
+
+程式裡會用 `$t('newPage.title')` 顯示，所以鍵名需一致，否則會顯示 key 或 fallback。詳細用法見 `src/l10n/README.md`。
 
 ---
 
@@ -37,6 +61,7 @@ npm run dev
 
 - `src/views/` — 各頁面（首頁、部落格、專案、會議等）
 - `src/data/` — **靜態資料**（貢獻者、FAQ），維護時主要改這裡
+- `src/l10n/` — **多語言翻譯**（zh-TW.json、en.json、ja.json），介面文字由此改
 - `src/components/` — 共用的 Header、Footer、登入等組件
 - `src/router/index.ts` — 路由；`src/lib/firebase.ts` — Firebase 設定
 
@@ -78,8 +103,32 @@ Edit files under `src/data/` — no code changes needed; refresh the page to see
 |-------------------|------------------------------|-------|
 | Contributors      | `src/data/contributors.ts`   | Add/edit in `coreTeam` etc.; fields: name, role, description, imgURL |
 | FAQ               | `src/data/faqs.ts`           | Add/edit in `faqs` array |
+| UI text / translations | `src/l10n/*.json`        | See “Multi-language (l10n)” below |
 
 Styles: use Tailwind classes or component `<style>`; global styles in `src/style.css`.
+
+### Multi-language translation files (l10n)
+
+UI strings (buttons, titles, labels) come from JSON files in `src/l10n/`. Supported: zh-TW, en, ja.
+
+```
+src/l10n/
+├── zh-TW.json   # Traditional Chinese
+├── en.json      # English
+├── ja.json      # Japanese
+└── README.md    # Developer i18n details
+```
+
+**Structure**: All three JSON files share the same **keys**; only the values differ by language. Keys are dot-separated (e.g. `header.home`, `common.save`, `about.mission.title`).
+
+**Edit existing text**: Find the key in the language file and change the value (e.g. change “Home” in the menu by editing `header.home` in `en.json`).
+
+**Add new text**: Add the **same key** in all three files with the translated value. Example for `newPage.title`:
+- `zh-TW.json`: `"title": "新頁面標題"`
+- `en.json`: `"title": "New Page Title"`
+- `ja.json`: `"title": "新規ページ"`
+
+The app uses `$t('newPage.title')` to show the string, so keys must match across files. See `src/l10n/README.md` for more.
 
 ---
 
@@ -91,6 +140,7 @@ Homepage, Google login, topics, post articles, projects/meetups/FAQ/contributors
 
 - `src/views/` — Pages
 - `src/data/` — **Static data** (contributors, FAQ) — main place to edit for content
+- `src/l10n/` — **Translations** (zh-TW.json, en.json, ja.json) — UI strings
 - `src/components/` — Header, Footer, login, etc.
 - `src/router/index.ts`, `src/lib/firebase.ts`
 
