@@ -174,4 +174,8 @@ const handleProfileUpdated = async updatedData => {
 #app {
   min-height: 100vh;
 }
+
+table th, table td {
+  @apply border border-gray-200 p-2;
+}
 </style>
