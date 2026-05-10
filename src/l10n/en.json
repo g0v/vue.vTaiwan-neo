@@ -35,6 +35,7 @@
     "topics": "Topics",
     "meetups": "Meetups",
     "blogs": "Blogs",
+    "newsletters": "Newsletters",
     "mastodon": "Posts",
     "transcriptions": "Transcriptions",
     "faq": "FAQ",
@@ -60,6 +61,11 @@
         "title": "Co-create",
         "description": "Innovative thinking, problem solving"
       }
+    },
+    "newsletter": {
+      "title": "Newsletters",
+      "description": "You're welcome to browse vTaiwan newsletters for community updates, events, and public policy discussions.",
+      "button": "Browse newsletters"
     },
     "contact": {
       "title": "Contact Us",
@@ -241,6 +247,19 @@
     "step1": "Go to your Medium profile page (e.g., https://medium.com/@your-username)",
     "step2": "Or check the URL of your published articles, usually in the format https://medium.com/@username/article-title",
     "step3": "The username is the part after the @ symbol (don't include the @ symbol)"
+  },
+  "newsletter": {
+    "title": "Newsletters",
+    "description": "Browse vTaiwan newsletters published on Substack to follow community updates, events, and ongoing discussions.",
+    "loading": "Loading newsletters...",
+    "retry": "Retry",
+    "readMore": "Read More",
+    "backToList": "← Back to Newsletter List",
+    "viewOriginal": "View Original on Substack",
+    "visitSubstack": "Visit Substack",
+    "fetchError": "An error occurred while fetching newsletters, please try again later",
+    "empty": "No newsletters available right now",
+    "notFound": "Newsletter not found"
   },
   "transcript": {
     "title": "Live Transcript",

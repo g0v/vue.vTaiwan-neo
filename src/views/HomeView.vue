@@ -48,10 +48,10 @@ useHead({
           </h1>
           <p class="mb-8 text-xl">{{ t('home.hero.subtitle') }}</p>
           <div class="flex flex-wrap justify-center gap-4">
-            <router-link to="/topics" class="btn-primary rounded-md">
+            <router-link to="/topics" class="btn-outline-white rounded-md"> <!-- btn-primary-->
               {{ t('home.hero.buttons.browseTopics') }}
             </router-link>
-            <router-link to="/intro" class="btn-outline-white rounded-md">
+            <router-link to="/intro" class="btn-primary rounded-md"> <!-- btn-outline-white -->
               {{ t('home.hero.buttons.learnMore') }}
             </router-link>
           </div>
@@ -100,10 +100,10 @@ useHead({
         <h2 class="mb-6 text-3xl font-bold">{{ t('home.cta.title') }}</h2>
         <p class="mx-auto mb-8 max-w-2xl text-xl">{{ t('home.cta.description') }}</p>
         <div class="flex flex-wrap justify-center gap-4">
-          <router-link to="/topics" class="btn-primary rounded-md">
+          <router-link to="/topics" class="btn-outline-white rounded-md"> <!-- btn-primary -->
             {{ t('home.cta.buttons.browseTopics') }}
           </router-link>
-          <router-link to="/intro" class="btn-outline-white rounded-md">
+          <router-link to="/intro" class="btn-primary rounded-md"> <!-- btn-outline-white -->
             {{ t('home.cta.buttons.learnMore') }}
           </router-link>
         </div>

@@ -34,6 +34,16 @@ const router = createRouter({
       component: () => import('@/views/BlogsView.vue'),
     },
     {
+      path: '/newsletters',
+      name: 'newsletters',
+      component: () => import('@/views/NewslettersView.vue'),
+    },
+    {
+      path: '/newsletters/:slug',
+      name: 'newsletter-detail',
+      component: () => import('@/views/NewsletterDetailView.vue'),
+    },
+    {
       path: '/mastodon',
       name: 'mastodon',
       component: () => import('@/views/MastodonView.vue'),

@@ -227,27 +227,9 @@ const fetchRSS = async (username: string) => {
   // 使用多個 CORS 代理服務作為備選方案
   const proxyServices = [
     {
-      name: 'allorigins.win',
-      url: `https://api.allorigins.win/get?url=${rssUrl}`,
-      parser: async (response: Response) => {
-        const data = await response.json()
-        return data.contents || data
-      },
-    },
-    {
-      name: 'corsproxy.io',
-      url: `https://corsproxy.io/?${rssUrl}`,
-      parser: async (response: Response) => {
-        return await response.text()
-      },
-    },
-    {
-      name: 'api.codetabs.com',
-      url: `https://api.codetabs.com/v1/proxy/?quest=${rssUrl}`,
-      parser: async (response: Response) => {
-        return await response.text()
-      },
-    },
+      url: `https://vtaiwan-transcription-worker.bestian123.workers.dev/api/cors-proxy?url=${rssUrl}`,
+      parser: async (response: Response) => response.text(),
+    }
   ]
 
   const requestFns = []

@@ -34,6 +34,14 @@
           </div>
         </div>
 
+        <!-- 電子報 -->
+        <h2 class="mb-4 text-2xl font-bold text-gray-900">{{ t('about.newsletter.title') }}</h2>
+        <p class="mb-6">{{ t('about.newsletter.description') }}
+          <router-link to="/newsletters" class="mb-4 font-medium text-democratic-red hover:text-red-700">
+            {{ t('about.newsletter.button') }}
+          </router-link>
+        </p>
+
         <h2 class="mb-4 text-2xl font-bold">{{ t('about.contact.title') }}</h2>
         <p class="mb-4">
           {{ t('about.contact.description') }}
