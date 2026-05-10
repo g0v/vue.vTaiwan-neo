@@ -30,6 +30,7 @@
     "topics": "議題",
     "meetups": "會議",
     "blogs": "部落格",
+    "newsletters": "電子報",
     "mastodon": "社群貼文",
     "transcriptions": "逐字稿管理",
     "faq": "常見問題",
@@ -236,6 +237,19 @@
     "step1": "前往您的 Medium 個人資料頁面（例如：https://medium.com/@您的用戶名）",
     "step2": "或者查看您已發布文章的 URL，通常格式為 https://medium.com/@用戶名/文章標題",
     "step3": "用戶名就是 @ 符號後面的部分（不需要包含 @ 符號）"
+  },
+  "newsletter": {
+    "title": "電子報",
+    "description": "瀏覽 vTaiwan 在 Substack 發佈的電子報，快速掌握社群近況、活動與討論脈絡。",
+    "loading": "載入電子報中...",
+    "retry": "重新載入",
+    "readMore": "閱讀全文",
+    "backToList": "← 返回電子報列表",
+    "viewOriginal": "到 Substack 查看原文",
+    "visitSubstack": "前往 Substack",
+    "fetchError": "取得電子報時發生錯誤，請稍後再試",
+    "empty": "目前沒有可顯示的電子報",
+    "notFound": "找不到這篇電子報"
   },
   "topicDetail": {
     "discussion": "討論區",

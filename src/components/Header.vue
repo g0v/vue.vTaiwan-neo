@@ -104,6 +104,7 @@ const navItems = [
   { href: '/topics', label: 'header.topics', icon: 'message-circle' },
   { href: '/meetups', label: 'header.meetups', icon: 'calendar' },
   { href: '/blogs', label: 'header.blogs', icon: 'book-open' },
+  { href: '/newsletters', label: 'header.newsletters', icon: 'mail' },
   { href: '/mastodon', label: 'header.mastodon', icon: 'file-text' },
   { href: '/faq', label: 'header.faq', icon: 'help-circle' },
   { href: '/intro', label: 'header.about', icon: 'info' },
