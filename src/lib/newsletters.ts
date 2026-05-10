@@ -155,18 +155,7 @@ const fetchFeed = async () => {
   const rssUrl = encodeURIComponent(NEWSLETTER_FEED_URL)
   const proxies = [
     {
-      url: `https://api.allorigins.win/get?url=${rssUrl}`,
-      parser: async (response: Response) => {
-        const data = await response.json()
-        return data.contents || data
-      },
-    },
-    {
-      url: `https://corsproxy.io/?${rssUrl}`,
-      parser: async (response: Response) => response.text(),
-    },
-    {
-      url: `https://api.codetabs.com/v1/proxy/?quest=${rssUrl}`,
+      url: `https://vtaiwan-transcription-worker.bestian123.workers.dev/api/cors-proxy?url=${rssUrl}`,
       parser: async (response: Response) => response.text(),
     },
   ]
