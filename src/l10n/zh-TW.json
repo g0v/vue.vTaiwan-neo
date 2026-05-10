@@ -57,6 +57,11 @@
         "description": "創新思維，解決問題"
       }
     },
+    "newsletter": {
+      "title": "電子報",
+      "description": "歡迎大家瀏覽 vTaiwan 電子報，掌握社群動態、活動與政策討論。",
+      "button": "瀏覽電子報"
+    },
     "contact": {
       "title": "聯絡我們",
       "description": "如果您有任何問題或建議，歡迎與我們聯繫：",

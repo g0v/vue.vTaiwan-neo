@@ -62,6 +62,11 @@
         "description": "Innovative thinking, problem solving"
       }
     },
+    "newsletter": {
+      "title": "Newsletters",
+      "description": "You're welcome to browse vTaiwan newsletters for community updates, events, and public policy discussions.",
+      "button": "Browse newsletters"
+    },
     "contact": {
       "title": "Contact Us",
       "description": "If you have any questions or suggestions, please feel free to contact us:",
