@@ -6,6 +6,9 @@
 
     <div v-else-if="error" class="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
       <p class="text-red-700">{{ error }}</p>
+      <router-link to="/newsletters" class="inline-flex text-sm font-medium text-democratic-red hover:underline">
+        {{ t('newsletter.backToList') }}
+      </router-link>
     </div>
 
     <article v-else-if="newsletter" class="mx-auto max-w-4xl">
