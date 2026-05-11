@@ -1,25 +1,29 @@
 <template>
   <header class="sticky top-0 z-[999] bg-black text-white">
     <div class="w-full px-4 md:mx-auto">
-      <div class="flex h-16 items-center justify-between">
+      <div class="flex h-16 items-center justify-between gap-4">
         <router-link to="/" class="flex items-center" @click="mobileMenuOpen = false">
           <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
         </router-link>
 
         <div
-          class="hidden items-center space-x-1 lg:flex xl:space-x-10"
+          ref="desktopNav"
+          class="header-desktop-nav hidden min-w-0 flex-1 items-center overflow-x-auto overflow-y-hidden lg:flex"
           :class="{
+            'justify-center': !desktopNavOverflowing,
+            'space-x-1': desktopNavOverflowing,
             'md:space-x-6': !isJapanese,
             'md:space-x-4': isJapanese,
             'space-x-6': !isJapanese,
             'space-x-4': isJapanese,
           }"
+          @wheel="handleDesktopNavWheel"
         >
           <router-link
             v-for="item in navItems"
             :key="item.href"
             :to="item.href"
-            class="flex items-center gap-1 transition hover:text-democratic-red"
+            class="flex flex-none items-center gap-1 whitespace-nowrap transition hover:text-democratic-red"
             :class="{
               'ml-0': isJapanese,
               'text-democratic-red': $route.path === item.href,
@@ -87,7 +91,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import IconWrapper from './IconWrapper.vue'
@@ -96,6 +100,8 @@ import LanguageSwitcher from './LanguageSwitcher.vue'
 const { t, locale } = useI18n()
 const route = useRoute()
 const mobileMenuOpen = ref(false)
+const desktopNav = ref(null)
+const desktopNavOverflowing = ref(false)
 
 // 判斷是否為日語環境
 const isJapanese = computed(() => locale.value === 'ja')
@@ -114,6 +120,51 @@ const navItems = [
 const toggleMobileMenu = () => {
   mobileMenuOpen.value = !mobileMenuOpen.value
 }
+
+const updateDesktopNavOverflow = () => {
+  if (!desktopNav.value) {
+    return
+  }
+
+  desktopNavOverflowing.value = desktopNav.value.scrollWidth > desktopNav.value.clientWidth
+}
+
+const handleDesktopNavWheel = event => {
+  if (!desktopNav.value || !desktopNavOverflowing.value) {
+    return
+  }
+
+  const { deltaX, deltaY } = event
+  const horizontalDelta = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY
+
+  if (horizontalDelta === 0) {
+    return
+  }
+
+  event.preventDefault()
+  desktopNav.value.scrollLeft += horizontalDelta
+}
+
+let desktopNavResizeObserver
+
+onMounted(async () => {
+  await nextTick()
+  updateDesktopNavOverflow()
+
+  if (typeof ResizeObserver !== 'undefined' && desktopNav.value) {
+    desktopNavResizeObserver = new ResizeObserver(() => {
+      updateDesktopNavOverflow()
+    })
+    desktopNavResizeObserver.observe(desktopNav.value)
+  }
+
+  window.addEventListener('resize', updateDesktopNavOverflow)
+})
+
+onBeforeUnmount(() => {
+  desktopNavResizeObserver?.disconnect()
+  window.removeEventListener('resize', updateDesktopNavOverflow)
+})
 
 // 接收來自 App.vue 的用戶資料
 const props = defineProps({
@@ -140,6 +191,27 @@ const handleShowLogin = () => {
 </script>
 
 <style scoped>
+.header-desktop-nav {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.header-desktop-nav::-webkit-scrollbar {
+  height: 4px;
+}
+
+.header-desktop-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.header-desktop-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
 /* 使用 router-link-exact-active class 來標示當前路由 */
 .router-link-exact-active {
   color: #d82000 !important; /* democratic-red 顏色 */
