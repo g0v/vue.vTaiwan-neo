@@ -6,6 +6,9 @@
         <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ $t('topics.title') }}</h1>
         <p class="mb-6 text-lg opacity-90">
           {{ $t('topics.description') }}
+          <router-link to="/polis" class="ml-1 inline-block font-medium text-democratic-red underline underline-offset-4 transition hover:text-white">
+            {{ $t('topics.tryPolisLink') }}
+          </router-link>
         </p>
       </div>
     </div>
