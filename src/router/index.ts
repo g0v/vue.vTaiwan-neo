@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('@/views/TopicsView.vue'),
     },
     {
+      path: '/polis',
+      name: 'polis',
+      component: () => import('@/views/PolisView.vue'),
+    },
+    {
       path: '/topic/:id',
       name: 'topic',
       component: () => import('@/views/TopicDetailView.vue'),

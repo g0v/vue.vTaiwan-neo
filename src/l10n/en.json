@@ -415,9 +415,21 @@
       "twitter": "Share on X (Twitter)"
     }
   },
+  "polis": {
+    "title": "Proposal Discussion",
+    "subtitle": "Use Polis to decide what the next Polis should discuss",
+    "intro": {
+      "p1": "Welcome to MetaPolis 🌀",
+      "p2": "This is a perhaps slightly meta opinion gathering from vTaiwan:",
+      "p3": "We want to use Polis to ask everyone what the next Polis should discuss. (lol)",
+      "p4": "After all, Taiwan has many, many ongoing issues, and vTaiwan still hopes to have a mechanism that gives the public agency to open up new topics. The decision of which topics to raise shouldn't only come from discussions inside the vTaiwan community!"
+    },
+    "reportLabel": "Report page:"
+  },
   "topics": {
     "title": "Topics",
     "description": "vTaiwan's topic discussion forum, participate in the policy-making process.",
+    "tryPolisLink": "Click here to try it now",
     "list": {
       "title": "Topic List",
       "empty": "No topics available",

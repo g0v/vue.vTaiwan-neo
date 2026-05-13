@@ -417,9 +417,21 @@
       "twitter": "分享到 X (Twitter)"
     }
   },
+  "polis": {
+    "title": "提案討論",
+    "subtitle": "用 Polis 一起決定下一個 Polis 該討論什麼",
+    "intro": {
+      "p1": "歡迎來到 MetaPolis 🌀",
+      "p2": "這是 vTaiwan 可能一個有點後設 (meta) 的意見徵集：",
+      "p3": "我們想用 Polis，來問大家下一個 Polis 應該討論什麼。（笑）",
+      "p4": "畢竟其實台灣有很多很多議題在持續進行著，vTaiwan 還是希望有個機制把開議題的 agency 交給公眾。開議題的決定，不應該只是來自於 vTaiwan 社群內部的討論！"
+    },
+    "reportLabel": "報告頁面："
+  },
   "topics": {
     "title": "議題",
     "description": "vTaiwan 的議題討論區，參與政策制定過程。",
+    "tryPolisLink": "按此立即體驗",
     "list": {
       "title": "議題列表",
       "empty": "目前沒有議題",
