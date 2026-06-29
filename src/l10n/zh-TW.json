@@ -129,6 +129,12 @@
         "browseProjects": "瀏覽專案",
         "browseTopics": "瀏覽議題",
         "learnMore": "了解更多"
+      },
+      "make": {
+        "descriptionLine1": "在您的社群導入廣泛傾聽",
+        "descriptionLine2": "建立共識並深化溝通",
+        "reference": "參考",
+        "linkText": "意見綜整器"
       }
     }
   },

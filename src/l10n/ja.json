@@ -134,6 +134,12 @@
         "browseProjects": "プロジェクトを見る",
         "browseTopics": "トピックを見る",
         "learnMore": "もっと知る"
+      },
+      "make": {
+        "descriptionLine1": "あなたのコミュニティに広範な傾聴を取り入れ",
+        "descriptionLine2": "合意を形成しコミュニケーションを深めましょう",
+        "reference": "参考",
+        "linkText": "意見集約ツール（Sensemaker）"
       }
     }
   },

@@ -134,6 +134,12 @@
         "browseProjects": "Browse Projects",
         "browseTopics": "Browse Topics",
         "learnMore": "Learn More"
+      },
+      "make": {
+        "descriptionLine1": "Bring broad listening to your community",
+        "descriptionLine2": "Build consensus and deepen communication",
+        "reference": "See",
+        "linkText": "Sensemaker"
       }
     }
   },
