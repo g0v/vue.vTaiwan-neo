@@ -13,13 +13,13 @@
     <div class="mb-6 flex space-x-1 rounded-lg bg-gray-100 p-1">
       <button
         @click="render_setting = 'all'"
-        :class="['rounded-md px-4 py-2 text-sm font-medium transition-colors', render_setting === 'all' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900']"
+        :class="['rounded-md px-4 py-2 text-sm font-medium transition-colors', render_setting === 'all' ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-600 hover:text-gray-900']"
       >
         {{ $t('blog.allLanguages') }}
       </button>
       <button
         @click="render_setting = 'current'"
-        :class="['rounded-md px-4 py-2 text-sm font-medium transition-colors', render_setting === 'current' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900']"
+        :class="['rounded-md px-4 py-2 text-sm font-medium transition-colors', render_setting === 'current' ? 'bg-white text-gray-900 shadow-xs' : 'text-gray-600 hover:text-gray-900']"
       >
         {{ $t('blog.currentLanguage') }}
       </button>
@@ -231,6 +231,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@reference '../style.css';
+
 .prose :deep(a) {
   @apply text-blue-600 underline hover:text-blue-800;
 }

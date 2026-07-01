@@ -10,7 +10,7 @@
     <div v-else-if="discussionType && discussionType.type">
       <!-- Discourse 討論串 -->
       <div v-if="discussionType.type === 'discourse'" class="space-y-6">
-        <div v-for="(disc, index) in discussionType.embeder" :key="index" class="rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div v-for="(disc, index) in discussionType.embeder" :key="index" class="rounded-lg border border-gray-200 bg-white shadow-xs">
           <div class="border-b border-gray-200 p-4">
             <h3 class="flex cursor-pointer items-center text-lg font-semibold">
               <IconWrapper name="message-circle" :size="20" class="mr-2" />
@@ -28,7 +28,7 @@
 
       <!-- 嵌入式內容 (polis, slido, etc.) -->
       <div v-else-if="discussionType.embeder" class="embedded-content">
-        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
           <div class="border-b border-gray-200 p-4">
             <h3 class="flex items-center text-lg font-semibold">
               <IconWrapper name="external-link" :size="20" class="mr-2" />
@@ -43,7 +43,7 @@
 
       <!-- 圖片內容 -->
       <div v-else-if="discussionType.type === 'img'" class="text-center">
-        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
           <div class="p-4">
             <div v-html="discussionType.embeder"></div>
           </div>
@@ -52,7 +52,7 @@
 
       <!-- 預設外部連結 -->
       <div v-else-if="discussionType.type === 'default'" class="text-center">
-        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-xs">
           <IconWrapper name="external-link" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
           <div v-html="discussionType.embeder"></div>
         </div>

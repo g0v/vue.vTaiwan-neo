@@ -115,6 +115,8 @@ watch(() => route.params.slug, loadNewsletter)
 </script>
 
 <style scoped>
+@reference '../style.css';
+
 .newsletter-content :deep(.subscription-widget-wrap-editor),
 .newsletter-content :deep(.subscription-widget),
 .newsletter-content :deep(form) {

@@ -1,7 +1,7 @@
 <template>
   <div class="transcript-panel flex h-full flex-col border-l border-gray-200 bg-white">
     <!-- 標題列 -->
-    <div class="flex-shrink-0 border-b border-gray-200 bg-gray-50 p-4">
+    <div class="shrink-0 border-b border-gray-200 bg-gray-50 p-4">
       <div class="mb-2 flex items-center justify-between">
         <div>
           <h3 class="text-lg font-bold text-gray-900">
@@ -23,7 +23,7 @@
             type="date"
             v-model="selectedDate"
             @change="onDateChange"
-            class="rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-jade-green"
+            class="rounded-sm border border-gray-300 px-2 py-1 text-sm focus:outline-hidden focus:ring-2 focus:ring-jade-green"
             :max="todayDate"
           />
         </div>
@@ -47,20 +47,20 @@
           {{ $t('transcript.autoScroll') }}
         </button>
 
-        <select v-model="fontSize" class="rounded border border-gray-300 px-2 py-1 text-xs">
+        <select v-model="fontSize" class="rounded-sm border border-gray-300 px-2 py-1 text-xs">
           <option value="small">{{ $t('transcript.fontSizeSmall') }}</option>
           <option value="medium">{{ $t('transcript.fontSizeMedium') }}</option>
           <option value="large">{{ $t('transcript.fontSizeLarge') }}</option>
         </select>
 
-        <button @click="exportTranscript" class="rounded bg-jade-green px-3 py-1 text-xs text-white transition hover:bg-jade-green/90">
+        <button @click="exportTranscript" class="rounded-sm bg-jade-green px-3 py-1 text-xs text-white transition hover:bg-jade-green/90">
           {{ $t('transcript.exportTranscript') }}
         </button>
       </div>
     </div>
 
     <!-- 逐字稿內容 -->
-    <div ref="transcriptContent" class="max-h-[50vh] flex-shrink-0 space-y-2 overflow-y-auto p-4" :class="fontSizeClass">
+    <div ref="transcriptContent" class="max-h-[50vh] shrink-0 space-y-2 overflow-y-auto p-4" :class="fontSizeClass">
       <div v-if="Object.keys(transcriptData).length === 0" class="py-8 text-center text-gray-500">
         <IconWrapper name="file-text" :size="48" class="mx-auto mb-4 text-gray-300" />
         <p>{{ $t('transcript.noContent') }}</p>
@@ -73,10 +73,10 @@
             <span v-if="entry.speaker" class="font-medium">{{ entry.speaker }}</span>
           </div>
           <div class="flex items-center gap-1">
-            <button @click="editEntry(index)" class="rounded p-1 transition hover:bg-gray-100" :title="$t('transcript.edit')">
+            <button @click="editEntry(index)" class="rounded-sm p-1 transition hover:bg-gray-100" :title="$t('transcript.edit')">
               <IconWrapper name="edit" :size="14" />
             </button>
-            <button @click="deleteEntry(index)" class="rounded p-1 text-red-600 transition hover:bg-red-100" :title="$t('transcript.deleteEntry')">
+            <button @click="deleteEntry(index)" class="rounded-sm p-1 text-red-600 transition hover:bg-red-100" :title="$t('transcript.deleteEntry')">
               <IconWrapper name="trash" :size="14" />
             </button>
           </div>
@@ -90,16 +90,16 @@
 
     <!-- 中部區塊，可以手動輸入逐字稿 -->
     <div class="flex-1 space-y-3 overflow-y-auto p-4">
-      <textarea v-model="manualTranscript" class="w-full resize-none rounded border border-gray-300 px-2 py-1 text-sm" rows="3" :placeholder="$t('transcript.manualTranscript')"></textarea>
+      <textarea v-model="manualTranscript" class="w-full resize-none rounded-sm border border-gray-300 px-2 py-1 text-sm" rows="3" :placeholder="$t('transcript.manualTranscript')"></textarea>
       <div class="flex gap-2">
-        <button @click="addManualTranscript" class="rounded bg-jade-green px-3 py-1 text-xs text-white transition hover:bg-jade-green/90">
+        <button @click="addManualTranscript" class="rounded-sm bg-jade-green px-3 py-1 text-xs text-white transition hover:bg-jade-green/90">
           {{ $t('transcript.addManualTranscript') }}
         </button>
       </div>
     </div>
 
     <!-- 底部狀態列 -->
-    <div class="flex-shrink-0 border-t border-gray-200 bg-gray-50 p-3">
+    <div class="shrink-0 border-t border-gray-200 bg-gray-50 p-3">
       <div class="flex items-center justify-between text-xs text-gray-500">
         <span>{{ Object.keys(transcriptData).length }} 條記錄</span>
         <div class="flex items-center gap-2">

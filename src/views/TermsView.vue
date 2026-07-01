@@ -126,6 +126,8 @@ useHead({
 </script>
 
 <style scoped>
+@reference '../style.css';
+
 .prose h2 {
   @apply text-gray-900;
 }

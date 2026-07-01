@@ -20,7 +20,7 @@
           <div class="space-y-6">
             <!-- 線上會議參與 -->
             <div class="flex items-start space-x-4">
-              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-democratic-red/10">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-democratic-red/10">
                 <IconWrapper name="video" :type="'democratic-red'" :size="24" />
               </div>
               <div>
@@ -36,7 +36,7 @@
 
             <!-- 內容管理員認領 -->
             <div class="flex items-start space-x-4">
-              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-jade-green/10">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-jade-green/10">
                 <IconWrapper name="users" :type="'jade-green'" :size="24" />
               </div>
               <div>

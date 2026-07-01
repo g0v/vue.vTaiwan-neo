@@ -121,6 +121,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@reference '../style.css';
+
 .topic-slide {
   /* min-height: 400px; */
 }

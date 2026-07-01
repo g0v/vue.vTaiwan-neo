@@ -319,6 +319,8 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@reference '../style.css';
+
 .prose :deep(a) {
   @apply text-blue-600 underline hover:text-blue-800;
 }

@@ -92,7 +92,7 @@
         </div>
 
         <!-- 加入社群 CTA -->
-        <div class="mt-12 rounded-lg bg-gradient-to-r from-democratic-red to-red-600 p-8 text-center text-white">
+        <div class="mt-12 rounded-lg bg-linear-to-r from-democratic-red to-red-600 p-8 text-center text-white">
           <h2 class="mb-4 text-3xl font-bold">{{ t('contact.cta.title') }}</h2>
           <p class="mb-6 text-xl opacity-90">
             {{ t('contact.cta.description') }}

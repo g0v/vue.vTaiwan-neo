@@ -1,8 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap')
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --breakpoint-3xl: 1920px;
+
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-democratic-red: #d82000;
+  --color-jade-green: #008888;
+  --color-wheat-yellow: #db7700;
+
+  --color-gray-100: #f8f8f8;
+  --color-gray-200: #e0e0e0;
+  --color-gray-400: #a0a0a0;
+  --color-gray-700: #505050;
+
+  --font-serif: 'Noto Serif TC', serif;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility title-underline {
+  @apply inline-block border-b-2 border-democratic-red pb-2;
+}
+
+@utility btn-primary {
+  @apply bg-democratic-red px-4 py-2 text-white transition hover:bg-democratic-red/90;
+}
+
+@utility btn-secondary {
+  @apply bg-jade-green px-4 py-2 text-white transition hover:bg-jade-green/90;
+}
+
+@utility btn-tertiary {
+  @apply bg-wheat-yellow px-4 py-2 text-white transition hover:bg-wheat-yellow/90;
+}
+
+@utility btn-outline {
+  @apply border border-black px-4 py-2 text-black transition hover:bg-gray-100;
+}
+
+@utility btn-outline-white {
+  @apply border border-white bg-transparent px-4 py-2 text-white transition hover:bg-gray-100 hover:text-black;
+}
+
+@utility tag-red {
+  @apply inline-block bg-democratic-red px-2 py-1 text-xs text-white;
+}
+
+@utility tag-green {
+  @apply inline-block bg-jade-green px-2 py-1 text-xs text-white;
+}
+
+@utility tag-yellow {
+  @apply inline-block bg-wheat-yellow px-2 py-1 text-xs text-white;
+}
+
+@utility card {
+  @apply border border-gray-200 bg-white transition hover:shadow-md;
+}
+
+@utility prose {
+  @apply max-w-none;
+
+  & a {
+    @apply text-democratic-red transition hover:text-democratic-red/80;
+  }
+
+  & img {
+    @apply rounded-lg;
+  }
+
+  & ol {
+    @apply list-decimal;
+  }
+
+  & ul {
+    @apply list-disc;
+  }
+}
 
 @layer base {
   html {
@@ -40,68 +134,6 @@
 
   #renderedOutline a {
     text-decoration: underline;
-  }
-}
-
-@layer components {
-  .title-underline {
-    @apply inline-block border-b-2 border-democratic-red pb-2;
-  }
-
-  .btn-primary {
-    @apply bg-democratic-red px-4 py-2 text-white transition hover:bg-democratic-red/90;
-  }
-
-  .btn-secondary {
-    @apply bg-jade-green px-4 py-2 text-white transition hover:bg-jade-green/90;
-  }
-
-  .btn-tertiary {
-    @apply bg-wheat-yellow px-4 py-2 text-white transition hover:bg-wheat-yellow/90;
-  }
-
-  .btn-outline {
-    @apply border border-black px-4 py-2 text-black transition hover:bg-gray-100;
-  }
-
-  .btn-outline-white {
-    @apply border border-white bg-transparent px-4 py-2 text-white transition hover:bg-gray-100 hover:text-black;
-  }
-
-  .tag-red {
-    @apply inline-block bg-democratic-red px-2 py-1 text-xs text-white;
-  }
-
-  .tag-green {
-    @apply inline-block bg-jade-green px-2 py-1 text-xs text-white;
-  }
-
-  .tag-yellow {
-    @apply inline-block bg-wheat-yellow px-2 py-1 text-xs text-white;
-  }
-
-  .card {
-    @apply border border-gray-200 bg-white transition hover:shadow-md;
-  }
-
-  .prose {
-    @apply max-w-none;
-  }
-
-  .prose a {
-    @apply text-democratic-red transition hover:text-democratic-red/80;
-  }
-
-  .prose img {
-    @apply rounded-lg;
-  }
-
-  .prose ol {
-    @apply list-decimal;
-  }
-
-  .prose ul {
-    @apply list-disc;
   }
 }
 

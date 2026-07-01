@@ -36,7 +36,7 @@
       </div>
 
       <!-- 錯誤訊息 -->
-      <div v-if="error" class="mb-6 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700">
+      <div v-if="error" class="mb-6 rounded-sm border border-red-400 bg-red-100 px-4 py-3 text-red-700">
         {{ error }}
       </div>
 
@@ -45,7 +45,7 @@
         <div v-for="(message, index) in transcriptionContent" :key="index" class="border-b border-gray-200 bg-white p-6 md:rounded-lg md:border md:border-b-0 md:border-gray-200 md:shadow-md">
           <div class="flex items-start space-x-4">
             <!-- 頭像 -->
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
               <div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500">
                 <img v-if="getPhotoURL(getSpeaker(message))" :src="getPhotoURL(getSpeaker(message))" :alt="t('transcriptionDetail.photoAlt')" class="h-10 w-10 rounded-full" />
                 <svg v-else class="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">

@@ -46,10 +46,10 @@
 
         <!-- 操作按鈕 -->
         <div class="flex space-x-4 pt-6">
-          <button @click="startEdit" class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-democratic-red focus:ring-offset-2">
+          <button @click="startEdit" class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-hidden focus:ring-2 focus:ring-democratic-red focus:ring-offset-2">
             {{ $t('common.edit') }}
           </button>
-          <button @click="$emit('logout')" class="rounded-md border border-red-300 px-4 py-2 text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+          <button @click="$emit('logout')" class="rounded-md border border-red-300 px-4 py-2 text-red-600 hover:bg-red-50 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
             {{ $t('common.logout') }}
           </button>
         </div>
@@ -80,7 +80,7 @@
               v-model="editForm.displayName"
               type="text"
               required
-              class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-democratic-red focus:outline-none focus:ring-2 focus:ring-democratic-red"
+              class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-xs focus:border-democratic-red focus:outline-hidden focus:ring-2 focus:ring-democratic-red"
               placeholder="請輸入您的姓名"
             />
           </div>
@@ -90,14 +90,14 @@
             <label for="email" class="mb-2 block text-sm font-medium text-gray-700">
               {{ $t('profile.email') }}
             </label>
-            <input id="email" :value="user.email" type="email" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-500 shadow-sm" />
+            <input id="email" :value="user.email" type="email" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-500 shadow-xs" />
             <p class="mt-1 text-xs text-gray-500">Email 無法編輯</p>
           </div>
 
           <!-- UID 欄位 (僅顯示，不可編輯) -->
           <div>
             <label for="uid" class="mb-2 block text-sm font-medium text-gray-700"> 用戶ID </label>
-            <input id="uid" :value="user.uid" type="text" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm text-gray-500 shadow-sm" />
+            <input id="uid" :value="user.uid" type="text" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm text-gray-500 shadow-xs" />
             <p class="mt-1 text-xs text-gray-500">用戶ID 無法編輯</p>
           </div>
 
@@ -106,7 +106,7 @@
             <button
               type="submit"
               :disabled="updating || !hasChanges"
-              class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-hidden focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {{ updating ? '更新中...' : $t('common.save') }}
             </button>
@@ -115,7 +115,7 @@
               type="button"
               @click="cancelEdit"
               :disabled="updating"
-              class="rounded-md border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
+              class="rounded-md border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
             >
               {{ $t('common.cancel') }}
             </button>

@@ -10,7 +10,7 @@
 
         <div class="space-y-6">
           <!-- FAQ 項目 -->
-          <div v-for="faq in faqs" :key="faq.id" class="overflow-hidden rounded-lg border bg-white p-6 shadow-sm transition hover:shadow-md">
+          <div v-for="faq in faqs" :key="faq.id" class="overflow-hidden rounded-lg border bg-white p-6 shadow-xs transition hover:shadow-md">
             <h3 class="mb-2 text-xl font-bold text-democratic-red">
               {{ faq.question[locale] }}
             </h3>

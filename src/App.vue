@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen flex-col">
     <Header :user="user" :userData="userData" @logout="handleLogout" @show-login="showLoginModal = true" />
-    <main class="flex-grow">
+    <main class="grow">
       <!-- Debug info -->
       <div v-if="false" class="p-2 text-xs text-gray-500">Debug: user={{ user }}, userData={{ userData }}</div>
       <router-view :user="user" :userData="userData" @login-success="handleLoginSuccess" @logout="handleLogout" @profile-updated="handleProfileUpdated" />
@@ -9,7 +9,7 @@
     <Footer />
 
     <!-- 登入模態框 -->
-    <div v-if="showLoginModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+    <div v-if="showLoginModal" class="fixed inset-0 z-9999 flex items-center justify-center bg-black bg-opacity-50">
       <div class="mx-4 w-full max-w-md rounded-lg bg-white p-8">
         <div class="mb-6 flex items-center justify-between">
           <h2 class="text-2xl font-bold">{{ $t('auth.loginTitle') }}</h2>
@@ -171,6 +171,8 @@ const handleProfileUpdated = async updatedData => {
 </script>
 
 <style>
+@reference './style.css';
+
 #app {
   min-height: 100vh;
 }

@@ -30,12 +30,12 @@
             <!-- 議題階段 -->
             <td class="border border-gray-200 p-4 align-top">
               <div class="block md:hidden">
-                <span class="inline-block rounded bg-gray-100 px-2 py-1 text-xs text-gray-800">
+                <span class="inline-block rounded-sm bg-gray-100 px-2 py-1 text-xs text-gray-800">
                   {{ item.title }}
                 </span>
               </div>
               <div class="hidden md:block">
-                <span class="inline-block rounded bg-gray-100 px-3 py-1 text-sm text-gray-800">
+                <span class="inline-block rounded-sm bg-gray-100 px-3 py-1 text-sm text-gray-800">
                   {{ item.title }}
                 </span>
               </div>

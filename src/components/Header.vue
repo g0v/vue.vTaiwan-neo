@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-[999] bg-black text-white">
+  <header class="sticky top-0 z-999 bg-black text-white">
     <div class="w-full px-4 md:mx-auto">
       <div class="flex h-16 items-center justify-between gap-4">
         <router-link to="/" class="flex items-center" @click="mobileMenuOpen = false">

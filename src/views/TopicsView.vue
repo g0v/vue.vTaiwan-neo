@@ -92,7 +92,7 @@
             v-model="searchQuery"
             type="text"
             :placeholder="$t('topics.search.placeholder')"
-            class="w-full min-w-64 rounded-lg border border-gray-300 bg-white px-4 py-3 pl-12 pr-12 text-gray-900 focus:outline-none focus:ring-2 focus:ring-jade-green"
+            class="w-full min-w-64 rounded-lg border border-gray-300 bg-white px-4 py-3 pl-12 pr-12 text-gray-900 focus:outline-hidden focus:ring-2 focus:ring-jade-green"
           />
           <IconWrapper name="search" :size="20" class="absolute left-4 top-1/2 -translate-y-1/2 transform text-gray-400" />
           <button v-if="searchQuery" @click="clearSearch" class="absolute right-4 top-1/2 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-gray-600">
@@ -121,7 +121,7 @@
           @click="toggleBookmarksOnly"
           :class="[
             'ml-2 flex items-center gap-1 rounded-lg px-4 py-2 font-medium transition-colors',
-            showBookmarksOnly ? 'bg-democratic-red text-white shadow' : 'bg-gray-100 text-black hover:bg-gray-200',
+            showBookmarksOnly ? 'bg-democratic-red text-white shadow-sm' : 'bg-gray-100 text-black hover:bg-gray-200',
           ]"
         >
           <IconWrapper name="bookmark" :size="18" :class="showBookmarksOnly ? 'fill-white' : 'fill-none'" />
@@ -133,7 +133,7 @@
         <select
           v-model="selectedStep"
           @change="handleStepChange"
-          class="w-full appearance-none rounded border border-gray-300 bg-white px-4 py-2 pr-10 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-none"
+          class="w-full appearance-none rounded-sm border border-gray-300 bg-white px-4 py-2 pr-10 leading-tight text-gray-700 focus:border-gray-500 focus:bg-white focus:outline-hidden"
         >
           <option value="">{{ $t('topics.steps.all') }}</option>
           <option v-for="(step, index) in steps" :key="index" :value="index">

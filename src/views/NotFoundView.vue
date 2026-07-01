@@ -88,6 +88,8 @@ useHead({
 </template>
 
 <style scoped>
+@reference '../style.css';
+
 .btn-primary {
   @apply bg-democratic-red px-6 py-3 font-medium text-white transition-colors hover:bg-democratic-red/90;
 }

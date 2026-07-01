@@ -31,7 +31,7 @@
       <article
         v-for="newsletter in newsletters"
         :key="newsletter.id"
-        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xs transition hover:-translate-y-0.5 hover:shadow-lg"
       >
         <router-link :to="{ name: 'newsletter-detail', params: { slug: newsletter.slug } }" class="block bg-gray-200">
           <img v-if="newsletter.coverImage" :src="newsletter.coverImage" :alt="newsletter.title" class="h-52 w-full object-contain" />

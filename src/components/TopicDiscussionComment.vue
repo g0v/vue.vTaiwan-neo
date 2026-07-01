@@ -32,7 +32,7 @@
       <div class="space-y-4">
         <div v-for="(comment, index) in comments" :key="index" class="flex space-x-3">
           <!-- Avatar -->
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <img :src="comment.avatar_template" :alt="comment.username" class="h-10 w-10 rounded-full" />
           </div>
 

@@ -15,7 +15,7 @@
           <p class="mb-6 text-gray-600">準備加入會議室：{{ room }}</p>
 
           <!-- 可以自訂加入會議的名字，預設為 userData.name -->
-          <input v-model="joinMeetingName" class="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-jade-green" placeholder="請輸入您的名字" />
+          <input v-model="joinMeetingName" class="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-hidden focus:ring-2 focus:ring-jade-green" placeholder="請輸入您的名字" />
 
           <!-- 加入會議按鈕 -->
           <button @click="joinMeeting" class="rounded-lg bg-jade-green px-6 py-3 text-white transition-colors hover:bg-jade-green/90">加入會議</button>
@@ -59,7 +59,7 @@
           @mousedown="startDragging"
           @touchstart="startDragging"
         >
-          <div class="h-8 w-1 rounded bg-gray-500"></div>
+          <div class="h-8 w-1 rounded-sm bg-gray-500"></div>
         </div>
 
         <TranscriptPanel
@@ -81,7 +81,7 @@
     <div v-if="isMobile && showTranscript" class="fixed inset-0 z-40 bg-black bg-opacity-50" @click="hideTranscript"></div>
 
     <!-- 音訊設定模態框 -->
-    <div v-if="showAudioSettings" class="audio-settings-modal fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 p-4" @click="hideAudioSettings">
+    <div v-if="showAudioSettings" class="audio-settings-modal fixed inset-0 z-9999 flex items-center justify-center bg-black bg-opacity-50 p-4" @click="hideAudioSettings">
       <div class="mx-2 max-h-[90vh] w-[95vw] max-w-md overflow-y-auto rounded-lg bg-white shadow-xl" @click.stop>
         <div class="p-4 sm:p-1">
           <div class="mb-4 flex items-center justify-between sm:mb-1">
@@ -110,7 +110,7 @@
               >
                 <!-- 設備選擇區域 -->
                 <div class="flex cursor-pointer items-center p-4 sm:p-1" @click="selectAudioDevice(device.deviceId)">
-                  <div class="mr-3 flex-shrink-0">
+                  <div class="mr-3 shrink-0">
                     <div class="flex h-4 w-4 items-center justify-center rounded-full border-2" :class="selectedAudioDeviceId === device.deviceId ? 'border-democratic-red' : 'border-gray-300'">
                       <div v-if="selectedAudioDeviceId === device.deviceId" class="h-2 w-2 rounded-full bg-democratic-red"></div>
                     </div>
@@ -192,7 +192,7 @@
         >
           <IconWrapper name="settings" :size="24" />
           <!-- 轉錄語言國旗（手機版：音訊設定按鈕右下角） -->
-          <div v-if="isMobile" class="z-15 absolute -right-1 top-10 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div v-if="isMobile" class="z-15 absolute -right-1 top-10 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-xs" :title="`轉錄語言: ${transcriptionLanguage}`">
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -248,7 +248,7 @@
         >
           <IconWrapper name="chevron-up" :size="14" />
           <!-- 轉錄語言國旗（桌面版：音訊設定按鈕右下角） -->
-          <div v-if="!isMobile" class="z-15 absolute -right-1 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div v-if="!isMobile" class="z-15 absolute -right-1 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-xs" :title="`轉錄語言: ${transcriptionLanguage}`">
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -269,8 +269,8 @@
     </div>
 
     <!-- 加入後提示橫幅：教導點黑色區域再按左下角圖示（可關閉） -->
-    <div v-if="hasJoined && showJitsiTipBanner" class="fixed left-1/2 top-4 z-[9999] max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
-      <div class="flex items-start space-x-3 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-yellow-900 shadow">
+    <div v-if="hasJoined && showJitsiTipBanner" class="fixed left-1/2 top-4 z-9999 max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
+      <div class="flex items-start space-x-3 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-yellow-900 shadow-sm">
         <div class="flex-1 text-sm leading-relaxed">
           {{ $t('jitsi.tipBanner.message') }}
         </div>
