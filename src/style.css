@@ -1,40 +1,187 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap')
+/* ==========================================================================
+   style.css — Tailwind v4 source
+   Design tokens follow Tofuswang/vtaiwan-design-system (colors_and_type.css).
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;700;900&display=swap')
 layer(base);
 
 @import 'tailwindcss';
 
-@theme {
+/* Scan the Vue components + TypeScript entry points for class names. */
+@source './**/*.vue';
+@source './**/*.ts';
+
+/* --------------------------------------------------------------------------
+   Theme tokens — exposed as Tailwind v4 utilities
+   (e.g. text-vt-democratic-red, bg-vt-bg-2, font-vt-serif, p-vt-4)
+   Legacy aliases stay available for existing templates
+   (e.g. text-democratic-red, bg-jade-green/10, font-serif).
+   -------------------------------------------------------------------------- */
+@theme static {
   --breakpoint-3xl: 1920px;
 
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-democratic-red: #d82000;
-  --color-jade-green: #008888;
-  --color-wheat-yellow: #db7700;
+  /* Core brand */
+  --color-vt-black: #000000;
+  --color-vt-white: #ffffff;
 
-  --color-gray-100: #f8f8f8;
-  --color-gray-200: #e0e0e0;
-  --color-gray-400: #a0a0a0;
-  --color-gray-700: #505050;
+  /* Accent palette */
+  --color-vt-democratic-red: #d80000; /* primary — "民主紅" */
+  --color-vt-jade-green: #008888; /* secondary — "青玉綠" */
+  --color-vt-wheat-yellow: #db7700; /* tertiary — "麥穗黃" */
+  --color-vt-red-tint: rgba(216, 0, 0, 0.1);
+  --color-vt-green-tint: rgba(0, 136, 136, 0.1);
+  --color-vt-yellow-tint: rgba(219, 119, 0, 0.1);
 
-  --font-serif: 'Noto Serif TC', serif;
+  /* Neutrals */
+  --color-vt-gray-100: #f8f8f8;
+  --color-vt-gray-200: #e0e0e0;
+  --color-vt-gray-400: #a0a0a0;
+  --color-vt-gray-700: #505050;
+  --color-vt-gray-800: #1a1a1a;
+
+  /* Semantic foreground / background */
+  --color-vt-fg-1: var(--color-vt-black);
+  --color-vt-fg-2: var(--color-vt-gray-700);
+  --color-vt-fg-3: var(--color-vt-gray-400);
+  --color-vt-fg-inverse: var(--color-vt-white);
+  --color-vt-bg-1: var(--color-vt-white);
+  --color-vt-bg-2: var(--color-vt-gray-100);
+  --color-vt-bg-inverse: var(--color-vt-black);
+  --color-vt-border: var(--color-vt-gray-200);
+  --color-vt-border-strong: var(--color-vt-black);
+
+  /* Legacy color aliases used by current Vue templates */
+  --color-black: var(--color-vt-black);
+  --color-white: var(--color-vt-white);
+  --color-democratic-red: var(--color-vt-democratic-red);
+  --color-jade-green: var(--color-vt-jade-green);
+  --color-wheat-yellow: var(--color-vt-wheat-yellow);
+  --color-gray-100: var(--color-vt-gray-100);
+  --color-gray-200: var(--color-vt-gray-200);
+  --color-gray-400: var(--color-vt-gray-400);
+  --color-gray-700: var(--color-vt-gray-700);
+  --color-gray-800: var(--color-vt-gray-800);
+  --color-ink: var(--color-vt-fg-1);
+
+  /* Type families */
+  --font-vt-serif: 'Noto Serif TC', 'Source Han Serif TC', 'Songti TC', serif;
+  --font-vt-sans: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-vt-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Legacy font aliases used by current Vue templates */
+  --font-serif: var(--font-vt-serif);
+  --font-sans: var(--font-vt-sans);
+
+  /* Type scale */
+  --text-vt-xs: 12px;
+  --text-vt-xs--line-height: 1.4;
+  --text-vt-sm: 14px;
+  --text-vt-sm--line-height: 1.5;
+  --text-vt-base: 16px;
+  --text-vt-base--line-height: 1.6;
+  --text-vt-lg: 18px;
+  --text-vt-lg--line-height: 1.6;
+  --text-vt-xl: 20px;
+  --text-vt-xl--line-height: 1.3;
+  --text-vt-2xl: 24px;
+  --text-vt-2xl--line-height: 1.25;
+  --text-vt-3xl: 30px;
+  --text-vt-3xl--line-height: 1.2;
+  --text-vt-4xl: 36px;
+  --text-vt-4xl--line-height: 1.2;
+  --text-vt-5xl: 48px;
+  --text-vt-5xl--line-height: 1.15;
+
+  /* Spacing */
+  --spacing-vt-1: 4px;
+  --spacing-vt-2: 8px;
+  --spacing-vt-3: 12px;
+  --spacing-vt-4: 16px;
+  --spacing-vt-6: 24px;
+  --spacing-vt-8: 32px;
+  --spacing-vt-12: 48px;
+  --spacing-vt-16: 64px;
+
+  /* Radii */
+  --radius-vt-none: 0;
+  --radius-vt-sm: 4px;
+  --radius-vt-md: 6px;
+  --radius-vt-lg: 8px;
+  --radius-vt-full: 9999px;
+
+  /* Elevation */
+  --shadow-vt-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-vt-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-vt-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+  /* Motion */
+  --ease-vt: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-vt-fast: 150ms;
+  --duration-vt-base: 200ms;
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
 @layer base {
+  /*
+    The default border color has changed to `currentcolor` in Tailwind CSS v4,
+    so we've added these compatibility styles to make sure everything still
+    looks the same as it did with Tailwind CSS v3.
+
+    If we ever want to remove these styles, we need to add an explicit border
+    color utility to any element that depends on these defaults.
+  */
   *,
   ::after,
   ::before,
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  html {
+    font-family: var(--font-vt-serif);
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-vt-serif);
+    color: var(--color-vt-fg-1);
+    background: var(--color-vt-bg-1);
+    font-size: var(--text-vt-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-serif font-bold;
+  }
+
+  h1 {
+    @apply mb-6 text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply mb-4 text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply mb-3 text-xl;
+  }
+
+  h4 {
+    @apply mb-2 text-lg;
+  }
+
+  #renderedOutline a {
+    text-decoration: underline;
   }
 }
 
@@ -98,43 +245,220 @@ layer(base);
   }
 }
 
-@layer base {
-  html {
-    font-family: 'Noto Serif TC', serif;
+/* --------------------------------------------------------------------------
+   Design-system components — the few effects that are awkward as utilities
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* Signature red underline on section headings */
+  .vt-title-underline {
+    position: relative;
+    display: inline-block;
+    padding-bottom: var(--spacing-vt-2);
+    border-bottom: 2px solid var(--color-vt-democratic-red);
   }
 
-  body {
-    @apply bg-white text-black;
+  /* Hero — three soft civic-color fields + hairline horizon lines */
+  .vt-hero-bg {
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0b;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-serif font-bold;
+  .vt-hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(600px 400px at 18% 28%, rgba(216, 0, 0, 0.18), transparent 65%),
+      radial-gradient(520px 380px at 82% 72%, rgba(0, 136, 136, 0.14), transparent 65%),
+      radial-gradient(480px 340px at 50% 110%, rgba(219, 119, 0, 0.1), transparent 65%);
   }
 
-  h1 {
-    @apply mb-6 text-3xl md:text-4xl;
+  .vt-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 96px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%);
   }
 
-  h2 {
-    @apply mb-4 text-2xl md:text-3xl;
+  /* Footer — quiet civic glow */
+  .vt-footer-bg {
+    background:
+      radial-gradient(80% 120% at 0% 0%, rgba(216, 0, 0, 0.1) 0%, rgba(216, 0, 0, 0) 55%),
+      radial-gradient(70% 120% at 100% 100%, rgba(0, 136, 136, 0.08) 0%, rgba(0, 136, 136, 0) 60%),
+      linear-gradient(180deg, #14141a 0%, #0b0b10 100%);
   }
 
-  h3 {
-    @apply mb-3 text-xl;
+  .vt-hairline {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
   }
 
-  h4 {
-    @apply mb-2 text-lg;
+  /* Frosted-glass header bar */
+  .vt-glass {
+    background: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(16, 24, 40, 0.04),
+      0 10px 30px -16px rgba(16, 24, 40, 0.12);
   }
 
-  #renderedOutline a {
-    text-decoration: underline;
+  /* Buttons — sans, pill */
+  .vt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-vt-2);
+    font-family: var(--font-vt-sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 13px var(--spacing-vt-6);
+    border-radius: var(--radius-vt-full);
+    cursor: pointer;
+    transition:
+      transform var(--duration-vt-base) var(--ease-vt),
+      background var(--duration-vt-base) var(--ease-vt),
+      border-color var(--duration-vt-base) var(--ease-vt);
   }
+
+  .vt-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .vt-btn-primary {
+    background: var(--color-vt-democratic-red);
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 24px -10px rgba(216, 0, 0, 0.7);
+  }
+
+  .vt-btn-primary:hover {
+    background: #ee1f1f;
+  }
+
+  .vt-btn-outline {
+    background: transparent;
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .vt-btn-outline:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* ==========================================================================
+   Legacy page styles — kept so /about, /word/:w and /hundred still render
+   (these pages use the .container layout, not Tailwind utilities)
+   ========================================================================== */
+.container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.container h1 {
+  margin-top: 0;
+}
+
+.container a {
+  color: var(--color-vt-democratic-red);
+}
+
+code {
+  background: #eef2f6;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-vt-sm);
+  font-size: 0.9em;
+  font-family: var(--font-vt-mono);
+}
+
+figure {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  background: var(--color-vt-bg-1);
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+figcaption {
+  margin-top: 0.5rem;
+  color: var(--color-vt-gray-700);
+  font-size: 0.9rem;
+}
+
+/* /hundred — 百數表 hydration 頁 */
+.hundred-main {
+  max-width: 640px;
+}
+
+.hundred-main .lead {
+  color: var(--color-vt-gray-700);
+  margin-bottom: 1.5rem;
+}
+
+.hundred-controls {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  background: var(--color-vt-bg-1);
+}
+
+.hundred-controls .control-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.factor-input {
+  width: 100%;
+  max-width: 12rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-md);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.hundred-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-vt-bg-1);
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  overflow: hidden;
+}
+
+.hundred-cell {
+  width: 10%;
+  padding: 0.55rem 0.35rem;
+  text-align: center;
+  border: 1px solid var(--color-vt-gray-200);
+  transition: background-color 0.15s ease;
 }
 
 @media screen and (max-width: 768px) {
