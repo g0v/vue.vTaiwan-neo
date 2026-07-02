@@ -64,14 +64,22 @@ npm run preview        # 預覽建置結果
 - `src/lib/` — 整合層（`firebase.ts`、`discourse.ts`、`newsletters.ts`）
 - `src/router/index.ts` — 路由
 - `src/utils/`、`src/assets/`
+- `tests/` — 單元測試（Vitest），檔名 `*.spec.ts`
 
 **Firebase 資料結構**：`/users/{uid}`（含 role、isAdmin 等）、`/blogs/{id}`（`title`、`content` 為 Markdown、`author`、`date`、`tags`）。本機需自備 `.env` 設定 Firebase。
 
 ## 驗證流程（改完必做）
 
-1. `npm run type-check` — 確認沒有型別 / 模板錯誤。
+1. `npm run type-check` — vue-tsc 型別 / 模板檢查，應為零錯誤。
 2. `npm run build` — 確認能成功建置。
-3. **單元測試（Vitest + Vue Test Utils）**：為新增的邏輯補測試。專案目前尚未建立測試框架——第一次要加測試時，先安裝設定 Vitest + Vue Test Utils，並在動工前與使用者確認（見「動工前的原則」）。
+3. `npm run test` — 執行 Vitest（`vitest run`）。為新增的邏輯補上測試。
+
+### 測試（Vitest + Vue Test Utils）
+
+- 測試檔放在頂層 `tests/`，命名 `*.spec.ts`；DOM 環境用 jsdom（見 `vite.config.ts` 的 `test` 區塊）。
+- `describe / it / expect / vi` 為全域（`globals: true`），免 import；`tests/` 已納入 tsconfig 並掛 `vitest/globals` 型別。
+- import 來源用 `@` 別名（如 `import { x } from '@/utils/x'`）。
+- 指令：`npm run test`（跑一次）、`npm run test:watch`（監看模式）。
 
 ## Git / Commit 慣例
 
