@@ -67,6 +67,9 @@ export async function firstSuccessThenFallback<T, R>(requestFns: RequestFn<T>[],
       })
       .finally(() => {
         finishedCount++
+        // 喚醒等待中的主迴圈：finishedCount 在此才遞增，若不喚醒，最後一個請求結束時
+        // 主迴圈會用到尚未更新的計數，於是又去 await 一個沒人會 resolve 的 deferred（全部失敗時死鎖）。
+        nextItem.resolve()
       })
   }
 
