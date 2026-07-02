@@ -2,6 +2,8 @@
 
 vTaiwan Neo 的 Vue 版，使用 Vue 3 + Vite + Tailwind CSS + Firebase。後端開源： [Jitsi JWT](https://github.com/g0v/vtaiwan-jaas-jwt-worker) · [轉錄與 AI 大綱](https://github.com/g0v/vtaiwan-transcription-worker)
 
+> 🤖 用 AI coding agent 開發本專案？請先看 [`AGENTS.md`](./AGENTS.md)（程式碼慣例、i18n 規則、驗證與 commit 規範）。
+
 ## 安裝與運行
 
 若尚未安裝 Node.js，請先至 [nodejs.org](https://nodejs.org/) 下載安裝（建議選 LTS 版本）。
@@ -81,6 +83,8 @@ firebase deploy
 ## vTaiwan Neo - Vue Version
 
 Vue version of vTaiwan Neo (Vue 3 + Vite + Tailwind CSS + Firebase). Backend: [Jitsi JWT](https://github.com/g0v/vtaiwan-jaas-jwt-worker) · [Transcription & AI outline](https://github.com/g0v/vtaiwan-transcription-worker)
+
+> 🤖 Developing with an AI coding agent? Read [`AGENTS.md`](./AGENTS.md) first (code conventions, i18n rules, verification & commit conventions).
 
 ## Install & Run
 
