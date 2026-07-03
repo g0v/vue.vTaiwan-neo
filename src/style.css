@@ -3,8 +3,7 @@
    Design tokens follow Tofuswang/vtaiwan-design-system (colors_and_type.css).
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;700;900&display=swap')
-layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;700;900&display=swap') layer(base);
 
 @import 'tailwindcss';
 
@@ -19,6 +18,7 @@ layer(base);
    (e.g. text-democratic-red, bg-jade-green/10, font-serif).
    -------------------------------------------------------------------------- */
 @theme static {
+  --breakpoint-lg: 1186px;
   --breakpoint-3xl: 1920px;
 
   /* Core brand */
@@ -186,19 +186,19 @@ layer(base);
 }
 
 @utility title-underline {
-  @apply inline-block border-b-2 border-democratic-red pb-2;
+  @apply border-democratic-red inline-block border-b-2 pb-2;
 }
 
 @utility btn-primary {
-  @apply bg-democratic-red px-4 py-2 text-white transition hover:bg-democratic-red/90;
+  @apply bg-democratic-red hover:bg-democratic-red/90 px-4 py-2 text-white transition;
 }
 
 @utility btn-secondary {
-  @apply bg-jade-green px-4 py-2 text-white transition hover:bg-jade-green/90;
+  @apply bg-jade-green hover:bg-jade-green/90 px-4 py-2 text-white transition;
 }
 
 @utility btn-tertiary {
-  @apply bg-wheat-yellow px-4 py-2 text-white transition hover:bg-wheat-yellow/90;
+  @apply bg-wheat-yellow hover:bg-wheat-yellow/90 px-4 py-2 text-white transition;
 }
 
 @utility btn-outline {
@@ -210,15 +210,15 @@ layer(base);
 }
 
 @utility tag-red {
-  @apply inline-block bg-democratic-red px-2 py-1 text-xs text-white;
+  @apply bg-democratic-red inline-block px-2 py-1 text-xs text-white;
 }
 
 @utility tag-green {
-  @apply inline-block bg-jade-green px-2 py-1 text-xs text-white;
+  @apply bg-jade-green inline-block px-2 py-1 text-xs text-white;
 }
 
 @utility tag-yellow {
-  @apply inline-block bg-wheat-yellow px-2 py-1 text-xs text-white;
+  @apply bg-wheat-yellow inline-block px-2 py-1 text-xs text-white;
 }
 
 @utility card {
@@ -229,7 +229,7 @@ layer(base);
   @apply max-w-none;
 
   & a {
-    @apply text-democratic-red transition hover:text-democratic-red/80;
+    @apply text-democratic-red hover:text-democratic-red/80 transition;
   }
 
   & img {
@@ -270,8 +270,7 @@ layer(base);
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(600px 400px at 18% 28%, rgba(216, 0, 0, 0.18), transparent 65%),
-      radial-gradient(520px 380px at 82% 72%, rgba(0, 136, 136, 0.14), transparent 65%),
+      radial-gradient(600px 400px at 18% 28%, rgba(216, 0, 0, 0.18), transparent 65%), radial-gradient(520px 380px at 82% 72%, rgba(0, 136, 136, 0.14), transparent 65%),
       radial-gradient(480px 340px at 50% 110%, rgba(219, 119, 0, 0.1), transparent 65%);
   }
 
@@ -289,18 +288,12 @@ layer(base);
   /* Footer — quiet civic glow */
   .vt-footer-bg {
     background:
-      radial-gradient(80% 120% at 0% 0%, rgba(216, 0, 0, 0.1) 0%, rgba(216, 0, 0, 0) 55%),
-      radial-gradient(70% 120% at 100% 100%, rgba(0, 136, 136, 0.08) 0%, rgba(0, 136, 136, 0) 60%),
+      radial-gradient(80% 120% at 0% 0%, rgba(216, 0, 0, 0.1) 0%, rgba(216, 0, 0, 0) 55%), radial-gradient(70% 120% at 100% 100%, rgba(0, 136, 136, 0.08) 0%, rgba(0, 136, 136, 0) 60%),
       linear-gradient(180deg, #14141a 0%, #0b0b10 100%);
   }
 
   .vt-hairline {
-    background: linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.08) 50%,
-      rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0) 100%);
   }
 
   /* Frosted-glass header bar */
