@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import discourseApi from '../lib/discourse'
@@ -70,15 +70,45 @@ const discussionLink = computed(() => {
   return `/topic/${props.topicId}#discussion`
 })
 
+const buildGoogleSlidesIframe = content => {
+  const match = content.match(/https:\/\/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)\/[^\s<"]*/i)
+  if (!match) return ''
+
+  const [, presentationId] = match
+  const slideMatch = match[0].match(/[?#&]slide=([^&#\s<"]+)/i)
+  const embedUrl = new URL(`https://docs.google.com/presentation/d/${presentationId}/embed`)
+  embedUrl.searchParams.set('start', 'false')
+  embedUrl.searchParams.set('loop', 'false')
+  embedUrl.searchParams.set('delayms', '3000')
+
+  if (slideMatch) {
+    embedUrl.searchParams.set('slide', decodeURIComponent(slideMatch[1]))
+  }
+
+  const iframeElement = document.createElement('iframe')
+  iframeElement.src = embedUrl.toString()
+  iframeElement.allowFullscreen = true
+  iframeElement.loading = 'lazy'
+  iframeElement.referrerPolicy = 'no-referrer-when-downgrade'
+  iframeElement.title = 'Google Slides'
+  return iframeElement.outerHTML
+}
+
 // 載入 Slide 資料
 const loadSlide = async () => {
   try {
     if (!props.topicId) return
 
+    slide.value = {
+      iframe: '',
+      info: '',
+    }
+
     const response = await discourseApi.getTopic(props.topicId)
 
     if (response && response.post_stream && response.post_stream.posts.length > 0) {
       const firstPost = response.post_stream.posts[0]
+      const raw = firstPost.raw || ''
       const cooked = firstPost.cooked || ''
 
       // 提取 iframe
@@ -89,14 +119,17 @@ const loadSlide = async () => {
       if (iframeElement) {
         iframeElement.allowFullscreen = true
         slide.value.iframe = iframeElement.outerHTML
+      } else {
+        slide.value.iframe = buildGoogleSlidesIframe(`${raw}\n${cooked}`)
       }
 
       // 提取詳細資訊（hr 分割後的第二部分）
       const parts = cooked.split('<hr>')
       if (parts.length > 1) {
         let info = parts[1]
-        // 移除 slideshare 相關內容
+        // 移除簡報嵌入或連結，避免右側簡介重複顯示同一份簡報
         info = info.replace(/<iframe.*?slideshare.*?<\/iframe>/gi, '')
+        info = info.replace(/<p>\s*<a[^>]+href="https:\/\/docs\.google\.com\/presentation\/d\/[^"]+"[^>]*>.*?<\/a>\s*<\/p>/gi, '')
         slide.value.info = info
       }
     }
@@ -113,19 +146,10 @@ watch(
   },
   { immediate: true }
 )
-
-// 組件掛載時載入資料
-onMounted(() => {
-  loadSlide()
-})
 </script>
 
 <style scoped>
 @reference '../style.css';
-
-.topic-slide {
-  /* min-height: 400px; */
-}
 
 .iframe-container :deep(iframe) {
   width: 100%;
