@@ -227,6 +227,7 @@ const fetchRSS = async (username: string) => {
   // 使用多個 CORS 代理服務作為備選方案
   const proxyServices = [
     {
+      name: 'Cloudflare Worker CORS Proxy',
       url: `https://vtaiwan-transcription-worker.bestian123.workers.dev/api/cors-proxy?url=${rssUrl}`,
       parser: async (response: Response) => response.text(),
     }
