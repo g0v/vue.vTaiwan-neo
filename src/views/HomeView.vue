@@ -35,7 +35,7 @@ useHead({
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="bg-black py-20 text-white">
+    <section class="vt-hero-bg mt-[-84px] pb-20 pt-[164px] text-white sm:mt-[-88px] sm:pt-[168px]">
       <div class="container mx-auto px-4">
         <div class="mx-auto max-w-3xl text-center">
           <h1 class="mb-5 text-4xl font-bold md:text-5xl">

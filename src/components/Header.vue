@@ -1,172 +1,9 @@
-<template>
-  <header class="sticky top-0 z-999 bg-black text-white">
-    <div class="w-full px-4 md:mx-auto">
-      <div class="flex h-16 items-center justify-between gap-4">
-        <router-link to="/" class="flex items-center" @click="mobileMenuOpen = false">
-          <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan Logo" class="h-8 w-auto" />
-        </router-link>
-
-        <div
-          ref="desktopNav"
-          class="header-desktop-nav hidden min-w-0 flex-1 items-center overflow-x-auto overflow-y-hidden lg:flex"
-          :class="{
-            'justify-center': !desktopNavOverflowing,
-            'space-x-1': desktopNavOverflowing,
-            'md:space-x-6': !isJapanese,
-            'md:space-x-4': isJapanese,
-            'space-x-6': !isJapanese,
-            'space-x-4': isJapanese,
-          }"
-          @wheel="handleDesktopNavWheel"
-        >
-          <router-link
-            v-for="item in navItems"
-            :key="item.href"
-            :to="item.href"
-            class="flex flex-none items-center gap-1 whitespace-nowrap transition hover:text-democratic-red"
-            :class="{
-              'ml-0': isJapanese,
-              'text-democratic-red': $route.path === item.href,
-              'text-xs': isJapanese,
-              'text-md': !isJapanese,
-            }"
-          >
-            <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
-            <span>{{ $t(item.label) }}</span>
-          </router-link>
-        </div>
-
-        <div class="flex items-center space-x-2">
-          <LanguageSwitcher />
-
-          <!-- 登入狀態顯示 -->
-          <div v-if="user" class="flex items-center space-x-2">
-            <router-link to="/profile" class="flex items-center space-x-2 transition hover:text-democratic-red" :title="$t('common.profile')">
-              <img v-if="userData && userData.photoURL" :src="userData.photoURL" :alt="userData.name" class="h-8 w-8 rounded-full transition hover:ring-2 hover:ring-democratic-red" />
-              <div v-else class="flex h-8 w-8 items-center justify-center rounded-full bg-gray-600 transition hover:bg-democratic-red">
-                <span class="text-xs text-white">👤</span>
-              </div>
-              <span class="hidden text-sm lg:block">{{ userData && userData.name }}</span>
-            </router-link>
-          </div>
-
-          <!-- 未登入顯示登入按鈕 -->
-
-          <div v-else>
-            <button @click="handleShowLogin" class="text-sm transition hover:text-democratic-red">
-              {{ $t('common.login') }}
-            </button>
-          </div>
-
-          <button @click="toggleMobileMenu" class="text-white lg:hidden" title="Menu" name="Menu">
-            <IconWrapper name="menu" :size="24" color="white" />
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div v-show="mobileMenuOpen" class="border-t border-gray-700 bg-black lg:hidden">
-      <div class="w-full px-4 py-3 md:container md:mx-auto">
-        <router-link
-          v-for="item in navItems"
-          :key="item.href"
-          :to="item.href"
-          class="flex items-center gap-2 py-2 transition hover:text-democratic-red"
-          :class="{
-            'text-democratic-red': $route.path === item.href,
-          }"
-          @click="mobileMenuOpen = false"
-        >
-          <IconWrapper :name="item.icon" :size="16" :stroke="'#ffffff'" />
-          <span>{{ $t(item.label) }}</span>
-        </router-link>
-
-        <button v-if="user" @click="handleLogout" class="flex items-center gap-2 py-2 transition hover:text-democratic-red">
-          <IconWrapper name="log-out" :size="16" :stroke="'#ffffff'" />
-          {{ $t('common.logout') }}
-        </button>
-      </div>
-    </div>
-  </header>
-</template>
-
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import IconWrapper from './IconWrapper.vue'
+import { useI18n } from 'vue-i18n'
 import LanguageSwitcher from './LanguageSwitcher.vue'
 
-const { t, locale } = useI18n()
-const route = useRoute()
-const mobileMenuOpen = ref(false)
-const desktopNav = ref(null)
-const desktopNavOverflowing = ref(false)
-
-// 判斷是否為日語環境
-const isJapanese = computed(() => locale.value === 'ja')
-
-const navItems = [
-  { href: '/topics', label: 'header.topics', icon: 'message-circle' },
-  { href: '/meetups', label: 'header.meetups', icon: 'calendar' },
-  { href: '/blogs', label: 'header.blogs', icon: 'book-open' },
-  { href: '/newsletters', label: 'header.newsletters', icon: 'mail' },
-  { href: '/mastodon', label: 'header.mastodon', icon: 'file-text' },
-  { href: '/faq', label: 'header.faq', icon: 'help-circle' },
-  { href: '/intro', label: 'header.about', icon: 'info' },
-  { href: '/contributors', label: 'header.contributors', icon: 'users' },
-]
-
-const toggleMobileMenu = () => {
-  mobileMenuOpen.value = !mobileMenuOpen.value
-}
-
-const updateDesktopNavOverflow = () => {
-  if (!desktopNav.value) {
-    return
-  }
-
-  desktopNavOverflowing.value = desktopNav.value.scrollWidth > desktopNav.value.clientWidth
-}
-
-const handleDesktopNavWheel = event => {
-  if (!desktopNav.value || !desktopNavOverflowing.value) {
-    return
-  }
-
-  const { deltaX, deltaY } = event
-  const horizontalDelta = Math.abs(deltaX) > Math.abs(deltaY) ? deltaX : deltaY
-
-  if (horizontalDelta === 0) {
-    return
-  }
-
-  event.preventDefault()
-  desktopNav.value.scrollLeft += horizontalDelta
-}
-
-let desktopNavResizeObserver
-
-onMounted(async () => {
-  await nextTick()
-  updateDesktopNavOverflow()
-
-  if (typeof ResizeObserver !== 'undefined' && desktopNav.value) {
-    desktopNavResizeObserver = new ResizeObserver(() => {
-      updateDesktopNavOverflow()
-    })
-    desktopNavResizeObserver.observe(desktopNav.value)
-  }
-
-  window.addEventListener('resize', updateDesktopNavOverflow)
-})
-
-onBeforeUnmount(() => {
-  desktopNavResizeObserver?.disconnect()
-  window.removeEventListener('resize', updateDesktopNavOverflow)
-})
-
-// 接收來自 App.vue 的用戶資料
 const props = defineProps({
   user: {
     type: Object,
@@ -178,47 +15,175 @@ const props = defineProps({
   },
 })
 
-// 發送事件給 App.vue
 const emit = defineEmits(['logout', 'show-login'])
+
+const route = useRoute()
+const { t, locale } = useI18n()
+const mobileOpen = ref(false)
+
+const links = [
+  { key: 'home', labelKey: 'header.home', href: '/' },
+  { key: 'topics', labelKey: 'header.topics', href: '/topics' },
+  { key: 'meetups', labelKey: 'header.meetups', href: '/meetups' },
+  { key: 'blogs', labelKey: 'header.blogs', href: '/blogs' },
+  { key: 'newsletters', labelKey: 'header.newsletters', href: '/newsletters' },
+  { key: 'mastodon', labelKey: 'header.mastodon', href: '/mastodon' },
+  { key: 'faq', labelKey: 'header.faq', href: '/faq' },
+  { key: 'about', labelKey: 'header.about', href: '/intro' },
+  { key: 'contributors', labelKey: 'header.contributors', href: '/contributors' },
+]
+
+const activeKey = computed(() => {
+  const path = route.path
+
+  if (path === '/') return 'home'
+
+  const map = [
+    { prefix: '/topics', key: 'topics' },
+    { prefix: '/meetups', key: 'meetups' },
+    { prefix: '/blogs', key: 'blogs' },
+    { prefix: '/newsletters', key: 'newsletters' },
+    { prefix: '/mastodon', key: 'mastodon' },
+    { prefix: '/faq', key: 'faq' },
+    { prefix: '/intro', key: 'about' },
+    { prefix: '/about', key: 'about' },
+    { prefix: '/contributors', key: 'contributors' },
+  ]
+
+  return map.find(item => path.startsWith(item.prefix))?.key ?? ''
+})
+
+const isJapanese = computed(() => locale.value === 'ja')
+const isChinese = computed(() => locale.value.includes('zh'))
+const isEnglish = computed(() => locale.value.includes('en'))
+
+watch(
+  () => route.fullPath,
+  () => {
+    mobileOpen.value = false
+  },
+)
 
 const handleLogout = () => {
   emit('logout')
+  mobileOpen.value = false
 }
 
 const handleShowLogin = () => {
   emit('show-login')
+  mobileOpen.value = false
 }
 </script>
 
-<style scoped>
-.header-desktop-nav {
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
-}
+<template>
+  <header class="sticky top-0 z-999 px-3 pt-3 font-sans sm:px-6 sm:pt-4">
+    <div class="vt-glass relative z-20 mx-auto flex h-[72px] max-w-6xl items-center justify-between rounded-2xl pl-6 pr-3" :class="{ 'max-w-7xl': !isChinese }">
+      <router-link to="/" class="flex shrink-0 items-center" :aria-label="t('header.home')" @click="mobileOpen = false">
+        <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan" class="h-7 w-auto" />
+      </router-link>
 
-.header-desktop-nav::-webkit-scrollbar {
-  height: 4px;
-}
+      <!-- 桌面導覽 -->
+      <nav class="hidden items-center gap-0.5 xl:flex" :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }">
+        <router-link
+          v-for="l in links"
+          :key="l.key"
+          :to="l.href"
+          class="relative whitespace-nowrap rounded-full px-3.5 py-2 transition-colors hover:bg-vt-gray-100"
+          :class="activeKey === l.key ? 'text-democratic-red' : 'text-vt-gray-800'"
+        >
+          {{ t(l.labelKey) }}
+          <span v-if="activeKey === l.key" class="absolute -bottom-px left-1/2 h-[5px] w-[5px] -translate-x-1/2 rounded-full bg-democratic-red" />
+        </router-link>
+      </nav>
 
-.header-desktop-nav::-webkit-scrollbar-track {
-  background: transparent;
-}
+      <div class="flex items-center gap-2.5 text-[13px]">
+        <LanguageSwitcher />
+        <span class="hidden h-5 w-px bg-vt-border sm:block" />
 
-.header-desktop-nav::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.28);
-  border-radius: 9999px;
-  border: 1px solid transparent;
-  background-clip: padding-box;
-}
+        <!-- 登入狀態：已登入顯示個人資料 -->
+        <router-link
+          v-if="user"
+          to="/profile"
+          class="hidden items-center gap-2 rounded-full px-2 py-1 transition-colors hover:bg-vt-gray-100 sm:inline-flex"
+          :title="t('common.profile')"
+        >
+          <img v-if="userData && userData.photoURL" :src="userData.photoURL" :alt="userData.name" class="h-8 w-8 rounded-full ring-1 ring-vt-border" />
+          <div v-else class="flex h-8 w-8 items-center justify-center rounded-full bg-vt-gray-200 text-vt-gray-700">
+            <span class="text-xs">👤</span>
+          </div>
+          <span v-if="userData && userData.name" class="hidden max-w-24 truncate text-sm text-vt-gray-800 xl:block">{{ userData.name }}</span>
+        </router-link>
 
-/* 使用 router-link-exact-active class 來標示當前路由 */
-.router-link-exact-active {
-  color: #d82000 !important; /* democratic-red 顏色 */
-}
+        <!-- 未登入顯示登入按鈕 -->
+        <button
+          v-else
+          type="button"
+          class="hidden cursor-pointer whitespace-nowrap rounded-full bg-ink px-4 py-2 font-medium text-vt-fg-inverse transition-colors hover:bg-democratic-red sm:inline-flex"
+          @click="handleShowLogin"
+        >
+          {{ t('common.login') }}
+        </button>
 
-/* 確保圖示也會變色 */
-.router-link-exact-active .icon-wrapper {
-  color: #d82000 !important;
-}
-</style>
+        <!-- 行動裝置漢堡按鈕 -->
+        <button
+          type="button"
+          class="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-ink transition-colors hover:bg-vt-gray-100 xl:hidden"
+          :aria-expanded="mobileOpen"
+          :aria-label="t('header.openMenu')"
+          @click="mobileOpen = !mobileOpen"
+        >
+          <svg v-if="!mobileOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 行動選單面板 -->
+    <div v-if="mobileOpen" class="vt-glass relative z-10 mx-auto mt-2 max-w-6xl rounded-2xl p-2.5 xl:hidden">
+      <router-link
+        v-for="l in links"
+        :key="l.key"
+        :to="l.href"
+        class="flex items-center justify-between rounded-xl px-3.5 py-1.5 transition-colors hover:bg-vt-gray-100"
+        :class="activeKey === l.key ? 'text-democratic-red' : 'text-vt-gray-800'"
+        @click="mobileOpen = false"
+      >
+        {{ t(l.labelKey) }}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-40">
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </router-link>
+
+      <button v-if="user" type="button" class="flex w-full items-center gap-2 rounded-xl px-3.5 py-1.5 text-vt-gray-800 transition-colors hover:bg-vt-gray-100" @click="handleLogout">
+        {{ t('common.logout') }}
+      </button>
+
+      <div class="my-1.5 h-px bg-vt-border" />
+      <div class="flex gap-2 px-1.5 pb-1.5 pt-2">
+        <LanguageSwitcher block drop-up class="flex-1" />
+        <router-link
+          v-if="user"
+          to="/profile"
+          class="inline-flex flex-1 items-center justify-center rounded-full bg-vt-bg-2 px-3 py-3 text-vt-gray-800 transition-colors hover:bg-vt-gray-100"
+          :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
+          @click="mobileOpen = false"
+        >
+          {{ t('common.profile') }}
+        </router-link>
+        <button
+          v-else
+          type="button"
+          class="inline-flex flex-1 cursor-pointer items-center justify-center rounded-full bg-ink px-3 py-3 text-vt-fg-inverse transition-colors hover:bg-democratic-red"
+          :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
+          @click="handleShowLogin"
+        >
+          {{ t('common.login') }}
+        </button>
+      </div>
+    </div>
+  </header>
+</template>

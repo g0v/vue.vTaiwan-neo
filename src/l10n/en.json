@@ -39,7 +39,8 @@
     "mastodon": "Posts",
     "transcriptions": "Transcriptions",
     "faq": "FAQ",
-    "contributors": "Contributors"
+    "contributors": "Contributors",
+    "openMenu": "Open menu"
   },
   "about": {
     "title": "About Us",
