@@ -35,8 +35,8 @@ useHead({
 <template>
   <div>
     <!-- Hero Section -->
-    <section class="vt-hero-bg mt-[-84px] pb-20 pt-[164px] text-white sm:mt-[-88px] sm:pt-[168px]">
-      <div class="container mx-auto px-4">
+    <section class="vt-hero-bg mt-[-84px] pt-[84px] text-white sm:mt-[-88px]">
+      <div class="container mx-auto px-4 pt-[156px] pb-20 sm:mt-[88px] sm:pt-[184px]">
         <div class="mx-auto max-w-3xl text-center">
           <h1 class="mb-5 text-4xl font-bold md:text-5xl">
             <div>
@@ -70,7 +70,7 @@ useHead({
 
         <div class="grid gap-8 md:grid-cols-3">
           <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-democratic-red/10">
+            <div class="bg-democratic-red/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
               <IconWrapper name="message-circle" type="primary" :size="32" />
             </div>
             <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.propose.title') }}</h3>
@@ -78,7 +78,7 @@ useHead({
           </div>
 
           <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-jade-green/10">
+            <div class="bg-jade-green/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
               <IconWrapper name="users" type="teal" :size="32" />
             </div>
             <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.discuss.title') }}</h3>
@@ -86,7 +86,7 @@ useHead({
           </div>
 
           <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-wheat-yellow/10">
+            <div class="bg-wheat-yellow/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
               <IconWrapper name="check-circle" type="amber" :size="32" />
             </div>
             <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.policy.title') }}</h3>
