@@ -370,6 +370,11 @@
   color: var(--color-vt-democratic-red);
 }
 
+.container a.btn-primary {
+  color: var(--color-vt-white);
+  font-weight: 500;
+}
+
 code {
   background: #eef2f6;
   padding: 0.1em 0.35em;
