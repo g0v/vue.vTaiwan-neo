@@ -1,4 +1,75 @@
 {
+  "head": {
+    "home": {
+      "title": "vTaiwan - 公共政策のオープンコラボレーション",
+      "description": "vTaiwanは、政府と市民の対話を促進し、誰もが公共政策の形成に参加できるようにする、台湾の公共政策オープンコラボレーションプラットフォームです。"
+    },
+    "about": {
+      "title": "私たちについて | vTaiwan",
+      "description": "vTaiwanの理念、歩み、公共政策におけるオープンコラボレーションの方法をご紹介します。"
+    },
+    "word": {
+      "title": "{word} | vTaiwan",
+      "description": "「{word}」と公共政策のオープンコラボレーションに関するコンテンツをご覧ください。"
+    },
+    "hundred": {
+      "title": "百ます表 | vTaiwan",
+      "description": "vTaiwanのインタラクティブな百ます表のデモです。"
+    },
+    "privacy": {
+      "title": "プライバシーポリシー | vTaiwan",
+      "description": "vTaiwanのプライバシーポリシー - 個人データの保護に努め、第三者に個人情報を提供しません。"
+    },
+    "terms": {
+      "title": "利用規約 | vTaiwan",
+      "description": "vTaiwanの利用規約 - 動画・書き起こしサービスの利用にはアカウント登録とCC-BY-SAライセンスへの同意が必要です。"
+    },
+    "topics": {
+      "title": "トピック | vTaiwan",
+      "description": "vTaiwanのトピック討論に参加し、政策形成に加わりましょう。"
+    },
+    "topicDetail": {
+      "title": "トピック詳細 | vTaiwan",
+      "withNameTitle": "トピック | {name} | vTaiwan",
+      "description": "vTaiwanの政策討論の進捗と参加方法をご確認ください。"
+    },
+    "polis": {
+      "title": "提案ディスカッション | vTaiwan",
+      "description": "次のPolisで何を話し合うかを、Polisで一緒に決めましょう。"
+    },
+    "profile": {
+      "title": "プロフィール | vTaiwan",
+      "description": "vTaiwanのプロフィールを管理します。"
+    },
+    "notFound": {
+      "title": "404 工事中 | vTaiwan",
+      "description": "このページは現在工事中です。より充実したvTaiwanデジタル民主主義プラットフォームをお待ちください。"
+    },
+    "blogs": {
+      "title": "Medium 記事 | vTaiwan",
+      "description": "vTaiwan が Medium で公開した記事と見解。"
+    },
+    "mastodon": {
+      "title": "コミュニティ投稿 | vTaiwan",
+      "description": "g0v.social 上の vTaiwan タグの投稿。"
+    },
+    "newsletters": {
+      "title": "ニュースレター | vTaiwan",
+      "description": "Substack で公開された vTaiwan のニュースレター。"
+    },
+    "newsletterDetail": {
+      "title": "ニュースレター | vTaiwan",
+      "description": "vTaiwan ニュースレター詳細。"
+    },
+    "contributors": {
+      "title": "貢献者 | vTaiwan",
+      "description": "vTaiwanの公共政策オープンコラボレーションを支えるコアチームとコミュニティの皆さんをご紹介します。"
+    },
+    "faq": {
+      "title": "よくある質問 (FAQ) | vTaiwan",
+      "description": "vTaiwanプラットフォームに関するよくある質問と回答。"
+    }
+  },
   "即將開始": "まもなく開始",
   "意見徵集": "意見募集",
   "研擬草案": "草案作成",
@@ -18,7 +89,8 @@
     "success": "成功",
     "warning": "警告",
     "info": "情報",
-    "profile": "プロフィール"
+    "profile": "プロフィール",
+    "registerLogin": "登録 / ログイン"
   },
   "underConstruction": {
     "title": "工事中",
@@ -92,7 +164,12 @@
     "copyright": "© {year} vTaiwan. CC-BY-SAクリエイティブ・コモンズライセンスで公開",
     "sourceCode": "ソースコード",
     "privacyPolicy": "プライバシーポリシー",
-    "termsOfService": "利用規約"
+    "termsOfService": "利用規約",
+    "brandDescription": "公共政策のためのオープンな協働プラットフォーム。誰もが台湾の未来に参加できます。",
+    "connectTitle": "ソーシャル",
+    "contactTitle": "お問い合わせ",
+    "joinNextMeeting": "次回のミーティングに参加",
+    "proposeTopic": "新しいトピックを提案"
   },
   "home": {
     "title": "vTaiwan - 公共政策オープンコラボレーション",
@@ -109,7 +186,8 @@
       "buttons": {
         "browseTopics": "トピックを見る",
         "learnMore": "もっと知る"
-      }
+      },
+      "eyebrow": "公共政策のためのオープン協働プラットフォーム"
     },
     "features": {
       "title": "仕組み",
@@ -151,7 +229,10 @@
     "role": "役割",
     "createdAt": "作成日時",
     "lastLogin": "最終ログイン",
-    "loginRequired": "プロフィールの閲覧・編集にはログインが必要です"
+    "loginRequired": "プロフィールの閲覧・編集にはログインが必要です",
+    "notSet": "未設定",
+    "avatarAlt": "プロフィール画像",
+    "updateFailed": "プロフィールの更新に失敗しました。もう一度お試しください。"
   },
   "contributors": {
     "title": "貢献者",
@@ -396,24 +477,31 @@
     "transcriptions": "書き起こし管理"
   },
   "meetupDetail": {
-    "objectives": "ミートアップ目標",
-    "howToParticipate": "参加方法",
-    "discuss": "議論に参加",
-    "discussDesc": "ミートアップの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
-    "contribute": "コンテンツ貢献",
-    "contributeDesc": "専門知識・研究資料・実務経験を提供し、ミートアップの発展を支援します。",
-    "share": "情報共有",
-    "shareDesc": "ミートアップ情報をより多くの関心者に共有し、影響力を拡大しましょう。",
-    "join": "チームに参加",
-    "joinDesc": "ミートアップのコアメンバーとなり、意思決定や実行作業に参加します。",
+    "upcoming": "開催予定",
+    "past": "終了",
+    "details": "ミートアップ詳細",
+    "date": "日付",
+    "time": "時間",
+    "location": "場所",
+    "relatedProject": "関連プロジェクト",
+    "tags": "タグ",
     "relatedLinks": "関連リンク",
-    "githubRepo": "GitHubリポジトリ",
-    "documentation": "ミートアップ文書",
-    "discussion": "議論フォーラム",
+    "registration": "申し込みリンク",
+    "recording": "録画リンク",
+    "summary": "会議記録",
+    "hackmd": "HackMD 共同メモ",
+    "kktix": "KKTIX 申し込み",
+    "googleForm": "Google フォーム",
     "backToMeetups": "ミートアップ一覧に戻る",
-    "joinMeetup": "ミートアップに参加",
+    "register": "今すぐ申し込む",
     "notFound": "ミートアップが見つかりません",
-    "notFoundDesc": "ご覧になりたいミートアップは存在しないか、削除されました。"
+    "notFoundDesc": "ご覧になりたいミートアップは存在しないか、削除されました。",
+    "share": {
+      "title": "この議題をシェア",
+      "facebook": "Facebook でシェア",
+      "line": "LINE でシェア",
+      "twitter": "X (Twitter) でシェア"
+    }
   },
   "polis": {
     "title": "提案ディスカッション",
@@ -431,21 +519,42 @@
     "description": "vTaiwanプラットフォーム上のすべての公共政策トピック。各トピックは提案・議論・合意形成・政策提案のプロセスを経ます。",
     "tryPolisLink": "今すぐ体験するにはこちら",
     "list": {
+      "title": "トピック一覧",
       "found": "{count} 件のトピックが見つかりました",
       "lastUpdated": "最終更新",
       "empty": "トピックがありません",
       "loading": "読み込み中..."
     },
-    "filters": {
-      "status": "状態",
-      "category": "カテゴリ",
-      "search": "検索",
-      "searchPlaceholder": "トピックを検索..."
+    "search": {
+      "placeholder": "トピックを検索...",
+      "results": "「{query}」の検索結果 {count} 件",
+      "noResults": "一致するトピックが見つかりません",
+      "clearSearch": "検索をクリア"
+    },
+    "sort": {
+      "latest": "最新",
+      "participants": "参加者数",
+      "views": "閲覧数"
+    },
+    "metrics": {
+      "participants": "参加者",
+      "posts": "投稿",
+      "views": "閲覧",
+      "lastActivity": "最終活動"
+    },
+    "actions": {
+      "share": "トピックを共有",
+      "bookmark": "ブックマークに追加"
+    },
+    "bookmarks": {
+      "myBookmarks": "ブックマーク"
     },
     "detail": {
       "title": "トピック詳細",
       "discussion": "議論",
+      "discussionShort": "議論",
       "timeline": "時間軸",
+      "timelineShort": "時程",
       "introduction": "簡介",
       "notFound": "トピックが見つかりません",
       "comments": "コメント",
@@ -459,27 +568,15 @@
       "loading": "読み込み中..."
     },
     "status": {
-      "all": "すべて",
-      "active": "進行中",
-      "completed": "完了"
-    },
-    "categories": {
-      "all": "すべてのカテゴリ"
-    },
-    "participants": "参加者",
-    "created": "作成日",
-    "cta": {
-      "title": "新しいトピックを提案したいですか？",
-      "description": "議論に値する公共政策トピックがあれば、トピック提案を歓迎します。",
-      "button": "トピックを提案"
+      "preparing": "準備中",
+      "discussion": "議論中",
+      "voting": "投票中",
+      "completed": "完了",
+      "draft": "草案作成",
+      "collection": "意見募集"
     },
     "recentTitle": "直近3ヶ月のトピック",
     "recentDesc": "以下は直近3ヶ月以内に更新されたトピックです。vTaiwanが現在注目している政策トピックを新しい方にも分かりやすく紹介します。",
-    "sort": {
-      "latest": "最新",
-      "participants": "参加者数",
-      "views": "閲覧数"
-    },
     "steps": {
       "all": "すべて",
       "即將開始": "まもなく開始",
@@ -488,37 +585,110 @@
       "送交院會": "議会提出",
       "歷史案件": "過去の案件"
     },
-    "noRecent": "直近のトピックはありません"
+    "noRecent": "直近のトピックはありません",
+    "timeline": {
+      "loading": "時間軸を読み込み中...",
+      "externalLinksTitle": "外部リンクの説明*",
+      "columns": {
+        "time": "トピック時間",
+        "stage": "トピック段階",
+        "links": "関連外部リンク"
+      },
+      "linkTypes": {
+        "related": "関連",
+        "relatedDesc": "トピックに関連するリンク",
+        "hackpad": "共筆",
+        "hackpadDesc": "会議の共同メモ",
+        "record": "記録",
+        "recordDesc": "会議メモから整理した要点",
+        "live": "ライブ",
+        "liveDesc": "会議のライブ配信",
+        "discuss": "議論",
+        "discussDesc": "議論に参加",
+        "comment": "コメント",
+        "commentDesc": "コメントに参加"
+      }
+    },
+    "participation": {
+      "noLinks": "関連リンクなし",
+      "types": {
+        "hackpad": "共筆",
+        "hackpadLong": "会議の共同メモ",
+        "sayit": "記録",
+        "sayitLong": "会議メモから整理した要点",
+        "youtube": "ライブ",
+        "youtubeLong": "YouTube ライブ配信",
+        "livehouse": "ライブ",
+        "livehouseLong": "Livehouse ライブ配信",
+        "polis": "議論",
+        "polisLong": "議論に参加",
+        "discourse": "コメント",
+        "discourseLong": "コメントに参加",
+        "slido": "質問",
+        "slidoLong": "会議の共同メモ",
+        "pdf": "PDF",
+        "pdfLong": "会議の共同メモ",
+        "gitbook": "GitBook",
+        "gitbookLong": "会議の共同メモ",
+        "related": "関連",
+        "relatedLong": "トピックに関連するリンク"
+      }
+    }
   },
   "topicDetail": {
-    "objectives": "トピック目標",
-    "howToParticipate": "参加方法",
-    "discuss": "議論に参加",
-    "discussDesc": "トピックの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
-    "contribute": "コンテンツ貢献",
-    "contributeDesc": "専門知識・研究資料・実務経験を提供し、トピックの発展を支援します。",
-    "share": "情報共有",
-    "shareDesc": "トピック情報をより多くの関心者に共有し、影響力を拡大しましょう。",
-    "join": "チームに参加",
-    "joinDesc": "トピックのコアメンバーとなり、意思決定や実行作業に参加します。",
-    "relatedLinks": "関連リンク",
-    "githubRepo": "GitHubリポジトリ",
-    "documentation": "トピック文書",
     "discussion": "議論フォーラム",
-    "backToTopics": "トピック一覧に戻る",
-    "joinTopic": "トピックに参加",
-    "notFound": "トピックが見つかりません",
-    "notFoundDesc": "ご覧になりたいトピックは存在しないか、削除されました。",
-    "backToList": "← トピック一覧に戻る",
-    "noDiscussion": "現在、討論内容がありません",
-    "noTimeline": "現在、時間軸資料がありません",
-    "loading": "読み込み中..."
+    "admin": "管理者",
+    "moderator": "モデレーター",
+    "showAllPosts": "すべての {count} 件の投稿を表示",
+    "showLess": "少なく表示",
+    "commentsCount": "{count} 件のコメント",
+    "viewsCount": "{count} 回閲覧",
+    "participantsCount": "{count} 人の参加者",
+    "postComment": "コメントする",
+    "firstComment": "最初のコメントを投稿する",
+    "today": "今日",
+    "yesterday": "昨日",
+    "daysAgo": "{count} 日前"
   },
   "contact": {
     "title": "お問い合わせ",
-    "description": "ご質問やご提案がある場合は、お気軽にご連絡ください：",
-    "contactUs": "お問い合わせ",
-    "facebook": "Facebook"
+    "subtitle": "vTaiwan コミュニティに参加して、デジタル民主主義を一緒に推進しましょう",
+    "workingGroup": {
+      "title": "vTaiwan ワーキンググループ",
+      "description": "vTaiwan ワーキンググループはデジタル民主主義を推進する重要なプラットフォームです。ここで政策を議論し、アイデアを共有し、さまざまなプロジェクトで協働しています。",
+      "button": "ワーキンググループ Book を見る"
+    },
+    "slack": {
+      "title": "g0v Slack チャンネル",
+      "description": "g0v の Slack ワークスペースに参加し、#vtaiwan チャンネルでコミュニティメンバーとリアルタイムに交流し、議論や協働に参加しましょう。",
+      "channel": "#vtaiwan",
+      "channelDesc": "政策議論、プロジェクト協働、コミュニティ交流のためのメインチャンネル",
+      "button": "g0v Slack に参加"
+    },
+    "otherMethods": {
+      "title": "その他の連絡方法",
+      "github": {
+        "title": "GitHub",
+        "description": "オープンソースプロジェクトを見る",
+        "link": "GitHub へ →"
+      },
+      "email": {
+        "title": "メール",
+        "description": "メールでお問い合わせください",
+        "link": "メールを送る →"
+      },
+      "meetups": {
+        "title": "オフラインミートアップ",
+        "description": "定期ミートアップに参加する",
+        "link": "ミートアップを見る →"
+      }
+    },
+    "cta": {
+      "title": "参加の準備はできましたか？",
+      "description": "開発者、デザイナー、政策専門家、デジタル民主主義に関心のある方——どなたでも vTaiwan コミュニティへの参加を歓迎します！",
+      "workingGroup": "ワーキンググループを見る",
+      "slack": "Slack に参加"
+    }
   },
   "transcriptions": {
     "title": "書き起こし管理",
@@ -531,47 +701,49 @@
       "uploadButton": "書き起こしをアップロード",
       "loginRequired": "書き起こしファイルをアップロードするには、まずログインしてください"
     },
-    "filters": {
-      "status": "状態",
-      "category": "カテゴリ",
-      "search": "検索",
-      "searchPlaceholder": "書き起こしを検索..."
+    "list": {
+      "title": "文字起こし一覧",
+      "meetingId": "会議 ID",
+      "fileName": "ファイル名",
+      "viewOutline": "アウトラインを見る",
+      "viewDetail": "詳細を見る",
+      "download": "全文をダウンロード",
+      "empty": "文字起こしデータがありません",
+      "copyLink": "文字起こしリンクをコピー",
+      "copyLinkSuccess": "文字起こしリンクをクリップボードにコピーしました",
+      "copyLinkError": "リンクのコピーに失敗しました。しばらくしてから再試行してください"
     },
-    "status": {
-      "all": "すべて",
-      "active": "進行中",
-      "completed": "完了"
+    "outline": {
+      "title": "会議アウトライン",
+      "close": "閉じる",
+      "copy": "アウトラインをコピー",
+      "edit": "アウトラインを編集",
+      "saveAndEndEdit": "保存して編集を終了",
+      "cancel": "編集をキャンセル",
+      "copySuccess": "アウトラインをクリップボードにコピーしました",
+      "copyError": "コピーに失敗しました。しばらくしてから再試行してください",
+      "editRequireAdmin": "アウトラインの編集には管理者権限が必要です"
     },
-    "categories": {
-      "all": "すべてのカテゴリ"
-    },
-    "participants": "参加者",
-    "created": "作成日",
-    "cta": {
-      "title": "新しい書き起こしを記録したいですか？",
-      "description": "議論に値する公共政策トピックがあれば、書き起こし記録を歓迎します。",
-      "button": "書き起こしを記録"
+    "messages": {
+      "selectFileFirst": "ファイルを選択してください",
+      "invalidFileName": "ファイル名の形式が正しくありません。transcript-YYYY-MM-DD.txt 形式を使用してください",
+      "existsRequireAdmin": "この会議の文字起こしは既に存在します。更新には管理者権限が必要です",
+      "confirmUpdate": "会議 {meetingId} の文字起こしは既に存在します。更新してもよろしいですか？",
+      "uploadSuccess": "文字起こしのアップロードに成功しました！",
+      "uploadError": "アップロードに失敗しました。しばらくしてから再試行してください",
+      "loadError": "文字起こし一覧の読み込みに失敗しました。しばらくしてから再試行してください"
     }
   },
   "transcriptionDetail": {
-    "objectives": "書き起こし目標",
-    "howToParticipate": "参加方法",
-    "discuss": "議論に参加",
-    "discussDesc": "書き起こしの議論エリアであなたの考えや提案を共有し、他の参加者と意見交換しましょう。",
-    "contribute": "コンテンツ貢献",
-    "contributeDesc": "専門知識・研究資料・実務経験を提供し、書き起こしの発展を支援します。",
-    "share": "情報共有",
-    "shareDesc": "書き起こし情報をより多くの関心者に共有し、影響力を拡大しましょう。",
-    "join": "チームに参加",
-    "joinDesc": "書き起こしのコアメンバーとなり、意思決定や実行作業に参加します。",
-    "relatedLinks": "関連リンク",
-    "githubRepo": "GitHubリポジトリ",
-    "documentation": "書き起こし文書",
-    "discussion": "議論フォーラム",
-    "backToTranscriptions": "書き起こし一覧に戻る",
-    "joinTranscription": "書き起こしに参加",
-    "notFound": "書き起こしが見つかりません",
-    "notFoundDesc": "ご覧になりたい書き起こしは存在しないか、削除されました。"
+    "title": "文字起こし詳細",
+    "description": "会議の完全な文字起こしを見る",
+    "backToList": "一覧に戻る",
+    "speaker": "発言者",
+    "noContent": "文字起こしの内容がありません",
+    "loadError": "文字起こしの読み込みに失敗しました。しばらくしてから再試行してください",
+    "photoAlt": "ユーザーアバター",
+    "loading": "読み込み中...",
+    "error": "読み込みに失敗しました"
   },
   "faq": {
     "title": "よくある質問 (FAQ)",

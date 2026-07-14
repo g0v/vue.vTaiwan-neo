@@ -1,4 +1,75 @@
 {
+  "head": {
+    "home": {
+      "title": "vTaiwan - 公共政策開放協作",
+      "description": "vTaiwan 是台灣的公共政策開放協作平台，致力於促進政府與公民之間的對話，讓每個人都能參與公共政策的形成過程。"
+    },
+    "about": {
+      "title": "關於我們 | vTaiwan",
+      "description": "認識 vTaiwan 的理念、歷程與公共政策開放協作方式。"
+    },
+    "word": {
+      "title": "{word} | vTaiwan",
+      "description": "探索「{word}」與公共政策開放協作的相關內容。"
+    },
+    "hundred": {
+      "title": "百數表 | vTaiwan",
+      "description": "vTaiwan 的百數表互動示範。"
+    },
+    "privacy": {
+      "title": "隱私政策 | vTaiwan",
+      "description": "vTaiwan 隱私政策 - 我們承諾保護您的個人資料，不會將您的個人資料傳遞給第三方。"
+    },
+    "terms": {
+      "title": "使用條款 | vTaiwan",
+      "description": "vTaiwan 使用條款 - 使用我們的視訊和轉錄服務需要註冊帳號並同意 CC-BY-SA 授權。"
+    },
+    "topics": {
+      "title": "議題 | vTaiwan",
+      "description": "vTaiwan 的議題討論區，參與政策制定過程。"
+    },
+    "topicDetail": {
+      "title": "議題詳情 | vTaiwan",
+      "withNameTitle": "議題 | {name} | vTaiwan",
+      "description": "vTaiwan 議題詳情頁，了解政策討論進度與參與方式。"
+    },
+    "polis": {
+      "title": "提案討論 | vTaiwan",
+      "description": "用 Polis 一起決定下一個 Polis 該討論什麼。"
+    },
+    "profile": {
+      "title": "個人資料 | vTaiwan",
+      "description": "管理您的 vTaiwan 個人資料。"
+    },
+    "notFound": {
+      "title": "404 施工中 | vTaiwan",
+      "description": "此頁面目前正在施工中，敬請期待更完善的 vTaiwan 數位民主平台。"
+    },
+    "blogs": {
+      "title": "Medium 文章 | vTaiwan",
+      "description": "vTaiwan 在 Medium 發布的文章與觀點。"
+    },
+    "mastodon": {
+      "title": "社群貼文 | vTaiwan",
+      "description": "g0v.social 上 vTaiwan 標籤下的社群貼文。"
+    },
+    "newsletters": {
+      "title": "電子報 | vTaiwan",
+      "description": "vTaiwan 在 Substack 發布的電子報，掌握社群近況。"
+    },
+    "newsletterDetail": {
+      "title": "電子報 | vTaiwan",
+      "description": "vTaiwan 電子報詳情。"
+    },
+    "contributors": {
+      "title": "貢獻者 | vTaiwan",
+      "description": "感謝所有參與 vTaiwan 公共政策開放協作的核心團隊與社群夥伴。"
+    },
+    "faq": {
+      "title": "常見問答 (FAQ) | vTaiwan",
+      "description": "關於 vTaiwan 平台的常見問題與解答。"
+    }
+  },
   "common": {
     "login": "登入",
     "logout": "登出",
@@ -13,7 +84,8 @@
     "success": "成功",
     "warning": "警告",
     "info": "資訊",
-    "profile": "個人資料"
+    "profile": "個人資料",
+    "registerLogin": "註冊 / 登入"
   },
   "underConstruction": {
     "title": "施工中",
@@ -87,7 +159,12 @@
     "copyright": "© {year} vTaiwan. 採CC-BY-SA創用授權釋出",
     "sourceCode": "原始碼",
     "privacyPolicy": "隱私政策",
-    "termsOfService": "使用條款"
+    "termsOfService": "使用條款",
+    "brandDescription": "公共政策的開放協作平台，讓每個人都能參與台灣的未來。",
+    "connectTitle": "社群連結",
+    "contactTitle": "聯絡",
+    "joinNextMeeting": "加入下次會議",
+    "proposeTopic": "提案新議題"
   },
   "home": {
     "title": "vTaiwan - 公共政策開放協作",
@@ -104,7 +181,8 @@
       "buttons": {
         "browseTopics": "瀏覽議題",
         "learnMore": "了解更多"
-      }
+      },
+      "eyebrow": "公共政策開放協作平台"
     },
     "features": {
       "title": "如何運作",
@@ -146,7 +224,10 @@
     "role": "角色",
     "createdAt": "建立時間",
     "lastLogin": "最後登入",
-    "loginRequired": "請先登入以查看和編輯個人資料"
+    "loginRequired": "請先登入以查看和編輯個人資料",
+    "notSet": "未設定",
+    "avatarAlt": "個人頭像",
+    "updateFailed": "更新個人資料失敗，請重試"
   },
   "contributors": {
     "title": "貢獻者",
@@ -268,7 +349,15 @@
     "admin": "管理員",
     "moderator": "版主",
     "showAllPosts": "顯示全部 {count} 則留言",
-    "showLess": "顯示較少"
+    "showLess": "顯示較少",
+    "commentsCount": "{count} 則留言",
+    "viewsCount": "{count} 次瀏覽",
+    "participantsCount": "{count} 位參與者",
+    "postComment": "我要留言",
+    "firstComment": "成為第一個留言的人",
+    "today": "今天",
+    "yesterday": "昨天",
+    "daysAgo": "{count} 天前"
   },
   "transcript": {
     "title": "即時逐字稿",
@@ -473,7 +562,9 @@
     "detail": {
       "title": "議題詳情",
       "discussion": "討論",
+      "discussionShort": "討論",
       "timeline": "時間軸",
+      "timelineShort": "時程",
       "introduction": "簡介",
       "notFound": "找不到議題",
       "comments": "留言",
@@ -504,7 +595,55 @@
       "送交院會": "送交院會",
       "歷史案件": "歷史案件"
     },
-    "noRecent": "暫無近期議題"
+    "noRecent": "暫無近期議題",
+    "timeline": {
+      "loading": "載入時間軸...",
+      "externalLinksTitle": "外部連結說明*",
+      "columns": {
+        "time": "議題時間",
+        "stage": "議題階段",
+        "links": "相關外部連結"
+      },
+      "linkTypes": {
+        "related": "相關",
+        "relatedDesc": "與議題相關的連結",
+        "hackpad": "共筆",
+        "hackpadDesc": "會議共同筆記",
+        "record": "記錄",
+        "recordDesc": "當日共同筆記整理出的重點",
+        "live": "直播",
+        "liveDesc": "會議直播影片",
+        "discuss": "討論",
+        "discussDesc": "進入討論",
+        "comment": "留言",
+        "commentDesc": "進入留言"
+      }
+    },
+    "participation": {
+      "noLinks": "無相關連結",
+      "types": {
+        "hackpad": "共筆",
+        "hackpadLong": "會議共同筆記",
+        "sayit": "記錄",
+        "sayitLong": "當日共同筆記整理出的重點",
+        "youtube": "直播",
+        "youtubeLong": "會議直播影片 youtube",
+        "livehouse": "直播",
+        "livehouseLong": "會議直播影片 livehouse",
+        "polis": "討論",
+        "polisLong": "進入討論",
+        "discourse": "留言",
+        "discourseLong": "進入留言",
+        "slido": "提問",
+        "slidoLong": "會議共同筆記",
+        "pdf": "PDF",
+        "pdfLong": "會議共同筆記",
+        "gitbook": "GitBook",
+        "gitbookLong": "會議共同筆記",
+        "related": "相關",
+        "relatedLong": "與議題相關的連結"
+      }
+    }
   },
   "contact": {
     "title": "聯絡我們",
@@ -569,7 +708,6 @@
       "copyLinkSuccess": "逐字稿連結已複製到剪貼簿",
       "copyLinkError": "複製逐字稿連結失敗，請稍後再試"
     },
-
     "outline": {
       "title": "會議大綱",
       "close": "關閉",
@@ -804,5 +942,10 @@
       "useNavigation": "• 使用上方導航選單瀏覽網站",
       "contactSupport": "• 如有問題請聯絡我們"
     }
-  }
+  },
+  "即將開始": "即將開始",
+  "意見徵集": "意見徵集",
+  "研擬草案": "研擬草案",
+  "送交院會": "送交院會",
+  "歷史案件": "歷史案件"
 }

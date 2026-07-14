@@ -1,4 +1,75 @@
 {
+  "head": {
+    "home": {
+      "title": "vTaiwan - Open Collaboration for Public Policy",
+      "description": "vTaiwan is Taiwan's open collaboration platform for public policy, dedicated to fostering dialogue between government and citizens and enabling everyone to participate in shaping public policy."
+    },
+    "about": {
+      "title": "About Us | vTaiwan",
+      "description": "Learn about vTaiwan's mission, history, and approach to open collaboration on public policy."
+    },
+    "word": {
+      "title": "{word} | vTaiwan",
+      "description": "Explore content related to “{word}” and open collaboration on public policy."
+    },
+    "hundred": {
+      "title": "Hundred Chart | vTaiwan",
+      "description": "An interactive hundred chart demonstration from vTaiwan."
+    },
+    "privacy": {
+      "title": "Privacy Policy | vTaiwan",
+      "description": "vTaiwan Privacy Policy — we are committed to protecting your personal data and will not share it with third parties."
+    },
+    "terms": {
+      "title": "Terms of Service | vTaiwan",
+      "description": "vTaiwan Terms of Service — using our video and transcription services requires account registration and agreement to the CC-BY-SA license."
+    },
+    "topics": {
+      "title": "Topics | vTaiwan",
+      "description": "Join vTaiwan's topic discussions and take part in the policy-making process."
+    },
+    "topicDetail": {
+      "title": "Topic Details | vTaiwan",
+      "withNameTitle": "Topic | {name} | vTaiwan",
+      "description": "Learn about the progress of a vTaiwan policy discussion and how to participate."
+    },
+    "polis": {
+      "title": "Proposal Discussion | vTaiwan",
+      "description": "Use Polis to decide what the next Polis discussion should be about."
+    },
+    "profile": {
+      "title": "Profile | vTaiwan",
+      "description": "Manage your vTaiwan profile."
+    },
+    "notFound": {
+      "title": "404 Under Construction | vTaiwan",
+      "description": "This page is currently under construction. Please look forward to a more complete vTaiwan digital democracy platform."
+    },
+    "blogs": {
+      "title": "Medium Articles | vTaiwan",
+      "description": "Articles and insights published by vTaiwan on Medium."
+    },
+    "mastodon": {
+      "title": "Community Posts | vTaiwan",
+      "description": "Community posts tagged vTaiwan on g0v.social."
+    },
+    "newsletters": {
+      "title": "Newsletters | vTaiwan",
+      "description": "vTaiwan newsletters published on Substack."
+    },
+    "newsletterDetail": {
+      "title": "Newsletter | vTaiwan",
+      "description": "vTaiwan newsletter detail."
+    },
+    "contributors": {
+      "title": "Contributors | vTaiwan",
+      "description": "Meet the core team and community members behind vTaiwan's open collaboration on public policy."
+    },
+    "faq": {
+      "title": "FAQ | vTaiwan",
+      "description": "Frequently asked questions about the vTaiwan platform."
+    }
+  },
   "即將開始": "Upcoming",
   "意見徵集": "Collecting Opinions",
   "研擬草案": "Drafting",
@@ -18,7 +89,8 @@
     "success": "Success",
     "warning": "Warning",
     "info": "Info",
-    "profile": "Profile"
+    "profile": "Profile",
+    "registerLogin": "Sign up / Log in"
   },
   "underConstruction": {
     "title": "Under Construction",
@@ -92,7 +164,12 @@
     "copyright": "© {year} vTaiwan. Released under CC-BY-SA Creative Commons License",
     "sourceCode": "Source Code",
     "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "termsOfService": "Terms of Service",
+    "brandDescription": "An open collaboration platform for public policy — letting everyone take part in Taiwan's future.",
+    "connectTitle": "Connect",
+    "contactTitle": "Contact",
+    "joinNextMeeting": "Join the next meeting",
+    "proposeTopic": "Propose a new topic"
   },
   "home": {
     "title": "vTaiwan - Open Collaboration for Public Policy",
@@ -109,7 +186,8 @@
       "buttons": {
         "browseTopics": "Browse Topics",
         "learnMore": "Learn More"
-      }
+      },
+      "eyebrow": "Open Collaboration Platform for Public Policy"
     },
     "features": {
       "title": "How It Works",
@@ -151,7 +229,10 @@
     "role": "Role",
     "createdAt": "Created At",
     "lastLogin": "Last Login",
-    "loginRequired": "Please login to view and edit your profile"
+    "loginRequired": "Please login to view and edit your profile",
+    "notSet": "Not set",
+    "avatarAlt": "Profile avatar",
+    "updateFailed": "Failed to update profile. Please try again."
   },
   "contributors": {
     "title": "Contributors",
@@ -471,7 +552,9 @@
     "detail": {
       "title": "Topic Details",
       "discussion": "Discussion",
+      "discussionShort": "Discuss",
       "timeline": "Timeline",
+      "timelineShort": "Timeline",
       "introduction": "Introduction",
       "notFound": "Topic not found",
       "comments": "Comments",
@@ -502,14 +585,70 @@
       "送交院會": "To Legislature",
       "歷史案件": "Archived"
     },
-    "noRecent": "There are currently no recent topics."
+    "noRecent": "There are currently no recent topics.",
+    "timeline": {
+      "loading": "Loading timeline...",
+      "externalLinksTitle": "External Link Legend*",
+      "columns": {
+        "time": "Topic Time",
+        "stage": "Topic Stage",
+        "links": "Related Links"
+      },
+      "linkTypes": {
+        "related": "Related",
+        "relatedDesc": "Links related to the topic",
+        "hackpad": "Notes",
+        "hackpadDesc": "Collaborative meeting notes",
+        "record": "Record",
+        "recordDesc": "Highlights from meeting notes",
+        "live": "Live",
+        "liveDesc": "Meeting live stream",
+        "discuss": "Discuss",
+        "discussDesc": "Enter discussion",
+        "comment": "Comments",
+        "commentDesc": "Enter comments"
+      }
+    },
+    "participation": {
+      "noLinks": "No related links",
+      "types": {
+        "hackpad": "Notes",
+        "hackpadLong": "Collaborative meeting notes",
+        "sayit": "Record",
+        "sayitLong": "Highlights from meeting notes",
+        "youtube": "Live",
+        "youtubeLong": "Meeting live stream on YouTube",
+        "livehouse": "Live",
+        "livehouseLong": "Meeting live stream on Livehouse",
+        "polis": "Discuss",
+        "polisLong": "Enter discussion",
+        "discourse": "Comments",
+        "discourseLong": "Enter comments",
+        "slido": "Q&A",
+        "slidoLong": "Collaborative meeting notes",
+        "pdf": "PDF",
+        "pdfLong": "Collaborative meeting notes",
+        "gitbook": "GitBook",
+        "gitbookLong": "Collaborative meeting notes",
+        "related": "Related",
+        "relatedLong": "Links related to the topic"
+      }
+    }
   },
   "topicDetail": {
     "discussion": "Discussion",
     "admin": "Admin",
     "moderator": "Moderator",
     "showAllPosts": "Show All {count} Posts",
-    "showLess": "Show Less"
+    "showLess": "Show Less",
+    "commentsCount": "{count} comments",
+    "viewsCount": "{count} views",
+    "participantsCount": "{count} participants",
+    "postComment": "Post a comment",
+    "firstComment": "Be the first to comment",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "daysAgo": "{count} days ago"
   },
   "contact": {
     "title": "Contact Us",
@@ -574,7 +713,6 @@
       "copyLinkSuccess": "Transcription link copied to clipboard",
       "copyLinkError": "Copy failed, please try again later"
     },
-
     "outline": {
       "title": "Meeting Outline",
       "close": "Close",
