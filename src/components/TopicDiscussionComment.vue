@@ -78,6 +78,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import discourseApi from '../lib/discourse'
+import { sanitizeHtml } from '../lib/sanitize'
 
 const { locale } = useI18n()
 
@@ -167,7 +168,7 @@ const formatPostContent = content => {
     processedContent = processedContent.replace(/src="(?!https:)/g, 'src="https://talk.vtaiwan.tw')
   }
 
-  return processedContent
+  return sanitizeHtml(processedContent)
 }
 
 // 格式化日期

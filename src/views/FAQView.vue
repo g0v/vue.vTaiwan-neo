@@ -14,7 +14,7 @@
             <h3 class="mb-2 text-xl font-bold text-democratic-red">
               {{ faq.question[locale] }}
             </h3>
-            <p class="text-gray-700" v-html="faq.answer[locale]"></p>
+            <p class="text-gray-700" v-html="sanitizeHtml(faq.answer[locale])"></p>
             <ol v-if="faq.details" class="mt-2 list-decimal space-y-1 pl-6">
               <li v-for="detail in faq.details[locale]" :key="detail" class="text-gray-700">
                 {{ detail }}
@@ -75,6 +75,7 @@
 import { faqs } from '../data/faqs'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+import { sanitizeHtml } from '../lib/sanitize'
 
 const { t } = useI18n()
 const { locale } = useI18n()
