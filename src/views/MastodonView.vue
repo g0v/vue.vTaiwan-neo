@@ -52,7 +52,7 @@
 
         <!-- 貼文摘要 -->
         <div class="mb-4">
-          <div class="prose prose-sm max-w-none" v-html="getSummary(post.content)"></div>
+          <div class="prose prose-sm max-w-none">{{ getSummary(post.content) }}</div>
         </div>
 
         <!-- 互動統計 -->

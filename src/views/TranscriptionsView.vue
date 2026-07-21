@@ -185,6 +185,7 @@ import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
 import axios from 'axios'
 import { marked } from 'marked'
+import { sanitizeHtml } from '../lib/sanitize'
 
 interface Transcription {
   meeting_id: string
@@ -244,7 +245,7 @@ const search = ref('')
 // 渲染 Markdown 內容
 const renderedOutline = computed(() => {
   if (!currentOutline.value) return ''
-  return marked(currentOutline.value)
+  return sanitizeHtml(marked.parse(currentOutline.value, { async: false }))
 })
 
 // 預覽內容
@@ -263,7 +264,7 @@ const getRenderedOutlinePreview = computed(() => {
     const truncated = outline.length > 500 ? outline.substring(0, 500) + '...' : outline
 
     // 渲染 markdown
-    return marked(truncated)
+    return sanitizeHtml(marked.parse(truncated, { async: false }))
   }
 })
 

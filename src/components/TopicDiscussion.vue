@@ -36,7 +36,7 @@
             </h3>
           </div>
           <div class="p-4">
-            <div v-html="discussionType.embeder"></div>
+            <div v-html="sanitizeEmbedHtml(discussionType.embeder)"></div>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
       <div v-else-if="discussionType.type === 'img'" class="text-center">
         <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xs">
           <div class="p-4">
-            <div v-html="discussionType.embeder"></div>
+            <div v-html="sanitizeEmbedHtml(discussionType.embeder)"></div>
           </div>
         </div>
       </div>
@@ -54,7 +54,7 @@
       <div v-else-if="discussionType.type === 'default'" class="text-center">
         <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-xs">
           <IconWrapper name="external-link" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-          <div v-html="discussionType.embeder"></div>
+          <div v-html="sanitizeEmbedHtml(discussionType.embeder)"></div>
         </div>
       </div>
     </div>
@@ -81,6 +81,7 @@ import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import TopicDiscussionComment from './TopicDiscussionComment.vue'
 import discourseApi from '../lib/discourse'
+import { sanitizeEmbedHtml } from '../lib/sanitize'
 
 const { t } = useI18n()
 

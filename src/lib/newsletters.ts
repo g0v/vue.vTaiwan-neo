@@ -1,4 +1,5 @@
 import { firstSuccessThenFallback } from '@/utils/firstSuccessThenFallback'
+import { sanitizeHtml } from '@/lib/sanitize'
 
 const NEWSLETTER_FEED_URL = 'https://vtaiwantw.substack.com/feed'
 
@@ -195,38 +196,6 @@ export const getNewsletterBySlug = async (slug: string) => {
   return newsletters.find(item => item.slug === slug) || null
 }
 
-export const sanitizeNewsletterHtml = (html: string) => {
-  if (!html) return ''
-
-  const doc = new DOMParser().parseFromString(html, 'text/html')
-  const blockedSelectors = ['script', 'style', 'iframe', 'form', 'input', 'button', 'textarea', 'select']
-
-  blockedSelectors.forEach(selector => {
-    doc.querySelectorAll(selector).forEach(element => element.remove())
-  })
-
-  doc.querySelectorAll('*').forEach(element => {
-    Array.from(element.attributes).forEach(attribute => {
-      const name = attribute.name.toLowerCase()
-      const value = attribute.value.trim()
-
-      if (name.startsWith('on')) {
-        element.removeAttribute(attribute.name)
-        return
-      }
-
-      if ((name === 'href' || name === 'src') && /^javascript:/i.test(value)) {
-        element.removeAttribute(attribute.name)
-      }
-    })
-
-    if (element.tagName === 'A') {
-      element.setAttribute('target', '_blank')
-      element.setAttribute('rel', 'noopener noreferrer')
-    }
-  })
-
-  return doc.body.innerHTML
-}
+export const sanitizeNewsletterHtml = sanitizeHtml
 
 export { NEWSLETTER_FEED_URL }

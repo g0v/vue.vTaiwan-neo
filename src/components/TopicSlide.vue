@@ -12,7 +12,7 @@
           <div class="flex flex-col gap-8 lg:flex-row">
             <!-- Iframe 區域 -->
             <div class="lg:flex-1">
-              <div v-if="slide.iframe" v-html="slide.iframe" class="iframe-container"></div>
+              <div v-if="slide.iframe" v-html="sanitizeEmbedHtml(slide.iframe)" class="iframe-container"></div>
               <div v-else class="rounded-lg bg-white p-8 text-center text-gray-500">
                 {{ $t('topics.detail.noSlide') }}
               </div>
@@ -21,7 +21,7 @@
             <!-- 詳細資訊區域 -->
             <div class="lg:flex-1 lg:pl-8">
               <div class="h-full max-h-96 overflow-auto rounded-lg bg-white p-6">
-                <div v-if="slide.info" v-html="slide.info" class="prose prose-lg max-w-none"></div>
+                <div v-if="slide.info" v-html="sanitizeHtml(slide.info)" class="prose prose-lg max-w-none"></div>
                 <div v-else class="text-center text-gray-500">
                   {{ $t('topics.detail.noInfo') }}
                 </div>
@@ -39,6 +39,7 @@ import { ref, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import discourseApi from '../lib/discourse'
+import { sanitizeEmbedHtml, sanitizeHtml } from '../lib/sanitize'
 
 const { t } = useI18n()
 
