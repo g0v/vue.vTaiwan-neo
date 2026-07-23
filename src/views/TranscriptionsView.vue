@@ -64,12 +64,8 @@
 
         <input type="text" v-model="search" placeholder="Search..." class="mb-4 w-full rounded-md border border-gray-300 p-2" />
 
-        <div class="flex flex-col-reverse gap-4">
-          <div
-            v-for="transcription in transcriptions.filter(t => t.meeting_id.includes(search) || t.outline.includes(search))"
-            :key="transcription.meeting_id"
-            class="relative rounded-lg border border-gray-200 bg-white p-6 shadow-md"
-          >
+        <div class="flex flex-col gap-4">
+          <div v-for="transcription in filteredTranscriptions" :key="transcription.meeting_id" class="relative rounded-lg border border-gray-200 bg-white p-6 shadow-md">
             <!-- 樣稿標籤 -->
             <div v-if="transcription.meeting_id === '20250621'" class="absolute -right-2 -top-2 z-10">
               <div class="rotate-12 transform bg-yellow-400 px-3 py-1 text-xs font-bold text-black shadow-md">
@@ -241,6 +237,11 @@ const myOutline = ref('')
 
 // 搜尋
 const search = ref('')
+
+// 依會議 ID（YYYYMMDD）由新到舊排列
+const filteredTranscriptions = computed(() => {
+  return transcriptions.value.filter(t => t.meeting_id.includes(search.value) || t.outline.includes(search.value)).sort((a, b) => b.meeting_id.localeCompare(a.meeting_id))
+})
 
 // 渲染 Markdown 內容
 const renderedOutline = computed(() => {
