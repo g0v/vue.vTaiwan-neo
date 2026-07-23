@@ -138,46 +138,48 @@ const handleShowLogin = () => {
     </div>
 
     <!-- 行動選單面板 -->
-    <div v-if="mobileOpen" class="vt-glass relative z-10 mx-auto mt-2 max-w-6xl rounded-2xl p-2.5 xl:hidden">
-      <router-link
-        v-for="l in links"
-        :key="l.key"
-        :to="l.href"
-        class="hover:bg-vt-gray-100 flex items-center justify-between rounded-xl px-3.5 py-1.5 transition-colors"
-        :class="activeKey === l.key ? 'text-democratic-red' : 'text-vt-gray-800'"
-        @click="mobileOpen = false"
-      >
-        {{ t(l.labelKey) }}
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-40">
-          <path d="m9 18 6-6-6-6" />
-        </svg>
-      </router-link>
-
-      <button v-if="user" type="button" class="text-vt-gray-800 hover:bg-vt-gray-100 flex w-full items-center gap-2 rounded-xl px-3.5 py-1.5 transition-colors" @click="handleLogout">
-        {{ t('common.logout') }}
-      </button>
-
-      <div class="bg-vt-border my-1.5 h-px" />
-      <div class="flex gap-2 px-1.5 pt-2 pb-1.5">
-        <LanguageSwitcher block drop-up class="flex-1" />
+    <div v-if="mobileOpen" class="absolute left-0 w-full px-3 sm:px-6 xl:hidden">
+      <div class="vt-glass relative z-10 mx-auto mt-2 max-w-6xl rounded-2xl p-2.5">
         <router-link
-          v-if="user"
-          to="/profile"
-          class="bg-vt-bg-2 text-vt-gray-800 hover:bg-vt-gray-100 inline-flex flex-1 items-center justify-center rounded-full px-3 py-3 transition-colors"
-          :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
+          v-for="l in links"
+          :key="l.key"
+          :to="l.href"
+          class="hover:bg-vt-gray-100 flex items-center justify-between rounded-xl px-3.5 py-1.5 transition-colors"
+          :class="activeKey === l.key ? 'text-democratic-red' : 'text-vt-gray-800'"
           @click="mobileOpen = false"
         >
-          {{ t('common.profile') }}
+          {{ t(l.labelKey) }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="opacity-40">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
         </router-link>
-        <button
-          v-else
-          type="button"
-          class="bg-ink text-vt-fg-inverse hover:bg-democratic-red inline-flex flex-1 cursor-pointer items-center justify-center rounded-full px-3 py-3 transition-colors"
-          :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
-          @click="handleShowLogin"
-        >
-          {{ t('common.login') }}
+
+        <button v-if="user" type="button" class="text-vt-gray-800 hover:bg-vt-gray-100 flex w-full items-center gap-2 rounded-xl px-3.5 py-1.5 transition-colors" @click="handleLogout">
+          {{ t('common.logout') }}
         </button>
+
+        <div class="bg-vt-border my-1.5 h-px" />
+        <div class="flex gap-2 px-1.5 pt-2 pb-1.5">
+          <LanguageSwitcher block drop-up class="flex-1" />
+          <router-link
+            v-if="user"
+            to="/profile"
+            class="bg-vt-bg-2 text-vt-gray-800 hover:bg-vt-gray-100 inline-flex flex-1 items-center justify-center rounded-full px-3 py-3 transition-colors"
+            :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
+            @click="mobileOpen = false"
+          >
+            {{ t('common.profile') }}
+          </router-link>
+          <button
+            v-else
+            type="button"
+            class="bg-ink text-vt-fg-inverse hover:bg-democratic-red inline-flex flex-1 cursor-pointer items-center justify-center rounded-full px-3 py-3 transition-colors"
+            :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
+            @click="handleShowLogin"
+          >
+            {{ t('common.login') }}
+          </button>
+        </div>
       </div>
     </div>
   </header>
