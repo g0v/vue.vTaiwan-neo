@@ -56,12 +56,14 @@ const rawCommunityContributors: Contributor[] = [
   { id: '12', name: 'Joey Yu', contribution: 'contributors.contributions.contentManager', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U0638P8FJ82-5ee2c8a9ae73-192' },
   { id: '13', name: 'Tim', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U05BY0RLJM7-ab97abff7b44-512' },
   { id: '14', name: 'Anan', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U08U8MNTS0M-d68838168b5e-192' },
-  { id: '15', name: 'Terry', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://avatars.githubusercontent.com/u/88765055' },
-  { id: '16', name: 'Bestian Tang', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
-  { id: '17', name: 'Bestian Tang', contribution: 'contributors.contributions.backendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
-  { id: '18', name: 'Yi-Ting Lien', contribution: 'contributors.contributions.participation' },
-  { id: '19', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
-  { id: '20', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },
+  { id: '15', name: 'Lynn', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://gravatar.com/avatar/8382706c9c06d5bb9ce60ed5453f4d27d31a4c155f25414690cca8fc53376046?s=256&r=g' },
+  { id: '16', name: 'Terry', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://avatars.githubusercontent.com/u/88765055' },
+  { id: '17', name: 'Terry', contribution: 'contributors.contributions.backendDev', imgURL: 'https://avatars.githubusercontent.com/u/88765055' },
+  { id: '18', name: 'Bestian Tang', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
+  { id: '19', name: 'Bestian Tang', contribution: 'contributors.contributions.backendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
+  { id: '20', name: 'Yi-Ting Lien', contribution: 'contributors.contributions.participation' },
+  { id: '21', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
+  { id: '22', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },
 ]
 
 // 合併相同貢獻者的函數
