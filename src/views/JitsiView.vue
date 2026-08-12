@@ -15,10 +15,10 @@
           <p class="mb-6 text-gray-600">準備加入會議室：{{ room }}</p>
 
           <!-- 可以自訂加入會議的名字，預設為 userData.name -->
-          <input v-model="joinMeetingName" class="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-jade-green" placeholder="請輸入您的名字" />
+          <input v-model="joinMeetingName" class="focus:ring-jade-green mb-4 w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:outline-none" placeholder="請輸入您的名字" />
 
           <!-- 加入會議按鈕 -->
-          <button @click="joinMeeting" class="rounded-lg bg-jade-green px-6 py-3 text-white transition-colors hover:bg-jade-green/90">加入會議</button>
+          <button @click="joinMeeting" class="bg-jade-green hover:bg-jade-green/90 rounded-lg px-6 py-3 text-white transition-colors">加入會議</button>
 
           <br />
           <!-- Google 登入 -->
@@ -55,7 +55,7 @@
       <div class="h-full bg-white shadow-xl">
         <!-- 拖拽手柄 -->
         <div
-          class="absolute left-0 top-1/2 flex h-16 w-4 -translate-x-4 -translate-y-1/2 transform cursor-col-resize items-center justify-center rounded-l-lg bg-gray-300 transition hover:bg-gray-400"
+          class="absolute top-1/2 left-0 flex h-16 w-4 -translate-x-4 -translate-y-1/2 transform cursor-col-resize items-center justify-center rounded-l-lg bg-gray-300 transition hover:bg-gray-400"
           @mousedown="startDragging"
           @touchstart="startDragging"
         >
@@ -78,10 +78,10 @@
     </div>
 
     <!-- 遮罩層（窄螢幕時） -->
-    <div v-if="isMobile && showTranscript" class="fixed inset-0 z-40 bg-black bg-opacity-50" @click="hideTranscript"></div>
+    <div v-if="isMobile && showTranscript" class="bg-opacity-50 fixed inset-0 z-40 bg-black" @click="hideTranscript"></div>
 
     <!-- 音訊設定模態框 -->
-    <div v-if="showAudioSettings" class="audio-settings-modal fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 p-4" @click="hideAudioSettings">
+    <div v-if="showAudioSettings" class="audio-settings-modal bg-opacity-50 fixed inset-0 z-[9999] flex items-center justify-center bg-black p-4" @click="hideAudioSettings">
       <div class="mx-2 max-h-[90vh] w-[95vw] max-w-md overflow-y-auto rounded-lg bg-white shadow-xl" @click.stop>
         <div class="p-4 sm:p-1">
           <div class="mb-4 flex items-center justify-between sm:mb-1">
@@ -112,7 +112,7 @@
                 <div class="flex cursor-pointer items-center p-4 sm:p-1" @click="selectAudioDevice(device.deviceId)">
                   <div class="mr-3 flex-shrink-0">
                     <div class="flex h-4 w-4 items-center justify-center rounded-full border-2" :class="selectedAudioDeviceId === device.deviceId ? 'border-democratic-red' : 'border-gray-300'">
-                      <div v-if="selectedAudioDeviceId === device.deviceId" class="h-2 w-2 rounded-full bg-democratic-red"></div>
+                      <div v-if="selectedAudioDeviceId === device.deviceId" class="bg-democratic-red h-2 w-2 rounded-full"></div>
                     </div>
                   </div>
                   <div class="flex-1">
@@ -169,7 +169,7 @@
 
           <!-- 儲存按鈕 -->
           <div class="flex space-x-3">
-            <button @click="saveAudioSettings" class="flex-1 rounded-lg bg-democratic-red px-4 py-3 text-white transition-colors hover:bg-democratic-red/90 sm:py-2">
+            <button @click="saveAudioSettings" class="bg-democratic-red hover:bg-democratic-red/90 flex-1 rounded-lg px-4 py-3 text-white transition-colors sm:py-2">
               {{ $t('common.save') }}
             </button>
             <button @click="hideAudioSettings" class="flex-1 rounded-lg bg-gray-300 px-4 py-3 text-gray-700 transition-colors hover:bg-gray-400 sm:py-2">
@@ -181,7 +181,7 @@
     </div>
 
     <!-- 浮動按鈕組 -->
-    <div class="fixed bottom-16 right-6 z-50 flex flex-col space-y-3">
+    <div class="fixed right-6 bottom-16 z-50 flex flex-col space-y-3">
       <!-- 手機版音訊設定按鈕（獨立按鈕） -->
       <div class="relative">
         <button
@@ -192,7 +192,7 @@
         >
           <IconWrapper name="settings" :size="24" />
           <!-- 轉錄語言國旗（手機版：音訊設定按鈕右下角） -->
-          <div v-if="isMobile" class="z-15 absolute -right-1 top-10 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div v-if="isMobile" class="absolute top-10 -right-1 z-15 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -211,13 +211,13 @@
         >
           <IconWrapper :name="isRecordingAudio ? 'square' : 'mic'" :size="24" />
           <!-- 倒計時顯示 -->
-          <div v-if="isRecordingAudio" class="absolute -left-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500">
+          <div v-if="isRecordingAudio" class="absolute -top-2 -left-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500">
             {{ recordingTimeLeft }}
           </div>
           <!-- "轉錄中，請稍候..." 顯示 -->
           <div
             v-if="isTranscripting"
-            class="absolute -bottom-2 right-2 flex h-6 w-36 -translate-x-1/2 transform items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
+            class="absolute right-2 -bottom-2 flex h-6 w-36 -translate-x-1/2 transform items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
           >
             轉錄中，請稍候...
           </div>
@@ -226,7 +226,7 @@
         <!-- 錄音者顯示 -->
         <div
           v-if="meetingData.recordingSpeaker && !isTranscripting"
-          class="absolute -bottom-2 -right-10 flex h-6 w-48 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
+          class="absolute -right-10 -bottom-2 flex h-6 w-48 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
         >
           {{ meetingData.recordingSpeaker }} 錄音中，已錄 {{ recordingDuration }} 秒
         </div>
@@ -234,7 +234,7 @@
         <!-- 排隊狀態顯示 -->
         <div
           v-if="audioQueue.length > 0 && !meetingData.recordingSpeaker"
-          class="absolute -bottom-2 -right-10 flex items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500 px-3 py-1 text-xs font-bold text-white"
+          class="absolute -right-10 -bottom-2 flex items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500 px-3 py-1 text-xs font-bold text-white"
         >
           📋 {{ audioQueue.length }} 個音檔排隊中
         </div>
@@ -243,12 +243,12 @@
         <button
           v-if="!isMobile && userData && userData.uid"
           @click="toggleAudioSettings"
-          class="audio-settings-button absolute -right-1 -top-1 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-gray-50 hover:text-gray-700"
+          class="audio-settings-button absolute -top-1 -right-1 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-gray-50 hover:text-gray-700"
           :title="$t('transcript.audioSettings')"
         >
           <IconWrapper name="chevron-up" :size="14" />
           <!-- 轉錄語言國旗（桌面版：音訊設定按鈕右下角） -->
-          <div v-if="!isMobile" class="z-15 absolute -right-1 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div v-if="!isMobile" class="absolute top-4 -right-1 z-15 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -260,7 +260,7 @@
         @click="toggleTranscript"
         :class="[
           'rounded-full p-4 shadow-lg transition-all duration-300',
-          showTranscript ? 'bg-democratic-red text-white hover:bg-democratic-red/90' : 'bg-jade-green text-white hover:bg-jade-green/90',
+          showTranscript ? 'bg-democratic-red hover:bg-democratic-red/90 text-white' : 'bg-jade-green hover:bg-jade-green/90 text-white',
         ]"
         :title="showTranscript ? $t('transcript.hideTranscript') : $t('transcript.showTranscript')"
       >
@@ -269,7 +269,7 @@
     </div>
 
     <!-- 加入後提示橫幅：教導點黑色區域再按左下角圖示（可關閉） -->
-    <div v-if="hasJoined && showJitsiTipBanner" class="fixed left-1/2 top-4 z-[9999] max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
+    <div v-if="hasJoined && showJitsiTipBanner" class="fixed top-4 left-1/2 z-[9999] max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
       <div class="flex items-start space-x-3 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-yellow-900 shadow">
         <div class="flex-1 text-sm leading-relaxed">
           {{ $t('jitsi.tipBanner.message') }}
@@ -644,9 +644,14 @@ export default {
             useAppLanguage: false, // 改為 false，不使用應用程式語言
             preferredLanguage: 'en-US', // 設定為英文
           },
-        },
-        interfaceConfigOverwrite: {
-          TOOLBAR_BUTTONS: [
+          // Breakout Rooms：由參與者面板進入；按鈕預設顯示
+          breakoutRooms: {
+            hideAddRoomButton: false,
+            hideAutoAssignButton: false,
+            hideJoinRoomButton: false,
+          },
+          // toolbarButtons 已取代舊的 interfaceConfig.TOOLBAR_BUTTONS
+          toolbarButtons: [
             'microphone',
             'camera',
             'closedcaptions',
@@ -664,6 +669,7 @@ export default {
             'raisehand',
             'videoquality',
             'filmstrip',
+            'participants-pane', // Breakout Rooms 入口
             'invite',
             'feedback',
             'stats',
@@ -675,6 +681,8 @@ export default {
             'mute-everyone',
             'security',
           ],
+        },
+        interfaceConfigOverwrite: {
           SHOW_JITSI_WATERMARK: false,
           SHOW_WATERMARK_FOR_GUESTS: false,
           DEFAULT_BACKGROUND: '#474747',
