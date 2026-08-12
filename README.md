@@ -2,6 +2,8 @@
 
 樣稿雛型來自：https://github.com/Tofuswang/vTaiwan-neo
 
+2026新版視覺設計來自：https://github.com/Tofuswang/vtaiwan-design-system
+
 vTaiwan Neo 的 Vue 版，使用 Vue 3 + Vite + Tailwind CSS + Firebase。後端開源： [Jitsi JWT](https://github.com/g0v/vtaiwan-jaas-jwt-worker) · [轉錄與 AI 大綱](https://github.com/g0v/vtaiwan-transcription-worker)
 
 > 🤖 用 AI coding agent 開發本專案？請先看 [`AGENTS.md`](./AGENTS.md)（程式碼慣例、i18n 規則、驗證與 commit 規範）。
