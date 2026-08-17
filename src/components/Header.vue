@@ -116,7 +116,7 @@ const handleShowLogin = () => {
           class="bg-ink text-vt-fg-inverse hover:bg-democratic-red hidden cursor-pointer rounded-full px-4 py-2 font-medium whitespace-nowrap transition-colors sm:inline-flex"
           @click="handleShowLogin"
         >
-          {{ t('common.login') }}
+          {{ t('common.registerLogin') }}
         </button>
 
         <!-- 行動裝置漢堡按鈕 -->
@@ -177,7 +177,7 @@ const handleShowLogin = () => {
             :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
             @click="handleShowLogin"
           >
-            {{ t('common.login') }}
+            {{ t('common.registerLogin') }}
           </button>
         </div>
       </div>
