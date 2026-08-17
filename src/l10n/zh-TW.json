@@ -105,7 +105,7 @@
     "newsletters": "電子報",
     "mastodon": "社群貼文",
     "transcriptions": "逐字稿管理",
-    "faq": "常見問題",
+    "faq": "常見問答",
     "contributors": "貢獻者",
     "openMenu": "開啟選單"
   },
@@ -153,7 +153,7 @@
     "inAppBrowserNotSupported": "本系統不支援Facebook, Line等app內部瀏覽，請用一般瀏覽器開啟，方可登入，謝謝"
   },
   "footer": {
-    "description": "公共政策的開放協作平台",
+    "description": "公共政策的開放協作平台，讓每個人都能參與台灣的未來。",
     "community": "社群",
     "contact": "聯絡我們",
     "copyright": "© {year} vTaiwan. 採CC-BY-SA創用授權釋出",
