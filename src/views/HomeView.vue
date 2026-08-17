@@ -1,129 +1,92 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
-import { useHead } from '@unhead/vue'
 
 const { t } = useI18n()
 
-useHead({
-  title: t('home.title'),
-  meta: [
-    {
-      property: 'og:title',
-      content: t('home.title'),
-    },
-    {
-      property: 'og:description',
-      content: t('home.hero.subtitle'),
-    },
-    {
-      property: 'og:url',
-      content: 'https://vtaiwan.tw/',
-    },
-    {
-      property: 'twitter:title',
-      content: t('home.title'),
-    },
-    {
-      property: 'twitter:description',
-      content: t('home.hero.subtitle'),
-    },
-  ],
-})
+// 「如何運作」三步驟 — 對應三種公民色；文字由 i18n 提供
+const steps = [
+  { key: 'propose', color: 'red', icon: 'message-circle' },
+  { key: 'discuss', color: 'green', icon: 'users' },
+  { key: 'policy', color: 'orange', icon: 'circle-check-big' },
+]
 </script>
 
 <template>
-  <div>
-    <!-- Hero Section -->
-    <section class="vt-hero-bg mt-[-84px] pt-[84px] text-white sm:mt-[-88px]">
-      <div class="container mx-auto px-4 pt-[156px] pb-20 sm:mt-[88px] sm:pt-[184px]">
-        <div class="mx-auto max-w-3xl text-center">
-          <h1 class="mb-5 text-4xl font-bold md:text-5xl">
-            <div>
-              <span class="text-democratic-red">{{ t('home.hero.title.open') }}</span
-              >、<span class="text-jade-green">{{ t('home.hero.title.collaborate') }}</span
-              >、<span class="text-wheat-yellow">{{ t('home.hero.title.coCreate') }}</span>
-            </div>
-            <div class="mt-3">{{ t('home.hero.title.taiwanFuture') }}</div>
-          </h1>
-          <p class="mb-8 text-xl">{{ t('home.hero.subtitle') }}</p>
-          <div class="flex flex-wrap justify-center gap-4">
-            <router-link to="/topics" class="btn-outline-white rounded-md">
-              <!-- btn-primary-->
-              {{ t('home.hero.buttons.browseTopics') }}
-            </router-link>
-            <router-link to="/intro" class="btn-primary rounded-md">
-              <!-- btn-outline-white -->
-              {{ t('home.hero.buttons.learnMore') }}
-            </router-link>
+  <!-- Hero -->
+  <section class="vt-hero-bg vt-under-navbar flex min-h-screen items-center text-white">
+    <div class="mx-auto h-fit w-full max-w-5xl px-6">
+      <div class="mb-12 inline-flex items-center gap-3.5 pt-[156px] font-sans text-[13px] font-semibold tracking-[0.22em] text-white/55 uppercase sm:pt-[184px]">
+        <span class="h-px w-7 bg-white/45" />
+        {{ t('home.hero.eyebrow') }}
+      </div>
+
+      <h1 class="mb-9 text-[clamp(2.75rem,7vw,4.75rem)] leading-[1.1] font-bold tracking-[-0.02em]">
+        <span class="text-democratic-red">{{ t('home.hero.title.open') }}</span
+        >、<span class="text-jade-green">{{ t('home.hero.title.collaborate') }}</span
+        >、<span class="text-wheat-yellow">{{ t('home.hero.title.coCreate') }}</span>
+        <span class="mt-6 block font-normal text-white/55">{{ t('home.hero.title.taiwanFuture') }}</span>
+      </h1>
+
+      <p class="mb-12 max-w-[44ch] text-lg leading-relaxed text-white/70 sm:text-xl">
+        {{ t('home.hero.subtitle') }}
+      </p>
+
+      <div class="flex flex-wrap gap-3">
+        <RouterLink to="/topics" class="vt-btn vt-btn-outline">
+          {{ t('home.hero.buttons.browseTopics') }}
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+          </svg>
+        </RouterLink>
+        <RouterLink to="/intro" class="vt-btn vt-btn-primary">{{ t('home.hero.buttons.learnMore') }}</RouterLink>
+      </div>
+    </div>
+  </section>
+
+  <!-- 如何運作 -->
+  <section class="bg-vt-gray-100 py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-6">
+      <h2 class="mb-12 text-center text-3xl font-bold sm:text-4xl">
+        <span class="vt-title-underline">{{ t('home.features.title') }}</span>
+      </h2>
+
+      <div class="grid gap-6 md:grid-cols-3">
+        <div v-for="step in steps" :key="step.key" class="rounded-3xl bg-white p-8 shadow-lg transition-transform duration-200 hover:-translate-y-1">
+          <div class="vt-topic-bubble mb-4" :class="`vt-topic-bubble-${step.color}`">
+            <IconWrapper :name="step.icon" :size="24" />
           </div>
+          <h3 class="mb-3 text-lg font-bold">{{ t(`home.features.items.${step.key}.title`) }}</h3>
+          <p class="text-vt-gray-700">{{ t(`home.features.items.${step.key}.description`) }}</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Features Section -->
-    <section class="bg-gray-100 py-16">
-      <div class="container mx-auto px-4">
-        <h2 class="mb-12 text-center text-3xl font-bold">
-          <span class="title-underline">{{ t('home.features.title') }}</span>
-        </h2>
-
-        <div class="grid gap-8 md:grid-cols-3">
-          <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="bg-democratic-red/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
-              <IconWrapper name="message-circle" type="primary" :size="32" />
-            </div>
-            <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.propose.title') }}</h3>
-            <p class="text-gray-700">{{ t('home.features.items.propose.description') }}</p>
-          </div>
-
-          <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="bg-jade-green/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
-              <IconWrapper name="users" type="teal" :size="32" />
-            </div>
-            <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.discuss.title') }}</h3>
-            <p class="text-gray-700">{{ t('home.features.items.discuss.description') }}</p>
-          </div>
-
-          <div class="rounded-lg bg-white p-8 text-center shadow-md">
-            <div class="bg-wheat-yellow/10 mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full">
-              <IconWrapper name="check-circle" type="amber" :size="32" />
-            </div>
-            <h3 class="mb-4 text-xl font-bold">{{ t('home.features.items.policy.title') }}</h3>
-            <p class="text-gray-700">{{ t('home.features.items.policy.description') }}</p>
-          </div>
-        </div>
+  <!-- CTA -->
+  <section class="bg-ink py-16 text-center text-white sm:py-20">
+    <div class="mx-auto max-w-3xl px-6">
+      <h2 class="mb-6 text-3xl font-bold sm:text-4xl">{{ t('home.cta.title') }}</h2>
+      <p class="mx-auto mb-8 max-w-2xl text-lg text-white/70">
+        {{ t('home.cta.description') }}
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <RouterLink to="/topics" class="vt-btn vt-btn-outline">{{ t('home.cta.buttons.browseTopics') }}</RouterLink>
+        <RouterLink to="/intro" class="vt-btn vt-btn-primary">{{ t('home.cta.buttons.learnMore') }}</RouterLink>
       </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="bg-black py-16 text-white">
-      <div class="container mx-auto px-4 text-center">
-        <h2 class="mb-6 text-3xl font-bold">{{ t('home.cta.title') }}</h2>
-        <p class="mx-auto mb-8 max-w-2xl text-xl">{{ t('home.cta.description') }}</p>
-        <div class="flex flex-wrap justify-center gap-4">
-          <router-link to="/topics" class="btn-outline-white rounded-md">
-            <!-- btn-primary -->
-            {{ t('home.cta.buttons.browseTopics') }}
-          </router-link>
-          <router-link to="/intro" class="btn-primary rounded-md">
-            <!-- btn-outline-white -->
-            {{ t('home.cta.buttons.learnMore') }}
-          </router-link>
-        </div>
-        <div class="mx-auto mt-12 max-w-2xl">
-          <p class="mb-6 text-3xl font-bold">
-            <span class="block">{{ t('home.cta.make.descriptionLine1') }}</span>
-            <span class="block">{{ t('home.cta.make.descriptionLine2') }}</span>
-          </p>
-          <p class="text-xl">
-            {{ t('home.cta.make.reference') }}
-            <a href="https://make.vtaiwan.tw" target="_blank" rel="noopener noreferrer" class="underline hover:text-gray-300">
-              {{ t('home.cta.make.linkText') }}
-            </a>
-          </p>
-        </div>
+      <div class="mx-auto mt-12 max-w-2xl">
+        <p class="mb-6 text-3xl font-bold">
+          <span class="block">{{ t('home.cta.make.descriptionLine1') }}</span>
+          <span class="block">{{ t('home.cta.make.descriptionLine2') }}</span>
+        </p>
+        <p class="text-xl">
+          {{ t('home.cta.make.reference') }}
+          <a href="https://make.vtaiwan.tw" target="_blank" rel="noopener noreferrer" class="underline hover:text-white/60">
+            {{ t('home.cta.make.linkText') }}
+          </a>
+        </p>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
