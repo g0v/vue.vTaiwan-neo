@@ -122,9 +122,8 @@
                 <span class="footer-link-spacer" aria-hidden="true"></span>
               </a>
             </li>
-						<li>
-							<!-- 此處網址暫放設計稿對應連結, 非正式網址 -->
-              <a href="https://next.vtaiwan.tw/meetups" class="footer-link">
+            <li>
+              <router-link to="/meetups" class="footer-link">
                 <span class="footer-link-icon">
                   <IconWrapper name="Calendar" :size="16" color="currentColor" />
                 </span>
@@ -133,22 +132,21 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
                 </svg>
                 <span class="footer-link-spacer" aria-hidden="true"></span>
-              </a>
+              </router-link>
             </li>
-						<li>
-							<!-- 此處網址暫放設計稿對應連結, 非正式網址 -->
-              <a href="https://next.vtaiwan.tw/topics" class="footer-link">
+            <li>
+              <router-link to="/topics" class="footer-link">
                 <span class="footer-link-icon">
                   <!-- 尚未找到與設計稿完全相符圖片，似乎是 Document text by Tailwind Labs  
 									 圖片連結：https://icon-icons.com/icon/document-text/152857#google_vignette -->
-									<IconWrapper name="file-text" :size="16" color="currentColor" />
+                  <IconWrapper name="file-text" :size="16" color="currentColor" />
                 </span>
                 <span class="min-w-0">提案新議題</span>
                 <svg class="footer-link-arrow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
                 </svg>
                 <span class="footer-link-spacer" aria-hidden="true"></span>
-              </a>
+              </router-link>
             </li>
           </ul>
         </div>
@@ -161,11 +159,11 @@
           }}</a>
         </p>
         <p class="footer-bottom-nav">
-          <a href="https://github.com/g0v/vue.vTaiwan-neo" class="footer-bottom-link">{{ $t('footer.sourceCode') }}</a>
+          <a href="https://github.com/g0v/vue.vTaiwan-neo" target="_blank" rel="noopener noreferrer" class="footer-bottom-link">{{ $t('footer.sourceCode') }}</a>
           <span class="footer-bottom-separator">|</span>
-          <a href="/privacy" class="footer-bottom-link">{{ $t('footer.privacyPolicy') }}</a>
+          <router-link to="/privacy" class="footer-bottom-link">{{ $t('footer.privacyPolicy') }}</router-link>
           <span class="footer-bottom-separator">|</span>
-          <a href="/terms" class="footer-bottom-link">{{ $t('footer.termsOfService') }}</a>
+          <router-link to="/terms" class="footer-bottom-link">{{ $t('footer.termsOfService') }}</router-link>
         </p>
       </div>
     </div>
