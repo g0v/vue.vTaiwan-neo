@@ -3,7 +3,8 @@
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan" class="footer-logo" />
+          <!-- 頁尾為深色底，用白字版 logo（與 vTaiwan-hono 同一份 svg） -->
+          <img src="@/assets/images/vtaiwan-logo-dark.svg" alt="vTaiwan" class="footer-logo" />
           <p class="footer-description">
             {{ $t('footer.description') }}
           </p>
@@ -212,7 +213,8 @@ const currentYear = computed(() => new Date().getFullYear())
 }
 
 .footer-logo {
-  @apply mb-3 block h-[26px] w-auto opacity-95;
+  /* 白字版 svg 的 viewBox 留白較窄，同高度下圖徽會偏大；用 h-6 讓圖徽與 Header 的 h-7 等大（同 hono） */
+  @apply mb-3 block h-6 w-auto opacity-95;
 }
 
 .footer-description {
