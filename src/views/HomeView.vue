@@ -1,8 +1,38 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
+import { useHead } from '@unhead/vue'
 
 const { t } = useI18n()
+
+// 本頁採 hono 的多段 section 版型（fragment root），不承接 router-view 傳下的 user/userData 等屬性
+defineOptions({ inheritAttrs: false })
+
+useHead({
+  title: t('home.title'),
+  meta: [
+    {
+      property: 'og:title',
+      content: t('home.title'),
+    },
+    {
+      property: 'og:description',
+      content: t('home.hero.subtitle'),
+    },
+    {
+      property: 'og:url',
+      content: 'https://vtaiwan.tw/',
+    },
+    {
+      property: 'twitter:title',
+      content: t('home.title'),
+    },
+    {
+      property: 'twitter:description',
+      content: t('home.hero.subtitle'),
+    },
+  ],
+})
 
 // 「如何運作」三步驟 — 對應三種公民色；文字由 i18n 提供
 const steps = [
@@ -16,7 +46,7 @@ const steps = [
   <!-- Hero -->
   <section class="vt-hero-bg vt-under-navbar flex min-h-screen items-center text-white">
     <div class="mx-auto h-fit w-full max-w-5xl px-6">
-      <div class="mb-12 inline-flex items-center gap-3.5 font-sans text-[13px] font-semibold tracking-[0.22em] text-white/55 uppercase">
+      <div class="mb-12 inline-flex items-center gap-3.5 pt-[156px] font-sans text-[13px] font-semibold tracking-[0.22em] text-white/55 uppercase sm:pt-[184px]">
         <span class="h-px w-7 bg-white/45" />
         {{ t('home.hero.eyebrow') }}
       </div>
