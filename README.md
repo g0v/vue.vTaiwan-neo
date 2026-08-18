@@ -1,5 +1,9 @@
 # vTaiwan Neo - Vue 版本
 
+樣稿雛型來自：https://github.com/Tofuswang/vTaiwan-neo
+
+2026新版視覺設計來自：https://github.com/Tofuswang/vtaiwan-design-system
+
 vTaiwan Neo 的 Vue 版，使用 Vue 3 + Vite + Tailwind CSS + Firebase。後端開源： [Jitsi JWT](https://github.com/g0v/vtaiwan-jaas-jwt-worker) · [轉錄與 AI 大綱](https://github.com/g0v/vtaiwan-transcription-worker)
 
 > 🤖 用 AI coding agent 開發本專案？請先看 [`AGENTS.md`](./AGENTS.md)（程式碼慣例、i18n 規則、驗證與 commit 規範）。
@@ -21,11 +25,11 @@ npm run dev
 
 **不用改程式碼**，只要編輯 `src/data/` 底下的檔案，存檔後重整頁面即可看到變更。
 
-| 要改的內容     | 編輯檔案                    | 說明 |
-|----------------|-----------------------------|------|
-| 貢獻者         | `src/data/contributors.ts`  | 在 `coreTeam` 等陣列新增/修改成員（name、role、description、imgURL 等） |
-| 常見問題 FAQ   | `src/data/faqs.ts`          | 在 `faqs` 陣列新增/修改問題與答案 |
-| 介面文字翻譯   | `src/l10n/*.json`           | 見下方「多語言翻譯」說明 |
+| 要改的內容   | 編輯檔案                   | 說明                                                                    |
+| ------------ | -------------------------- | ----------------------------------------------------------------------- |
+| 貢獻者       | `src/data/contributors.ts` | 在 `coreTeam` 等陣列新增/修改成員（name、role、description、imgURL 等） |
+| 常見問題 FAQ | `src/data/faqs.ts`         | 在 `faqs` 陣列新增/修改問題與答案                                       |
+| 介面文字翻譯 | `src/l10n/*.json`          | 見下方「多語言翻譯」說明                                                |
 
 樣式想微調：用 Tailwind 類別或改組件內 `<style>`；全站樣式改 `src/style.css`。
 
@@ -46,6 +50,7 @@ src/l10n/
 **修改現有文字**：在對應語言的檔案裡找到同一個鍵，改右邊的值即可。例如把首頁選單「首頁」改成別的字，就改 `zh-TW.json` 裡 `header.home` 的值。
 
 **新增一段翻譯**：在三個檔案裡**同一個位置**新增相同的鍵、各自語言的値。例如新增 `newPage.title`：
+
 - `zh-TW.json`：在適當區塊加 `"title": "新頁面標題"`
 - `en.json`：同區塊加 `"title": "New Page Title"`
 - `ja.json`：同區塊加 `"title": "新規ページ"`
@@ -103,11 +108,11 @@ Open the URL shown in the terminal. Other commands: `npm run type-check`, `npm r
 
 Edit files under `src/data/` — no code changes needed; refresh the page to see updates.
 
-| What to edit      | File                         | Notes |
-|-------------------|------------------------------|-------|
-| Contributors      | `src/data/contributors.ts`   | Add/edit in `coreTeam` etc.; fields: name, role, description, imgURL |
-| FAQ               | `src/data/faqs.ts`           | Add/edit in `faqs` array |
-| UI text / translations | `src/l10n/*.json`        | See “Multi-language (l10n)” below |
+| What to edit           | File                       | Notes                                                                |
+| ---------------------- | -------------------------- | -------------------------------------------------------------------- |
+| Contributors           | `src/data/contributors.ts` | Add/edit in `coreTeam` etc.; fields: name, role, description, imgURL |
+| FAQ                    | `src/data/faqs.ts`         | Add/edit in `faqs` array                                             |
+| UI text / translations | `src/l10n/*.json`          | See “Multi-language (l10n)” below                                    |
 
 Styles: use Tailwind classes or component `<style>`; global styles in `src/style.css`.
 
@@ -128,6 +133,7 @@ src/l10n/
 **Edit existing text**: Find the key in the language file and change the value (e.g. change “Home” in the menu by editing `header.home` in `en.json`).
 
 **Add new text**: Add the **same key** in all three files with the translated value. Example for `newPage.title`:
+
 - `zh-TW.json`: `"title": "新頁面標題"`
 - `en.json`: `"title": "New Page Title"`
 - `ja.json`: `"title": "新規ページ"`

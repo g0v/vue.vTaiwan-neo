@@ -96,7 +96,7 @@
                     <path d="M8 12h8v2H8zm0 4h5v2H8z" />
                   </svg>
                 </span>
-                <span class="min-w-0">HackMD</span>
+                <span class="min-w-0">HackMD Worksapce</span>
                 <svg class="footer-link-arrow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
                 </svg>
@@ -115,6 +115,34 @@
                   <IconWrapper name="mail" :size="16" color="currentColor" />
                 </span>
                 <span class="min-w-0">info@vtaiwan.tw</span>
+                <svg class="footer-link-arrow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
+                </svg>
+                <span class="footer-link-spacer" aria-hidden="true"></span>
+              </a>
+            </li>
+						<li>
+							<!-- 此處網址暫放設計稿對應連結, 非正式網址 -->
+              <a href="https://next.vtaiwan.tw/meetups" class="footer-link">
+                <span class="footer-link-icon">
+                  <IconWrapper name="Calendar" :size="16" color="currentColor" />
+                </span>
+                <span class="min-w-0">加入下次會議</span>
+                <svg class="footer-link-arrow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
+                </svg>
+                <span class="footer-link-spacer" aria-hidden="true"></span>
+              </a>
+            </li>
+						<li>
+							<!-- 此處網址暫放設計稿對應連結, 非正式網址 -->
+              <a href="https://next.vtaiwan.tw/topics" class="footer-link">
+                <span class="footer-link-icon">
+                  <!-- 尚未找到與設計稿完全相符圖片，似乎是 Document text by Tailwind Labs  
+									 圖片連結：https://icon-icons.com/icon/document-text/152857#google_vignette -->
+									<IconWrapper name="file-text" :size="16" color="currentColor" />
+                </span>
+                <span class="min-w-0">提案新議題</span>
                 <svg class="footer-link-arrow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h10v10M7 17 17 7" />
                 </svg>

@@ -102,13 +102,21 @@
   --spacing-vt-8: 32px;
   --spacing-vt-12: 48px;
   --spacing-vt-16: 64px;
+  --spacing-vt-navbar-overlap: 86px;
+  --spacing-vt-navbar-overlap-sm: 90px;
 
   /* Radii */
   --radius-vt-none: 0;
   --radius-vt-sm: 4px;
   --radius-vt-md: 6px;
   --radius-vt-lg: 8px;
+  --radius-vt-xl: 12px;
+  --radius-vt-2xl: 18px;
   --radius-vt-full: 9999px;
+
+  /* Backdrop filters */
+  --blur-vt-navbar: 8px;
+  --saturate-vt-navbar: 120%;
 
   /* Elevation */
   --shadow-vt-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -249,6 +257,17 @@
    Design-system components — the few effects that are awkward as utilities
    -------------------------------------------------------------------------- */
 @layer components {
+  /* 讓頁面背景延伸到 sticky Navbar 後方；集中管理，避免各頁使用 arbitrary value。 */
+  .vt-under-navbar {
+    margin-top: calc(-1 * var(--spacing-vt-navbar-overlap));
+  }
+
+  @media (min-width: 40rem) {
+    .vt-under-navbar {
+      margin-top: calc(-1 * var(--spacing-vt-navbar-overlap-sm));
+    }
+  }
+
   /* Signature red underline on section headings */
   .vt-title-underline {
     position: relative;
@@ -308,6 +327,11 @@
       0 10px 30px -16px rgba(16, 24, 40, 0.12);
   }
 
+  .vt-glass--navbar {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius-vt-2xl);
+  }
+
   /* Buttons — sans, pill */
   .vt-btn {
     display: inline-flex;
@@ -349,6 +373,57 @@
 
   .vt-btn-outline:hover {
     border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .vt-topic-bubble {
+    --vt-topic-bubble-width: 60px;
+    --vt-topic-bubble-height: 60px;
+
+    width: var(--vt-topic-bubble-width);
+    height: var(--vt-topic-bubble-height);
+    border-radius: var(--radius-vt-full);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--vt-topic-bubble-background);
+    box-shadow: var(--vt-topic-bubble-box-shadow);
+  }
+
+  .vt-topic-bubble svg {
+    stroke: var(--vt-topic-bubble-icon-color);
+  }
+
+  .vt-topic-bubble-red {
+    --vt-topic-bubble-icon-color: var(--color-vt-democratic-red);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 85%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-democratic-red) 12%, transparent);
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 90%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-democratic-red) 15%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-democratic-red) 25%, transparent);
+  }
+
+  .vt-topic-bubble-green {
+    --vt-topic-bubble-icon-color: var(--color-vt-jade-green);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 90%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-jade-green) 14%, var(--color-vt-white));
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-jade-green) 12%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-jade-green) 18%, transparent);
+  }
+
+  .vt-topic-bubble-orange {
+    --vt-topic-bubble-icon-color: var(--color-vt-wheat-yellow);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 90%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-wheat-yellow) 14%, var(--color-vt-white));
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-wheat-yellow) 15%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-wheat-yellow) 22%, transparent);
+  }
+
+  .vt-topic-bubble-sm {
+    --vt-topic-bubble-width: 40px;
+    --vt-topic-bubble-height: 40px;
   }
 }
 

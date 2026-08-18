@@ -77,7 +77,10 @@ const handleShowLogin = () => {
 
 <template>
   <header class="sticky top-0 z-999 px-3 pt-3 font-sans sm:px-6 sm:pt-4">
-    <div class="vt-glass relative z-20 mx-auto flex h-[72px] max-w-6xl items-center justify-between rounded-2xl pr-3 pl-6" :class="{ 'max-w-7xl': !isChinese }">
+    <div
+      class="vt-glass vt-glass--navbar backdrop-blur-vt-navbar backdrop-saturate-vt-navbar relative z-20 mx-auto flex h-[72px] max-w-6xl items-center justify-between pr-3 pl-6"
+      :class="{ 'max-w-7xl': !isChinese }"
+    >
       <router-link to="/" class="flex shrink-0 items-center" :aria-label="t('header.home')" @click="mobileOpen = false">
         <img src="@/assets/images/vtaiwan-logo.svg" alt="vTaiwan" class="h-7 w-auto" />
       </router-link>
@@ -116,7 +119,7 @@ const handleShowLogin = () => {
           class="bg-ink text-vt-fg-inverse hover:bg-democratic-red hidden cursor-pointer rounded-full px-4 py-2 font-medium whitespace-nowrap transition-colors sm:inline-flex"
           @click="handleShowLogin"
         >
-          {{ t('common.login') }}
+          {{ t('common.registerLogin') }}
         </button>
 
         <!-- 行動裝置漢堡按鈕 -->
@@ -139,7 +142,7 @@ const handleShowLogin = () => {
 
     <!-- 行動選單面板 -->
     <div v-if="mobileOpen" class="absolute left-0 w-full px-3 sm:px-6 xl:hidden">
-      <div class="vt-glass relative z-10 mx-auto mt-2 max-w-6xl rounded-2xl p-2.5">
+      <div class="vt-glass vt-glass--navbar backdrop-blur-vt-navbar backdrop-saturate-vt-navbar relative z-10 mx-auto mt-2 max-w-6xl p-2.5">
         <router-link
           v-for="l in links"
           :key="l.key"
@@ -177,7 +180,7 @@ const handleShowLogin = () => {
             :class="{ 'text-xs': isJapanese, 'text-md': isChinese, 'text-sm': isEnglish }"
             @click="handleShowLogin"
           >
-            {{ t('common.login') }}
+            {{ t('common.registerLogin') }}
           </button>
         </div>
       </div>
