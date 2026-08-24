@@ -4,9 +4,9 @@
     <div class="container mx-auto px-2">
       <div class="mx-auto max-w-4xl">
         <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ $t('polis.title') }}</h1>
-        <p class="text-lg opacity-90">
+        <!--<p class="text-lg opacity-90">
           {{ $t('polis.subtitle') }}
-        </p>
+        </p>-->
       </div>
     </div>
   </section>
