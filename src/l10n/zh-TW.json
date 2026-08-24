@@ -522,7 +522,12 @@
       "p3": "我們想用 Polis，來問大家下一個 Polis 應該討論什麼。（笑）",
       "p4": "畢竟其實台灣有很多很多議題在持續進行著，vTaiwan 還是希望有個機制把開議題的 agency 交給公眾。開議題的決定，不應該只是來自於 vTaiwan 社群內部的討論！"
     },
-    "reportLabel": "報告頁面："
+    "reportLabel": "報告頁面：",
+    "civicPlatform": {
+      "title": "想參與公共議題討論嗎？",
+      "description": "前往公共議題討論平台，探索並參與正在進行的公共議題。",
+      "linkLabel": "前往公共議題討論平台"
+    }
   },
   "topics": {
     "title": "議題",

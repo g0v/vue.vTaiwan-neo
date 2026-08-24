@@ -512,7 +512,12 @@
       "p3": "We want to use Polis to ask everyone what the next Polis should discuss. (lol)",
       "p4": "After all, Taiwan has many, many ongoing issues, and vTaiwan still hopes to have a mechanism that gives the public agency to open up new topics. The decision of which topics to raise shouldn't only come from discussions inside the vTaiwan community!"
     },
-    "reportLabel": "Report page:"
+    "reportLabel": "Report page:",
+    "civicPlatform": {
+      "title": "Want to join public issue discussions?",
+      "description": "Visit the public issue discussion platform to explore and take part in ongoing public issues.",
+      "linkLabel": "Visit the public issue discussion platform"
+    }
   },
   "topics": {
     "title": "Topics",

@@ -13,6 +13,20 @@
 
   <!-- Intro Section -->
   <section class="bg-gray-50 py-12">
+    <div class="container px-2">
+      <div class="mx-auto max-w-4xl">
+        <div class="rounded-vt-xl p-vt-8 shadow-vt-md bg-white" aria-labelledby="civic-platform-title">
+          <h2 id="civic-platform-title" class="text-vt-2xl font-semibold text-black">
+            {{ $t('polis.civicPlatform.title') }}
+          </h2>
+          <p class="mt-vt-3 text-vt-gray-400 max-w-2xl">{{ $t('polis.civicPlatform.description') }}</p>
+          <a href="https://civic.vtaiwan.tw/" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary mt-vt-6 text-white!">
+            {{ $t('polis.civicPlatform.linkLabel') }}
+          </a>
+        </div>
+      </div>
+    </div>
+
     <div class="container mx-auto px-2">
       <div class="mx-auto max-w-4xl">
         <div class="mb-8 rounded-lg bg-white p-6 shadow-md md:p-8">
@@ -28,13 +42,12 @@
               href="https://pol.is/report/r84fwd8axfjy3mmsfjmpr"
               target="_blank"
               rel="noopener noreferrer"
-              class="break-all font-medium text-jade-green underline underline-offset-4 hover:text-democratic-red"
+              class="text-jade-green hover:text-democratic-red font-medium break-all underline underline-offset-4"
             >
               https://pol.is/report/r84fwd8axfjy3mmsfjmpr
             </a>
           </p>
         </div>
-
 
         <!-- Polis Embed -->
         <div class="overflow-hidden rounded-lg bg-white p-2 shadow-md md:p-4">
