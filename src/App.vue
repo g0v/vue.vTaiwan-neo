@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen flex-col">
+  <div class="vt-app-shell flex min-h-screen flex-col">
     <Header :user="user" :userData="userData" @logout="handleLogout" @show-login="showLoginModal = true" />
     <main class="grow">
       <!-- Debug info -->

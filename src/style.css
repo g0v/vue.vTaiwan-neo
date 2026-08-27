@@ -332,8 +332,13 @@
     border-radius: var(--radius-vt-2xl);
   }
 
+  .vt-app-shell,
   .vt-page-shell {
     background: linear-gradient(135deg, var(--color-vt-bg-2) 0%, color-mix(in srgb, var(--color-vt-gray-200) 42%, var(--color-vt-bg-1)) 100%);
+  }
+
+  .vt-app-shell .vt-page-shell {
+    background: transparent;
   }
 
   .vt-page-content {
