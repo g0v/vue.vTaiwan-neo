@@ -6,6 +6,8 @@ import Footer from '@/components/Footer.vue'
 // 只看 render 結果無法分辨，所以「站內連結必須用 router-link」這條規則要在原始碼層檢查。
 import source from '@/components/Footer.vue?raw'
 import zhTW from '@/l10n/zh-TW.json'
+import en from '@/l10n/en.json'
+import ja from '@/l10n/ja.json'
 
 const routerLinkTargets = [...source.matchAll(/<router-link[^>]*\sto="([^"]+)"/g)].map(m => m[1])
 const anchorHrefs = [...source.matchAll(/<a[^>]*\shref="([^"]+)"/g)].map(m => m[1])
@@ -13,10 +15,12 @@ const anchorHrefs = [...source.matchAll(/<a[^>]*\shref="([^"]+)"/g)].map(m => m[
 // 頁尾目前的站內連結；新增時請一併補上，避免有人改壞卻沒被測到。
 const EXPECTED_INTERNAL = ['/meetups', '/topics', '/privacy', '/terms']
 
-const mountFooter = async () => {
+const messages = { 'zh-TW': zhTW, en, ja }
+
+const mountFooter = async (locale: keyof typeof messages = 'zh-TW') => {
   // router 的 afterEach 會呼叫 window.scrollTo，jsdom 未實作，先蓋掉避免噪音
   window.scrollTo = () => {}
-  const i18n = createI18n({ legacy: false, locale: 'zh-TW', messages: { 'zh-TW': zhTW } })
+  const i18n = createI18n({ legacy: false, locale, messages })
   router.push('/')
   await router.isReady()
   return mount(Footer, { global: { plugins: [i18n, router] } })
@@ -68,5 +72,15 @@ describe('Footer 連結', () => {
     const warnings = warnSpy.mock.calls.map(call => String(call[0]))
     warnSpy.mockRestore()
     expect(warnings.filter(w => w.includes('No match') || w.includes('[Vue Router warn]'))).toEqual([])
+  })
+
+  it.each([
+    ['zh-TW', '加入下次會議', '提案新議題'],
+    ['en', 'Join the next meeting', 'Propose a new topic'],
+    ['ja', '次回のミーティングに参加', '新しいトピックを提案'],
+  ] as const)('%s 顯示對應語言的會議與提案連結', async (locale, meetingLabel, topicLabel) => {
+    const wrapper = await mountFooter(locale)
+    expect(wrapper.get('a[href="/meetups"]').text()).toContain(meetingLabel)
+    expect(wrapper.get('a[href="/topics"]').text()).toContain(topicLabel)
   })
 })

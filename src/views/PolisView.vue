@@ -1,69 +1,47 @@
 <template>
-  <!-- Hero Section -->
-  <section class="bg-black py-8 text-white">
-    <div class="container mx-auto px-2">
-      <div class="mx-auto max-w-4xl">
-        <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ $t('polis.title') }}</h1>
-        <!--<p class="text-lg opacity-90">
-          {{ $t('polis.subtitle') }}
-        </p>-->
-      </div>
-    </div>
-  </section>
+  <div>
+    <PageHeader :label="$t('pageLabels.polis')" :title="$t('polis.title')" :description="$t('polis.subtitle')" dark compact />
 
-  <!-- Intro Section -->
-  <section class="bg-gray-50 py-12">
-    <div class="container px-2">
-      <div class="mx-auto max-w-4xl">
-        <div class="rounded-vt-xl p-vt-8 shadow-vt-md bg-white" aria-labelledby="civic-platform-title">
-          <h2 id="civic-platform-title" class="text-vt-2xl font-semibold text-black">
-            {{ $t('polis.civicPlatform.title') }}
-          </h2>
-          <p class="mt-vt-3 text-vt-gray-400 max-w-2xl">{{ $t('polis.civicPlatform.description') }}</p>
-          <a href="https://civic.vtaiwan.tw/" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary mt-vt-6 text-white!">
-            {{ $t('polis.civicPlatform.linkLabel') }}
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="container mx-auto px-2">
-      <div class="mx-auto max-w-4xl">
-        <div class="mb-8 rounded-lg bg-white p-6 shadow-md md:p-8">
-          <p class="mb-4 text-xl font-semibold text-gray-900">{{ $t('polis.intro.p1') }}</p>
-          <p class="mb-4 text-gray-700">{{ $t('polis.intro.p2') }}</p>
-          <p class="mb-4 text-gray-700">{{ $t('polis.intro.p3') }}</p>
-          <p class="mb-4 text-gray-700">{{ $t('polis.intro.p4') }}</p>
-
-          <!-- Report Link -->
-          <p class="mb-4 text-gray-700">
-            {{ $t('polis.reportLabel') }}
-            <a
-              href="https://pol.is/report/r84fwd8axfjy3mmsfjmpr"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="text-jade-green hover:text-democratic-red font-medium break-all underline underline-offset-4"
-            >
-              https://pol.is/report/r84fwd8axfjy3mmsfjmpr
-            </a>
-          </p>
+    <section class="vt-page-shell">
+      <div class="vt-page-content max-w-4xl">
+        <div class="vt-glass-panel p-6 sm:p-8" aria-labelledby="civic-platform-title">
+          <h2 id="civic-platform-title" class="vt-panel-title">{{ $t('polis.civicPlatform.title') }}</h2>
+          <p class="text-vt-gray-700 mt-3 max-w-2xl leading-7">{{ $t('polis.civicPlatform.description') }}</p>
+          <a href="https://civic.vtaiwan.tw/" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary mt-6">{{ $t('polis.civicPlatform.linkLabel') }} →</a>
         </div>
 
-        <!-- Polis Embed -->
-        <div class="overflow-hidden rounded-lg bg-white p-2 shadow-md md:p-4">
-          <div ref="polisContainer">
-            <div class="polis" data-conversation_id="2525kxsn2f"></div>
+        <div class="vt-glass-panel mt-6 p-6 sm:p-8">
+          <p class="text-vt-gray-800 text-xl font-semibold">{{ $t('polis.intro.p1') }}</p>
+          <div class="text-vt-gray-700 mt-4 space-y-4 leading-7">
+            <p>{{ $t('polis.intro.p2') }}</p>
+            <p>{{ $t('polis.intro.p3') }}</p>
+            <p>{{ $t('polis.intro.p4') }}</p>
+            <p>
+              {{ $t('polis.reportLabel') }}
+              <a
+                href="https://pol.is/report/r84fwd8axfjy3mmsfjmpr"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-jade-green hover:text-democratic-red font-medium break-all underline underline-offset-4"
+                >https://pol.is/report/r84fwd8axfjy3mmsfjmpr</a
+              >
+            </p>
           </div>
         </div>
+
+        <div class="vt-glass-panel mt-6 overflow-hidden p-2 sm:p-4">
+          <div ref="polisContainer"><div class="polis" data-conversation_id="2525kxsn2f"></div></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useHead } from '@unhead/vue'
+import PageHeader from '@/components/PageHeader.vue'
 
 const { t } = useI18n()
 

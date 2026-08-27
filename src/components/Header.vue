@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import LanguageSwitcher from './LanguageSwitcher.vue'
+import IconWrapper from './IconWrapper.vue'
 
 const props = defineProps({
   user: {
@@ -107,7 +108,7 @@ const handleShowLogin = () => {
         <router-link v-if="user" to="/profile" class="hover:bg-vt-gray-100 hidden items-center gap-2 rounded-full px-2 py-1 transition-colors sm:inline-flex" :title="t('common.profile')">
           <img v-if="userData && userData.photoURL" :src="userData.photoURL" :alt="userData.name" class="ring-vt-border h-8 w-8 rounded-full ring-1" />
           <div v-else class="bg-vt-gray-200 text-vt-gray-700 flex h-8 w-8 items-center justify-center rounded-full">
-            <span class="text-xs">👤</span>
+            <IconWrapper name="user" :size="15" />
           </div>
           <span v-if="userData && userData.name" class="text-vt-gray-800 hidden max-w-24 truncate text-sm xl:block">{{ userData.name }}</span>
         </router-link>

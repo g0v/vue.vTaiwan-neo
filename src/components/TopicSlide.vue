@@ -1,37 +1,24 @@
 <template>
-  <div class="topic-slide">
-    <!-- 簡介標題 -->
-    <div class="bg-gray-100 py-8">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-4xl">
-          <h3 class="mb-8 flex items-center justify-center text-center text-2xl font-bold">
-            <IconWrapper name="info" :size="24" class="mr-3" />
-            {{ $t('topics.detail.introduction') }}
-          </h3>
+  <section :aria-labelledby="'topic-introduction-title'">
+    <h2 id="topic-introduction-title" class="mb-6 flex items-center justify-center gap-3 text-center text-2xl">
+      <IconWrapper name="info" :size="21" class="text-democratic-red" />
+      {{ $t('topics.detail.introduction') }}
+    </h2>
 
-          <div class="flex flex-col gap-8 lg:flex-row">
-            <!-- Iframe 區域 -->
-            <div class="lg:flex-1">
-              <div v-if="slide.iframe" v-html="sanitizeEmbedHtml(slide.iframe)" class="iframe-container"></div>
-              <div v-else class="rounded-lg bg-white p-8 text-center text-gray-500">
-                {{ $t('topics.detail.noSlide') }}
-              </div>
-            </div>
-
-            <!-- 詳細資訊區域 -->
-            <div class="lg:flex-1 lg:pl-8">
-              <div class="h-full max-h-96 overflow-auto rounded-lg bg-white p-6">
-                <div v-if="slide.info" v-html="sanitizeHtml(slide.info)" class="prose prose-lg max-w-none"></div>
-                <div v-else class="text-center text-gray-500">
-                  {{ $t('topics.detail.noInfo') }}
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="grid gap-5 lg:grid-cols-2">
+      <div class="vt-glass-panel p-4 sm:p-5">
+        <div v-if="slide.iframe" v-html="sanitizeEmbedHtml(slide.iframe)" class="iframe-container overflow-hidden rounded-xl"></div>
+        <div v-else class="bg-vt-gray-800 text-vt-gray-400 flex aspect-video items-center justify-center rounded-xl p-8 text-center font-sans text-sm">
+          {{ $t('topics.detail.noSlide') }}
         </div>
       </div>
+
+      <div class="vt-glass-panel max-h-96 overflow-auto p-6 sm:p-7">
+        <div v-if="slide.info" v-html="sanitizeHtml(slide.info)" class="prose max-w-none"></div>
+        <div v-else class="text-vt-gray-400 flex min-h-52 items-center justify-center text-center">{{ $t('topics.detail.noInfo') }}</div>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -91,7 +78,7 @@ const buildGoogleSlidesIframe = content => {
   iframeElement.allowFullscreen = true
   iframeElement.loading = 'lazy'
   iframeElement.referrerPolicy = 'no-referrer-when-downgrade'
-  iframeElement.title = 'Google Slides'
+  iframeElement.title = t('topics.detail.slidesTitle')
   return iframeElement.outerHTML
 }
 
@@ -154,9 +141,10 @@ watch(
 
 .iframe-container :deep(iframe) {
   width: 100%;
-  min-height: 350px;
+  aspect-ratio: 16 / 9;
+  min-height: 280px;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .prose :deep(h1) {
@@ -197,9 +185,5 @@ watch(
 
 .prose :deep(em) {
   @apply italic;
-}
-
-.btn-lg {
-  @apply px-8 py-4 text-lg;
 }
 </style>

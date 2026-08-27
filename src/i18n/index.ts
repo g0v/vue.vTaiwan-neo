@@ -35,10 +35,14 @@ const getLocale = (): SupportedLocale => {
   return defaultLocale
 }
 
+const initialLocale = getLocale()
+
+if (typeof document !== 'undefined') document.documentElement.lang = initialLocale
+
 // 建立 i18n 實例
 const i18n = createI18n({
   legacy: false, // 使用 Composition API
-  locale: getLocale(),
+  locale: initialLocale,
   fallbackLocale: defaultLocale,
   messages: {
     'zh-TW': zhTW,

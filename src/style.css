@@ -150,12 +150,12 @@
   }
 
   html {
-    font-family: var(--font-vt-serif);
+    font-family: var(--font-vt-sans);
   }
 
   body {
     margin: 0;
-    font-family: var(--font-vt-serif);
+    font-family: var(--font-vt-sans);
     color: var(--color-vt-fg-1);
     background: var(--color-vt-bg-1);
     font-size: var(--text-vt-base);
@@ -332,6 +332,82 @@
     border-radius: var(--radius-vt-2xl);
   }
 
+  .vt-page-shell {
+    background: linear-gradient(135deg, var(--color-vt-bg-2) 0%, color-mix(in srgb, var(--color-vt-gray-200) 42%, var(--color-vt-bg-1)) 100%);
+  }
+
+  .vt-page-content {
+    @apply mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20;
+  }
+
+  .vt-page-content-wide {
+    @apply mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20;
+  }
+
+  .vt-page-intro {
+    @apply mb-10 sm:mb-12;
+  }
+
+  .vt-page-title {
+    @apply m-0 font-serif text-4xl leading-tight font-bold tracking-[-0.02em] sm:text-5xl;
+  }
+
+  .vt-page-description {
+    @apply text-vt-gray-700 mt-4 max-w-3xl text-base leading-7;
+  }
+
+  .vt-section-label {
+    @apply text-vt-gray-700 mb-3 font-sans text-[11px] font-semibold tracking-[0.2em] uppercase;
+  }
+
+  .vt-glass-panel,
+  .vt-status-panel {
+    border: 1px solid color-mix(in srgb, var(--color-vt-white) 75%, transparent);
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--color-vt-white) 62%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent),
+      0 10px 28px -12px color-mix(in srgb, var(--color-vt-gray-800) 12%, transparent);
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+  }
+
+  .vt-panel-padding {
+    @apply p-5 sm:p-7 lg:p-9;
+  }
+
+  .vt-panel-title {
+    @apply m-0 font-serif text-xl font-bold tracking-[-0.01em] sm:text-2xl;
+  }
+
+  .vt-status-panel {
+    @apply text-vt-gray-700 flex min-h-52 flex-col items-center justify-center gap-4 p-8 text-center;
+  }
+
+  .vt-meta-row {
+    @apply text-vt-gray-700 flex flex-wrap items-center gap-2 font-sans text-xs;
+  }
+
+  .vt-pill {
+    @apply bg-vt-bg-2 text-vt-gray-700 inline-flex items-center rounded-full px-3 py-1 font-sans text-xs font-medium;
+  }
+
+  .vt-form-control {
+    @apply border-vt-border text-vt-gray-800 focus:border-democratic-red focus:ring-democratic-red/15 disabled:text-vt-gray-400 w-full rounded-xl border bg-white/80 px-4 py-3 font-sans text-sm transition outline-none focus:ring-3 disabled:cursor-not-allowed disabled:bg-black/4;
+  }
+
+  .vt-icon-button {
+    @apply hover:bg-vt-red-tint hover:text-democratic-red focus-visible:outline-democratic-red inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .vt-filter-chip {
+    @apply border-vt-border text-vt-gray-700 hover:border-democratic-red/30 hover:text-democratic-red focus-visible:outline-democratic-red cursor-pointer rounded-full border bg-white/70 px-4 py-2 font-sans text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .vt-filter-chip[aria-pressed='true'] {
+    @apply bg-ink border-transparent text-white hover:text-white;
+  }
+
   /* Buttons — sans, pill */
   .vt-btn {
     display: inline-flex;
@@ -362,7 +438,39 @@
   }
 
   .vt-btn-primary:hover {
-    background: #ee1f1f;
+    background: color-mix(in srgb, var(--color-vt-democratic-red) 88%, var(--color-vt-white));
+  }
+
+  .vt-btn-secondary {
+    background: var(--color-vt-jade-green);
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-vt-jade-green) 70%, transparent);
+  }
+
+  .vt-btn-secondary:hover {
+    background: color-mix(in srgb, var(--color-vt-jade-green) 88%, var(--color-vt-white));
+  }
+
+  .vt-btn-light {
+    background: var(--color-vt-white);
+    color: var(--color-vt-democratic-red);
+    border: 1px solid color-mix(in srgb, var(--color-vt-white) 65%, transparent);
+  }
+
+  .vt-btn-light:hover {
+    background: color-mix(in srgb, var(--color-vt-white) 92%, var(--color-vt-gray-200));
+  }
+
+  .vt-btn-ghost {
+    background: color-mix(in srgb, var(--color-vt-white) 58%, transparent);
+    color: var(--color-vt-fg-1);
+    border: 1px solid color-mix(in srgb, var(--color-vt-gray-800) 10%, transparent);
+  }
+
+  .vt-btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--color-vt-democratic-red) 35%, transparent);
+    color: var(--color-vt-democratic-red);
   }
 
   .vt-btn-outline {
@@ -373,6 +481,15 @@
 
   .vt-btn-outline:hover {
     border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .vt-btn:focus-visible,
+  .vt-btn-primary:focus-visible,
+  .vt-btn-secondary:focus-visible,
+  .vt-btn-light:focus-visible,
+  .vt-btn-ghost:focus-visible {
+    outline: 2px solid var(--color-vt-democratic-red);
+    outline-offset: 3px;
   }
 
   .vt-topic-bubble {

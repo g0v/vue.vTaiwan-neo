@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from '../components/IconWrapper.vue'
+import TopicCard from '@/components/TopicCard.vue'
+import discourseApi, { type FormattedTopicData } from '@/lib/discourse'
 import { useHead } from '@unhead/vue'
 
 const { t } = useI18n()
@@ -40,6 +43,32 @@ const steps = [
   { key: 'discuss', color: 'green', icon: 'users' },
   { key: 'policy', color: 'orange', icon: 'circle-check-big' },
 ]
+
+const topics = ref<FormattedTopicData[]>([])
+const topicsLoading = ref(true)
+const topicsLoadError = ref(false)
+
+const activeTopics = computed(() =>
+  topics.value
+    .filter(topic => topic.status !== '歷史案件')
+    .sort((a, b) => new Date(b.last_posted_at || b.created_at).getTime() - new Date(a.last_posted_at || a.created_at).getTime())
+    .slice(0, 3)
+)
+
+const loadActiveTopics = async () => {
+  topicsLoading.value = true
+  topicsLoadError.value = false
+  try {
+    topics.value = await discourseApi.getFormattedTopics()
+  } catch (error) {
+    console.error('Error loading active topics:', error)
+    topicsLoadError.value = true
+  } finally {
+    topicsLoading.value = false
+  }
+}
+
+onMounted(loadActiveTopics)
 </script>
 
 <template>
@@ -75,20 +104,60 @@ const steps = [
   </section>
 
   <!-- 如何運作 -->
-  <section class="bg-vt-gray-100 py-16 sm:py-20">
+  <section class="vt-page-shell py-16 sm:py-20">
     <div class="mx-auto max-w-6xl px-6">
+      <p class="vt-section-label text-center">{{ t('home.features.eyebrow') }}</p>
       <h2 class="mb-12 text-center text-3xl font-bold sm:text-4xl">
         <span class="vt-title-underline">{{ t('home.features.title') }}</span>
       </h2>
 
       <div class="grid gap-6 md:grid-cols-3">
-        <div v-for="step in steps" :key="step.key" class="rounded-3xl bg-white p-8 shadow-lg transition-transform duration-200 hover:-translate-y-1">
+        <div v-for="step in steps" :key="step.key" class="vt-glass-panel p-8 transition-transform duration-200 hover:-translate-y-1">
           <div class="vt-topic-bubble mb-4" :class="`vt-topic-bubble-${step.color}`">
-            <IconWrapper :name="step.icon" :size="24" />
+            <IconWrapper :name="step.icon" :size="24" color="currentColor" />
           </div>
           <h3 class="mb-3 text-lg font-bold">{{ t(`home.features.items.${step.key}.title`) }}</h3>
           <p class="text-vt-gray-700">{{ t(`home.features.items.${step.key}.description`) }}</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 進行中的議題 -->
+  <section class="vt-page-shell border-t border-white/70 py-16 sm:py-20" aria-labelledby="active-topics-title">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="vt-section-label">{{ t('home.activeTopics.eyebrow') }}</p>
+          <h2 id="active-topics-title" class="m-0 text-3xl font-bold sm:text-4xl">
+            <span class="vt-title-underline">{{ t('home.activeTopics.title') }}</span>
+          </h2>
+        </div>
+        <RouterLink to="/topics" class="text-democratic-red inline-flex items-center gap-2 font-sans text-sm font-medium">
+          {{ t('home.activeTopics.viewAll') }}
+          <IconWrapper name="arrow-right" :size="15" color="currentColor" aria-hidden="true" />
+        </RouterLink>
+      </div>
+
+      <div v-if="topicsLoading" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3" :aria-label="t('topics.list.loading')" aria-busy="true">
+        <div v-for="index in 3" :key="index" class="vt-glass-panel min-h-[240px] space-y-5 p-6">
+          <div class="flex items-center gap-4">
+            <div class="bg-vt-gray-200 h-10 w-10 animate-pulse rounded-full"></div>
+            <div class="bg-vt-gray-200 h-6 w-3/5 animate-pulse rounded-full"></div>
+          </div>
+          <div class="bg-vt-gray-200 h-4 w-full animate-pulse rounded-full"></div>
+          <div class="bg-vt-gray-200 h-4 w-4/5 animate-pulse rounded-full"></div>
+          <div class="bg-vt-gray-200 mt-8 h-4 w-2/3 animate-pulse rounded-full"></div>
+        </div>
+      </div>
+      <div v-else-if="activeTopics.length" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3">
+        <TopicCard v-for="topic in activeTopics" :key="topic.id" :topic="topic" />
+      </div>
+      <div v-else class="vt-glass-panel text-vt-gray-700 px-6 py-10 text-center">
+        <p>{{ topicsLoadError ? t('home.activeTopics.loadError') : t('home.activeTopics.empty') }}</p>
+        <button v-if="topicsLoadError" type="button" class="text-democratic-red mt-4 font-sans font-medium underline underline-offset-4" @click="loadActiveTopics">
+          {{ t('common.retry') }}
+        </button>
       </div>
     </div>
   </section>

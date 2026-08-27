@@ -1,28 +1,26 @@
 <template>
-  <div class="topic-progress py-6">
-    <div class="container mx-auto px-4">
-      <div class="mx-auto max-w-4xl">
-        <div class="step-progress-bar">
-          <ul class="progress-bar">
-            <li
-              v-for="(step, index) in steps"
-              :key="index"
-              :class="{
-                active: step.active,
-                current: step.current,
-              }"
-            >
-              {{ t(step.title) }}
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+  <ol class="mx-auto flex max-w-3xl list-none px-0 py-5" :aria-label="t('topics.filters.stage')">
+    <li
+      v-for="(step, index) in steps"
+      :key="step.title"
+      class="relative flex-1 text-center font-sans text-[10px] font-medium sm:text-xs"
+      :class="step.current ? 'text-wheat-yellow' : step.active ? 'text-jade-green' : 'text-vt-gray-400'"
+      :aria-current="step.current ? 'step' : undefined"
+    >
+      <span v-if="index < steps.length - 1" class="absolute top-[15px] left-1/2 h-0.5 w-full" :class="step.active ? 'bg-jade-green' : 'bg-vt-border'" aria-hidden="true" />
+      <span
+        class="relative z-1 mx-auto mb-2 flex h-8 w-8 items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
+        :class="step.current ? 'border-wheat-yellow bg-wheat-yellow ring-wheat-yellow/10 text-white ring-4' : step.active ? 'border-jade-green' : 'border-vt-gray-400'"
+        aria-hidden="true"
+        >{{ index + 1 }}</span
+      >
+      <span class="block px-0.5 leading-4">{{ t(step.title) }}</span>
+    </li>
+  </ol>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import discourseApi from '../lib/discourse'
 
@@ -123,114 +121,4 @@ watch(
   },
   { immediate: true }
 )
-
-// 組件掛載時載入資料
-onMounted(() => {
-  loadProgress()
-})
 </script>
-
-<style scoped>
-.step-progress-bar {
-  margin: 0 auto;
-  display: block;
-  padding: 10px 0;
-  width: 100%;
-  max-width: 600px;
-}
-
-.progress-bar {
-  counter-reset: step;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  display: flex;
-}
-
-.progress-bar li {
-  color: #6b7280;
-  width: 20%;
-  position: relative;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 500;
-
-  @media (min-width: 768px) {
-    font-size: 1.125rem;
-  }
-}
-
-.progress-bar li:before {
-  content: counter(step);
-  counter-increment: step;
-  width: 32px;
-  height: 32px;
-  border: 2px solid #6b7280;
-  border-radius: 50%;
-  display: block;
-  text-align: center;
-  line-height: 28px;
-  margin: 0 auto 10px auto;
-  z-index: 9;
-  background-color: white;
-  font-weight: 600;
-  position: relative;
-}
-
-.progress-bar li:after {
-  content: '';
-  width: 100%;
-  position: absolute;
-  height: 2px;
-  background-color: #6b7280;
-  top: 16px;
-  left: 50%;
-  z-index: -1;
-}
-
-.progress-bar li:last-child:after {
-  content: none;
-}
-
-.progress-bar li.active {
-  color: #10b981;
-}
-
-.progress-bar li.active:before {
-  border-color: #10b981;
-}
-
-.progress-bar li.active:after {
-  background-color: #10b981;
-}
-
-.progress-bar li.current {
-  color: #f59e0b;
-}
-
-.progress-bar li.current:before {
-  border-color: #f59e0b;
-  background-color: #f59e0b;
-  color: white;
-}
-
-.progress-bar li.current:after {
-  background-color: #f59e0b;
-}
-
-@media (max-width: 767px) {
-  .progress-bar li {
-    font-size: 0.875rem;
-  }
-
-  .progress-bar li:before {
-    width: 28px;
-    height: 28px;
-    line-height: 24px;
-  }
-
-  .progress-bar li:after {
-    top: 14px;
-  }
-}
-</style>

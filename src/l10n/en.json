@@ -70,6 +70,20 @@
       "description": "Frequently asked questions about the vTaiwan platform."
     }
   },
+  "pageLabels": {
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "contributors": "Contributors",
+    "jitsi": "Meeting Room",
+    "mastodon": "Community",
+    "newsletters": "Newsletters",
+    "polis": "Polis",
+    "profile": "Profile",
+    "propose": "Propose",
+    "topicDetail": "Topic Detail",
+    "transcriptions": "Transcriptions"
+  },
   "即將開始": "Upcoming",
   "意見徵集": "Collecting Opinions",
   "研擬草案": "Drafting",
@@ -90,7 +104,8 @@
     "warning": "Warning",
     "info": "Info",
     "profile": "Profile",
-    "registerLogin": "Sign up / Log in"
+    "registerLogin": "Sign up / Log in",
+    "retry": "Try again"
   },
   "underConstruction": {
     "title": "Under Construction",
@@ -190,6 +205,7 @@
       "eyebrow": "Open Collaboration Platform for Public Policy"
     },
     "features": {
+      "eyebrow": "How it works",
       "title": "How It Works",
       "items": {
         "propose": {
@@ -205,6 +221,13 @@
           "description": "Transform citizen consensus into concrete policy recommendations and submit them to relevant government departments for reference and implementation."
         }
       }
+    },
+    "activeTopics": {
+      "eyebrow": "Active topics",
+      "title": "Public discussions happening now",
+      "viewAll": "View all topics",
+      "empty": "There are no active topics right now.",
+      "loadError": "Topics could not be loaded right now. You can still visit the full topic list."
     },
     "cta": {
       "title": "Join us in shaping Taiwan's future together",
@@ -232,10 +255,17 @@
     "loginRequired": "Please login to view and edit your profile",
     "notSet": "Not set",
     "avatarAlt": "Profile avatar",
-    "updateFailed": "Failed to update profile. Please try again."
+    "updateFailed": "Failed to update profile. Please try again.",
+    "editTitle": "Edit profile",
+    "namePlaceholder": "Enter your name",
+    "emailReadonly": "Email cannot be edited",
+    "userId": "User ID",
+    "userIdReadonly": "User ID cannot be edited",
+    "updating": "Updating..."
   },
   "contributors": {
     "title": "Contributors",
+    "description": "vTaiwan is an open collaboration platform maintained by volunteers. We appreciate everyone who contributes their time and expertise.",
     "coreTeam": "Core Team",
     "communityContributors": "Community Contributors",
     "joinUs": "Join Us",
@@ -440,6 +470,7 @@
     "notFoundDesc": "The project you are looking for does not exist or has been removed."
   },
   "meetups": {
+    "eyebrow": "Meetups",
     "title": "Meetups",
     "description": "vTaiwan regularly hosts online and physical meetings to discuss project progress and public policy issues. Everyone is welcome to participate!",
     "search": {
@@ -457,6 +488,7 @@
       "empty": "No past meetup records at the moment"
     },
     "calendar": {
+      "eyebrow": "Event calendar",
       "title": "Meetup Calendar",
       "description": "Subscribe to our meetup calendar to never miss any important meetings.",
       "googleCalendar": "Google Calendar",
@@ -469,12 +501,19 @@
     "meetingRecord": "Meeting Record",
     "viewMorePast": "View More Past Meetups",
     "host": {
+      "eyebrow": "Collaborate",
       "title": "Want to host a meetup?",
       "description": "If you want to host a discussion on a specific project or public policy issue, please contact us.",
       "contactUs": "Contact Us"
     },
+    "participation": {
+      "title": "Join a meetup"
+    },
+    "beta": "Beta",
+    "schedule": "Wednesdays at 19:00",
     "jitsi": "Jitsi Meet",
-    "transcriptions": "Transcriptions"
+    "transcriptions": "Transcriptions",
+    "transcriptionsDescription": "Read and manage transcripts from past meetings"
   },
   "meetupDetail": {
     "upcoming": "Upcoming",
@@ -520,6 +559,7 @@
     }
   },
   "topics": {
+    "eyebrow": "All topics",
     "title": "Topics",
     "description": "vTaiwan's topic discussion forum, participate in the policy-making process.",
     "tryPolisLink": "Click here to try it now",
@@ -528,15 +568,19 @@
       "empty": "No topics available",
       "loading": "Loading...",
       "found": "Found {count} topics",
-      "lastUpdated": "Last Updated"
+      "lastUpdated": "Last Updated",
+      "loadError": "Unable to load topics",
+      "loadErrorDescription": "Discourse is not responding right now. Please try again shortly."
     },
     "search": {
+      "label": "Search topics",
       "placeholder": "Search topics...",
       "results": "Found {count} results for \"{query}\"",
       "noResults": "No matching topics found",
       "clearSearch": "Clear Search"
     },
     "sort": {
+      "label": "Sort topics",
       "latest": "Latest",
       "participants": "Participants",
       "views": "Views"
@@ -549,10 +593,20 @@
     },
     "actions": {
       "share": "Share Topic",
-      "bookmark": "Add Bookmark"
+      "bookmark": "Add Bookmark",
+      "removeBookmark": "Remove Bookmark"
     },
     "bookmarks": {
       "myBookmarks": "Bookmarks"
+    },
+    "filters": {
+      "label": "Search and filter topics",
+      "stage": "Topic stage",
+      "clearAll": "Clear all filters"
+    },
+    "card": {
+      "open": "Open topic: {title}",
+      "coverAlt": "Cover image for {title}"
     },
     "detail": {
       "title": "Topic Details",
@@ -566,6 +620,19 @@
       "participate": "Participate in Discussion",
       "noSlide": "No introduction material available",
       "noInfo": "No detailed information available",
+      "slidesTitle": "Topic presentation",
+      "hackpadMoved": "Hackpad has moved to Dropbox Paper.",
+      "externalResource": "External resource",
+      "viewExternal": "View",
+      "topicImageAlt": "Topic image",
+      "embedTitles": {
+        "polis": "Polis survey",
+        "slido": "Slido Q&A",
+        "livehouse": "Livehouse stream",
+        "typeform": "Typeform form",
+        "hackpad": "Hackpad document",
+        "image": "Related image"
+      },
       "enterDiscussion": "Enter Discussion",
       "backToList": "← Back to Topic List",
       "noDiscussion": "No discussion content available",
@@ -748,12 +815,16 @@
     "loadError": "Failed to load transcription, please try again later",
     "photoAlt": "User Photo",
     "loading": "Loading...",
-    "error": "Load Failed"
+    "error": "Load Failed",
+    "licenseTitle": "This content is shared under CC-BY-SA-4.0",
+    "licenseDescription": "You may share and adapt this content with attribution under the same license"
   },
   "faq": {
-    "title": "Frequently Asked Questions (FAQ)",
+    "eyebrow": "FAQ",
+    "title": "Frequently Asked Questions",
     "description": "Below are common questions and answers about the vTaiwan platform. If you have other questions, please feel free to contact us.",
     "contact": {
+      "eyebrow": "Contact",
       "title": "Have other questions?",
       "description": "If you have other questions or need assistance, please feel free to contact us through the following methods:",
       "email": {
@@ -932,6 +1003,16 @@
     "backToHome": "Back to Home"
   },
   "jitsi": {
+    "title": "vTaiwan Video Meeting",
+    "ready": "Ready to join room: {room}",
+    "namePlaceholder": "Enter your name",
+    "join": "Join meeting",
+    "loginHint": "Sign in first to join the meeting with full transcription features",
+    "startRecording": "Start transcription recording (press to start, press again to stop)",
+    "stopRecording": "Stop transcription recording ({seconds}s remaining)",
+    "transcribing": "Transcribing, please wait...",
+    "recordingStatus": "{name} is recording · {seconds}s",
+    "queueStatus": "{count} audio files queued",
     "tipBanner": {
       "message": "To enable mic/camera, click once on the black area, then press the mic/camera icons at the bottom-left.",
       "dismiss": "Got it"

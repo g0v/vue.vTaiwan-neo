@@ -1,67 +1,51 @@
 <template>
-  <div class="container mx-auto px-2 py-8">
-    <div class="mb-8 flex flex-col items-center justify-between md:flex-row">
-      <h1 class="text-3xl font-bold md:w-1/2">{{ t('medium.title') }}</h1>
-      <p class="text-sm text-gray-500">
-        {{ t('medium.sourceDescription') }}
-        <a :href="`https://medium.com/@${mediumUsername}`" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800">Medium/@{{ mediumUsername }}</a>
-      </p>
-    </div>
+  <section class="vt-page-shell min-h-[70vh]">
+    <div class="vt-page-content max-w-3xl">
+      <div class="vt-page-intro">
+        <p class="vt-section-label">{{ t('pageLabels.blog') }}</p>
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <h1 class="vt-page-title">
+            <span class="vt-title-underline">{{ t('medium.title') }}</span>
+          </h1>
+          <p class="text-vt-gray-700 m-0 font-sans text-xs">
+            {{ t('medium.sourceDescription') }}
+            <a :href="`https://medium.com/@${mediumUsername}`" target="_blank" rel="noopener noreferrer" class="text-democratic-red font-medium hover:underline">Medium/@{{ mediumUsername }}</a>
+          </p>
+        </div>
+      </div>
 
-    <div v-if="loading" class="py-8 text-center">
-      <p class="text-gray-600">{{ t('medium.loading') }}</p>
-    </div>
+      <div v-if="loading" class="vt-status-panel" role="status">
+        <span class="border-vt-border border-t-democratic-red h-8 w-8 animate-spin rounded-full border-2" aria-hidden="true" />
+        <p>{{ t('medium.loading') }}</p>
+      </div>
 
-    <div v-else-if="error" class="py-8 text-center">
-      <p class="mb-4 text-red-600">{{ error }}</p>
-      <button @click="loadArticles" class="rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700">
-        {{ t('medium.retry') }}
-      </button>
-    </div>
+      <div v-else-if="error" class="vt-status-panel" role="alert">
+        <p class="text-democratic-red max-w-xl">{{ error }}</p>
+        <button type="button" class="vt-btn vt-btn-primary" @click="loadArticles">{{ t('medium.retry') }}</button>
+      </div>
 
-    <div v-else-if="articles.length > 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      <article v-for="article in articles" :key="article.id" class="rounded-lg bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
-        <!-- 文章標題 -->
-        <h2 class="mb-3 text-xl font-bold">
-          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-gray-900 transition-colors hover:text-blue-600">
-            {{ article.title }}
+      <div v-else-if="articles.length > 0">
+        <article v-for="article in articles" :key="article.id" class="border-vt-border/80 border-b py-7 first:pt-0 last:border-b-0">
+          <div class="vt-meta-row mb-3">
+            <span v-for="category in article.categories?.slice(0, 3)" :key="category" class="vt-pill">#{{ category }}</span>
+            <span v-if="article.pubDate">{{ formatDate(article.pubDate) }}</span>
+            <span v-if="article.author">· {{ article.author }}</span>
+          </div>
+          <h2 class="m-0 text-2xl leading-snug tracking-[-0.01em]">
+            <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-vt-gray-800 hover:text-democratic-red transition-colors">{{ article.title }}</a>
+          </h2>
+          <p class="text-vt-gray-700 mt-3 line-clamp-3 text-sm leading-7">{{ article.summary }}</p>
+          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-democratic-red mt-4 inline-flex items-center font-sans text-sm font-medium hover:underline">
+            {{ t('medium.readMore') }} →
           </a>
-        </h2>
+        </article>
+      </div>
 
-        <!-- 作者和日期 -->
-        <div class="mb-4 flex items-center space-x-3">
-          <div v-if="article.author" class="flex items-center space-x-2">
-            <span class="text-sm text-gray-600">{{ article.author }}</span>
-          </div>
-          <div v-if="article.pubDate" class="text-sm text-gray-500">
-            {{ formatDate(article.pubDate) }}
-          </div>
-        </div>
-
-        <!-- 文章摘要 -->
-        <div class="mb-4">
-          <div class="prose prose-sm max-w-none text-gray-700">
-            {{ article.summary }}
-          </div>
-        </div>
-
-        <!-- 標籤 -->
-        <div v-if="article.categories && article.categories.length > 0" class="mb-4 flex flex-wrap gap-2">
-          <span v-for="category in article.categories" :key="category" class="rounded-full bg-blue-100 px-2 py-1 text-sm text-blue-700"> #{{ category }} </span>
-        </div>
-
-        <!-- 外部連結 -->
-        <div class="mt-4">
-          <a :href="article.link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-blue-600 hover:text-blue-800"> {{ t('medium.readMore') }} → </a>
-        </div>
-      </article>
+      <div v-else class="vt-status-panel">
+        <p>{{ t('medium.noArticles') }}</p>
+      </div>
     </div>
-
-    <!-- 無文章時顯示 -->
-    <div v-if="!loading && !error && articles.length === 0" class="py-8 text-center">
-      <p class="text-gray-600">{{ t('medium.noArticles') }}</p>
-    </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -230,7 +214,7 @@ const fetchRSS = async (username: string) => {
       name: 'Cloudflare Worker CORS Proxy',
       url: `https://vtaiwan-transcription-worker.bestian123.workers.dev/api/cors-proxy?url=${rssUrl}`,
       parser: async (response: Response) => response.text(),
-    }
+    },
   ]
 
   const requestFns = []
@@ -321,16 +305,4 @@ onMounted(() => {
 
 <style scoped>
 @reference '../style.css';
-
-.prose :deep(a) {
-  @apply text-blue-600 underline hover:text-blue-800;
-}
-
-.prose :deep(p) {
-  @apply mb-2;
-}
-
-.prose :deep(br) {
-  @apply mb-2;
-}
 </style>

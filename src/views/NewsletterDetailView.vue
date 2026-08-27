@@ -1,46 +1,41 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <div v-if="loading" class="py-10 text-center text-gray-600">
-      {{ t('newsletter.loading') }}
+  <section class="vt-page-shell min-h-[70vh]">
+    <div class="vt-page-content max-w-4xl">
+      <div v-if="loading" class="vt-status-panel" role="status">
+        <span class="border-vt-border border-t-democratic-red h-8 w-8 animate-spin rounded-full border-2" aria-hidden="true" />
+        <p>{{ t('newsletter.loading') }}</p>
+      </div>
+
+      <div v-else-if="error" class="vt-status-panel" role="alert">
+        <p class="text-democratic-red">{{ error }}</p>
+        <router-link to="/newsletters" class="vt-btn vt-btn-ghost">{{ t('newsletter.backToList') }}</router-link>
+      </div>
+
+      <article v-else-if="newsletter">
+        <router-link to="/newsletters" class="text-vt-gray-700 hover:text-democratic-red mb-6 inline-flex font-sans text-sm transition-colors">{{ t('newsletter.backToList') }}</router-link>
+        <img v-if="newsletter.coverImage" :src="newsletter.coverImage" :alt="newsletter.title" class="vt-glass-panel mb-8 h-auto w-full object-cover" />
+        <div class="vt-glass-panel p-6 sm:p-9 lg:p-10">
+          <header class="border-vt-border mb-8 border-b pb-7">
+            <p class="text-vt-gray-400 mb-3 font-sans text-sm">
+              <span v-if="newsletter.author">{{ newsletter.author }} · </span>{{ formatDate(newsletter.pubDate) }}
+            </p>
+            <h1 class="m-0 text-3xl leading-tight tracking-[-0.02em] md:text-4xl">{{ newsletter.title }}</h1>
+            <a :href="newsletter.link" target="_blank" rel="noopener noreferrer" class="text-democratic-red mt-5 inline-flex font-sans text-sm font-medium hover:underline"
+              >{{ t('newsletter.viewOriginal') }} →</a
+            >
+          </header>
+          <div class="newsletter-content prose max-w-none" v-html="sanitizedContent"></div>
+        </div>
+        <footer class="mt-8 text-center">
+          <router-link to="/newsletters" class="vt-btn vt-btn-ghost">{{ t('newsletter.backToList') }}</router-link>
+        </footer>
+      </article>
+
+      <div v-else class="vt-status-panel">
+        <p>{{ t('newsletter.notFound') }}</p>
+      </div>
     </div>
-
-    <div v-else-if="error" class="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
-      <p class="text-red-700">{{ error }}</p>
-      <router-link to="/newsletters" class="inline-flex text-sm font-medium text-democratic-red hover:underline">
-        {{ t('newsletter.backToList') }}
-      </router-link>
-    </div>
-
-    <article v-else-if="newsletter" class="mx-auto max-w-4xl">
-      <router-link to="/newsletters" class="mb-6 inline-flex text-sm font-medium text-democratic-red hover:underline">
-        {{ t('newsletter.backToList') }}
-      </router-link>
-
-      <img v-if="newsletter.coverImage" :src="newsletter.coverImage" :alt="newsletter.title" class="mb-8 h-auto w-full rounded-2xl object-cover" />
-
-      <header class="mb-8 border-b border-gray-200 pb-6">
-        <p class="mb-3 text-sm text-gray-500">
-          <span v-if="newsletter.author">{{ newsletter.author }} · </span>{{ formatDate(newsletter.pubDate) }}
-        </p>
-        <h1 class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">{{ newsletter.title }}</h1>
-        <a :href="newsletter.link" target="_blank" rel="noopener noreferrer" class="text-sm font-medium text-democratic-red hover:underline">
-          {{ t('newsletter.viewOriginal') }}
-        </a>
-      </header>
-
-      <div class="newsletter-content prose prose-lg max-w-none" v-html="sanitizedContent"></div>
-
-      <footer class="mt-10 border-t border-gray-200 pt-6">
-        <router-link to="/newsletters" class="inline-flex text-sm font-medium text-democratic-red hover:underline">
-          {{ t('newsletter.backToList') }}
-        </router-link>
-      </footer>
-    </article>
-
-    <div v-else class="rounded-xl border border-gray-200 bg-gray-50 p-6 text-center text-gray-700">
-      {{ t('newsletter.notFound') }}
-    </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -148,7 +143,7 @@ watch(() => route.params.slug, loadNewsletter)
 .newsletter-content :deep(h2),
 .newsletter-content :deep(h3),
 .newsletter-content :deep(h4) {
-  @apply font-bold leading-tight;
+  @apply leading-tight font-bold;
 }
 
 .newsletter-content :deep(h1) {

@@ -1,129 +1,74 @@
 <template>
-  <div class="mx-auto max-w-4xl px-4 py-8">
-    <div class="rounded-lg bg-white p-6 shadow-md">
-      <h1 class="mb-6 text-3xl font-bold text-gray-800">{{ $t('profile.title') }}</h1>
+  <section class="vt-page-shell min-h-[70vh]">
+    <div class="vt-page-content max-w-3xl">
+      <div class="vt-page-intro">
+        <p class="vt-section-label">{{ $t('pageLabels.profile') }}</p>
+        <h1 class="vt-page-title">{{ $t('profile.title') }}</h1>
+      </div>
 
-      <!-- 登入狀態檢查 -->
-      <div v-if="!user" class="py-8 text-center">
-        <p class="mb-4 text-gray-600">{{ $t('profile.loginRequired') }}</p>
+      <div v-if="!user" class="vt-glass-panel p-10 text-center sm:p-12">
+        <div class="vt-topic-bubble vt-topic-bubble-red mx-auto mb-5">
+          <span class="font-sans text-xl font-semibold" aria-hidden="true">V</span>
+        </div>
+        <h2 class="m-0 text-2xl">{{ $t('profile.title') }}</h2>
+        <p class="text-vt-gray-700 mx-auto mt-3 mb-7 max-w-md leading-7">{{ $t('profile.loginRequired') }}</p>
         <GoogleLogin @login-success="$emit('login-success', $event)" />
       </div>
 
-      <!-- 個人資料顯示模式 -->
-      <div v-else-if="!editing" class="space-y-6">
-        <div class="mb-6 flex items-center space-x-4">
-          <img v-if="userData && userData.photoURL" :src="userData.photoURL" :alt="userData.name || '用戶頭像'" class="h-16 w-16 rounded-full" />
-          <div v-else class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-300">
-            <span class="text-xl text-gray-600">👤</span>
+      <div v-else class="vt-glass-panel p-6 sm:p-9">
+        <div class="mb-8 flex items-center gap-4">
+          <img v-if="userData?.photoURL" :src="userData.photoURL" :alt="$t('profile.avatarAlt')" class="border-vt-border h-16 w-16 rounded-full border object-cover" />
+          <div v-else class="bg-vt-red-tint text-democratic-red flex h-16 w-16 items-center justify-center rounded-full font-sans text-xl font-bold">
+            {{ (user.displayName || user.email || 'V').slice(0, 1).toUpperCase() }}
           </div>
-          <div>
-            <h2 class="text-xl font-semibold text-gray-800">{{ user.displayName || '未設定姓名' }}</h2>
-            <p class="text-gray-600">{{ user.email }}</p>
+          <div class="min-w-0">
+            <h2 class="m-0 truncate text-xl">{{ editing ? $t('profile.editTitle') : user.displayName || $t('profile.notSet') }}</h2>
+            <p class="text-vt-gray-700 truncate font-sans text-sm">{{ user.email }}</p>
           </div>
         </div>
 
-        <!-- 用戶資料顯示 -->
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">{{ $t('profile.name') }}</label>
-            <div class="rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-800">
-              {{ user.displayName || '未設定' }}
+        <div v-if="!editing">
+          <dl class="grid gap-4 md:grid-cols-2">
+            <div>
+              <dt class="text-vt-gray-700 mb-2 font-sans text-xs font-semibold">{{ $t('profile.name') }}</dt>
+              <dd class="border-vt-border bg-vt-bg-2 m-0 rounded-xl border px-4 py-3">{{ user.displayName || $t('profile.notSet') }}</dd>
             </div>
-          </div>
-          <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">{{ $t('profile.email') }}</label>
-            <div class="rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-800">
-              {{ user.email }}
+            <div>
+              <dt class="text-vt-gray-700 mb-2 font-sans text-xs font-semibold">{{ $t('profile.email') }}</dt>
+              <dd class="border-vt-border bg-vt-bg-2 m-0 rounded-xl border px-4 py-3">{{ user.email }}</dd>
             </div>
-          </div>
-          <!-- <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">用戶ID</label>
-            <div class="px-3 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-800 font-mono text-sm">
-              {{ user.uid }}
-            </div>
-          </div> -->
-        </div>
-
-        <!-- 操作按鈕 -->
-        <div class="flex space-x-4 pt-6">
-          <button @click="startEdit" class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-hidden focus:ring-2 focus:ring-democratic-red focus:ring-offset-2">
-            {{ $t('common.edit') }}
-          </button>
-          <button @click="$emit('logout')" class="rounded-md border border-red-300 px-4 py-2 text-red-600 hover:bg-red-50 focus:outline-hidden focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
-            {{ $t('common.logout') }}
-          </button>
-        </div>
-      </div>
-
-      <!-- 個人資料編輯模式 -->
-      <div v-else class="space-y-6">
-        <div class="mb-6 flex items-center space-x-4">
-          <img v-if="userData && userData.photoURL" :src="userData.photoURL" :alt="userData.name || '用戶頭像'" class="h-16 w-16 rounded-full" />
-          <div v-else class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-300">
-            <span class="text-xl text-gray-600">👤</span>
-          </div>
-          <div>
-            <h2 class="text-xl font-semibold text-gray-800">編輯個人資料</h2>
-            <p class="text-gray-600">{{ user.email }}</p>
+          </dl>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <button type="button" class="vt-btn vt-btn-primary" @click="startEdit">{{ $t('common.edit') }}</button>
+            <button type="button" class="vt-btn vt-btn-ghost" @click="$emit('logout')">{{ $t('common.logout') }}</button>
           </div>
         </div>
 
-        <form @submit.prevent="saveProfile" class="space-y-4">
-          <!-- 姓名欄位 (可編輯) -->
+        <form v-else class="space-y-5" @submit.prevent="saveProfile">
           <div>
-            <label for="displayName" class="mb-2 block text-sm font-medium text-gray-700">
-              {{ $t('profile.name') }}
-              <span class="text-red-500">*</span>
-            </label>
-            <input
-              id="displayName"
-              v-model="editForm.displayName"
-              type="text"
-              required
-              class="w-full rounded-md border border-gray-300 px-3 py-2 shadow-xs focus:border-democratic-red focus:outline-hidden focus:ring-2 focus:ring-democratic-red"
-              placeholder="請輸入您的姓名"
-            />
+            <label for="displayName" class="text-vt-gray-700 mb-2 block font-sans text-xs font-semibold">{{ $t('profile.name') }} *</label>
+            <input id="displayName" v-model="editForm.displayName" type="text" required class="vt-form-control" :placeholder="$t('profile.namePlaceholder')" />
           </div>
-
-          <!-- Email 欄位 (僅顯示，不可編輯) -->
           <div>
-            <label for="email" class="mb-2 block text-sm font-medium text-gray-700">
-              {{ $t('profile.email') }}
-            </label>
-            <input id="email" :value="user.email" type="email" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-gray-500 shadow-xs" />
-            <p class="mt-1 text-xs text-gray-500">Email 無法編輯</p>
+            <label for="email" class="text-vt-gray-700 mb-2 block font-sans text-xs font-semibold">{{ $t('profile.email') }}</label>
+            <input id="email" :value="user.email" type="email" disabled class="vt-form-control" />
+            <p class="text-vt-gray-400 mt-1 font-sans text-xs">{{ $t('profile.emailReadonly') }}</p>
           </div>
-
-          <!-- UID 欄位 (僅顯示，不可編輯) -->
           <div>
-            <label for="uid" class="mb-2 block text-sm font-medium text-gray-700"> 用戶ID </label>
-            <input id="uid" :value="user.uid" type="text" disabled class="w-full cursor-not-allowed rounded-md border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm text-gray-500 shadow-xs" />
-            <p class="mt-1 text-xs text-gray-500">用戶ID 無法編輯</p>
+            <label for="uid" class="text-vt-gray-700 mb-2 block font-sans text-xs font-semibold">{{ $t('profile.userId') }}</label>
+            <input id="uid" :value="user.uid" type="text" disabled class="vt-form-control font-mono" />
+            <p class="text-vt-gray-400 mt-1 font-sans text-xs">{{ $t('profile.userIdReadonly') }}</p>
           </div>
-
-          <!-- 提交按鈕 -->
-          <div class="flex space-x-4 pt-4">
-            <button
-              type="submit"
-              :disabled="updating || !hasChanges"
-              class="rounded-md bg-democratic-red px-6 py-2 text-white hover:bg-red-600 focus:outline-hidden focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {{ updating ? '更新中...' : $t('common.save') }}
+          <div class="flex flex-wrap gap-3 pt-3">
+            <button type="submit" :disabled="updating || !hasChanges" class="vt-btn vt-btn-primary disabled:cursor-not-allowed disabled:opacity-50">
+              {{ updating ? $t('profile.updating') : $t('common.save') }}
             </button>
-
-            <button
-              type="button"
-              @click="cancelEdit"
-              :disabled="updating"
-              class="rounded-md border border-gray-300 px-6 py-2 text-gray-700 hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50"
-            >
-              {{ $t('common.cancel') }}
-            </button>
+            <button type="button" :disabled="updating" class="vt-btn vt-btn-ghost disabled:opacity-50" @click="cancelEdit">{{ $t('common.cancel') }}</button>
           </div>
         </form>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -211,7 +156,7 @@ const saveProfile = async () => {
     editing.value = false
   } catch (error) {
     console.error('更新個人資料失敗:', error)
-    alert('更新失敗，請重試')
+    alert(t('profile.updateFailed'))
   } finally {
     updating.value = false
   }

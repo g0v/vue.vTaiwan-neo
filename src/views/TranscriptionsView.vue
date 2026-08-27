@@ -1,178 +1,105 @@
 <template>
-  <div class="container mx-auto px-4 py-8">
-    <div class="mx-auto max-w-6xl">
-      <!-- 頁面標題 -->
-      <div class="mb-8">
-        <h1 class="mb-4 text-3xl font-bold text-gray-900">{{ t('transcriptions.title') }}</h1>
-        <p class="text-gray-600">{{ t('transcriptions.description') }}</p>
+  <section class="vt-page-shell min-h-[70vh]">
+    <div class="vt-page-content-wide">
+      <div class="vt-page-intro">
+        <p class="vt-section-label">{{ t('pageLabels.transcriptions') }}</p>
+        <h1 class="vt-page-title">
+          <span class="vt-title-underline">{{ t('transcriptions.title') }}</span>
+        </h1>
+        <p class="vt-page-description">{{ t('transcriptions.description') }}</p>
       </div>
 
-      <!-- 上傳區域 -->
-      <div v-if="props.user" class="mb-8 rounded-lg bg-white p-6 shadow-md">
-        <h2 class="mb-4 text-xl font-semibold">{{ t('transcriptions.upload.title') }}</h2>
-        <p class="text-gray-600">{{ t('transcriptions.upload.description') }}</p>
-        <div class="space-y-4">
-          <div>
-            <!-- <label class="block text-sm font-medium text-gray-700 mb-2">
-              {{ t('transcriptions.upload.selectFile') }}
-            </label> -->
-            <input
-              type="file"
-              ref="fileInput"
-              @change="handleFileSelect"
-              accept=".txt,.srt,.md"
-              class="block w-full text-sm text-gray-500 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
-            />
-          </div>
-          <button
-            @click="uploadTranscription"
-            :disabled="!selectedFile || uploading"
-            class="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300"
-          >
+      <section v-if="props.user" class="vt-glass-panel mb-7 p-6 sm:p-8" :aria-labelledby="'upload-transcription-title'">
+        <h2 id="upload-transcription-title" class="vt-panel-title">{{ t('transcriptions.upload.title') }}</h2>
+        <p class="text-vt-gray-700 mt-2 leading-7">{{ t('transcriptions.upload.description') }}</p>
+        <div class="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <input
+            ref="fileInput"
+            type="file"
+            accept=".txt,.srt,.md"
+            class="text-vt-gray-700 file:bg-vt-red-tint file:text-democratic-red block min-w-0 flex-1 font-sans text-sm file:mr-4 file:rounded-full file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold"
+            @change="handleFileSelect"
+          />
+          <button type="button" :disabled="!selectedFile || uploading" class="vt-btn vt-btn-primary shrink-0 disabled:cursor-not-allowed disabled:opacity-50" @click="uploadTranscription">
             {{ uploading ? t('transcriptions.upload.uploading') : t('transcriptions.upload.uploadButton') }}
           </button>
         </div>
+      </section>
+
+      <div v-else class="border-wheat-yellow/20 bg-vt-yellow-tint text-vt-gray-800 mb-7 flex items-center gap-3 rounded-2xl border p-5">
+        <IconWrapper name="triangle-alert" :size="20" class="text-wheat-yellow shrink-0" />
+        <p>{{ t('transcriptions.upload.loginRequired') }}</p>
       </div>
 
-      <!-- 未登入提示 -->
-      <div v-else class="mb-8 rounded-lg border border-yellow-200 bg-yellow-50 p-6">
-        <div class="flex items-center">
-          <svg class="mr-2 h-5 w-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-          <p class="text-yellow-700">{{ t('transcriptions.upload.loginRequired') }}</p>
+      <div v-if="loading" class="vt-status-panel" role="status">
+        <span class="border-vt-border border-t-democratic-red h-8 w-8 animate-spin rounded-full border-2" aria-hidden="true" />
+        <p>{{ t('common.loading') }}</p>
+      </div>
+      <div v-else-if="error" class="vt-status-panel" role="alert">
+        <p class="text-democratic-red">{{ error }}</p>
+      </div>
+
+      <section v-else-if="transcriptions.length" :aria-labelledby="'transcription-list-title'">
+        <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <h2 id="transcription-list-title" class="vt-panel-title">{{ t('transcriptions.list.title') }}</h2>
+          <label class="sr-only" for="transcription-search">{{ t('common.search') }}</label>
+          <input id="transcription-search" v-model="search" type="search" :placeholder="t('common.search')" class="vt-form-control sm:max-w-xs" />
         </div>
-      </div>
 
-      <!-- 載入狀態 -->
-      <div v-if="loading" class="flex items-center justify-center py-12">
-        <div class="h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-      </div>
-
-      <!-- 錯誤訊息 -->
-      <div v-if="error" class="mb-6 rounded-sm border border-red-400 bg-red-100 px-4 py-3 text-red-700">
-        {{ error }}
-      </div>
-
-      <!-- 逐字稿列表 -->
-      <div v-if="!loading && transcriptions.length > 0" class="space-y-4">
-        <h2 class="mb-4 text-xl font-semibold">{{ t('transcriptions.list.title') }}</h2>
-
-        <input type="text" v-model="search" placeholder="Search..." class="mb-4 w-full rounded-md border border-gray-300 p-2" />
-
-        <div class="flex flex-col gap-4">
-          <div v-for="transcription in filteredTranscriptions" :key="transcription.meeting_id" class="relative rounded-lg border border-gray-200 bg-white p-6 shadow-md">
-            <!-- 樣稿標籤 -->
-            <div v-if="transcription.meeting_id === '20250621'" class="absolute -right-2 -top-2 z-10">
-              <div class="rotate-12 transform bg-yellow-400 px-3 py-1 text-xs font-bold text-black shadow-md">
-                {{ currentLanguage === 'zh-TW' ? '樣稿' : 'Prototype' }}
-              </div>
-            </div>
-
-            <div class="flex items-start justify-between">
-              <div class="flex-1">
-                <h3 class="mb-2 text-lg font-semibold text-gray-900">{{ t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}</h3>
-                <div class="mb-4 text-sm text-gray-600">
-                  <img src="@/assets/CC0.png" alt="CC0.png" class="h-8 w-auto" />
-                  <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose prose-sm max-w-none"></div>
+        <div class="space-y-4">
+          <article v-for="transcription in filteredTranscriptions" :key="transcription.meeting_id" class="vt-glass-panel relative p-6 sm:p-7">
+            <span v-if="transcription.meeting_id === '20250621'" class="bg-vt-yellow-tint text-wheat-yellow absolute top-4 right-4 rounded-full px-3 py-1 font-sans text-xs font-semibold">{{
+              t('blog.prototype')
+            }}</span>
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-3">
+                  <img src="@/assets/CC0.png" alt="CC0" class="h-7 w-auto" />
+                  <h3 class="m-0 text-lg">{{ t('transcriptions.list.meetingId') }}: {{ transcription.meeting_id }}</h3>
                 </div>
+                <div v-html="getRenderedOutlinePreview(transcription.outline)" class="prose text-vt-gray-700 mt-4 max-w-none text-sm"></div>
+                <p class="text-vt-gray-400 mt-4 font-mono text-xs">{{ t('transcriptions.list.fileName') }}: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt</p>
               </div>
-
-              <div class="ml-4 flex flex-col space-y-4">
-                <button @click="showOutline(transcription.outline, transcription.meeting_id)" class="rounded-md bg-green-600 px-3 py-1 text-sm text-white hover:bg-green-700">
+              <div class="flex flex-wrap gap-2 lg:max-w-xs lg:justify-end">
+                <button type="button" class="vt-btn vt-btn-secondary px-4 py-2 text-sm" @click="showOutline(transcription.outline, transcription.meeting_id)">
                   {{ t('transcriptions.list.viewOutline') }}
                 </button>
-                <RouterLink :to="`/transcription_detail/${transcription.meeting_id}`" class="rounded-md bg-purple-600 px-3 py-1 text-center text-sm text-white hover:bg-purple-700">
-                  {{ t('transcriptions.list.viewDetail') }}
-                </RouterLink>
-                <button @click="downloadTranscription(transcription.meeting_id)" class="rounded-md bg-blue-600 px-3 py-1 text-sm text-white hover:bg-blue-700">
-                  {{ t('transcriptions.list.download') }}
-                </button>
-
-                <!-- 複製逐字稿連結 -->
-                <button @click="copyTranscriptionLink(transcription.meeting_id)" class="rounded-md bg-gray-600 px-3 py-1 text-sm text-white hover:bg-gray-700">
-                  {{ t('transcriptions.list.copyLink') }}
-                </button>
+                <RouterLink :to="`/transcription_detail/${transcription.meeting_id}`" class="vt-btn vt-btn-primary px-4 py-2 text-sm">{{ t('transcriptions.list.viewDetail') }}</RouterLink>
+                <button type="button" class="vt-btn vt-btn-ghost px-4 py-2 text-sm" @click="downloadTranscription(transcription.meeting_id)">{{ t('transcriptions.list.download') }}</button>
+                <button type="button" class="vt-btn vt-btn-ghost px-4 py-2 text-sm" @click="copyTranscriptionLink(transcription.meeting_id)">{{ t('transcriptions.list.copyLink') }}</button>
               </div>
             </div>
-
-            <div class="mt-2 text-xs text-gray-500">{{ t('transcriptions.list.fileName') }}: transcript-{{ formatMeetingId(transcription.meeting_id) }}.txt</div>
-          </div>
+          </article>
         </div>
-      </div>
+      </section>
 
-      <!-- 空狀態 -->
-      <div v-if="!loading && transcriptions.length === 0" class="py-12 text-center">
-        <p class="text-gray-500">{{ t('transcriptions.list.empty') }}</p>
+      <div v-else class="vt-status-panel">
+        <p>{{ t('transcriptions.list.empty') }}</p>
       </div>
     </div>
 
-    <!-- 大綱彈出視窗 -->
-    <div v-if="showOutlineModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" @click="closeOutlineModal">
-      <div class="max-h-[80vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white" @click.stop>
-        <div class="border-b border-gray-200 p-6">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xl font-semibold">{{ t('transcriptions.outline.title') }} - {{ currentOutlineMeetingId }}</h3>
-            <button @click="closeOutlineModal" class="text-gray-400 hover:text-gray-600">
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-            </button>
-          </div>
+    <div v-if="showOutlineModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm" @click="closeOutlineModal">
+      <div class="vt-glass-panel max-h-[85vh] w-full max-w-4xl overflow-hidden bg-white/95" role="dialog" aria-modal="true" :aria-labelledby="'outline-dialog-title'" @click.stop>
+        <header class="border-vt-border flex items-center justify-between border-b p-5 sm:p-6">
+          <h3 id="outline-dialog-title" class="m-0 text-xl">{{ t('transcriptions.outline.title') }} · {{ currentOutlineMeetingId }}</h3>
+          <button type="button" class="vt-icon-button" :aria-label="t('transcriptions.outline.close')" @click="closeOutlineModal"><IconWrapper name="x" :size="19" /></button>
+        </header>
+        <div class="max-h-[58vh] overflow-y-auto p-5 sm:p-6">
+          <img src="@/assets/CC0.png" alt="CC0" class="mb-4 h-8 w-auto" />
+          <div v-if="!editing" id="renderedOutline" v-html="renderedOutline" class="prose max-w-none"></div>
+          <textarea v-else v-model="myOutline" class="vt-form-control min-h-72 resize-y font-mono"></textarea>
         </div>
-
-        <div class="max-h-[60vh] overflow-y-auto p-6">
-          <div class="mb-4 flex items-center">
-            <img src="@/assets/CC0.png" alt="CC0.png" class="h-8 w-auto" />
-          </div>
-          <div id="renderedOutline" v-if="!editing" v-html="renderedOutline" class="prose prose-sm max-w-none"></div>
-          <textarea name="" id="" class="h-full max-h-[60vh] min-h-[200px] w-full" v-else v-model="myOutline"> </textarea>
-          <!-- <span>{{ myOutline }}</span> -->
-        </div>
-
-        <div class="flex flex-col items-center justify-between border-t border-gray-200 p-6 md:flex-row">
-          <button @click="copyOutline" class="flex items-center space-x-2 rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700">
-            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-              ></path>
-            </svg>
-            <span>{{ t('transcriptions.outline.copy') }}</span>
+        <footer class="border-vt-border flex flex-wrap gap-3 border-t p-5 sm:p-6">
+          <button type="button" class="vt-btn vt-btn-ghost" @click="copyOutline"><IconWrapper name="copy" :size="16" />{{ t('transcriptions.outline.copy') }}</button>
+          <button v-if="userData?.uid" type="button" class="vt-btn vt-btn-secondary" @click="toggleEditOutline">
+            <IconWrapper :name="editing ? 'save' : 'edit'" :size="16" />{{ editing ? t('transcriptions.outline.saveAndEndEdit') : t('transcriptions.outline.edit') }}
           </button>
-          <button v-if="userData && userData.uid" @click="toggleEditOutline" class="flex items-center space-x-2 rounded-md bg-green-600 px-4 py-2 text-white hover:bg-green-700">
-            <!-- edit icon -->
-            <svg v-if="!editing" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-              ></path>
-            </svg>
-            <!-- save icon -->
-            <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14h14V5H5zm4 0v4h6V5H9zm0 6v6h6v-6H9z"></path>
-            </svg>
-            <span v-if="!editing">{{ t('transcriptions.outline.edit') }}</span>
-            <span v-else>{{ t('transcriptions.outline.saveAndEndEdit') }}</span>
-          </button>
-          <button v-if="editing" @click="cancelEditOutline" class="rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700">
-            {{ t('transcriptions.outline.cancel') }}
-          </button>
-          <button @click="closeOutlineModal" class="rounded-md bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
-            {{ t('transcriptions.outline.close') }}
-          </button>
-        </div>
+          <button v-if="editing" type="button" class="vt-btn vt-btn-ghost" @click="cancelEditOutline">{{ t('transcriptions.outline.cancel') }}</button>
+          <button type="button" class="vt-btn vt-btn-primary sm:ml-auto" @click="closeOutlineModal">{{ t('transcriptions.outline.close') }}</button>
+        </footer>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
@@ -182,6 +109,7 @@ import { useHead } from '@unhead/vue'
 import axios from 'axios'
 import { marked } from 'marked'
 import { sanitizeHtml } from '../lib/sanitize'
+import IconWrapper from '@/components/IconWrapper.vue'
 
 interface Transcription {
   meeting_id: string

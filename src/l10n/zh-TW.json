@@ -70,6 +70,20 @@
       "description": "關於 vTaiwan 平台的常見問題與解答。"
     }
   },
+  "pageLabels": {
+    "about": "About",
+    "blog": "Blog",
+    "contact": "Contact",
+    "contributors": "Contributors",
+    "jitsi": "Meeting Room",
+    "mastodon": "Community",
+    "newsletters": "Newsletters",
+    "polis": "Polis",
+    "profile": "Profile",
+    "propose": "Propose",
+    "topicDetail": "Topic Detail",
+    "transcriptions": "Transcriptions"
+  },
   "common": {
     "login": "登入",
     "logout": "登出",
@@ -85,7 +99,8 @@
     "warning": "警告",
     "info": "資訊",
     "profile": "個人資料",
-    "registerLogin": "註冊 / 登入"
+    "registerLogin": "註冊 / 登入",
+    "retry": "重試"
   },
   "underConstruction": {
     "title": "施工中",
@@ -185,6 +200,7 @@
       "eyebrow": "公共政策開放協作平台"
     },
     "features": {
+      "eyebrow": "運作方式",
       "title": "如何運作",
       "items": {
         "propose": {
@@ -200,6 +216,13 @@
           "description": "將公民共識轉化為具體政策建議，提交給相關政府部門參考與執行。"
         }
       }
+    },
+    "activeTopics": {
+      "eyebrow": "進行中的議題",
+      "title": "正在發生的公共討論",
+      "viewAll": "查看全部議題",
+      "empty": "目前沒有進行中的議題。",
+      "loadError": "暫時無法載入議題，您仍可前往議題列表查看。"
     },
     "cta": {
       "title": "加入我們，共同參與台灣的未來",
@@ -227,10 +250,17 @@
     "loginRequired": "請先登入以查看和編輯個人資料",
     "notSet": "未設定",
     "avatarAlt": "個人頭像",
-    "updateFailed": "更新個人資料失敗，請重試"
+    "updateFailed": "更新個人資料失敗，請重試",
+    "editTitle": "編輯個人資料",
+    "namePlaceholder": "請輸入您的姓名",
+    "emailReadonly": "Email 無法編輯",
+    "userId": "用戶 ID",
+    "userIdReadonly": "用戶 ID 無法編輯",
+    "updating": "更新中..."
   },
   "contributors": {
     "title": "貢獻者",
+    "description": "vTaiwan 是由志願者共同維護的開放協作平台。感謝每一位投入時間與專業的夥伴。",
     "coreTeam": "核心團隊",
     "communityContributors": "社群貢獻者",
     "joinUs": "加入我們",
@@ -450,6 +480,7 @@
     "notFoundDesc": "您要查看的專案不存在或已被移除。"
   },
   "meetups": {
+    "eyebrow": "Meetups",
     "title": "會議",
     "description": "vTaiwan 定期舉辦線上與實體會議，討論各專案的進展與公共政策議題。歡迎所有人參與！",
     "search": {
@@ -467,6 +498,7 @@
       "empty": "目前沒有過去的會議記錄"
     },
     "calendar": {
+      "eyebrow": "活動行事曆",
       "title": "會議行事曆",
       "description": "訂閱我們的會議行事曆，不錯過任何重要會議。",
       "googleCalendar": "Google Calendar",
@@ -479,12 +511,19 @@
     "meetingRecord": "會議紀錄",
     "viewMorePast": "查看更多過去的會議",
     "host": {
+      "eyebrow": "共同協作",
       "title": "想要舉辦會議？",
       "description": "如果您想針對某個專案或公共政策議題舉辦討論會，歡迎與我們聯繫。",
       "contactUs": "聯絡我們"
     },
+    "participation": {
+      "title": "參與會議"
+    },
+    "beta": "測試版",
+    "schedule": "每週三 19:00",
     "jitsi": "即時會議",
-    "transcriptions": "逐字稿管理"
+    "transcriptions": "逐字稿管理",
+    "transcriptionsDescription": "閱讀與管理過往會議逐字稿"
   },
   "meetupDetail": {
     "upcoming": "即將舉行",
@@ -530,6 +569,7 @@
     }
   },
   "topics": {
+    "eyebrow": "All topics",
     "title": "議題",
     "description": "vTaiwan 的議題討論區，參與政策制定過程。",
     "tryPolisLink": "按此立即體驗",
@@ -538,15 +578,19 @@
       "empty": "目前沒有議題",
       "loading": "載入中...",
       "found": "找到 {count} 個議題",
-      "lastUpdated": "最後更新"
+      "lastUpdated": "最後更新",
+      "loadError": "無法載入議題",
+      "loadErrorDescription": "Discourse 暫時沒有回應，請稍後再試。"
     },
     "search": {
+      "label": "搜尋議題",
       "placeholder": "搜尋議題...",
       "results": "找到 {count} 個結果「{query}」",
       "noResults": "找不到符合的議題",
       "clearSearch": "清除搜尋"
     },
     "sort": {
+      "label": "排序方式",
       "latest": "最新",
       "participants": "參與人數",
       "views": "瀏覽數"
@@ -559,10 +603,20 @@
     },
     "actions": {
       "share": "分享議題",
-      "bookmark": "加入書籤"
+      "bookmark": "加入書籤",
+      "removeBookmark": "移除書籤"
     },
     "bookmarks": {
       "myBookmarks": "書籤"
+    },
+    "filters": {
+      "label": "搜尋與篩選議題",
+      "stage": "議題階段",
+      "clearAll": "清除所有篩選"
+    },
+    "card": {
+      "open": "開啟議題：{title}",
+      "coverAlt": "{title} 的封面圖片"
     },
     "detail": {
       "title": "議題詳情",
@@ -576,6 +630,19 @@
       "participate": "參與討論",
       "noSlide": "暫無簡介資料",
       "noInfo": "暫無詳細資訊",
+      "slidesTitle": "議題簡報",
+      "hackpadMoved": "Hackpad 已遷移至 Dropbox Paper。",
+      "externalResource": "外部資源",
+      "viewExternal": "請查看",
+      "topicImageAlt": "議題圖片",
+      "embedTitles": {
+        "polis": "Polis 意見調查",
+        "slido": "Slido 互動問答",
+        "livehouse": "Livehouse 直播",
+        "typeform": "Typeform 表單",
+        "hackpad": "Hackpad 文件",
+        "image": "相關圖片"
+      },
       "enterDiscussion": "進入討論",
       "backToList": "← 返回議題列表",
       "noDiscussion": "目前沒有討論內容",
@@ -743,12 +810,16 @@
     "loadError": "載入逐字稿失敗，請稍後再試",
     "photoAlt": "用戶頭像",
     "loading": "載入中...",
-    "error": "載入失敗"
+    "error": "載入失敗",
+    "licenseTitle": "本內容以 CC-BY-SA-4.0 授權分享",
+    "licenseDescription": "您可以自由分享、修改本內容，惟需標註原作者並以相同授權條款分享"
   },
   "faq": {
-    "title": "常見問答 (FAQ)",
+    "eyebrow": "FAQ",
+    "title": "常見問答",
     "description": "以下是關於 vTaiwan 平台的常見問題與解答。如果您有其他問題，歡迎聯繫我們。",
     "contact": {
+      "eyebrow": "Contact",
       "title": "還有其他問題？",
       "description": "如果您有其他問題或需要協助，歡迎透過以下方式聯繫我們：",
       "email": {
@@ -927,6 +998,16 @@
     "backToHome": "返回首頁"
   },
   "jitsi": {
+    "title": "vTaiwan 視訊會議",
+    "ready": "準備加入會議室：{room}",
+    "namePlaceholder": "請輸入您的名字",
+    "join": "加入會議",
+    "loginHint": "如欲加入會議並啟用完整逐字稿功能，請先登入",
+    "startRecording": "開始錄音轉錄（按下開始，再按一次停止）",
+    "stopRecording": "停止錄音轉錄（剩餘 {seconds} 秒）",
+    "transcribing": "轉錄中，請稍候...",
+    "recordingStatus": "{name} 錄音中，已錄 {seconds} 秒",
+    "queueStatus": "{count} 個音檔排隊中",
     "tipBanner": {
       "message": "若要啟用麥克風/鏡頭，請先在黑色空白處點一下，再按左下角的麥克風/鏡頭圖示。",
       "dismiss": "知道了"
