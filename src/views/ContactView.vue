@@ -35,7 +35,7 @@ useHead({ title: `${t('contact.title')} | vTaiwan` })
             <h2 class="m-0 text-xl">{{ t('contact.slack.title') }}</h2>
           </div>
           <div class="bg-vt-bg-2 mb-4 flex items-center gap-2 rounded-xl px-4 py-3 font-mono text-sm">
-            <IconWrapper name="hash" :size="16" />
+            <!-- <IconWrapper name="hash" :size="16" /> -->
             {{ t('contact.slack.channel') }}
           </div>
           <p class="text-vt-gray-700 text-sm leading-7">{{ t('contact.slack.channelDesc') }}</p>
@@ -72,14 +72,16 @@ useHead({ title: `${t('contact.title')} | vTaiwan` })
         </div>
       </section>
 
-      <section class="bg-democratic-red text-vt-fg-inverse mt-7 rounded-[22px] px-6 py-12 text-center shadow-xl shadow-red-950/20" :aria-labelledby="'contact-cta-title'">
+      <section class="bg-jade-green text-vt-fg-inverse mt-7 rounded-[22px] px-6 py-12 text-center shadow-xl shadow-red-950/20" :aria-labelledby="'contact-cta-title'">
         <h2 id="contact-cta-title" class="m-0 text-2xl sm:text-3xl">{{ t('contact.cta.title') }}</h2>
         <p class="mx-auto mt-3 max-w-2xl leading-7 text-white/85">{{ t('contact.cta.description') }}</p>
         <div class="mt-7 flex flex-wrap justify-center gap-3">
           <a :href="bookUrl" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-light"
             ><IconWrapper name="book-open" :size="16" color="currentColor" />{{ t('contact.cta.workingGroup') }}</a
           >
-          <a :href="slackUrl" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-outline"><IconWrapper name="slack" :size="16" color="currentColor" />{{ t('contact.cta.slack') }}</a>
+          <a :href="slackUrl" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-outline bg-democratic-red text-vt-fg-inverse"
+            ><IconWrapper name="slack" :size="16" color="currentColor" />{{ t('contact.cta.slack') }}</a
+          >
         </div>
       </section>
     </div>
