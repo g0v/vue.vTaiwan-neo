@@ -71,11 +71,11 @@ useHead({
               <span class="text-vt-gray-700 font-sans text-sm">info@vtaiwan.tw</span>
             </span>
           </a>
-          <a href="https://g0v.social/" target="_blank" rel="noopener noreferrer" class="vt-glass-panel group flex items-center gap-4 p-6 transition hover:-translate-y-0.5">
+          <a href="https://join.g0v.tw/" target="_blank" rel="noopener noreferrer" class="vt-glass-panel group flex items-center gap-4 p-6 transition hover:-translate-y-0.5">
             <span class="vt-topic-bubble vt-topic-bubble-green vt-topic-bubble-sm" aria-hidden="true"><IconWrapper name="users" :size="18" color="currentColor" /></span>
             <span>
               <strong class="text-vt-gray-800 block">{{ t('faq.contact.social.title') }}</strong>
-              <span class="text-vt-gray-700 font-sans text-sm">g0v.social</span>
+              <span class="text-vt-gray-700 font-sans text-sm">g0v slack</span>
             </span>
           </a>
         </div>
