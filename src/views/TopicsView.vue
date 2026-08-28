@@ -40,6 +40,17 @@ const lastUpdated = computed(() => {
   return new Intl.DateTimeFormat(locale.value, { dateStyle: 'medium', timeStyle: 'short' }).format(lastUpdatedAt.value)
 })
 
+// 與 master 相同：近期議題獨立於搜尋及篩選，依更新時間取近三個月內最新的六筆。
+const recentTopics = computed(() => {
+  const threeMonthsAgo = new Date()
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+
+  return topics.value
+    .filter(topic => topic.title !== '網站基本設定' && new Date(topic.last_posted_at || topic.created_at) >= threeMonthsAgo)
+    .sort((a, b) => new Date(b.last_posted_at || b.created_at).getTime() - new Date(a.last_posted_at || a.created_at).getTime())
+    .slice(0, 6)
+})
+
 const filteredTopics = computed(() => {
   const query = searchQuery.value.trim().toLocaleLowerCase(locale.value)
   const filtered = topics.value.filter(topic => {
@@ -130,6 +141,25 @@ onMounted(() => {
         <RouterLink to="/polis" class="text-democratic-red ml-1 underline underline-offset-4">{{ t('topics.tryPolisLink') }}</RouterLink>
       </p>
 
+      <section v-if="!loadError" class="mb-12" aria-labelledby="recent-topics-heading">
+        <h2 id="recent-topics-heading" class="mb-3 text-2xl tracking-[-0.02em] sm:text-3xl">
+          <span class="vt-title-underline">{{ t('topics.recentTitle') }}</span>
+        </h2>
+        <p class="text-vt-gray-700 mb-6 max-w-[65ch]">{{ t('topics.recentDesc') }}</p>
+
+        <div v-if="loading" class="vt-glass-panel text-vt-gray-700 px-6 py-10 text-center" role="status" aria-busy="true">
+          <IconWrapper name="calendar" :size="32" color="currentColor" class="text-vt-gray-400 mx-auto mb-3" aria-hidden="true" />
+          <p>{{ t('topics.list.loading') }}</p>
+        </div>
+        <div v-else-if="recentTopics.length" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3">
+          <TopicCard v-for="topic in recentTopics" :key="topic.id" :topic="topic" metric="views" show-cover />
+        </div>
+        <div v-else class="vt-glass-panel text-vt-gray-700 px-6 py-10 text-center">
+          <IconWrapper name="calendar" :size="32" color="currentColor" class="text-vt-gray-400 mx-auto mb-3" aria-hidden="true" />
+          <p>{{ t('topics.noRecent') }}</p>
+        </div>
+      </section>
+
       <section class="vt-glass-panel mb-8 p-5 sm:p-6" :aria-label="t('topics.filters.label')">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center">
           <label class="relative min-w-0 flex-1">
@@ -192,8 +222,8 @@ onMounted(() => {
         <button type="button" class="vt-btn vt-btn-primary" @click="loadTopics">{{ t('common.retry') }}</button>
       </section>
 
-      <div v-else-if="filteredTopics.length" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3">
-        <TopicCard v-for="topic in filteredTopics" :key="topic.id" :topic="topic" :bookmarked="isBookmarked(topic)" show-actions @share="shareTopic" @toggle-bookmark="bookmarkTopic" />
+      <div v-else-if="filteredTopics.length" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3" data-testid="topics-list">
+        <TopicCard v-for="topic in filteredTopics" :key="topic.id" :topic="topic" metric="views" :bookmarked="isBookmarked(topic)" show-actions @share="shareTopic" @toggle-bookmark="bookmarkTopic" />
       </div>
 
       <section v-else class="vt-glass-panel px-6 py-14 text-center">

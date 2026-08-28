@@ -7,10 +7,14 @@ import IconWrapper from '@/components/IconWrapper.vue'
 const props = withDefaults(
   defineProps<{
     topic: FormattedTopicData
+    metric?: 'participants' | 'views'
+    showCover?: boolean
     bookmarked?: boolean
     showActions?: boolean
   }>(),
   {
+    metric: 'participants',
+    showCover: false,
     bookmarked: false,
     showActions: false,
   }
@@ -56,6 +60,8 @@ const statusVisual = computed(() => {
       :aria-label="t('topics.card.open', { title: topic.title })"
     />
 
+    <img v-if="showCover && topic.cover" :src="topic.cover" :alt="topic.title" loading="lazy" decoding="async" class="mb-5 aspect-video w-full rounded-2xl object-cover" />
+
     <div class="mb-5 flex items-start gap-4">
       <span class="vt-topic-bubble vt-topic-bubble-sm" :class="statusVisual.bubble" aria-hidden="true">
         <IconWrapper :name="statusVisual.icon" :size="19" color="currentColor" />
@@ -77,9 +83,9 @@ const statusVisual = computed(() => {
     <div class="border-vt-border text-vt-gray-700 mt-auto flex min-w-0 flex-wrap items-center gap-3 border-t pt-4 font-sans text-xs">
       <span v-if="topic.tags?.length" class="bg-vt-red-tint text-democratic-red max-w-[45%] truncate rounded-full px-2.5 py-1">{{ topic.tags[0] }}</span>
       <span v-if="formattedDate" class="text-vt-gray-400">{{ formattedDate }}</span>
-      <span class="ml-auto inline-flex items-center gap-1.5" :aria-label="t('topics.metrics.participants')">
-        <IconWrapper name="users" :size="14" color="currentColor" aria-hidden="true" />
-        {{ topic.participant_count || 0 }}
+      <span class="ml-auto inline-flex items-center gap-1.5" :aria-label="t(`topics.metrics.${metric}`)">
+        <IconWrapper :name="metric === 'views' ? 'eye' : 'users'" :size="14" color="currentColor" aria-hidden="true" />
+        {{ (metric === 'views' ? topic.views : topic.participant_count) || 0 }}
       </span>
 
       <div v-if="showActions" class="border-vt-border relative z-20 flex items-center gap-1 border-l pl-2">
