@@ -27,7 +27,7 @@ useHead({
           <span class="min-w-0">
             <span class="mb-1 flex flex-wrap items-center gap-2">
               <strong class="text-vt-gray-800 text-lg">{{ t('meetups.jitsi') }}</strong>
-              <span class="bg-vt-green-tint text-jade-green rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>
+              <!--<span class="bg-vt-green-tint text-jade-green rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>-->
             </span>
             <span class="text-vt-gray-700 block font-sans text-sm">{{ t('meetups.schedule') }}</span>
           </span>
@@ -45,7 +45,7 @@ useHead({
           <span class="min-w-0">
             <span class="mb-1 flex flex-wrap items-center gap-2">
               <strong class="text-vt-gray-800 text-lg">{{ t('meetups.transcriptions') }}</strong>
-              <span class="bg-vt-yellow-tint text-wheat-yellow rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>
+              <!--<span class="bg-vt-yellow-tint text-wheat-yellow rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>-->
             </span>
             <span class="text-vt-gray-700 block font-sans text-sm">{{ t('meetups.transcriptionsDescription') }}</span>
           </span>
