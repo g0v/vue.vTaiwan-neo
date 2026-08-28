@@ -18,7 +18,10 @@
       </div>
       <div v-else-if="error" class="vt-status-panel" role="alert">
         <p class="text-democratic-red">{{ error }}</p>
-        <button type="button" class="vt-btn vt-btn-primary" @click="loadNewsletters(true)">{{ t('newsletter.retry') }}</button>
+        <a :href="NEWSLETTER_FEED_URL.replace('/feed', '')" target="_blank" rel="noopener noreferrer" class="vt-btn bg-democratic-red text-vt-fg-inverse shrink-0"
+          >{{ t('newsletter.visitSubstack') }} →</a
+        >
+        <!--<button type="button" class="vt-btn vt-btn-primary" @click="loadNewsletters(true)">{{ t('newsletter.retry') }}</button> -->
       </div>
 
       <div v-else-if="newsletters.length" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
