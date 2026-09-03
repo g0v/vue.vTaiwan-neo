@@ -64,7 +64,7 @@ const filteredTopics = computed(() => {
   return [...filtered].sort((a, b) => {
     if (sortBy.value === 'participants') return (b.participant_count || 0) - (a.participant_count || 0)
     if (sortBy.value === 'views') return (b.views || 0) - (a.views || 0)
-    return new Date(b.last_posted_at || b.created_at).getTime() - new Date(a.last_posted_at || a.created_at).getTime()
+    return new Date(b.created_at || b.last_posted_at).getTime() - new Date(a.created_at || a.last_posted_at).getTime()
   })
 })
 

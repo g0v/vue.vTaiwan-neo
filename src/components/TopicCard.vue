@@ -29,7 +29,7 @@ const { t, locale } = useI18n()
 
 const route = computed(() => `/topic/${props.topic.routeName || props.topic.id}`)
 const formattedDate = computed(() => {
-  const date = props.topic.last_posted_at || props.topic.created_at
+  const date = props.topic.created_at || props.topic.last_posted_at
   if (!date) return ''
 
   return new Intl.DateTimeFormat(locale.value, {
