@@ -110,7 +110,7 @@ describe('TopicsView', () => {
     const wrapper = await mountTopics()
     const cards = wrapper.findAll('.topic-stub')
 
-    expect(cards).toHaveLength(6)
+    expect(cards).toHaveLength(5)
     expect(cards.every(card => card.attributes('data-metric') === 'views')).toBe(true)
   })
 
@@ -119,7 +119,7 @@ describe('TopicsView', () => {
     const recentCards = wrapper.findAll('[aria-labelledby="recent-topics-heading"] .topic-stub')
     const listCards = wrapper.findAll('[data-testid="topics-list"] .topic-stub')
 
-    expect(recentCards).toHaveLength(3)
+    expect(recentCards).toHaveLength(2)
     expect(listCards).toHaveLength(3)
     expect(recentCards.every(card => card.attributes('data-show-cover') === 'true')).toBe(true)
     expect(listCards.every(card => card.attributes('data-show-cover') === 'false')).toBe(true)
@@ -138,6 +138,13 @@ describe('TopicsView', () => {
 
     expect(recentTopicTitles(wrapper)).toEqual(['舊議題的新討論', '以建立時間判斷', '剛好三個月'])
     expect(topicTitles(wrapper)).toContain('超過三個月')
+  })
+
+  it('近期議題排除歷史案件，即使更新時間在三個月內', async () => {
+    const wrapper = await mountTopics()
+
+    expect(recentTopicTitles(wrapper)).toEqual(['開放資料', '數位身分證'])
+    expect(topicTitles(wrapper)).toContain('歷史議題')
   })
 
   it('近期議題按更新時間排序且最多顯示六筆', async () => {
@@ -224,6 +231,6 @@ describe('TopicsView', () => {
       .trigger('click')
     await flushPromises()
     expect(topicTitles(wrapper)).toHaveLength(3)
-    expect(recentTopicTitles(wrapper)).toHaveLength(3)
+    expect(recentTopicTitles(wrapper)).toHaveLength(2)
   })
 })

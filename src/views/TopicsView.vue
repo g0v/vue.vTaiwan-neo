@@ -46,7 +46,7 @@ const recentTopics = computed(() => {
   threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
 
   return topics.value
-    .filter(topic => topic.title !== '網站基本設定' && new Date(topic.last_posted_at || topic.created_at) >= threeMonthsAgo)
+    .filter(topic => topic.title !== '網站基本設定' && topic.status !== '歷史案件' && new Date(topic.last_posted_at || topic.created_at) >= threeMonthsAgo)
     .sort((a, b) => new Date(b.last_posted_at || b.created_at).getTime() - new Date(a.last_posted_at || a.created_at).getTime())
     .slice(0, 6)
 })
