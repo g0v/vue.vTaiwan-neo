@@ -50,7 +50,7 @@ const topicsLoadError = ref(false)
 
 const activeTopics = computed(() =>
   topics.value
-    .filter(topic => topic.status !== '歷史案件')
+    .filter(topic => topic.status !== '歷史案件' && topic.status !== '研擬草案' && topic.status !== '送交院會')
     .sort((a, b) => new Date(b.last_posted_at || b.created_at).getTime() - new Date(a.last_posted_at || a.created_at).getTime())
     .slice(0, 3)
 )
