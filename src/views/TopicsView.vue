@@ -407,8 +407,8 @@ const recentTopics = computed(() => {
 
   return topics.value
     .filter(topic => {
-      // 過濾掉網站基本設定
-      if (topic.title === '網站基本設定') return false
+      // 過濾掉網站基本設定與歷史案件
+      if (topic.title === '網站基本設定' || topic.status === '歷史案件') return false
 
       // 使用 last_posted_at 或 created_at 作為判斷依據
       const topicDate = new Date(topic.last_posted_at || topic.created_at)
