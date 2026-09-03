@@ -15,10 +15,10 @@ const props = defineProps({
 })
 
 const colorMap = {
-  default: '#000000',
-  primary: '#D82000',
-  teal: '#008888',
-  amber: '#DB7700',
+  default: 'currentColor',
+  primary: 'var(--color-vt-democratic-red)',
+  teal: 'var(--color-vt-jade-green)',
+  amber: 'var(--color-vt-wheat-yellow)',
 }
 
 const iconColor = computed(() => props.color || colorMap[props.type])

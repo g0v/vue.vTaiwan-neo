@@ -1,5 +1,5 @@
 {
-  "include": ["env.d.ts", "src/**/*.vue", "src/**/*.ts", "src/**/*.tsx"],
+  "include": ["env.d.ts", "src/**/*.vue", "src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
   "exclude": ["src/**/__tests__/*", "**/*.js", "**/*.vue.js", "node_modules", "dist"],
   "compilerOptions": {
     "target": "ES2020",
@@ -17,15 +17,13 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "composite": true,
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["vite/client"],
+    "types": ["vite/client", "vitest/globals"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "allowJs": false
+    "allowJs": true
   }
 }

@@ -1,88 +1,79 @@
 <template>
-  <div class="topic-timeline">
-    <!-- Loading State -->
-    <div v-if="loading" class="py-8 text-center">
-      <div class="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-jade-green"></div>
-      <p class="mt-2 text-gray-600">載入時間軸...</p>
+  <div>
+    <div v-if="loading" class="vt-status-panel" role="status">
+      <span class="border-vt-border border-t-democratic-red h-8 w-8 animate-spin rounded-full border-2" aria-hidden="true" />
+      <p>{{ t('topics.timeline.loading') }}</p>
     </div>
 
-    <!-- Timeline Table -->
-    <div v-else-if="timeline.length > 0">
-      <table class="w-full border-collapse border border-gray-200 bg-white">
-        <thead>
-          <tr class="bg-gray-50 text-center">
-            <th v-for="title in timelineTitle" :key="title" class="border border-gray-200 p-4">
-              <h3 class="text-lg font-semibold text-gray-900">{{ title }}</h3>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in timeline" :key="index" class="border-b border-gray-200">
-            <!-- 議題時間 -->
-            <td class="border border-gray-200 p-4 text-center align-top">
-              <div class="text-lg leading-6">{{ item.start }}</div>
-              <i v-if="item.end" class="my-2 flex justify-center text-gray-400">
-                <IconWrapper name="chevron-down" :size="16" />
-              </i>
-              <div v-if="item.end" class="text-lg leading-6">{{ item.end }}</div>
-            </td>
+    <div v-else-if="timeline.length > 0" class="vt-glass-panel overflow-hidden">
+      <div class="hidden overflow-x-auto md:block">
+        <table class="w-full border-collapse bg-transparent">
+          <thead>
+            <tr class="bg-vt-gray-800/3">
+              <th class="border-vt-border/70 w-40 border-b px-5 py-4 text-left font-sans text-xs font-semibold tracking-[0.1em] uppercase">{{ t('topics.timeline.columns.time') }}</th>
+              <th class="border-vt-border/70 border-b px-5 py-4 text-left font-sans text-xs font-semibold tracking-[0.1em] uppercase">{{ t('topics.timeline.columns.stage') }}</th>
+              <th class="border-vt-border/70 w-52 border-b px-5 py-4 text-left font-sans text-xs font-semibold tracking-[0.1em] uppercase">{{ t('topics.timeline.columns.links') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in timeline" :key="index" class="border-vt-border/60 border-b last:border-b-0">
+              <td class="px-5 py-5 align-top font-sans text-sm tabular-nums">
+                <div>{{ item.start }}</div>
+                <i v-if="item.end" class="text-vt-gray-400 my-1 flex">
+                  <IconWrapper name="chevron-down" :size="16" />
+                </i>
+                <div v-if="item.end">{{ item.end }}</div>
+              </td>
+              <td class="px-5 py-5 align-top">
+                <span class="vt-pill">{{ t(item.title) }}</span>
+                <p v-if="item.info" class="text-vt-gray-800 mt-2 font-medium">{{ item.info }}</p>
+              </td>
+              <td class="px-5 py-5 align-top"><ParticipationLink :urllink="item.link" /></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-            <!-- 議題階段 -->
-            <td class="border border-gray-200 p-4 align-top">
-              <div class="block md:hidden">
-                <span class="inline-block rounded bg-gray-100 px-2 py-1 text-xs text-gray-800">
-                  {{ item.title }}
-                </span>
-              </div>
-              <div class="hidden md:block">
-                <span class="inline-block rounded bg-gray-100 px-3 py-1 text-sm text-gray-800">
-                  {{ item.title }}
-                </span>
-              </div>
-              <h4 v-if="item.info" class="mt-2 text-base font-medium text-gray-900">
-                {{ item.info }}
-              </h4>
-            </td>
+      <div class="divide-vt-border/70 divide-y md:hidden">
+        <article v-for="(item, index) in timeline" :key="index" class="p-5">
+          <div class="vt-meta-row mb-3">
+            <span>{{ item.start }}</span
+            ><span v-if="item.end">→ {{ item.end }}</span>
+          </div>
+          <span class="vt-pill">{{ t(item.title) }}</span>
+          <p v-if="item.info" class="text-vt-gray-800 mt-3 font-medium">{{ item.info }}</p>
+          <div class="mt-4"><ParticipationLink :urllink="item.link" /></div>
+        </article>
+      </div>
 
-            <!-- 相關外部連結 -->
-            <td class="border border-gray-200 p-4 align-top">
-              <ParticipationLink :urllink="item.link" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- 外部連結說明 -->
-      <div class="mt-8">
-        <h3 class="mb-4 text-lg font-semibold text-gray-900">外部連結說明*</h3>
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <div v-for="link in plinkList" :key="link.title" class="flex items-start space-x-3 rounded-lg bg-gray-50 p-3">
-            <IconWrapper :name="link.icon" :size="20" class="mt-0.5 text-gray-600" />
-            <div>
-              <h5 class="font-medium text-gray-900">{{ link.title }}</h5>
-              <p class="text-sm text-gray-600">{{ link.desc }}</p>
-            </div>
+      <div class="border-vt-border/70 border-t p-5 sm:p-6">
+        <h3 class="m-0 font-sans text-xs font-semibold tracking-[0.1em] uppercase">{{ t('topics.timeline.externalLinksTitle') }}</h3>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          <div v-for="link in plinkList" :key="link.key" class="flex items-start gap-3">
+            <IconWrapper :name="link.icon" :size="16" class="text-jade-green mt-0.5" />
+            <p class="text-vt-gray-700 text-sm">
+              <strong class="text-vt-gray-800">{{ t(`topics.timeline.linkTypes.${link.key}`) }}</strong> · {{ t(`topics.timeline.linkTypes.${link.key}Desc`) }}
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Empty State -->
-    <div v-else class="py-8 text-center">
-      <IconWrapper name="calendar" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-      <p class="text-gray-500">{{ $t('topics.detail.noTimeline') }}</p>
+    <div v-else class="vt-status-panel">
+      <IconWrapper name="calendar" :size="36" class="text-vt-gray-400" />
+      <p>{{ t('topics.detail.noTimeline') }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import IconWrapper from './IconWrapper.vue'
 import ParticipationLink from './ParticipationLink.vue'
 import discourseApi from '../lib/discourse'
 
-const { locale } = useI18n()
+const { t } = useI18n()
 
 // Props
 const props = defineProps({
@@ -96,45 +87,15 @@ const props = defineProps({
 const timeline = ref([])
 const loading = ref(true)
 
-// 表格標題
-const timelineTitle = ref(['議題時間', '議題階段', '相關外部連結'])
-
 // 外部連結說明
-const plinkList = ref([
-  {
-    icon: 'link',
-    title: '相關',
-    desc: '與議題相關的連結',
-  },
-  {
-    icon: 'edit',
-    title: '共筆',
-    desc: '會議共同筆記',
-  },
-  {
-    icon: 'book',
-    title: '記錄',
-    desc: '當日共同筆記整理出的重點',
-  },
-  {
-    icon: 'play',
-    title: '直播',
-    desc: '會議直播影片',
-  },
-  {
-    icon: 'users',
-    title: '討論',
-    desc: '進入討論',
-  },
-  {
-    icon: 'message-circle',
-    title: '留言',
-    desc: '進入留言',
-  },
-])
-
-// 當前語言
-const currentLanguage = computed(() => locale.value)
+const plinkList = [
+  { icon: 'link', key: 'related' },
+  { icon: 'edit', key: 'hackpad' },
+  { icon: 'book', key: 'record' },
+  { icon: 'play', key: 'live' },
+  { icon: 'users', key: 'discuss' },
+  { icon: 'message-circle', key: 'comment' },
+]
 
 // 載入時間軸
 const loadTimeline = async () => {
@@ -219,17 +180,3 @@ onMounted(() => {
   loadTimeline()
 })
 </script>
-
-<style scoped>
-/* 響應式表格 */
-@media (max-width: 767px) {
-  table {
-    font-size: 0.875rem;
-  }
-}
-
-/* 確保表格在小螢幕上可以滾動 */
-.topic-timeline {
-  overflow-x: auto;
-}
-</style>

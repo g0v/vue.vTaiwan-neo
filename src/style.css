@@ -1,16 +1,166 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&display=swap');
+/* ==========================================================================
+   style.css — Tailwind v4 source
+   Design tokens follow Tofuswang/vtaiwan-design-system (colors_and_type.css).
+   ========================================================================== */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;700;900&display=swap') layer(base);
 
+@import 'tailwindcss';
+
+/* Scan the Vue components + TypeScript entry points for class names. */
+@source './**/*.vue';
+@source './**/*.ts';
+
+/* --------------------------------------------------------------------------
+   Theme tokens — exposed as Tailwind v4 utilities
+   (e.g. text-vt-democratic-red, bg-vt-bg-2, font-vt-serif, p-vt-4)
+   Legacy aliases stay available for existing templates
+   (e.g. text-democratic-red, bg-jade-green/10, font-serif).
+   -------------------------------------------------------------------------- */
+@theme static {
+  --breakpoint-lg: 1186px;
+  --breakpoint-3xl: 1920px;
+
+  /* Core brand */
+  --color-vt-black: #000000;
+  --color-vt-white: #ffffff;
+
+  /* Accent palette */
+  --color-vt-democratic-red: #d80000; /* primary — "民主紅" */
+  --color-vt-jade-green: #008888; /* secondary — "青玉綠" */
+  --color-vt-wheat-yellow: #db7700; /* tertiary — "麥穗黃" */
+  --color-vt-red-tint: rgba(216, 0, 0, 0.1);
+  --color-vt-green-tint: rgba(0, 136, 136, 0.1);
+  --color-vt-yellow-tint: rgba(219, 119, 0, 0.1);
+
+  /* Neutrals */
+  --color-vt-gray-100: #f8f8f8;
+  --color-vt-gray-200: #e0e0e0;
+  --color-vt-gray-400: #a0a0a0;
+  --color-vt-gray-700: #505050;
+  --color-vt-gray-800: #1a1a1a;
+
+  /* Semantic foreground / background */
+  --color-vt-fg-1: var(--color-vt-black);
+  --color-vt-fg-2: var(--color-vt-gray-700);
+  --color-vt-fg-3: var(--color-vt-gray-400);
+  --color-vt-fg-inverse: var(--color-vt-white);
+  --color-vt-bg-1: var(--color-vt-white);
+  --color-vt-bg-2: var(--color-vt-gray-100);
+  --color-vt-bg-inverse: var(--color-vt-black);
+  --color-vt-border: var(--color-vt-gray-200);
+  --color-vt-border-strong: var(--color-vt-black);
+
+  /* Legacy color aliases used by current Vue templates */
+  --color-black: var(--color-vt-black);
+  --color-white: var(--color-vt-white);
+  --color-democratic-red: var(--color-vt-democratic-red);
+  --color-jade-green: var(--color-vt-jade-green);
+  --color-wheat-yellow: var(--color-vt-wheat-yellow);
+  --color-gray-100: var(--color-vt-gray-100);
+  --color-gray-200: var(--color-vt-gray-200);
+  --color-gray-400: var(--color-vt-gray-400);
+  --color-gray-700: var(--color-vt-gray-700);
+  --color-gray-800: var(--color-vt-gray-800);
+  --color-ink: var(--color-vt-fg-1);
+
+  /* Type families */
+  --font-vt-serif: 'Noto Serif TC', 'Source Han Serif TC', 'Songti TC', serif;
+  --font-vt-sans: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-vt-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Legacy font aliases used by current Vue templates */
+  --font-serif: var(--font-vt-serif);
+  --font-sans: var(--font-vt-sans);
+
+  /* Type scale */
+  --text-vt-xs: 12px;
+  --text-vt-xs--line-height: 1.4;
+  --text-vt-sm: 14px;
+  --text-vt-sm--line-height: 1.5;
+  --text-vt-base: 16px;
+  --text-vt-base--line-height: 1.6;
+  --text-vt-lg: 18px;
+  --text-vt-lg--line-height: 1.6;
+  --text-vt-xl: 20px;
+  --text-vt-xl--line-height: 1.3;
+  --text-vt-2xl: 24px;
+  --text-vt-2xl--line-height: 1.25;
+  --text-vt-3xl: 30px;
+  --text-vt-3xl--line-height: 1.2;
+  --text-vt-4xl: 36px;
+  --text-vt-4xl--line-height: 1.2;
+  --text-vt-5xl: 48px;
+  --text-vt-5xl--line-height: 1.15;
+
+  /* Spacing */
+  --spacing-vt-1: 4px;
+  --spacing-vt-2: 8px;
+  --spacing-vt-3: 12px;
+  --spacing-vt-4: 16px;
+  --spacing-vt-6: 24px;
+  --spacing-vt-8: 32px;
+  --spacing-vt-12: 48px;
+  --spacing-vt-16: 64px;
+  --spacing-vt-navbar-overlap: 86px;
+  --spacing-vt-navbar-overlap-sm: 90px;
+
+  /* Radii */
+  --radius-vt-none: 0;
+  --radius-vt-sm: 4px;
+  --radius-vt-md: 6px;
+  --radius-vt-lg: 8px;
+  --radius-vt-xl: 12px;
+  --radius-vt-2xl: 18px;
+  --radius-vt-full: 9999px;
+
+  /* Backdrop filters */
+  --blur-vt-navbar: 8px;
+  --saturate-vt-navbar: 120%;
+
+  /* Elevation */
+  --shadow-vt-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-vt-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --shadow-vt-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+  /* Motion */
+  --ease-vt: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-vt-fast: 150ms;
+  --duration-vt-base: 200ms;
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
 @layer base {
+  /*
+    The default border color has changed to `currentcolor` in Tailwind CSS v4,
+    so we've added these compatibility styles to make sure everything still
+    looks the same as it did with Tailwind CSS v3.
+
+    If we ever want to remove these styles, we need to add an explicit border
+    color utility to any element that depends on these defaults.
+  */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+
   html {
-    font-family: 'Noto Serif TC', serif;
+    font-family: var(--font-vt-sans);
   }
 
   body {
-    @apply bg-white text-black;
+    margin: 0;
+    font-family: var(--font-vt-sans);
+    color: var(--color-vt-fg-1);
+    background: var(--color-vt-bg-1);
+    font-size: var(--text-vt-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
   h1,
@@ -43,66 +193,467 @@
   }
 }
 
-@layer components {
-  .title-underline {
-    @apply inline-block border-b-2 border-democratic-red pb-2;
+@utility title-underline {
+  @apply border-democratic-red inline-block border-b-2 pb-2;
+}
+
+@utility btn-primary {
+  @apply bg-democratic-red hover:bg-democratic-red/90 px-4 py-2 text-white transition;
+}
+
+@utility btn-secondary {
+  @apply bg-jade-green hover:bg-jade-green/90 px-4 py-2 text-white transition;
+}
+
+@utility btn-tertiary {
+  @apply bg-wheat-yellow hover:bg-wheat-yellow/90 px-4 py-2 text-white transition;
+}
+
+@utility btn-outline {
+  @apply border border-black px-4 py-2 text-black transition hover:bg-gray-100;
+}
+
+@utility btn-outline-white {
+  @apply border border-white bg-transparent px-4 py-2 text-white transition hover:bg-gray-100 hover:text-black;
+}
+
+@utility tag-red {
+  @apply bg-democratic-red inline-block px-2 py-1 text-xs text-white;
+}
+
+@utility tag-green {
+  @apply bg-jade-green inline-block px-2 py-1 text-xs text-white;
+}
+
+@utility tag-yellow {
+  @apply bg-wheat-yellow inline-block px-2 py-1 text-xs text-white;
+}
+
+@utility card {
+  @apply border border-gray-200 bg-white transition hover:shadow-md;
+}
+
+@utility prose {
+  @apply max-w-none;
+
+  & a {
+    @apply text-democratic-red hover:text-democratic-red/80 transition;
   }
 
-  .btn-primary {
-    @apply bg-democratic-red px-4 py-2 text-white transition hover:bg-democratic-red/90;
-  }
-
-  .btn-secondary {
-    @apply bg-jade-green px-4 py-2 text-white transition hover:bg-jade-green/90;
-  }
-
-  .btn-tertiary {
-    @apply bg-wheat-yellow px-4 py-2 text-white transition hover:bg-wheat-yellow/90;
-  }
-
-  .btn-outline {
-    @apply border border-black px-4 py-2 text-black transition hover:bg-gray-100;
-  }
-
-  .btn-outline-white {
-    @apply border border-white bg-transparent px-4 py-2 text-white transition hover:bg-gray-100 hover:text-black;
-  }
-
-  .tag-red {
-    @apply inline-block bg-democratic-red px-2 py-1 text-xs text-white;
-  }
-
-  .tag-green {
-    @apply inline-block bg-jade-green px-2 py-1 text-xs text-white;
-  }
-
-  .tag-yellow {
-    @apply inline-block bg-wheat-yellow px-2 py-1 text-xs text-white;
-  }
-
-  .card {
-    @apply border border-gray-200 bg-white transition hover:shadow-md;
-  }
-
-  .prose {
-    @apply max-w-none;
-  }
-
-  .prose a {
-    @apply text-democratic-red transition hover:text-democratic-red/80;
-  }
-
-  .prose img {
+  & img {
     @apply rounded-lg;
   }
 
-  .prose ol {
+  & ol {
     @apply list-decimal;
   }
 
-  .prose ul {
+  & ul {
     @apply list-disc;
   }
+}
+
+/* --------------------------------------------------------------------------
+   Design-system components — the few effects that are awkward as utilities
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* 讓頁面背景延伸到 sticky Navbar 後方；集中管理，避免各頁使用 arbitrary value。 */
+  .vt-under-navbar {
+    margin-top: calc(-1 * var(--spacing-vt-navbar-overlap));
+  }
+
+  @media (min-width: 40rem) {
+    .vt-under-navbar {
+      margin-top: calc(-1 * var(--spacing-vt-navbar-overlap-sm));
+    }
+  }
+
+  /* Signature red underline on section headings */
+  .vt-title-underline {
+    position: relative;
+    display: inline-block;
+    padding-bottom: var(--spacing-vt-2);
+    border-bottom: 2px solid var(--color-vt-democratic-red);
+  }
+
+  /* Hero — three soft civic-color fields + hairline horizon lines */
+  .vt-hero-bg {
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0b;
+  }
+
+  .vt-hero-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(600px 400px at 18% 28%, rgba(216, 0, 0, 0.18), transparent 65%), radial-gradient(520px 380px at 82% 72%, rgba(0, 136, 136, 0.14), transparent 65%),
+      radial-gradient(480px 340px at 50% 110%, rgba(219, 119, 0, 0.1), transparent 65%);
+  }
+
+  .vt-hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 100% 96px;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, black 30%, black 70%, transparent 100%);
+  }
+
+  /* Footer — quiet civic glow */
+  .vt-footer-bg {
+    background:
+      radial-gradient(80% 120% at 0% 0%, rgba(216, 0, 0, 0.1) 0%, rgba(216, 0, 0, 0) 55%), radial-gradient(70% 120% at 100% 100%, rgba(0, 136, 136, 0.08) 0%, rgba(0, 136, 136, 0) 60%),
+      linear-gradient(180deg, #14141a 0%, #0b0b10 100%);
+  }
+
+  .vt-hairline {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  /* Frosted-glass header bar */
+  .vt-glass {
+    background: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(16, 24, 40, 0.04),
+      0 10px 30px -16px rgba(16, 24, 40, 0.12);
+  }
+
+  .vt-glass--navbar {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: var(--radius-vt-2xl);
+  }
+
+  .vt-app-shell,
+  .vt-page-shell {
+    background: linear-gradient(135deg, var(--color-vt-bg-2) 0%, color-mix(in srgb, var(--color-vt-gray-200) 42%, var(--color-vt-bg-1)) 100%);
+  }
+
+  .vt-app-shell .vt-page-shell {
+    background: transparent;
+  }
+
+  .vt-page-content {
+    @apply mx-auto w-full max-w-5xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20;
+  }
+
+  .vt-page-content-wide {
+    @apply mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:py-20;
+  }
+
+  .vt-page-intro {
+    @apply mb-10 sm:mb-12;
+  }
+
+  .vt-page-title {
+    @apply m-0 font-serif text-4xl leading-tight font-bold tracking-[-0.02em] sm:text-5xl;
+  }
+
+  .vt-page-description {
+    @apply text-vt-gray-700 mt-4 max-w-3xl text-base leading-7;
+  }
+
+  .vt-section-label {
+    @apply text-vt-gray-700 mb-3 font-sans text-[11px] font-semibold tracking-[0.2em] uppercase;
+  }
+
+  .vt-glass-panel,
+  .vt-status-panel {
+    border: 1px solid color-mix(in srgb, var(--color-vt-white) 75%, transparent);
+    border-radius: 22px;
+    background: color-mix(in srgb, var(--color-vt-white) 62%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent),
+      0 10px 28px -12px color-mix(in srgb, var(--color-vt-gray-800) 12%, transparent);
+    backdrop-filter: blur(22px) saturate(170%);
+    -webkit-backdrop-filter: blur(22px) saturate(170%);
+  }
+
+  .vt-panel-padding {
+    @apply p-5 sm:p-7 lg:p-9;
+  }
+
+  .vt-panel-title {
+    @apply m-0 font-serif text-xl font-bold tracking-[-0.01em] sm:text-2xl;
+  }
+
+  .vt-status-panel {
+    @apply text-vt-gray-700 flex min-h-52 flex-col items-center justify-center gap-4 p-8 text-center;
+  }
+
+  .vt-meta-row {
+    @apply text-vt-gray-700 flex flex-wrap items-center gap-2 font-sans text-xs;
+  }
+
+  .vt-pill {
+    @apply bg-vt-bg-2 text-vt-gray-700 inline-flex items-center rounded-full px-3 py-1 font-sans text-xs font-medium;
+  }
+
+  .vt-form-control {
+    @apply border-vt-border text-vt-gray-800 focus:border-democratic-red focus:ring-democratic-red/15 disabled:text-vt-gray-400 w-full rounded-xl border bg-white/80 px-4 py-3 font-sans text-sm transition outline-none focus:ring-3 disabled:cursor-not-allowed disabled:bg-black/4;
+  }
+
+  .vt-icon-button {
+    @apply hover:bg-vt-red-tint hover:text-democratic-red focus-visible:outline-democratic-red inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .vt-filter-chip {
+    @apply border-vt-border text-vt-gray-700 hover:border-democratic-red/30 hover:text-democratic-red focus-visible:outline-democratic-red cursor-pointer rounded-full border bg-white/70 px-4 py-2 font-sans text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2;
+  }
+
+  .vt-filter-chip[aria-pressed='true'] {
+    @apply bg-ink border-transparent text-white hover:text-white;
+  }
+
+  /* Buttons — sans, pill */
+  .vt-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-vt-2);
+    font-family: var(--font-vt-sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    padding: 13px var(--spacing-vt-6);
+    border-radius: var(--radius-vt-full);
+    cursor: pointer;
+    transition:
+      transform var(--duration-vt-base) var(--ease-vt),
+      background var(--duration-vt-base) var(--ease-vt),
+      border-color var(--duration-vt-base) var(--ease-vt);
+  }
+
+  .vt-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .vt-btn-primary {
+    background: var(--color-vt-democratic-red);
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 24px -10px rgba(216, 0, 0, 0.7);
+  }
+
+  .vt-btn-primary:hover {
+    background: color-mix(in srgb, var(--color-vt-democratic-red) 88%, var(--color-vt-white));
+  }
+
+  .vt-btn-secondary {
+    background: var(--color-vt-jade-green);
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid transparent;
+    box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--color-vt-jade-green) 70%, transparent);
+  }
+
+  .vt-btn-secondary:hover {
+    background: color-mix(in srgb, var(--color-vt-jade-green) 88%, var(--color-vt-white));
+  }
+
+  .vt-btn-light {
+    background: var(--color-vt-white);
+    color: var(--color-vt-democratic-red);
+    border: 1px solid color-mix(in srgb, var(--color-vt-white) 65%, transparent);
+  }
+
+  .vt-btn-light:hover {
+    background: color-mix(in srgb, var(--color-vt-white) 92%, var(--color-vt-gray-200));
+  }
+
+  .vt-btn-ghost {
+    background: color-mix(in srgb, var(--color-vt-white) 58%, transparent);
+    color: var(--color-vt-fg-1);
+    border: 1px solid color-mix(in srgb, var(--color-vt-gray-800) 10%, transparent);
+  }
+
+  .vt-btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--color-vt-democratic-red) 35%, transparent);
+    color: var(--color-vt-democratic-red);
+  }
+
+  .vt-btn-outline {
+    background: transparent;
+    color: var(--color-vt-fg-inverse);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .vt-btn-outline:hover {
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .vt-btn:focus-visible,
+  .vt-btn-primary:focus-visible,
+  .vt-btn-secondary:focus-visible,
+  .vt-btn-light:focus-visible,
+  .vt-btn-ghost:focus-visible {
+    outline: 2px solid var(--color-vt-democratic-red);
+    outline-offset: 3px;
+  }
+
+  .vt-topic-bubble {
+    --vt-topic-bubble-width: 60px;
+    --vt-topic-bubble-height: 60px;
+
+    width: var(--vt-topic-bubble-width);
+    height: var(--vt-topic-bubble-height);
+    border-radius: var(--radius-vt-full);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--vt-topic-bubble-background);
+    box-shadow: var(--vt-topic-bubble-box-shadow);
+  }
+
+  .vt-topic-bubble svg {
+    stroke: var(--vt-topic-bubble-icon-color);
+  }
+
+  .vt-topic-bubble-red {
+    --vt-topic-bubble-icon-color: var(--color-vt-democratic-red);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 85%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-democratic-red) 12%, transparent);
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 90%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-democratic-red) 15%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-democratic-red) 25%, transparent);
+  }
+
+  .vt-topic-bubble-green {
+    --vt-topic-bubble-icon-color: var(--color-vt-jade-green);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 90%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-jade-green) 14%, var(--color-vt-white));
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-jade-green) 12%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-jade-green) 18%, transparent);
+  }
+
+  .vt-topic-bubble-orange {
+    --vt-topic-bubble-icon-color: var(--color-vt-wheat-yellow);
+    --vt-topic-bubble-background:
+      radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--color-vt-white) 90%, transparent) 0%, transparent 55%), color-mix(in srgb, var(--color-vt-wheat-yellow) 14%, var(--color-vt-white));
+    --vt-topic-bubble-box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--color-vt-white) 95%, transparent), inset 0 -1px 0 color-mix(in srgb, var(--color-vt-wheat-yellow) 15%, transparent),
+      0 4px 10px -4px color-mix(in srgb, var(--color-vt-wheat-yellow) 22%, transparent);
+  }
+
+  .vt-topic-bubble-sm {
+    --vt-topic-bubble-width: 40px;
+    --vt-topic-bubble-height: 40px;
+  }
+}
+
+/* ==========================================================================
+   Legacy page styles — kept so /about, /word/:w and /hundred still render
+   (these pages use the .container layout, not Tailwind utilities)
+   ========================================================================== */
+.container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.container h1 {
+  margin-top: 0;
+}
+
+.container a {
+  color: var(--color-vt-democratic-red);
+}
+
+.container a.btn-primary {
+  color: var(--color-vt-white);
+  font-weight: 500;
+}
+
+code {
+  background: #eef2f6;
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-vt-sm);
+  font-size: 0.9em;
+  font-family: var(--font-vt-mono);
+}
+
+figure {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  background: var(--color-vt-bg-1);
+  text-align: center;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+figcaption {
+  margin-top: 0.5rem;
+  color: var(--color-vt-gray-700);
+  font-size: 0.9rem;
+}
+
+/* /hundred — 百數表 hydration 頁 */
+.hundred-main {
+  max-width: 640px;
+}
+
+.hundred-main .lead {
+  color: var(--color-vt-gray-700);
+  margin-bottom: 1.5rem;
+}
+
+.hundred-controls {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  background: var(--color-vt-bg-1);
+}
+
+.hundred-controls .control-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.factor-input {
+  width: 100%;
+  max-width: 12rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-md);
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.hundred-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-vt-bg-1);
+  border: 1px solid var(--color-vt-gray-200);
+  border-radius: var(--radius-vt-lg);
+  overflow: hidden;
+}
+
+.hundred-cell {
+  width: 10%;
+  padding: 0.55rem 0.35rem;
+  text-align: center;
+  border: 1px solid var(--color-vt-gray-200);
+  transition: background-color 0.15s ease;
 }
 
 @media screen and (max-width: 768px) {
