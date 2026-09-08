@@ -26,13 +26,15 @@ const makeTopic = (id: number, status: string, date: string): FormattedTopicData
 })
 
 describe('HomeView 進行中議題', () => {
-  it('排除歷史案件並依更新時間顯示前三筆', async () => {
+  it('排除非進行中狀態並依更新時間顯示前三筆', async () => {
     discourseMocks.getFormattedTopics.mockResolvedValue([
       makeTopic(1, '意見徵集', '2026-08-01T00:00:00.000Z'),
       makeTopic(2, '研擬草案', '2026-08-04T00:00:00.000Z'),
       makeTopic(3, '歷史案件', '2026-08-10T00:00:00.000Z'),
       makeTopic(4, '送交院會', '2026-08-03T00:00:00.000Z'),
       makeTopic(5, '即將開始', '2026-08-02T00:00:00.000Z'),
+      makeTopic(6, '意見徵集', '2026-08-05T00:00:00.000Z'),
+      makeTopic(7, '即將開始', '2026-07-31T00:00:00.000Z'),
     ])
     const i18n = createI18n({ legacy: false, locale: 'zh-TW', messages: { 'zh-TW': zhTW } })
     const wrapper = mount(HomeView, {
@@ -50,6 +52,6 @@ describe('HomeView 進行中議題', () => {
     })
     await flushPromises()
 
-    expect(wrapper.findAll('.topic-stub').map(card => card.text())).toEqual(['議題 2', '議題 4', '議題 5'])
+    expect(wrapper.findAll('.topic-stub').map(card => card.text())).toEqual(['議題 6', '議題 5', '議題 1'])
   })
 })
