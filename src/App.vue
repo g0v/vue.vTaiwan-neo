@@ -1,7 +1,7 @@
 <template>
-  <div class="flex min-h-screen flex-col">
+  <div class="vt-app-shell flex min-h-screen flex-col">
     <Header :user="user" :userData="userData" @logout="handleLogout" @show-login="showLoginModal = true" />
-    <main class="flex-grow">
+    <main class="grow">
       <!-- Debug info -->
       <div v-if="false" class="p-2 text-xs text-gray-500">Debug: user={{ user }}, userData={{ userData }}</div>
       <router-view :user="user" :userData="userData" @login-success="handleLoginSuccess" @logout="handleLogout" @profile-updated="handleProfileUpdated" />
@@ -9,17 +9,19 @@
     <Footer />
 
     <!-- 登入模態框 -->
-    <div v-if="showLoginModal" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
-      <div class="mx-4 w-full max-w-md rounded-lg bg-white p-8">
+    <div v-if="showLoginModal" class="fixed inset-0 z-9999 flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm" @click.self="showLoginModal = false">
+      <div class="vt-glass-panel w-full max-w-md bg-white/92 p-7 sm:p-8" role="dialog" aria-modal="true" :aria-labelledby="'login-modal-title'">
         <div class="mb-6 flex items-center justify-between">
-          <h2 class="text-2xl font-bold">{{ $t('auth.loginTitle') }}</h2>
-          <button @click="showLoginModal = false" class="text-2xl font-bold text-gray-500 hover:text-gray-700">×</button>
+          <h2 id="login-modal-title" class="m-0 text-2xl">{{ $t('auth.loginTitle') }}</h2>
+          <button type="button" class="vt-icon-button" :aria-label="$t('common.cancel')" @click="showLoginModal = false">
+            <IconWrapper name="x" :size="19" />
+          </button>
         </div>
 
         <GoogleLogin @login-success="handleLoginSuccess" :inApp="isInApp" />
 
         <div class="mt-4 text-center">
-          <button @click="showLoginModal = false" class="text-gray-500 hover:text-gray-700">
+          <button type="button" class="text-vt-gray-700 hover:text-democratic-red font-sans text-sm transition-colors" @click="showLoginModal = false">
             {{ $t('common.cancel') }}
           </button>
         </div>
@@ -35,6 +37,7 @@ import { useI18n } from 'vue-i18n'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
 import GoogleLogin from './components/GoogleLogin.vue'
+import IconWrapper from './components/IconWrapper.vue'
 
 import { database } from './lib/firebase'
 import { ref as dbRef, get, set, update } from 'firebase/database'
@@ -171,11 +174,14 @@ const handleProfileUpdated = async updatedData => {
 </script>
 
 <style>
+@reference './style.css';
+
 #app {
   min-height: 100vh;
 }
 
-table th, table td {
+table th,
+table td {
   @apply border border-gray-200 p-2;
 }
 </style>

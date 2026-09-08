@@ -1,37 +1,36 @@
 <template>
-  <div class="topic-discussion">
-    <!-- Loading State -->
-    <div v-if="loading" class="py-8 text-center">
-      <div class="mx-auto h-8 w-8 animate-spin rounded-full border-b-2 border-jade-green"></div>
-      <p class="mt-2 text-gray-600">{{ $t('topics.detail.loading') }}</p>
+  <div>
+    <div v-if="loading" class="py-8 text-center" role="status">
+      <div class="border-vt-border border-t-democratic-red mx-auto h-8 w-8 animate-spin rounded-full border-2"></div>
+      <p class="text-vt-gray-700 mt-2">{{ $t('topics.detail.loading') }}</p>
     </div>
 
     <!-- Discussion Content -->
     <div v-else-if="discussionType && discussionType.type">
       <!-- Discourse 討論串 -->
       <div v-if="discussionType.type === 'discourse'" class="space-y-6">
-        <div v-for="(disc, index) in discussionType.embeder" :key="index" class="rounded-lg border border-gray-200 bg-white shadow-sm">
-          <div class="border-b border-gray-200 p-4">
-            <h3 class="flex cursor-pointer items-center text-lg font-semibold">
-              <IconWrapper name="message-circle" :size="20" class="mr-2" />
+        <section v-for="(disc, index) in discussionType.embeder" :key="index" class="border-vt-border overflow-hidden rounded-2xl border bg-white/70">
+          <div class="border-vt-border border-b p-4">
+            <h3 class="m-0 flex items-center gap-2 text-lg font-semibold">
+              <IconWrapper name="message-circle" :size="18" />
               {{ disc.title }}
             </h3>
           </div>
           <div class="p-4">
             <TopicDiscussionComment v-if="disc.id" :comment-id="disc.id" :slice="false" />
-            <div v-else class="py-4 text-center text-gray-500">
+            <div v-else class="text-vt-gray-400 py-4 text-center">
               {{ $t('topics.detail.loading') }}
             </div>
           </div>
-        </div>
+        </section>
       </div>
 
       <!-- 嵌入式內容 (polis, slido, etc.) -->
       <div v-else-if="discussionType.embeder" class="embedded-content">
-        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-          <div class="border-b border-gray-200 p-4">
-            <h3 class="flex items-center text-lg font-semibold">
-              <IconWrapper name="external-link" :size="20" class="mr-2" />
+        <div class="border-vt-border overflow-hidden rounded-2xl border bg-white/70">
+          <div class="border-vt-border border-b p-4">
+            <h3 class="m-0 flex items-center gap-2 text-lg font-semibold">
+              <IconWrapper name="external-link" :size="18" />
               {{ getEmbededTitle(discussionType.type) }}
             </h3>
           </div>
@@ -43,7 +42,7 @@
 
       <!-- 圖片內容 -->
       <div v-else-if="discussionType.type === 'img'" class="text-center">
-        <div class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div class="border-vt-border overflow-hidden rounded-2xl border bg-white/70">
           <div class="p-4">
             <div v-html="sanitizeEmbedHtml(discussionType.embeder)"></div>
           </div>
@@ -52,23 +51,23 @@
 
       <!-- 預設外部連結 -->
       <div v-else-if="discussionType.type === 'default'" class="text-center">
-        <div class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-          <IconWrapper name="external-link" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
+        <div class="border-vt-border rounded-2xl border bg-white/70 p-6">
+          <IconWrapper name="external-link" :size="36" class="text-vt-gray-400 mx-auto mb-4" />
           <div v-html="sanitizeEmbedHtml(discussionType.embeder)"></div>
         </div>
       </div>
     </div>
 
     <!-- Empty State -->
-    <div v-else class="py-8 text-center">
-      <IconWrapper name="message-circle" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-      <p class="text-gray-500">{{ $t('topics.detail.noDiscussion') }}</p>
+    <div v-else class="text-vt-gray-700 py-8 text-center">
+      <IconWrapper name="message-circle" :size="36" class="text-vt-gray-400 mx-auto mb-4" />
+      <p>{{ $t('topics.detail.noDiscussion') }}</p>
     </div>
 
     <!-- 參與討論按鈕 -->
     <div class="mt-8 text-center">
-      <a :href="`https://talk.vtaiwan.tw/t/topic/${props.topicId}`" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center" v-if="userData && userData.isAdmin">
-        <IconWrapper name="message-circle" :size="20" class="mr-2" />
+      <a v-if="userData?.isAdmin" :href="`https://talk.vtaiwan.tw/t/topic/${props.topicId}`" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary">
+        <IconWrapper name="message-circle" :size="17" />
         {{ $t('topics.detail.participate') }}
       </a>
     </div>
@@ -215,14 +214,14 @@ const processDiscussionType = async topicData => {
       // hackpad (已棄用)
       discussionType.value = {
         type: 'hackpad',
-        embeder: `Hackpad 已遷移至 Dropbox Paper。請使用 <a href="${link}" target="_blank" rel="noopener noreferrer">外部連結</a> 查看。`,
+        embeder: `${t('topics.detail.hackpadMoved')} <a href="${link}" target="_blank" rel="noopener noreferrer">${t('topics.detail.externalResource')}</a>`,
       }
     } else if (/.*\.jpg/.test(link)) {
       // 圖片
       const imageUrl = link.replace(/.*\((.*)\)/, '$1')
       discussionType.value = {
         type: 'img',
-        embeder: `<img src="${imageUrl}" alt="議題圖片" class="max-w-full h-auto rounded-lg shadow-md" />`,
+        embeder: `<img src="${imageUrl}" alt="${t('topics.detail.topicImageAlt')}" class="max-w-full h-auto rounded-lg shadow-md" />`,
       }
     } else {
       // 預設外部連結
@@ -237,7 +236,7 @@ const processDiscussionType = async topicData => {
 
       discussionType.value = {
         type: 'default',
-        embeder: `請查看 <a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-jade-green hover:text-jade-green/80">${linkText}</a>`,
+        embeder: `${t('topics.detail.viewExternal')} <a href="${linkUrl}" target="_blank" rel="noopener noreferrer">${linkText}</a>`,
       }
     }
   } catch (error) {
@@ -249,15 +248,15 @@ const processDiscussionType = async topicData => {
 // 取得嵌入內容的標題
 const getEmbededTitle = type => {
   const titleMap = {
-    polis: 'Polis 意見調查',
-    slido: 'Slido 互動問答',
-    livehouse: 'Livehouse 直播',
-    typeform: 'Typeform 表單',
-    hackpad: 'Hackpad 文件',
-    img: '相關圖片',
+    polis: t('topics.detail.embedTitles.polis'),
+    slido: t('topics.detail.embedTitles.slido'),
+    livehouse: t('topics.detail.embedTitles.livehouse'),
+    typeform: t('topics.detail.embedTitles.typeform'),
+    hackpad: t('topics.detail.embedTitles.hackpad'),
+    img: t('topics.detail.embedTitles.image'),
   }
 
-  return titleMap[type] || '外部資源'
+  return titleMap[type] || t('topics.detail.externalResource')
 }
 
 // 組件掛載時載入資料
@@ -284,11 +283,11 @@ onMounted(() => {
 
 /* 確保連結在 v-html 中正確顯示 */
 :deep(a) {
-  color: #40b3bf;
+  color: var(--color-vt-jade-green);
   text-decoration: underline;
 }
 
 :deep(a:hover) {
-  color: #369aa3;
+  color: var(--color-vt-democratic-red);
 }
 </style>

@@ -58,6 +58,7 @@ interface FormattedTopicData {
   tags: string[]
   views: number
   posts_count: number
+  participant_count: number
   last_posted_at: string
   created_at: string
 }
@@ -72,9 +73,6 @@ interface ParsedPostData {
 const discourseApi = axios.create({
   baseURL: DISCOURSE_BASE_URL,
   timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 })
 
 // 中文排序函數 (複刻舊網站邏輯)
@@ -134,6 +132,7 @@ const clearCache = (url?: string): void => {
 
 interface DiscourseAPI {
   getAllTopics(categoryUri?: string): Promise<DiscourseTopic[]>
+  getFormattedTopics(categoryUri?: string): Promise<FormattedTopicData[]>
   getAllCategoryTopics(categoryUri: string): Promise<DiscourseTopic[]>
   getTopic(topicId: string | number): Promise<DiscourseTopic>
   getCategoryDiscussion(category: string): Promise<DiscourseTopicList>
@@ -198,6 +197,32 @@ const discourseAPI: DiscourseAPI = {
       console.error('Failed to fetch all topics:', error)
       throw error
     }
+  },
+
+  // 取得並格式化議題；限制同時請求數，避免一次對 Discourse 發出過多請求。
+  async getFormattedTopics(categoryUri: string = '/c/meta-data.json'): Promise<FormattedTopicData[]> {
+    const topics = (await discourseAPI.getAllTopics(categoryUri)).filter(topic => topic.title !== '網站基本設定')
+    const formattedTopics: Array<FormattedTopicData | null> = Array.from({ length: topics.length }, () => null)
+    let nextIndex = 0
+
+    const worker = async (): Promise<void> => {
+      while (nextIndex < topics.length) {
+        const index = nextIndex
+        nextIndex += 1
+
+        try {
+          const topicData = await discourseAPI.getTopic(topics[index].id)
+          formattedTopics[index] = discourseAPI.formatTopicData(topicData)
+        } catch (error) {
+          console.error('Error processing topic:', topics[index].id, error)
+        }
+      }
+    }
+
+    const workerCount = Math.min(6, topics.length)
+    await Promise.all(Array.from({ length: workerCount }, () => worker()))
+
+    return formattedTopics.filter((topic): topic is FormattedTopicData => topic !== null)
   },
 
   // 取得特定分類下的所有討論串 (複刻舊網站getAllPosts邏輯，但用於topics)
@@ -347,6 +372,7 @@ const discourseAPI: DiscourseAPI = {
       tags: topicData.tags,
       views: topicData.views,
       posts_count: topicData.posts_count,
+      participant_count: topicData.participant_count,
       last_posted_at: topicData.last_posted_at,
       created_at: topicData.created_at,
     }

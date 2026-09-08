@@ -8,9 +8,9 @@
         target="_blank"
         rel="noopener noreferrer"
         :title="item.long"
-        class="inline-flex items-center rounded bg-jade-green px-3 py-1 text-sm text-white transition-colors hover:bg-jade-green/80"
+        class="inline-flex items-center rounded-sm bg-jade-green px-3 py-1 text-sm text-white transition-colors hover:bg-jade-green/80"
       >
-        <IconWrapper :name="item.icon" :size="14" class="mr-1 flex-shrink-0" color="white" />
+        <IconWrapper :name="item.icon" :size="14" class="mr-1 shrink-0" color="white" />
         {{ item.text }}
       </a>
     </div>

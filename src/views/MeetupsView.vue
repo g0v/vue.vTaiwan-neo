@@ -1,116 +1,99 @@
-<template>
-  <!-- Hero Section -->
-  <section class="bg-black py-12 text-white">
-    <div class="container mx-auto px-4">
-      <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ t('meetups.title') }}</h1>
-      <p class="max-w-3xl text-xl">
-        {{ t('meetups.description') }}
-      </p>
-      <br />
-
-      <div class="flex justify-center gap-4">
-        <!-- <a href="https://meet.jit.si/vtaiwan" target="_blank" rel="noopener noreferrer" class="btn-primary rounded-md inline-block">
-          {{ t('meetups.jitsi') }}(Current)
-          <br/>
-          <span class="text-sm text-black">(Wednesdays 19:00)</span>
-        </a> -->
-        <RouterLink to="/jitsi" class="btn-primary inline-block rounded-md">
-          {{ t('meetups.jitsi') }}(Beta)
-          <br />
-          <span class="text-sm text-black">(Wednesdays 19:00)</span>
-        </RouterLink>
-        <RouterLink to="/transcriptions" class="btn-primary inline-block rounded-md"> {{ t('meetups.transcriptions') }}(Beta) </RouterLink>
-      </div>
-    </div>
-  </section>
-
-  <!-- Calendar View -->
-  <section class="bg-gray-100 py-12">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="mb-6 text-2xl font-bold">{{ t('meetups.calendar.title') }}</h2>
-      <p class="mb-8">
-        {{ t('meetups.calendar.description') }}
-      </p>
-      <div class="flex justify-center gap-4">
-        <a
-          href="https://calendar.google.com/calendar/u/2?cid=MjhlZDRjMjYwOGQyMTc3NTZjNjJiOWMxOGYyMjhkNDJjNGY0MzcxNWViYTUxN2FkYmNiOTE2MGZhMzY5NDRhN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn-primary flex items-center gap-2 rounded-md"
-        >
-          <IconWrapper name="calendar" :size="18" color="#FFFFFF" />
-          <span>{{ t('meetups.calendar.googleCalendar') }}</span>
-        </a>
-        <!-- <a href="#" class="btn-outline rounded-md flex items-center gap-2">
-          <IconWrapper name="download" :size="18" />
-          <span>{{ t('meetups.calendar.icalFile') }}</span>
-        </a> -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Host a Meetup -->
-  <section class="bg-gray-100 py-12">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="mb-4 text-2xl font-bold">{{ t('meetups.host.title') }}</h2>
-      <p class="mx-auto mb-6 max-w-2xl text-lg">
-        {{ t('meetups.host.description') }}
-      </p>
-      <a href="/contact" class="btn-primary inline-block rounded-md">
-        {{ t('meetups.host.contactUs') }}
-      </a>
-    </div>
-  </section>
-</template>
-
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import IconWrapper from '../components/IconWrapper.vue'
 import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n'
+import IconWrapper from '@/components/IconWrapper.vue'
 
-const { t, locale } = useI18n()
+defineOptions({ inheritAttrs: false })
 
-// 定義 props
-const props = defineProps({
-  user: {
-    type: Object,
-    default: null,
-  },
-  userData: {
-    type: Object,
-    default: null,
-  },
-})
-
-// 為了兼容性，創建 usrData 別名
-const usrData = computed(() => props.userData)
-
-// 當前語言
-const currentLanguage = computed(() => locale.value)
-
-// 格式化日期
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('zh-TW')
-}
+const { t } = useI18n()
 
 useHead({
-  title: t('meetups.title') + ' | vTaiwan',
+  title: `${t('meetups.title')} | vTaiwan`,
 })
 </script>
 
-<style scoped>
-.title-underline {
-  position: relative;
-}
+<template>
+  <main class="vt-page-shell px-6 py-16 sm:py-20">
+    <div class="mx-auto max-w-5xl">
+      <p class="vt-section-label">{{ t('meetups.eyebrow') }}</p>
+      <h1 class="mb-4 text-[clamp(2.25rem,5vw,2.75rem)] tracking-[-0.02em]">
+        <span class="vt-title-underline">{{ t('meetups.title') }}</span>
+      </h1>
+      <p class="text-vt-gray-700 mb-10 max-w-[58ch]">{{ t('meetups.description') }}</p>
 
-.title-underline::after {
-  content: '';
-  position: absolute;
-  bottom: -8px;
-  left: 0;
-  width: 60px;
-  height: 3px;
-  background-color: #d82000;
-}
-</style>
+      <section class="mb-8 grid gap-5 sm:grid-cols-2" :aria-label="t('meetups.participation.title')">
+        <RouterLink to="/jitsi" class="vt-glass-panel group flex items-center gap-5 p-6 transition hover:-translate-y-0.5">
+          <span class="vt-topic-bubble vt-topic-bubble-green" aria-hidden="true"><IconWrapper name="video" :size="24" color="currentColor" /></span>
+          <span class="min-w-0">
+            <span class="mb-1 flex flex-wrap items-center gap-2">
+              <strong class="text-vt-gray-800 text-lg">{{ t('meetups.jitsi') }}</strong>
+              <!--<span class="bg-vt-green-tint text-jade-green rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>-->
+            </span>
+            <span class="text-vt-gray-700 block font-sans text-sm">{{ t('meetups.schedule') }}</span>
+          </span>
+          <IconWrapper
+            name="arrow-right"
+            :size="18"
+            color="currentColor"
+            class="text-vt-gray-400 group-hover:text-jade-green ml-auto shrink-0 transition group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </RouterLink>
+
+        <RouterLink to="/transcriptions" class="vt-glass-panel group flex items-center gap-5 p-6 transition hover:-translate-y-0.5">
+          <span class="vt-topic-bubble vt-topic-bubble-orange" aria-hidden="true"><IconWrapper name="file-text" :size="24" color="currentColor" /></span>
+          <span class="min-w-0">
+            <span class="mb-1 flex flex-wrap items-center gap-2">
+              <strong class="text-vt-gray-800 text-lg">{{ t('meetups.transcriptions') }}</strong>
+              <!--<span class="bg-vt-yellow-tint text-wheat-yellow rounded-full px-2 py-0.5 font-sans text-[10px] font-semibold tracking-wide uppercase">{{ t('meetups.beta') }}</span>-->
+            </span>
+            <span class="text-vt-gray-700 block font-sans text-sm">{{ t('meetups.transcriptionsDescription') }}</span>
+          </span>
+          <IconWrapper
+            name="arrow-right"
+            :size="18"
+            color="currentColor"
+            class="text-vt-gray-400 group-hover:text-wheat-yellow ml-auto shrink-0 transition group-hover:translate-x-1"
+            aria-hidden="true"
+          />
+        </RouterLink>
+      </section>
+
+      <section class="vt-glass-panel overflow-hidden p-4 sm:p-6" aria-labelledby="meetups-calendar-title">
+        <div class="mb-6 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="vt-section-label">{{ t('meetups.calendar.eyebrow') }}</p>
+            <h2 id="meetups-calendar-title" class="mb-2 text-2xl tracking-[-0.01em]">{{ t('meetups.calendar.title') }}</h2>
+            <p class="text-vt-gray-700 m-0 max-w-[54ch]">{{ t('meetups.calendar.description') }}</p>
+          </div>
+          <a
+            href="https://calendar.google.com/calendar/u/2?cid=MjhlZDRjMjYwOGQyMTc3NTZjNjJiOWMxOGYyMjhkNDJjNGY0MzcxNWViYTUxN2FkYmNiOTE2MGZhMzY5NDRhN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-democratic-red shadow-democratic-red/20 hover:bg-democratic-red/90 inline-flex shrink-0 items-center gap-2 self-start rounded-full px-5 py-3 font-sans text-sm font-medium text-white shadow-lg transition hover:-translate-y-0.5 sm:self-auto"
+          >
+            <IconWrapper name="calendar-plus" :size="17" color="currentColor" aria-hidden="true" />
+            {{ t('meetups.calendar.googleCalendar') }}
+          </a>
+        </div>
+
+        <div class="border-vt-border overflow-hidden rounded-2xl border bg-white">
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=28ed4c2608d217756c62b9c18f228d42c4f43715eba517adbcb9160fa36944a7%40group.calendar.google.com&ctz=Asia%2FTaipei"
+            :title="t('meetups.calendar.title')"
+            class="h-[480px] w-full border-0 sm:h-[560px] lg:h-[640px]"
+            loading="lazy"
+            scrolling="no"
+          ></iframe>
+        </div>
+      </section>
+
+      <section class="bg-ink mt-8 rounded-[22px] px-6 py-10 text-center text-white sm:px-10" aria-labelledby="host-meetup-title">
+        <p class="vt-section-label text-white/55">{{ t('meetups.host.eyebrow') }}</p>
+        <h2 id="host-meetup-title" class="mb-3 text-3xl">{{ t('meetups.host.title') }}</h2>
+        <p class="mx-auto mb-6 max-w-2xl text-white/70">{{ t('meetups.host.description') }}</p>
+        <RouterLink to="/contact" class="vt-btn vt-btn-primary">{{ t('meetups.host.contactUs') }}</RouterLink>
+      </section>
+    </div>
+  </main>
+</template>

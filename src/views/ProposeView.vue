@@ -1,129 +1,85 @@
-<template>
-  <!-- Hero Section -->
-  <section class="bg-black py-12 text-white">
-    <div class="container mx-auto px-4">
-      <h1 class="mb-4 text-3xl font-bold md:text-4xl">{{ $t('propose.title') }}</h1>
-      <p class="max-w-3xl text-xl">
-        {{ $t('propose.description') }}
-      </p>
-    </div>
-  </section>
-
-  <!-- Requirements Section -->
-  <section class="py-12">
-    <div class="container mx-auto px-4">
-      <div class="mx-auto max-w-4xl">
-        <!-- 參與要求 -->
-        <div class="mb-8 rounded-lg bg-white p-8 shadow-lg">
-          <h2 class="mb-6 text-2xl font-bold text-gray-800">{{ $t('propose.requirements.title') }}</h2>
-
-          <div class="space-y-6">
-            <!-- 線上會議參與 -->
-            <div class="flex items-start space-x-4">
-              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-democratic-red/10">
-                <IconWrapper name="video" :type="'democratic-red'" :size="24" />
-              </div>
-              <div>
-                <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $t('propose.requirements.meeting.title') }}</h3>
-                <p class="mb-3 text-gray-600">{{ $t('propose.requirements.meeting.description') }}</p>
-                <ul class="ml-4 list-inside list-disc space-y-1 text-gray-600">
-                  <li>{{ $t('propose.requirements.meeting.bullet1') }}</li>
-                  <li>{{ $t('propose.requirements.meeting.bullet2') }}</li>
-                  <li>{{ $t('propose.requirements.meeting.bullet3') }}</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- 內容管理員認領 -->
-            <div class="flex items-start space-x-4">
-              <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-jade-green/10">
-                <IconWrapper name="users" :type="'jade-green'" :size="24" />
-              </div>
-              <div>
-                <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $t('propose.requirements.admin.title') }}</h3>
-                <p class="mb-3 text-gray-600">{{ $t('propose.requirements.admin.description') }}</p>
-                <ul class="ml-4 list-inside list-disc space-y-1 text-gray-600">
-                  <li>{{ $t('propose.requirements.admin.bullet1') }}</li>
-                  <li>{{ $t('propose.requirements.admin.bullet2') }}</li>
-                  <li>{{ $t('propose.requirements.admin.bullet3') }}</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 提案流程 -->
-        <div class="mb-8 rounded-lg bg-white p-8 shadow-lg">
-          <h2 class="mb-6 text-2xl font-bold text-gray-800">{{ $t('propose.process.title') }}</h2>
-
-          <div class="grid gap-6 md:grid-cols-3">
-            <div class="text-center">
-              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-democratic-red/10">
-                <span class="text-2xl font-bold text-democratic-red">1</span>
-              </div>
-              <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $t('propose.process.step1.title') }}</h3>
-              <p class="text-gray-600">{{ $t('propose.process.step1.description') }}</p>
-            </div>
-
-            <div class="text-center">
-              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-jade-green/10">
-                <span class="text-2xl font-bold text-jade-green">2</span>
-              </div>
-              <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $t('propose.process.step2.title') }}</h3>
-              <p class="text-gray-600">{{ $t('propose.process.step2.description') }}</p>
-            </div>
-
-            <div class="text-center">
-              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/10">
-                <span class="text-2xl font-bold text-blue-500">3</span>
-              </div>
-              <h3 class="mb-2 text-lg font-semibold text-gray-800">{{ $t('propose.process.step3.title') }}</h3>
-              <p class="text-gray-600">{{ $t('propose.process.step3.description') }}</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- 聯絡資訊 -->
-        <div class="rounded-lg bg-gray-50 p-8">
-          <h2 class="mb-6 text-2xl font-bold text-gray-800">{{ $t('propose.contact.title') }}</h2>
-          <p class="mb-6 text-gray-600">{{ $t('propose.contact.description') }}</p>
-
-          <div class="grid gap-6 md:grid-cols-2">
-            <div class="rounded-lg bg-white p-6">
-              <div class="mb-4 flex items-center">
-                <IconWrapper name="calendar" :size="20" class="mr-3 text-democratic-red" />
-                <h3 class="text-lg font-semibold text-gray-800">{{ $t('propose.contact.meeting.title') }}</h3>
-              </div>
-              <p class="mb-4 text-gray-600">{{ $t('propose.contact.meeting.description') }}</p>
-              <router-link to="/meetups" class="btn-primary inline-block">
-                {{ $t('propose.contact.meeting.button') }}
-              </router-link>
-            </div>
-
-            <div class="rounded-lg bg-white p-6">
-              <div class="mb-4 flex items-center">
-                <IconWrapper name="message" :size="20" class="mr-3 text-jade-green" />
-                <h3 class="text-lg font-semibold text-gray-800">{{ $t('propose.contact.community.title') }}</h3>
-              </div>
-              <p class="mb-4 text-gray-600">{{ $t('propose.contact.community.description') }}</p>
-              <router-link to="/contact" class="btn-secondary inline-block">
-                {{ $t('propose.contact.community.button') }}
-              </router-link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</template>
-
-<script setup>
-import { useI18n } from 'vue-i18n'
+<script setup lang="ts">
+import IconWrapper from '@/components/IconWrapper.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import { useHead } from '@unhead/vue'
-import IconWrapper from '../components/IconWrapper.vue'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-useHead({
-  title: t('propose.title') + ' | vTaiwan',
-})
+
+const requirements = [
+  { key: 'meeting', icon: 'video', bubble: 'vt-topic-bubble-red' },
+  { key: 'admin', icon: 'users', bubble: 'vt-topic-bubble-green' },
+] as const
+
+const processSteps = [
+  { key: 'step1', color: 'bg-vt-red-tint text-democratic-red border-democratic-red/20' },
+  { key: 'step2', color: 'bg-vt-green-tint text-jade-green border-jade-green/20' },
+  { key: 'step3', color: 'bg-vt-yellow-tint text-wheat-yellow border-wheat-yellow/20' },
+] as const
+
+useHead({ title: `${t('propose.title')} | vTaiwan` })
 </script>
+
+<template>
+  <div>
+    <PageHeader :label="t('pageLabels.propose')" :title="t('propose.title')" :description="t('propose.description')" dark />
+
+    <section class="vt-page-shell">
+      <div class="vt-page-content">
+        <section class="vt-glass-panel vt-panel-padding" :aria-labelledby="'propose-requirements'">
+          <h2 id="propose-requirements" class="vt-panel-title mb-8">
+            <span class="vt-title-underline">{{ t('propose.requirements.title') }}</span>
+          </h2>
+          <div class="space-y-8">
+            <article v-for="requirement in requirements" :key="requirement.key" class="flex flex-col gap-4 sm:flex-row sm:gap-5">
+              <div class="vt-topic-bubble shrink-0" :class="requirement.bubble"><IconWrapper :name="requirement.icon" :size="25" /></div>
+              <div>
+                <h3 class="m-0 text-xl">{{ t(`propose.requirements.${requirement.key}.title`) }}</h3>
+                <p class="text-vt-gray-700 mt-2 leading-7">{{ t(`propose.requirements.${requirement.key}.description`) }}</p>
+                <ul class="text-vt-gray-700 mt-3 list-disc space-y-1 pl-5 text-sm leading-7">
+                  <li v-for="bullet in 3" :key="bullet">{{ t(`propose.requirements.${requirement.key}.bullet${bullet}`) }}</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="vt-glass-panel vt-panel-padding mt-7" :aria-labelledby="'propose-process'">
+          <h2 id="propose-process" class="vt-panel-title mb-8">
+            <span class="vt-title-underline">{{ t('propose.process.title') }}</span>
+          </h2>
+          <ol class="grid gap-8 md:grid-cols-3">
+            <li v-for="(step, index) in processSteps" :key="step.key" class="text-center">
+              <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border font-serif text-2xl font-bold" :class="step.color">{{ index + 1 }}</div>
+              <h3 class="m-0 text-lg">{{ t(`propose.process.${step.key}.title`) }}</h3>
+              <p class="text-vt-gray-700 mt-2 text-sm leading-6">{{ t(`propose.process.${step.key}.description`) }}</p>
+            </li>
+          </ol>
+        </section>
+
+        <section class="vt-glass-panel vt-panel-padding mt-7 bg-white/40" :aria-labelledby="'propose-contact'">
+          <h2 id="propose-contact" class="vt-panel-title">{{ t('propose.contact.title') }}</h2>
+          <p class="text-vt-gray-700 mt-2">{{ t('propose.contact.description') }}</p>
+          <div class="mt-7 grid gap-4 md:grid-cols-2">
+            <article class="border-vt-border/70 rounded-2xl border bg-white p-6">
+              <div class="flex items-center gap-3">
+                <IconWrapper name="calendar" :size="19" class="text-democratic-red" />
+                <h3 class="m-0 text-lg">{{ t('propose.contact.meeting.title') }}</h3>
+              </div>
+              <p class="text-vt-gray-700 mt-3 text-sm leading-6">{{ t('propose.contact.meeting.description') }}</p>
+              <router-link to="/meetups" class="vt-btn vt-btn-primary mt-5">{{ t('propose.contact.meeting.button') }} →</router-link>
+            </article>
+            <article class="border-vt-border/70 rounded-2xl border bg-white p-6">
+              <div class="flex items-center gap-3">
+                <IconWrapper name="message-circle" :size="19" class="text-jade-green" />
+                <h3 class="m-0 text-lg">{{ t('propose.contact.community.title') }}</h3>
+              </div>
+              <p class="text-vt-gray-700 mt-3 text-sm leading-6">{{ t('propose.contact.community.description') }}</p>
+              <router-link to="/contact" class="vt-btn vt-btn-secondary mt-5">{{ t('propose.contact.community.button') }} →</router-link>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </div>
+</template>

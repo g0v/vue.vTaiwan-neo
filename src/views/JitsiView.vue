@@ -1,33 +1,29 @@
 <template>
-  <div class="flex h-screen w-full">
+  <div class="vt-page-shell relative flex min-h-[calc(100vh-5rem)] w-full overflow-hidden">
     <!-- 視訊會議區域 -->
     <div
       :class="[
-        'transition-all duration-300',
+        'min-h-[calc(100vh-5rem)] transition-all duration-300',
         // 寬螢幕：視訊佔 62%，逐字稿佔 38%
         showTranscript && !isMobile ? 'w-[62%]' : 'w-full',
       ]"
     >
       <!-- 加入會議按鈕 -->
-      <div v-if="!hasJoined" class="flex h-full items-center justify-center bg-gray-100">
-        <div class="text-center">
-          <h2 class="mb-4 text-2xl font-bold text-gray-800">vTaiwan 視訊會議</h2>
-          <p class="mb-6 text-gray-600">準備加入會議室：{{ room }}</p>
-
-          <!-- 可以自訂加入會議的名字，預設為 userData.name -->
-          <input v-model="joinMeetingName" class="mb-4 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-jade-green" placeholder="請輸入您的名字" />
-
-          <!-- 加入會議按鈕 -->
-          <button @click="joinMeeting" class="rounded-lg bg-jade-green px-6 py-3 text-white transition-colors hover:bg-jade-green/90">加入會議</button>
-
-          <br />
-          <!-- Google 登入 -->
-          <p v-if="!userData || !userData.uid" class="text-sm text-gray-600">如欲加入會議並啟用完整逐字稿功能，請先登入</p>
+      <div v-if="!hasJoined" class="flex min-h-[calc(100vh-5rem)] items-center justify-center px-4 py-16 sm:px-6">
+        <div class="vt-glass-panel w-full max-w-lg p-8 text-center sm:p-10">
+          <p class="vt-section-label">{{ $t('pageLabels.jitsi') }}</p>
+          <div class="vt-topic-bubble vt-topic-bubble-green mx-auto mb-5"><IconWrapper name="video" :size="26" /></div>
+          <h1 class="m-0 text-3xl">{{ $t('jitsi.title') }}</h1>
+          <p class="text-vt-gray-700 mt-3 mb-7">{{ $t('jitsi.ready', { room }) }}</p>
+          <label for="join-meeting-name" class="sr-only">{{ $t('jitsi.namePlaceholder') }}</label>
+          <input id="join-meeting-name" v-model="joinMeetingName" class="vt-form-control mb-4 text-center" :placeholder="$t('jitsi.namePlaceholder')" />
+          <button type="button" class="vt-btn vt-btn-secondary justify-center" @click="joinMeeting"><IconWrapper name="video" :size="17" />{{ $t('jitsi.join') }}</button>
+          <p v-if="!userData?.uid" class="text-vt-gray-400 mt-6 text-sm leading-6">{{ $t('jitsi.loginHint') }}</p>
         </div>
       </div>
 
       <!-- Jitsi Meet 容器 -->
-      <div v-show="hasJoined" ref="jitsiContainer" class="w-full" style="height: calc(100% - 50px)" :key="jitsiKey"></div>
+      <div v-show="hasJoined" ref="jitsiContainer" :key="jitsiKey" class="h-[calc(100vh-5rem)] min-h-[680px] w-full"></div>
     </div>
 
     <!-- 寬螢幕逐字稿面板 -->
@@ -55,11 +51,11 @@
       <div class="h-full bg-white shadow-xl">
         <!-- 拖拽手柄 -->
         <div
-          class="absolute left-0 top-1/2 flex h-16 w-4 -translate-x-4 -translate-y-1/2 transform cursor-col-resize items-center justify-center rounded-l-lg bg-gray-300 transition hover:bg-gray-400"
+          class="bg-vt-gray-200 hover:bg-vt-gray-400 absolute top-1/2 left-0 flex h-16 w-4 -translate-x-4 -translate-y-1/2 transform cursor-col-resize items-center justify-center rounded-l-lg transition"
           @mousedown="startDragging"
           @touchstart="startDragging"
         >
-          <div class="h-8 w-1 rounded bg-gray-500"></div>
+          <div class="bg-vt-gray-700 h-8 w-1 rounded"></div>
         </div>
 
         <TranscriptPanel
@@ -78,15 +74,15 @@
     </div>
 
     <!-- 遮罩層（窄螢幕時） -->
-    <div v-if="isMobile && showTranscript" class="fixed inset-0 z-40 bg-black bg-opacity-50" @click="hideTranscript"></div>
+    <div v-if="isMobile && showTranscript" class="fixed inset-0 z-40 bg-black/55 backdrop-blur-sm" @click="hideTranscript"></div>
 
     <!-- 音訊設定模態框 -->
-    <div v-if="showAudioSettings" class="audio-settings-modal fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50 p-4" @click="hideAudioSettings">
-      <div class="mx-2 max-h-[90vh] w-[95vw] max-w-md overflow-y-auto rounded-lg bg-white shadow-xl" @click.stop>
-        <div class="p-4 sm:p-1">
+    <div v-if="showAudioSettings" class="audio-settings-modal fixed inset-0 z-[9999] flex items-center justify-center bg-black/55 p-4 backdrop-blur-sm" @click="hideAudioSettings">
+      <div class="vt-glass-panel mx-2 max-h-[90vh] w-[95vw] max-w-md overflow-y-auto bg-white/95" role="dialog" aria-modal="true" @click.stop>
+        <div class="p-5 sm:p-6">
           <div class="mb-4 flex items-center justify-between sm:mb-1">
-            <h3 class="text-lg font-bold text-gray-800 sm:text-lg">{{ $t('transcript.audioSettings') }}</h3>
-            <button @click="hideAudioSettings" class="p-1 text-gray-400 transition-colors hover:text-gray-600">
+            <h3 class="text-vt-gray-800 m-0 text-lg sm:text-lg">{{ $t('transcript.audioSettings') }}</h3>
+            <button type="button" class="vt-icon-button" :aria-label="$t('common.cancel')" @click="hideAudioSettings">
               <IconWrapper name="x" :size="20" class="sm:h-6 sm:w-6" />
             </button>
           </div>
@@ -112,7 +108,7 @@
                 <div class="flex cursor-pointer items-center p-4 sm:p-1" @click="selectAudioDevice(device.deviceId)">
                   <div class="mr-3 flex-shrink-0">
                     <div class="flex h-4 w-4 items-center justify-center rounded-full border-2" :class="selectedAudioDeviceId === device.deviceId ? 'border-democratic-red' : 'border-gray-300'">
-                      <div v-if="selectedAudioDeviceId === device.deviceId" class="h-2 w-2 rounded-full bg-democratic-red"></div>
+                      <div v-if="selectedAudioDeviceId === device.deviceId" class="bg-democratic-red h-2 w-2 rounded-full"></div>
                     </div>
                   </div>
                   <div class="flex-1">
@@ -149,7 +145,7 @@
           <!-- 轉錄語言選擇 -->
           <div class="mb-6">
             <label class="mb-3 block text-sm font-medium text-gray-700">
-              {{ $t('transcript.selectTranscriptionLanguage') || '轉錄語言' }}
+              {{ $t('transcript.selectTranscriptionLanguage') }}
             </label>
             <TranscriptLanguageSwitcher v-model="transcriptionLanguage" />
           </div>
@@ -159,8 +155,8 @@
             <button
               @click="isTestingAudio ? stopAudioTest() : testAudioDevice()"
               :disabled="!selectedAudioDeviceId"
-              class="w-full rounded-lg px-4 py-3 text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:py-2"
-              :class="isTestingAudio ? 'bg-red-500 hover:bg-red-600' : 'bg-jade-green hover:bg-jade-green/90'"
+              class="vt-btn w-full justify-center disabled:cursor-not-allowed disabled:opacity-50"
+              :class="isTestingAudio ? 'vt-btn-primary' : 'vt-btn-secondary'"
             >
               <span v-if="isTestingAudio">{{ $t('transcript.stopTest') }}</span>
               <span v-else>{{ $t('transcript.testAudioDevice') }}</span>
@@ -169,10 +165,10 @@
 
           <!-- 儲存按鈕 -->
           <div class="flex space-x-3">
-            <button @click="saveAudioSettings" class="flex-1 rounded-lg bg-democratic-red px-4 py-3 text-white transition-colors hover:bg-democratic-red/90 sm:py-2">
+            <button type="button" class="vt-btn vt-btn-primary flex-1 justify-center" @click="saveAudioSettings">
               {{ $t('common.save') }}
             </button>
-            <button @click="hideAudioSettings" class="flex-1 rounded-lg bg-gray-300 px-4 py-3 text-gray-700 transition-colors hover:bg-gray-400 sm:py-2">
+            <button type="button" class="vt-btn vt-btn-ghost flex-1 justify-center" @click="hideAudioSettings">
               {{ $t('common.cancel') }}
             </button>
           </div>
@@ -181,18 +177,22 @@
     </div>
 
     <!-- 浮動按鈕組 -->
-    <div class="fixed bottom-16 right-6 z-50 flex flex-col space-y-3">
+    <div class="fixed right-4 bottom-6 z-50 flex flex-col space-y-3 sm:right-6">
       <!-- 手機版音訊設定按鈕（獨立按鈕） -->
       <div class="relative">
         <button
           v-if="isMobile && userData && userData.uid"
           @click="toggleAudioSettings"
-          class="flex items-center justify-center rounded-full border border-gray-300 bg-white p-4 text-gray-600 shadow-lg transition-all duration-300 hover:scale-105 hover:bg-gray-50 hover:text-gray-800"
+          class="vt-icon-button border-vt-border h-14 w-14 border bg-white shadow-lg"
           :title="$t('transcript.audioSettings')"
         >
           <IconWrapper name="settings" :size="24" />
           <!-- 轉錄語言國旗（手機版：音訊設定按鈕右下角） -->
-          <div v-if="isMobile" class="z-15 absolute -right-1 top-10 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div
+            v-if="isMobile"
+            class="absolute top-10 -right-1 z-15 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm"
+            :title="`${$t('transcript.selectTranscriptionLanguage')}: ${transcriptionLanguage}`"
+          >
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -205,50 +205,57 @@
           @click="toggleAudioRecording"
           :class="[
             'relative rounded-full p-4 shadow-lg transition-all duration-300',
-            isRecordingAudio ? 'animate-pulse bg-red-500 text-white hover:bg-red-600' : 'bg-purple-500 text-white hover:bg-purple-600',
+            isRecordingAudio ? 'bg-democratic-red hover:bg-democratic-red/90 animate-pulse text-white' : 'bg-jade-green hover:bg-jade-green/90 text-white',
           ]"
-          :title="isRecordingAudio ? `停止錄音轉錄 (${recordingTimeLeft}秒)${isTranscripting ? ' - 轉錄中，音檔將排隊處理' : ''}` : '開始錄音轉錄 (Push to Start, Push to Stop)'"
+          :title="isRecordingAudio ? $t('jitsi.stopRecording', { seconds: recordingTimeLeft }) : $t('jitsi.startRecording')"
         >
           <IconWrapper :name="isRecordingAudio ? 'square' : 'mic'" :size="24" />
           <!-- 倒計時顯示 -->
-          <div v-if="isRecordingAudio" class="absolute -left-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500">
+          <div
+            v-if="isRecordingAudio"
+            class="border-democratic-red text-democratic-red absolute -top-2 -left-2 flex h-6 w-6 items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
+          >
             {{ recordingTimeLeft }}
           </div>
           <!-- "轉錄中，請稍候..." 顯示 -->
           <div
             v-if="isTranscripting"
-            class="absolute -bottom-2 right-2 flex h-6 w-36 -translate-x-1/2 transform items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
+            class="border-democratic-red text-democratic-red absolute right-2 -bottom-2 flex h-6 w-36 -translate-x-1/2 transform items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
           >
-            轉錄中，請稍候...
+            {{ $t('jitsi.transcribing') }}
           </div>
         </button>
 
         <!-- 錄音者顯示 -->
         <div
           v-if="meetingData.recordingSpeaker && !isTranscripting"
-          class="absolute -bottom-2 -right-10 flex h-6 w-48 items-center justify-center rounded-full border-2 border-red-500 bg-white text-xs font-bold text-red-500"
+          class="border-democratic-red text-democratic-red absolute -right-10 -bottom-2 flex h-6 w-48 items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
         >
-          {{ meetingData.recordingSpeaker }} 錄音中，已錄 {{ recordingDuration }} 秒
+          {{ $t('jitsi.recordingStatus', { name: meetingData.recordingSpeaker, seconds: recordingDuration }) }}
         </div>
 
         <!-- 排隊狀態顯示 -->
         <div
           v-if="audioQueue.length > 0 && !meetingData.recordingSpeaker"
-          class="absolute -bottom-2 -right-10 flex items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500 px-3 py-1 text-xs font-bold text-white"
+          class="border-jade-green bg-jade-green absolute -right-10 -bottom-2 flex items-center justify-center rounded-full border-2 px-3 py-1 text-xs font-bold text-white"
         >
-          📋 {{ audioQueue.length }} 個音檔排隊中
+          {{ $t('jitsi.queueStatus', { count: audioQueue.length }) }}
         </div>
 
         <!-- 桌面版音訊設定小按鈕（僅在非手機時顯示） -->
         <button
           v-if="!isMobile && userData && userData.uid"
           @click="toggleAudioSettings"
-          class="audio-settings-button absolute -right-1 -top-1 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-gray-300 bg-white text-gray-500 shadow-lg transition-all duration-200 hover:scale-110 hover:bg-gray-50 hover:text-gray-700"
+          class="audio-settings-button border-vt-border text-vt-gray-700 hover:bg-vt-bg-2 absolute -top-1 -right-1 z-10 flex h-7 w-7 items-center justify-center rounded-full border bg-white shadow-lg transition-all duration-200 hover:scale-110"
           :title="$t('transcript.audioSettings')"
         >
           <IconWrapper name="chevron-up" :size="14" />
           <!-- 轉錄語言國旗（桌面版：音訊設定按鈕右下角） -->
-          <div v-if="!isMobile" class="z-15 absolute -right-1 top-4 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm" :title="`轉錄語言: ${transcriptionLanguage}`">
+          <div
+            v-if="!isMobile"
+            class="absolute top-4 -right-1 z-15 flex h-5 w-5 items-center justify-center rounded-full bg-white text-sm shadow-sm"
+            :title="`${$t('transcript.selectTranscriptionLanguage')}: ${transcriptionLanguage}`"
+          >
             {{ transcriptionLanguageFlag }}
           </div>
         </button>
@@ -260,7 +267,7 @@
         @click="toggleTranscript"
         :class="[
           'rounded-full p-4 shadow-lg transition-all duration-300',
-          showTranscript ? 'bg-democratic-red text-white hover:bg-democratic-red/90' : 'bg-jade-green text-white hover:bg-jade-green/90',
+          showTranscript ? 'bg-democratic-red hover:bg-democratic-red/90 text-white' : 'bg-jade-green hover:bg-jade-green/90 text-white',
         ]"
         :title="showTranscript ? $t('transcript.hideTranscript') : $t('transcript.showTranscript')"
       >
@@ -269,12 +276,12 @@
     </div>
 
     <!-- 加入後提示橫幅：教導點黑色區域再按左下角圖示（可關閉） -->
-    <div v-if="hasJoined && showJitsiTipBanner" class="fixed left-1/2 top-4 z-[9999] max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
-      <div class="flex items-start space-x-3 rounded-lg border border-yellow-300 bg-yellow-50 px-4 py-3 text-yellow-900 shadow">
+    <div v-if="hasJoined && showJitsiTipBanner" class="fixed top-4 left-1/2 z-[9999] max-w-[92vw] -translate-x-1/2 md:max-w-2xl" role="status" aria-live="polite">
+      <div class="border-wheat-yellow/20 bg-vt-yellow-tint text-vt-gray-800 flex items-start gap-3 rounded-2xl border px-4 py-3 shadow-lg backdrop-blur-sm">
         <div class="flex-1 text-sm leading-relaxed">
           {{ $t('jitsi.tipBanner.message') }}
         </div>
-        <button @click="dismissJitsiTipBanner" class="ml-2 text-yellow-900/70 transition-colors hover:text-yellow-900" :title="$t('jitsi.tipBanner.dismiss')" aria-label="close">
+        <button type="button" class="vt-icon-button ml-2 h-8 w-8" :title="$t('jitsi.tipBanner.dismiss')" :aria-label="$t('jitsi.tipBanner.dismiss')" @click="dismissJitsiTipBanner">
           <IconWrapper name="x" :size="18" />
         </button>
       </div>
@@ -390,7 +397,8 @@ export default {
     },
     transcriptionLanguageFlag() {
       const found = supportedLocales.find(l => l.code === this.transcriptionLanguage)
-      return found ? found.flag : '🌐'
+      if (!found) return '--'
+      return found.code === 'zh-TW' ? 'ZH' : found.code.toUpperCase()
     },
     recordingDuration() {
       if (!this.meetingData.recordingStartTime) return 0

@@ -3,7 +3,7 @@
     <button
       @click="handleGoogleLogin"
       :disabled="loading"
-      class="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:opacity-50"
+      class="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-democratic-red focus:ring-offset-2 disabled:opacity-50"
     >
       <img v-if="!loading" src="https://developers.google.com/identity/images/g-logo.png" alt="Google" class="mr-2 h-5 w-5" />
       <span v-if="loading" class="mr-2 animate-spin">⏳</span>

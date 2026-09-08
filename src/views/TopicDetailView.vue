@@ -1,98 +1,75 @@
 <template>
-  <div v-if="topic">
-    <!-- 進度條 -->
-    <TopicProgress v-if="realTopicId" :topic-id="realTopicId" />
+  <section class="vt-page-shell min-h-[70vh]">
+    <div v-if="topic" class="vt-page-content-wide">
+      <router-link to="/topics" class="text-vt-gray-700 hover:text-democratic-red mb-5 inline-flex items-center gap-2 font-sans text-sm transition-colors">
+        {{ $t('topics.detail.backToList') }}
+      </router-link>
 
-    <!-- 議題標題 -->
-    <section class="py-8">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-4xl text-center">
-          <h1 class="mb-4 text-4xl font-bold md:text-5xl">
-            {{ topic.title }}
-          </h1>
-        </div>
+      <div v-if="realTopicId" class="vt-glass-panel px-3 py-2 sm:px-7"><TopicProgress :topic-id="realTopicId" /></div>
+
+      <header class="mx-auto my-10 max-w-4xl text-center sm:my-12">
+        <p class="vt-section-label">{{ $t('pageLabels.topicDetail') }}</p>
+        <h1 class="m-0 text-4xl leading-tight tracking-[-0.02em] sm:text-5xl">{{ topic.title }}</h1>
+      </header>
+
+      <TopicSlide v-if="realTopicId" :topic-id="realTopicId" :show-discussion-button="showDiscussionButton" />
+
+      <div class="bg-vt-gray-800/4 border-vt-gray-800/5 mx-auto mt-12 mb-7 flex w-fit max-w-full gap-1 rounded-full border p-1" role="tablist" :aria-label="$t('topics.detail.title')">
+        <button
+          type="button"
+          role="tab"
+          :aria-selected="activeTab === 'timeline'"
+          aria-controls="topic-timeline-panel"
+          class="focus-visible:outline-democratic-red inline-flex items-center gap-2 rounded-full px-4 py-2 font-sans text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6"
+          :class="activeTab === 'timeline' ? 'text-democratic-red bg-white shadow-sm' : 'text-vt-gray-700 hover:text-vt-gray-800'"
+          @click="activeTab = 'timeline'"
+        >
+          <IconWrapper name="calendar" :size="15" />
+          <span class="hidden sm:inline">{{ $t('topics.detail.timeline') }}</span>
+          <span class="sm:hidden">{{ $t('topics.detail.timelineShort') }}</span>
+        </button>
+        <button
+          v-if="showDiscussionTab"
+          type="button"
+          role="tab"
+          :aria-selected="activeTab === 'discussion'"
+          aria-controls="topic-discussion-panel"
+          class="focus-visible:outline-democratic-red inline-flex items-center gap-2 rounded-full px-4 py-2 font-sans text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6"
+          :class="activeTab === 'discussion' ? 'text-democratic-red bg-white shadow-sm' : 'text-vt-gray-700 hover:text-vt-gray-800'"
+          @click="activeTab = 'discussion'"
+        >
+          <IconWrapper name="message-circle" :size="15" />
+          <span class="hidden sm:inline">{{ $t('topics.detail.discussion') }}</span>
+          <span class="sm:hidden">{{ $t('topics.detail.discussionShort') }}</span>
+        </button>
       </div>
-    </section>
 
-    <!-- Slide 簡介區塊 -->
-    <TopicSlide v-if="realTopicId" :topic-id="realTopicId" :show-discussion-button="showDiscussionButton" />
-
-    <!-- 標籤頁區域 -->
-    <section class="py-16">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-4xl">
-          <!-- Navigation Tabs -->
-          <div class="mb-8 flex flex-wrap justify-center gap-4 border-b border-gray-200">
-            <button
-              @click="activeTab = 'timeline'"
-              :class="[
-                'flex items-center border-b-2 px-6 py-3 font-medium transition-colors',
-                activeTab === 'timeline' ? 'border-jade-green text-jade-green' : 'border-transparent text-gray-500 hover:text-gray-700',
-              ]"
-            >
-              <IconWrapper name="calendar" :size="16" class="mr-2" />
-              <span class="hidden md:inline">{{ $t('topics.detail.timeline') }}</span>
-              <span class="md:hidden">時程</span>
-            </button>
-            <button
-              v-if="showDiscussionTab"
-              @click="activeTab = 'discussion'"
-              :class="[
-                'flex items-center border-b-2 px-6 py-3 font-medium transition-colors',
-                activeTab === 'discussion' ? 'border-jade-green text-jade-green' : 'border-transparent text-gray-500 hover:text-gray-700',
-              ]"
-            >
-              <IconWrapper name="message-circle" :size="16" class="mr-2" />
-              <span class="hidden md:inline">{{ $t('topics.detail.discussion') }}</span>
-              <span class="md:hidden">討論</span>
-            </button>
-          </div>
-
-          <!-- Tab Content -->
-          <div class="tab-content">
-            <!-- Timeline Tab -->
-            <div v-if="activeTab === 'timeline' && realTopicId">
-              <TopicTimeline :topic-id="realTopicId" />
-            </div>
-
-            <!-- Discussion Tab -->
-            <div v-if="activeTab === 'discussion' && realTopicId && showDiscussionTab">
-              <TopicDiscussion :topic-id="realTopicId" :user-data="userData" />
-            </div>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="mt-12 text-center">
-            <div class="flex flex-col justify-center gap-4 sm:flex-row">
-              <router-link to="/topics" class="btn-secondary">
-                {{ $t('topics.detail.backToList') }}
-              </router-link>
-              <a :href="`https://talk.vtaiwan.tw/t/topic/${realTopicId}`" target="_blank" rel="noopener noreferrer" class="btn-primary" v-if="userData && userData.isAdmin">
-                {{ $t('topics.detail.participate') }} →
-              </a>
-            </div>
-          </div>
-        </div>
+      <div id="topic-timeline-panel" v-if="activeTab === 'timeline' && realTopicId" role="tabpanel" class="min-h-96"><TopicTimeline :topic-id="realTopicId" /></div>
+      <div id="topic-discussion-panel" v-if="activeTab === 'discussion' && realTopicId && showDiscussionTab" role="tabpanel" class="vt-glass-panel min-h-96 p-5 sm:p-7">
+        <TopicDiscussion :topic-id="realTopicId" :user-data="userData" />
       </div>
-    </section>
-  </div>
 
-  <!-- 404 頁面 -->
-  <div v-else-if="!loading" class="py-16">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="mb-4 text-4xl font-bold">{{ $t('topics.detail.notFound') }}</h1>
-      <p class="mb-8 text-lg text-gray-600">{{ $t('topics.detail.notFound') }}</p>
-      <router-link to="/topics" class="btn-primary">{{ $t('topics.detail.backToList') }}</router-link>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <router-link to="/topics" class="vt-btn vt-btn-ghost">{{ $t('topics.detail.backToList') }}</router-link>
+        <a v-if="userData?.isAdmin" :href="`https://talk.vtaiwan.tw/t/topic/${realTopicId}`" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary"
+          >{{ $t('topics.detail.participate') }} →</a
+        >
+      </div>
     </div>
-  </div>
 
-  <!-- Loading -->
-  <div v-else class="py-16">
-    <div class="container mx-auto px-4 text-center">
-      <div class="mx-auto h-16 w-16 animate-spin rounded-full border-b-2 border-jade-green"></div>
-      <p class="mt-4 text-gray-600">{{ $t('topics.list.loading') }}</p>
+    <div v-else-if="!loading" class="vt-page-content">
+      <div class="vt-status-panel">
+        <h1 class="m-0 text-3xl">{{ $t('topics.detail.notFound') }}</h1>
+        <router-link to="/topics" class="vt-btn vt-btn-primary mt-3">{{ $t('topics.detail.backToList') }}</router-link>
+      </div>
     </div>
-  </div>
+    <div v-else class="vt-page-content">
+      <div class="vt-status-panel" role="status">
+        <span class="border-vt-border border-t-democratic-red h-9 w-9 animate-spin rounded-full border-2" aria-hidden="true" />
+        <p>{{ $t('topics.list.loading') }}</p>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
@@ -219,9 +196,3 @@ onMounted(() => {
   loadTopic()
 })
 </script>
-
-<style scoped>
-.tab-content {
-  min-height: 400px;
-}
-</style>

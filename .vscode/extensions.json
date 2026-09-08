@@ -2,6 +2,9 @@
   "recommendations": [
     "Vue.volar",
     "dbaeumer.vscode-eslint",
-    "EditorConfig.EditorConfig"
+    "EditorConfig.EditorConfig",
+    "bradlc.vscode-tailwindcss",
+    "stivo.tailwind-fold",
+    "austenc.tailwind-docs"
   ]
 }

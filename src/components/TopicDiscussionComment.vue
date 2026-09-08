@@ -1,26 +1,25 @@
 <template>
-  <div class="topic-discussion-comment">
-    <!-- Loading State -->
-    <div v-if="loading" class="py-4 text-center">
-      <div class="mx-auto h-6 w-6 animate-spin rounded-full border-b-2 border-jade-green"></div>
-      <p class="mt-2 text-sm text-gray-600">載入留言...</p>
+  <div>
+    <div v-if="loading" class="py-6 text-center" role="status">
+      <div class="border-vt-border border-t-democratic-red mx-auto h-7 w-7 animate-spin rounded-full border-2"></div>
+      <p class="text-vt-gray-700 mt-2 text-sm">{{ t('topics.detail.loading') }}</p>
     </div>
 
     <!-- Comments -->
     <div v-else-if="comments.length > 0" class="space-y-6">
       <!-- Stats -->
-      <div class="flex items-center gap-4 border-b border-gray-200 pb-4 text-sm text-gray-500">
+      <div class="border-vt-border text-vt-gray-700 flex flex-wrap items-center gap-4 border-b pb-4 font-sans text-sm">
         <div class="flex items-center gap-1">
           <IconWrapper name="message-circle" :size="16" />
-          <span>{{ comments.length }} 則留言</span>
+          <span>{{ t('topicDetail.commentsCount', { count: comments.length }) }}</span>
         </div>
         <div class="flex items-center gap-1">
           <IconWrapper name="eye" :size="16" />
-          <span>{{ views.views || 0 }} 次瀏覽</span>
+          <span>{{ t('topicDetail.viewsCount', { count: views.views || 0 }) }}</span>
         </div>
         <div class="flex items-center gap-1">
           <IconWrapper name="users" :size="16" />
-          <span>{{ views.participant_count || 0 }} 位參與者</span>
+          <span>{{ t('topicDetail.participantsCount', { count: views.participant_count || 0 }) }}</span>
         </div>
         <div class="flex items-center gap-1">
           <IconWrapper name="calendar" :size="16" />
@@ -30,44 +29,44 @@
 
       <!-- Comment List -->
       <div class="space-y-4">
-        <div v-for="(comment, index) in comments" :key="index" class="flex space-x-3">
+        <article v-for="(comment, index) in comments" :key="index" class="flex gap-3">
           <!-- Avatar -->
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <img :src="comment.avatar_template" :alt="comment.username" class="h-10 w-10 rounded-full" />
           </div>
 
           <!-- Comment Content -->
           <div class="min-w-0 flex-1">
             <div class="mb-1 flex items-center gap-2">
-              <span class="font-semibold text-gray-900">
+              <span class="text-vt-gray-800 font-semibold">
                 {{ comment.username }}
               </span>
-              <span class="text-sm text-gray-500">
+              <span class="text-vt-gray-400 font-sans text-sm">
                 {{ formatDate(comment.created_at) }}
               </span>
             </div>
 
-            <div class="prose prose-sm max-w-none text-gray-700" v-html="comment.cooked"></div>
+            <div class="prose text-vt-gray-700 max-w-none text-sm" v-html="comment.cooked"></div>
           </div>
-        </div>
+        </article>
       </div>
 
       <!-- Join Discussion Button -->
-      <div class="border-t border-gray-200 pt-6 text-center">
-        <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center">
-          <IconWrapper name="edit" :size="20" class="mr-2" />
-          我要留言
+      <div class="border-vt-border border-t pt-6 text-center">
+        <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary">
+          <IconWrapper name="edit" :size="17" />
+          {{ t('topicDetail.postComment') }}
         </a>
       </div>
     </div>
 
     <!-- Empty State -->
-    <div v-else class="py-8 text-center">
-      <IconWrapper name="message-circle" :size="48" color="#9CA3AF" class="mx-auto mb-4" />
-      <p class="text-gray-500">目前沒有留言</p>
-      <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="btn-primary mt-4 inline-flex items-center">
-        <IconWrapper name="edit" :size="20" class="mr-2" />
-        成為第一個留言的人
+    <div v-else class="text-vt-gray-700 py-8 text-center">
+      <IconWrapper name="message-circle" :size="36" class="text-vt-gray-400 mx-auto mb-4" />
+      <p>{{ t('topics.detail.noDiscussion') }}</p>
+      <a :href="`https://talk.vtaiwan.tw/t/topic/${commentId}`" target="_blank" rel="noopener noreferrer" class="vt-btn vt-btn-primary mt-4">
+        <IconWrapper name="edit" :size="17" />
+        {{ t('topicDetail.firstComment') }}
       </a>
     </div>
   </div>
@@ -80,7 +79,7 @@ import IconWrapper from './IconWrapper.vue'
 import discourseApi from '../lib/discourse'
 import { sanitizeHtml } from '../lib/sanitize'
 
-const { locale } = useI18n()
+const { t, locale } = useI18n()
 
 // Props
 const props = defineProps({
@@ -182,11 +181,11 @@ const formatDate = dateString => {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
     if (diffDays === 0) {
-      return '今天'
+      return t('topicDetail.today')
     } else if (diffDays === 1) {
-      return '昨天'
+      return t('topicDetail.yesterday')
     } else if (diffDays < 7) {
-      return `${diffDays} 天前`
+      return t('topicDetail.daysAgo', { count: diffDays })
     } else {
       return date.toLocaleDateString(currentLanguage.value)
     }
@@ -212,31 +211,31 @@ onMounted(() => {
 }
 
 :deep(.prose a) {
-  color: #40b3bf;
+  color: var(--color-vt-jade-green);
   text-decoration: underline;
 }
 
 :deep(.prose a:hover) {
-  color: #369aa3;
+  color: var(--color-vt-democratic-red);
 }
 
 :deep(.prose blockquote) {
-  border-left: 4px solid #e5e7eb;
+  border-left: 4px solid var(--color-vt-border);
   padding-left: 1rem;
   margin: 1rem 0;
   font-style: italic;
-  color: #6b7280;
+  color: var(--color-vt-fg-2);
 }
 
 :deep(.prose code) {
-  background-color: #f3f4f6;
+  background-color: var(--color-vt-bg-2);
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
 }
 
 :deep(.prose pre) {
-  background-color: #f3f4f6;
+  background-color: var(--color-vt-bg-2);
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;

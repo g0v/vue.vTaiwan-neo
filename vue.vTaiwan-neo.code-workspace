@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../vtaiwan-design-system"
+		},
+		{
+			"path": "../vTaiwan-hono"
+		}
+	],
+	"settings": {}
+}
