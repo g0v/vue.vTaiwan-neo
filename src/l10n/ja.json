@@ -1008,6 +1008,7 @@
     "namePlaceholder": "お名前を入力してください",
     "join": "会議に参加",
     "loginHint": "会議とすべての文字起こし機能を利用するには、先にログインしてください",
+    "trackTranscription": "トラック別文字起こし",
     "startRecording": "文字起こし録音を開始（もう一度押すと停止）",
     "stopRecording": "文字起こし録音を停止（残り {seconds} 秒）",
     "transcribing": "文字起こし中です。しばらくお待ちください...",

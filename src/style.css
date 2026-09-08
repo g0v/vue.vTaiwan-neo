@@ -29,6 +29,8 @@
   --color-vt-democratic-red: #d80000; /* primary — "民主紅" */
   --color-vt-jade-green: #008888; /* secondary — "青玉綠" */
   --color-vt-wheat-yellow: #db7700; /* tertiary — "麥穗黃" */
+  --color-vt-transcription-purple: #a855f7; /* 分軌轉錄 */
+  --color-vt-transcription-purple-hover: #9333ea;
   --color-vt-red-tint: rgba(216, 0, 0, 0.1);
   --color-vt-green-tint: rgba(0, 136, 136, 0.1);
   --color-vt-yellow-tint: rgba(219, 119, 0, 0.1);
@@ -57,6 +59,8 @@
   --color-democratic-red: var(--color-vt-democratic-red);
   --color-jade-green: var(--color-vt-jade-green);
   --color-wheat-yellow: var(--color-vt-wheat-yellow);
+  --color-transcription-purple: var(--color-vt-transcription-purple);
+  --color-transcription-purple-hover: var(--color-vt-transcription-purple-hover);
   --color-gray-100: var(--color-vt-gray-100);
   --color-gray-200: var(--color-vt-gray-200);
   --color-gray-400: var(--color-vt-gray-400);

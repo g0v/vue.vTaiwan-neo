@@ -202,12 +202,14 @@
       <div class="relative">
         <button
           v-if="userData && userData.uid"
+          type="button"
           @click="toggleAudioRecording"
           :class="[
             'relative rounded-full p-4 shadow-lg transition-all duration-300',
-            isRecordingAudio ? 'bg-democratic-red hover:bg-democratic-red/90 animate-pulse text-white' : 'bg-jade-green hover:bg-jade-green/90 text-white',
+            isRecordingAudio ? 'bg-democratic-red hover:bg-democratic-red/90 animate-pulse text-white' : 'bg-transcription-purple hover:bg-transcription-purple-hover text-white',
           ]"
-          :title="isRecordingAudio ? $t('jitsi.stopRecording', { seconds: recordingTimeLeft }) : $t('jitsi.startRecording')"
+          :title="$t('jitsi.trackTranscription')"
+          :aria-label="$t('jitsi.trackTranscription')"
         >
           <IconWrapper :name="isRecordingAudio ? 'square' : 'mic'" :size="24" />
           <!-- 倒計時顯示 -->

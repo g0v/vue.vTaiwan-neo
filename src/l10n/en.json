@@ -1008,6 +1008,7 @@
     "namePlaceholder": "Enter your name",
     "join": "Join meeting",
     "loginHint": "Sign in first to join the meeting with full transcription features",
+    "trackTranscription": "Separate-track transcription",
     "startRecording": "Start transcription recording (press to start, press again to stop)",
     "stopRecording": "Stop transcription recording ({seconds}s remaining)",
     "transcribing": "Transcribing, please wait...",

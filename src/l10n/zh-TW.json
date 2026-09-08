@@ -1003,6 +1003,7 @@
     "namePlaceholder": "請輸入您的名字",
     "join": "加入會議",
     "loginHint": "如欲加入會議並啟用完整逐字稿功能，請先登入",
+    "trackTranscription": "分軌轉錄",
     "startRecording": "開始錄音轉錄（按下開始，再按一次停止）",
     "stopRecording": "停止錄音轉錄（剩餘 {seconds} 秒）",
     "transcribing": "轉錄中，請稍候...",
