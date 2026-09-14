@@ -54,4 +54,24 @@ describe('HomeView 進行中議題', () => {
 
     expect(wrapper.findAll('.topic-stub').map(card => card.text())).toEqual(['議題 6', '議題 5', '議題 1'])
   })
+
+  it('首頁進行中的議題卡顯示瀏覽人次而非參與人數', async () => {
+    discourseMocks.getFormattedTopics.mockResolvedValue([{ ...makeTopic(7, '意見徵集', '2026-08-01T00:00:00.000Z'), views: 70 }])
+    const i18n = createI18n({ legacy: false, locale: 'zh-TW', messages: { 'zh-TW': zhTW } })
+    const wrapper = mount(HomeView, {
+      global: {
+        plugins: [i18n],
+        stubs: {
+          RouterLink: RouterLinkStub,
+          IconWrapper: true,
+        },
+      },
+    })
+    await flushPromises()
+
+    const metric = wrapper.get('[aria-label="瀏覽"]')
+    expect(metric.text()).toBe('70')
+    expect(metric.get('icon-wrapper-stub').attributes('name')).toBe('eye')
+    expect(wrapper.find('[aria-label="參與者"]').exists()).toBe(false)
+  })
 })

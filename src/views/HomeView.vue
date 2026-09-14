@@ -151,7 +151,7 @@ onMounted(loadActiveTopics)
         </div>
       </div>
       <div v-else-if="activeTopics.length" class="grid gap-5 min-[768px]:grid-cols-2 min-[1186px]:grid-cols-3">
-        <TopicCard v-for="topic in activeTopics" :key="topic.id" :topic="topic" />
+        <TopicCard v-for="topic in activeTopics" :key="topic.id" :topic="topic" metric="views" />
       </div>
       <div v-else class="vt-glass-panel text-vt-gray-700 px-6 py-10 text-center">
         <p>{{ topicsLoadError ? t('home.activeTopics.loadError') : t('home.activeTopics.empty') }}</p>
