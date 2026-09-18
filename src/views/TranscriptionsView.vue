@@ -91,6 +91,7 @@
         </div>
         <footer class="border-vt-border flex flex-wrap gap-3 border-t p-5 sm:p-6">
           <button type="button" class="vt-btn vt-btn-ghost" @click="copyOutline"><IconWrapper name="copy" :size="16" />{{ t('transcriptions.outline.copy') }}</button>
+          <button type="button" class="vt-btn vt-btn-ghost" @click="downloadOutline"><IconWrapper name="download" :size="16" />{{ t('transcriptions.outline.download') }}</button>
           <button v-if="userData?.uid" type="button" class="vt-btn vt-btn-secondary" @click="toggleEditOutline">
             <IconWrapper :name="editing ? 'save' : 'edit'" :size="16" />{{ editing ? t('transcriptions.outline.saveAndEndEdit') : t('transcriptions.outline.edit') }}
           </button>
@@ -335,6 +336,16 @@ const copyOutline = async () => {
     }
     document.body.removeChild(textArea)
   }
+}
+
+// 下載目前顯示的大綱 Markdown 原文
+const downloadOutline = () => {
+  const link = document.createElement('a')
+  link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(currentOutline.value)
+  link.download = `outline-${formatMeetingId(currentOutlineMeetingId.value)}.txt`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 // 複製逐字稿連結
