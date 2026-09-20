@@ -294,7 +294,8 @@
       "eventPlanning": "Event Planning",
       "contentManager": "Content Manager",
       "processDesign": "Process Design",
-      "participation": "contributing to the vTaiwan deliberation events and weekly meetup"
+      "participation": "contributing to the vTaiwan deliberation events and weekly meetup",
+      "normal_participation": "Participant"
     }
   },
   "blog": {

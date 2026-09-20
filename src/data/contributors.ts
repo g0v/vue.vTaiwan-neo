@@ -61,7 +61,7 @@ const rawCommunityContributors: Contributor[] = [
   { id: '17', name: 'Terry', contribution: 'contributors.contributions.backendDev', imgURL: 'https://avatars.githubusercontent.com/u/88765055' },
   { id: '18', name: 'Bestian Tang', contribution: 'contributors.contributions.frontendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
   { id: '19', name: 'Bestian Tang', contribution: 'contributors.contributions.backendDev', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U053N6CAQ-338c6ec3f9d7-512' },
-  { id: '20', name: 'Yi-Ting Lien', contribution: 'contributors.contributions.participation' },
+  { id: '20', name: 'Yi-Ting Lien', contribution: 'contributors.contributions.normal_participation' },
   { id: '21', name: 'Allison Ni', contribution: 'contributors.contributions.participation', imgURL: 'https://ca.slack-edge.com/T02G2SXKM-U08EWS1SA57-128a5175e7c8-512' },
   { id: '22', name: 'Nobody', contribution: 'contributors.contributions.dataAnalysis' },
   { id: '23', name: 'Nobody', contribution: 'contributors.contributions.translationSupport' },

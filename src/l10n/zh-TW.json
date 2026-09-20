@@ -289,7 +289,8 @@
       "eventPlanning": "活動策劃",
       "contentManager": "內容管理員",
       "processDesign": "流程設計",
-      "participation": "參與審議活動及每週例會"
+      "participation": "參與審議活動及每週例會",
+      "normal_participation": "參與者"
     }
   },
   "blog": {
