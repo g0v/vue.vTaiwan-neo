@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@unhead/vue": "3.1.6",
-    "axios": "^1.9.0",
+    "axios": "^1.20.0",
     "dompurify": "^3.4.16",
     "firebase": "^11.9.0",
     "inapp-spy": "^5.0.6",
