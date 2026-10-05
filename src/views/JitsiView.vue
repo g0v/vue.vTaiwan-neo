@@ -221,7 +221,7 @@
           </div>
           <!-- "轉錄中，請稍候..." 顯示 -->
           <div
-            v-if="isTranscripting"
+            v-if="isTranscripting && !meetingData.recordingSpeaker"
             class="border-democratic-red text-democratic-red absolute right-2 -bottom-2 flex h-6 w-36 -translate-x-1/2 transform items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
           >
             {{ $t('jitsi.transcribing') }}
@@ -230,7 +230,9 @@
 
         <!-- 錄音者顯示 -->
         <div
-          v-if="meetingData.recordingSpeaker && !isTranscripting"
+          v-if="meetingData.recordingSpeaker"
+          role="status"
+          aria-live="polite"
           class="border-democratic-red text-democratic-red absolute -right-10 -bottom-2 flex h-6 w-48 items-center justify-center rounded-full border-2 bg-white text-xs font-bold"
         >
           {{ $t('jitsi.recordingStatus', { name: meetingData.recordingSpeaker, seconds: recordingDuration }) }}
@@ -296,7 +298,7 @@ import TranscriptPanel from '../components/TranscriptPanel.vue'
 import IconWrapper from '../components/IconWrapper.vue'
 import TranscriptLanguageSwitcher from '../components/TranscriptLanguageSwitcher.vue'
 import { useI18n } from 'vue-i18n'
-import { get, onValue, ref as dbRef, set } from 'firebase/database'
+import { onValue, ref as dbRef, set, update } from 'firebase/database'
 import { database } from '../lib/firebase'
 import { getCurrentLocale, supportedLocales } from '../i18n'
 
@@ -1072,19 +1074,13 @@ export default {
         this.meetingData.recordingStartTime = currentTime
         this.meetingData.recordingSpeaker = speakerName
 
-        // 更新錄音者
-        if (this.meetingData.recordingSpeaker) {
-          set(dbRef(database, `/meetings/${this.today}/recordingSpeaker`), this.meetingData.recordingSpeaker).then(() => {
-            console.log('Recording speaker updated')
-          })
-
-          // 更新錄音開始時間
-          this.meetingData.recordingStartTime = new Date().getTime()
-
-          set(dbRef(database, `/meetings/${this.today}/recordingStartTime`), this.meetingData.recordingStartTime).then(() => {
-            console.log('Recording start time updated')
-          })
-        }
+        // 一次同步名稱與開始時間，避免其他參與者收到不完整的錄音狀態
+        update(dbRef(database, `/meetings/${this.today}`), {
+          recordingSpeaker: speakerName,
+          recordingStartTime: currentTime,
+        }).catch(error => {
+          console.error('Error updating recording status:', error)
+        })
 
         // 設置倒計時
         this.recordingTimeLeft = Math.ceil(this.maxRecordingTime / 1000) // 轉換為秒
@@ -1120,11 +1116,11 @@ export default {
       console.log('🔄 手動停止：移除發言者和錄音開始時間')
       this.meetingData.recordingStartTime = null
       this.meetingData.recordingSpeaker = null
-      set(dbRef(database, `/meetings/${this.today}/recordingStartTime`), null).then(() => {
-        console.log('Recording start time updated')
-      })
-      set(dbRef(database, `/meetings/${this.today}/recordingSpeaker`), null).then(() => {
-        console.log('Recording speaker updated')
+      update(dbRef(database, `/meetings/${this.today}`), {
+        recordingSpeaker: null,
+        recordingStartTime: null,
+      }).catch(error => {
+        console.error('Error clearing recording status:', error)
       })
       this.recordingTimer = 0
 
@@ -1523,7 +1519,7 @@ export default {
       this.loadMeetingData()
     },
 
-    async loadMeetingData() {
+    loadMeetingData() {
       try {
         // 先取消現有的 Firebase 監聽
         if (this.firebaseUnsubscribe) {
@@ -1531,20 +1527,7 @@ export default {
           this.firebaseUnsubscribe = null
         }
 
-        // 檢查會議資料是否存在
-        const snapshot = await get(dbRef(database, `/meetings/${this.today}`))
-        if (snapshot.exists()) {
-          console.log('Meeting data exists for', this.today)
-        } else {
-          console.log('Meeting data not found for', this.today, 'creating new one')
-          // 如果 meeting 不存在，則建立一個新的 meeting
-          await set(dbRef(database, `/meetings/${this.today}`), {
-            recorder: '',
-            transcripts: {},
-          })
-        }
-
-        // 設定新的 Firebase 監聽
+        // 直接監聽初始資料與後續變更；讀取空會議時不寫入，避免覆蓋其他人的錄音狀態
         this.firebaseUnsubscribe = onValue(dbRef(database, `/meetings/${this.today}`), snapshot => {
           if (snapshot.exists()) {
             this.meetingData = snapshot.val()
