@@ -1,3 +1,11 @@
+# 專案開發遷移
+
+本專案為歷史留存，目前線上的vTaiwan主站專案儲存庫為：
+https://github.com/g0v/vTaiwan-hono
+
+若要提出錯誤回報與功能請求，請至：
+https://github.com/g0v/vTaiwan-hono/issues
+
 # vTaiwan Neo - Vue 版本
 
 樣稿雛型來自：https://github.com/Tofuswang/vTaiwan-neo
